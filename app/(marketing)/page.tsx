@@ -33,6 +33,8 @@ export function getHost(){
   }
 
 
+export const preferredRegion = 'home'
+export const dynamic = 'auto'
 
 
 
@@ -41,7 +43,6 @@ export default async function Page() {
     let businessPages = await fetchData(`${getHost()}/api/public/business?take=10`)
     let posts = await fetchData(`${getHost()}/api/public/post?take=10`)
 
-    console.log(posts)
 
 
     return <div className="relative space-y-5 max-w-screen-xl w-full gap-2">
