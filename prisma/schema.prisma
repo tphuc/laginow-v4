@@ -11,10 +11,275 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model users {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  image     String
-  createdAt DateTime @default(now())
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model User {
+  id               String             @id @default(nanoid(7))
+  name             String?
+  email            String?            @unique
+  emailVerified    DateTime?
+  image            String?
+  accounts         Account[]
+  sessions         Session[]
+  businesses       Business[]
+  posts            Post[]
+  reviews          Review[]
+  UserViewBusiness UserViewBusiness[]
+  isAdmin          Boolean?           @default(false)
+  PageEvent        PageEvent[]
+
+  @@index([email])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  createdAt DateTime @unique @default(now())
+  updatedAt DateTime @unique @default(now())
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId    String?
+  title     String?
+  content   Json?
+  thumbnail String?
+  images    Json?    @default("[]")
+  published Boolean?
+
+  @@unique([userId, title])
+  @@index([title])
+  @@index([userId])
+}
+
+model Collection {
+  id       String     @id @default(cuid())
+  slug     String     @unique
+  title    String
+  Business Business[]
+
+  @@unique([title, slug])
+  @@index([slug])
+}
+
+model Business {
+  id                String       @id @default(nanoid(7))
+  createdAt         DateTime     @unique @default(now())
+  updatedAt         DateTime     @unique @default(now())
+  title             String       @unique
+  slug              String       @unique
+  logo              String?
+  owner             User?        @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  ownerId           String?
+  inCollections     Collection[]
+  images            Json?
+  menuImages        Json?
+  displayMenuImages Boolean?
+  description       String?
+  banner            Json?
+  displayBanner     Boolean?
+  avgRating         Float?
+
+  tags        Tag[]
+  MasterTag   MasterTag? @relation(fields: [masterTagId], references: [id])
+  masterTagId String?
+
+  // contact information
+  phone   String?
+  website String?
+  address String?
+
+  // working hours
+  monStartHr String?
+  monEndHr   String?
+  tueStartHr String?
+  tueEndHr   String?
+  wedStartHr String?
+  wedEndHr   String?
+  thuStartHr String?
+  thuEndHr   String?
+  friStartHr String?
+  friEndHr   String?
+  satStartHr String?
+  satEndHr   String?
+  sunStartHr String?
+  sunEndHr   String?
+  amenities  Amenity[]
+
+  workingHrs Json?
+
+  published Boolean @default(false)
+
+  // 
+  UserViewBusiness UserViewBusiness[]
+  Review           Review[]
+  Product          Product[]
+  BusinessPost     BusinessPost[]
+  PageEvent        PageEvent[]
+
+  @@index([slug])
+  @@index([ownerId])
+  @@index([masterTagId])
+}
+
+model Review {
+  id         String    @id @default(cuid())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now())
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  business   Business? @relation(fields: [businessId], references: [id])
+  businessId String?
+  rating     Int
+  content    String?   @db.Text
+  images     Json?
+
+  userLikes    Json? @default("[]")
+  userDislikes Json? @default("[]")
+
+  @@index([userId])
+  @@index([businessId])
+  @@index([userId, businessId])
+}
+
+model Tag {
+  id   String @id @default(nanoid(4))
+  name String @unique
+  slug String @unique
+
+  MasterTag   MasterTag? @relation(fields: [masterTagId], references: [id])
+  masterTagId String?
+  business    Business[]
+
+  @@index([masterTagId])
+  @@index([slug])
+}
+
+model MasterTag {
+  id       String     @id @default(nanoid(4))
+  name     String     @unique
+  slug     String     @unique
+  tags     Tag[]
+  Business Business[]
+}
+
+model UserViewBusiness {
+  id         String                  @id @default(cuid())
+  user       User                    @relation(fields: [userId], references: [id])
+  business   Business                @relation(fields: [businessId], references: [id])
+  createdAt  DateTime                @unique @default(now())
+  context    UserViewBusinessContext
+  userId     String
+  businessId String
+
+  @@index([userId])
+  @@index([businessId])
+}
+
+model Product {
+  id          String    @id @default(nanoid(7))
+  name        String
+  description String?
+  createdAt   DateTime  @unique @default(now())
+  images      Json?
+  business    Business? @relation(fields: [businessId], references: [id])
+  businessId  String?
+  minPrice    Int?
+  maxPrice    Int?
+  price       Int?
+  visible     Boolean?  @default(true)
+  orderable   Boolean?
+
+  @@index([businessId])
+}
+
+model Amenity {
+  id         String    @id @default(nanoid(7))
+  name       String    @unique
+  slug       String    @unique
+  business   Business? @relation(fields: [businessId], references: [id])
+  businessId String?
+
+  @@index([businessId])
+}
+
+model BusinessPost {
+  id         String    @id @default(cuid())
+  createdAt  DateTime  @unique @default(now())
+  updatedAt  DateTime  @unique @default(now())
+  business   Business? @relation(fields: [businessId], references: [id], onDelete: SetNull)
+  businessId String?
+  slug       String    @unique
+  title      String
+  content    Json?
+  images     Json
+  published  Boolean
+
+  @@unique([title, slug])
+  @@index([slug])
+  @@index([businessId])
+}
+
+model PageEvent {
+  id         Int       @id @default(autoincrement())
+  eventType  EventType
+  timestamp  DateTime  @db.Date @default(now())
+  ipAddress  String?
+  userAgent  Json?
+  geo        Json?
+  referer    String? // Referring URL or other reference info
+  business   Business?  @relation(fields: [businessId], references: [id], onDelete: SetNull)
+  businessId String?
+  user       User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId     String?
+
+  @@index([userId])
+  @@index([businessId])
+}
+
+enum EventType {
+  PAGE_VIEW
+  BUTTON_CLICK
+  FORM_SUBMIT
+  LINK_CLICK
+}
+
+enum UserViewBusinessContext {
+  page
+  photo
+  contact
+  ad
 }
