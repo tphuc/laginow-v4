@@ -6,20 +6,20 @@ import { dashboardConfig } from "@/config/dashboard"
 import { getCurrentUser } from "@/lib/session"
 import prisma from "@/lib/prisma"
 import { BusinessHeaderNav } from "@/components/business-header-nav"
+import { redirect } from "next/navigation"
 interface BusinessProps {
   children?: React.ReactNode,
   params: { businessId: string }
 }
 
 
-async function getBusinessOfUser(id: string, userId: string) {
+async function getBusinessOfUser(id: string) {
   try {
 
 
     return await prisma.business.findUnique({
       where: {
         id,
-        ownerId: userId,
       },
       include: {
 
@@ -49,8 +49,11 @@ async function getBusinessesOfUser(userId: string) {
 
 export default async function BusinessLayout({ children, params }: BusinessProps) {
   const user = await getCurrentUser();
+  if(!user){
+    redirect("/login")
+  }
 
-  const business = await getBusinessOfUser(params.businessId, user?.id) ?? null
+  const business = await getBusinessOfUser(params.businessId) ?? null
   const allUserBusinessPages = await getBusinessesOfUser(user?.id) ?? []
 
   return (
