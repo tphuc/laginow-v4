@@ -7,12 +7,12 @@ export default function NotFound() {
   return (
     <EmptyPlaceholder className="mx-auto max-w-[800px]">
       <EmptyPlaceholder.Icon name="warning" />
-      <EmptyPlaceholder.Title>Uh oh! Not Found</EmptyPlaceholder.Title>
+      <EmptyPlaceholder.Title>Uh oh! Không tìm thấy trang bạn đang tìm</EmptyPlaceholder.Title>
       <EmptyPlaceholder.Description>
-        This post cound not be found. Please try again.
+        Trang không khả dụng
       </EmptyPlaceholder.Description>
-      <Link href="/dashboard" className={buttonVariants({ variant: "ghost" })}>
-        Go to Dashboard
+      <Link href="/" className={buttonVariants({ variant: "ghost" })}>
+        Quay về trang chủ
       </Link>
     </EmptyPlaceholder>
   )

@@ -55,7 +55,7 @@ async function addPageEvent(url: string) {
         let res = await fetch(`${url}`, {
             method: "POST",
             cache: 'no-store',
-            headers: headers() as HeadersInit,
+            // headers: headers() as HeadersInit,
             body: JSON.stringify({
                 eventType: 'PAGE_VIEW'
             },)
@@ -71,11 +71,11 @@ async function addPageEvent(url: string) {
 
 
 
-function getHost(){
-    const host = headers().get("host");
-    const protocal = process?.env.NODE_ENV === "development"?"http":"https"
-    return `${protocal}://${host}`
-}
+// function getHost(){
+//     const host = headers().get("host");
+//     const protocal = process?.env.NODE_ENV === "development"?"http":"https"
+//     return `${protocal}://${host}`
+// }
 
 
 
@@ -84,16 +84,14 @@ export default async function Page({ params }) {
     let businessProducts = await getBusinessProduct(params.id);
 
 
-    await addPageEvent(`${getHost()}/api/business/${params.id}/page-event`)
-
-
+    await addPageEvent(`https://laginow-v4.vercel.app/api/business/${params.id}/page-event`)
 
 
     let isCurrentlyOpenHr = isCurrentlyOpen(business?.workingHrs ?? {})
 
 
 
-    return <div className="mx-auto space-y-4 py-4 px-1 md:px-6">
+    return <div className="relative space-y-5 max-w-screen-xl w-full gap-2">
         <div className="flex gap-4 flex-wrap">
             {/* {(business?.banner as any)?.url || 1 && <div className="bg-secondary aspect-video rounded-lg h-auto w-full md:w-[360px] text-white text-center flex items-center justify-center">
                 <Image alt='' width={240} height={200} className="w-auto h-full rounded-md object-cover" src={(business?.banner as any)?.url} />
