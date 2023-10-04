@@ -1,92 +1,54 @@
-import { Inter as FontSans } from "next/font/google"
-import localFont from "next/font/local"
-
-import 'styles/globals.css'
-import { siteConfig } from "@/config/site"
+import { MainNav } from "@/components/main-nav"
+import { SiteFooter } from "@/components/site-footer"
+import { buttonVariants } from "@/components/ui/button"
+import { UserAccountNav } from "@/components/user-account-nav"
+import { getCurrentUser } from "@/lib/session"
 import { cn } from "@/lib/utils"
-import { Toaster } from "@/components/ui/toaster"
-// import { Analytics } from "@/components/analytics"
-import { ThemeProvider } from "@/components/theme-provider"
+import Link from "next/link"
 
-const fontSans = localFont({
-  src: "../assets/fonts/Inter-VariableFont.ttf",
-  variable: "--font-sans",
-})
-
-// Font files can be colocated inside of `pages`
-const fontHeading = localFont({
-  src: "../assets/fonts/CalSans-SemiBold.woff2",
-  variable: "--font-heading",
-})
-
-interface RootLayoutProps {
-  children: React.ReactNode
+interface MarketingLayoutProps {
+    children: React.ReactNode
 }
 
-export const metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  keywords: [
-    "Next.js",
-    "React",
-    "Tailwind CSS",
-    "Server Components",
-    "Radix UI",
-  ],
-  authors: [
-    {
-      name: "shadcn",
-      url: "https://shadcn.com",
-    },
-  ],
-  creator: "shadcn",
-  // themeColor: [
-  //   { media: "(prefers-color-scheme: light)", color: "white" },
-  //   { media: "(prefers-color-scheme: dark)", color: "black" },
-  // ],
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: siteConfig.url,
-    title: siteConfig.name,
-    description: siteConfig.description,
-    siteName: siteConfig.name,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: siteConfig.name,
-    description: siteConfig.description,
-    images: [`${siteConfig.url}/og.jpg`],
-    creator: "@shadcn",
-  },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
-  },
-  manifest: `${siteConfig.url}/site.webmanifest`,
-}
 
-export default function RootLayout({ children }: RootLayoutProps) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <head />
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
-          fontHeading.variable
-        )}
-      >
-        <ThemeProvider attribute="class" defaultTheme="light"  enableSystem={false}>
-          {children}
-          {/* <Analytics /> */}
-          <Toaster />
-        </ThemeProvider>
-      </body>
-    </html>
-  )
+export default async function MarketingLayout({
+    children,
+}: MarketingLayoutProps) {
+
+    const user = await getCurrentUser();
+
+    return (
+        <div className="relative flex min-h-screen flex-col space-y-1 md:space-y-6">
+            <header className="sticky top-0 container z-40 bg-background">
+                <div className="flex items-center justify-between py-3 md:py-4">
+                    <MainNav 
+                    items={[
+                        {
+                            title: "Trang chủ",
+                            href: "/#",
+                        },
+                        {
+                            title: "Tìm kiếm",
+                            href: "/#",
+                        },
+                    ]} 
+                    />
+                    <nav className="flex items-center gap-2">
+                        
+                        {user ? <UserAccountNav user={user}/> : <Link
+                            href="/login"
+                            className={cn(
+                                buttonVariants({ variant: "secondary", size: "sm" }),
+                                "px-4"
+                            )}
+                        >
+                            Đăng nhập
+                        </Link>}
+                    </nav>
+                </div>
+            </header>
+            <main className="container flex flex-col pb-4 md:grid flex-1 gap-12 ">{children}</main>
+            <SiteFooter />
+        </div>
+    )
 }
