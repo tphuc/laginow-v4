@@ -26,12 +26,6 @@ async function fetchData(url: string) {
 
 
 
-function getHost(){
-    const host = headers().get("host");
-    const protocal = process?.env.NODE_ENV === "development"?"http":"https"
-    return `${protocal}://${host}`
-  }
-
 
 export const preferredRegion = 'home'
 export const dynamic = 'auto'
@@ -40,6 +34,13 @@ export const dynamic = 'auto'
 
 export default async function Page() {
 
+    function getHost(){
+        const host = headers().get("host");
+        const protocal = process?.env.NODE_ENV === "development"?"http":"https"
+        return `${protocal}://${host}`
+    }
+    
+    
     let businessPages = await fetchData(`${getHost()}/api/public/business?take=10`)
     let posts = await fetchData(`${getHost()}/api/public/post?take=10`)
 
