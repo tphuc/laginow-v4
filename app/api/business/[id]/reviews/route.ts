@@ -122,7 +122,7 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
       include: {
         user: true
       },
-      // cursor: cursor ? { id: cursor } : undefined,
+      cursor: cursor ? { id: cursor } : undefined,
       take: limit,
       skip: page * limit
     });
