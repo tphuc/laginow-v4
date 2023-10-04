@@ -34,16 +34,15 @@ export const dynamic = 'auto'
 
 export default async function Page() {
 
-    function getHost(){
-        const host = headers().get("host");
-        const protocal = process?.env.NODE_ENV === "development"?"http":"https"
-        return `${protocal}://${host}`
-    }
+    // function getHost(){
+    //     const host = headers().get("host");
+    //     const protocal = process?.env.NODE_ENV === "development"?"http":"https"
+    //     return `${protocal}://${host}`
+    // }
     
     
-    let businessPages = await fetchData(`${getHost()}/api/public/business?take=10`)
-    let posts = await fetchData(`${getHost()}/api/public/post?take=10`)
-
+    let businessPages = await fetchData(`https://laginow-v4.vercel.app/api/public/business?take=10`)
+    let posts = await fetchData(`https://laginow-v4.vercel.app/api/public/post?take=10`)
 
 
     return <div className="relative space-y-5 max-w-screen-xl w-full gap-2">
