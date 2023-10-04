@@ -26,7 +26,7 @@ async function fetchData(url: string) {
 
 
 
-export function getHost(){
+function getHost(){
     const host = headers().get("host");
     const protocal = process?.env.NODE_ENV === "development"?"http":"https"
     return `${protocal}://${host}`
