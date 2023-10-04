@@ -8,12 +8,14 @@ import Link from "next/link";
 
 
 async function fetchData(url: string) {
-  
+
     try {
         let res = await fetch(`${url}`, {
             method: "GET",
-            cache: 'reload',
-            headers: headers() as HeadersInit,
+            cache: 'default',
+            next: {
+                revalidate: 3600
+            }
         })
 
         return res.json()
@@ -39,8 +41,8 @@ export default async function Page() {
     //     const protocal = process?.env.NODE_ENV === "development"?"http":"https"
     //     return `${protocal}://${host}`
     // }
-    
-    
+
+
     let businessPages = await fetchData(`https://laginow-v4.vercel.app/api/public/business?take=10`)
     let posts = await fetchData(`https://laginow-v4.vercel.app/api/public/post?take=10`)
 
@@ -59,31 +61,31 @@ export default async function Page() {
                 >
                     <Button variant={'default'}> Đăng ký </Button>
                 </Link>
-                
+
             </div>
         </div>
 
         <br />
         <p className="text-3xl font-heading">Trang nổi bật</p>
-      
+
         <div className="flex gap-2 flex-wrap">
-        {
-            businessPages?.map((item:any) => <BusinessPageCard 
-                data={item}
-                key={item?.id}
-            />)
-        }
+            {
+                businessPages?.map((item: any) => <BusinessPageCard
+                    data={item}
+                    key={item?.id}
+                />)
+            }
         </div>
 
-        <br/>
+        <br />
         <p className="text-3xl font-heading">Bài viết nổi bật</p>
         <div className="flex gap-2 flex-wrap">
-        {
-            posts?.map((item:any) => <PublicPostCard 
-                data={item}
-                key={item?.id}
-            />)
-        }
+            {
+                posts?.map((item: any) => <PublicPostCard
+                    data={item}
+                    key={item?.id}
+                />)
+            }
         </div>
 
     </div>
