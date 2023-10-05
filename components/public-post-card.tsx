@@ -19,21 +19,21 @@ const PostCardDescription = ({ postData }) => {
     let text = ''
       for(let block of postData?.blocks) {
           if(block.type === "paragraph") {
-            text += `\n ${block?.data?.text}` ;
+            text += `${block?.data?.text} . ` ;
             // return block?.data?.text;
           }
 
           else if(block.type === "header") {
-            text +=  `\n ${block?.data?.text}`;
+            text +=  ` ${block?.data?.text} `;
             // return block?.data?.text;
           }
 
           else if(block.type === "list") {
-            text +=  `\n ... \n`;
+            text +=  ` ... `;
             // return block?.data?.text;
           }
       }
-      return text ?? '';  // Default empty string if no paragraph found
+      return text?.replace("!&nbsp;", " ")?.replace("?&nbsp;", " ") ?? '';  // Default empty string if no paragraph found
   };
 
   const paragraphText = getParagraphText();
