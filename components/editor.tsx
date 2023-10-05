@@ -181,10 +181,11 @@ export function Editor({ post }: EditorProps) {
             id="title"
             defaultValue={post?.title ?? ''}
             placeholder="Post title"
-            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-3xl font-bold focus:outline-none"
             {...register("title")}
+            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-3xl md:text-4xl font-heading focus:outline-none"
+           
           />
-          <div id="editor" className="min-h-[500px] max-w-[800px] " />
+          <div id="editor" className="min-h-[500px] max-w-[800px]" />
           <p className="text-sm text-gray-500">
             Use{" "}
             <kbd className="rounded-md border bg-muted px-1 text-xs uppercase">

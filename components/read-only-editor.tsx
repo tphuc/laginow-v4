@@ -125,7 +125,7 @@ export function ReadOnlyEditor({ post }: EditorProps) {
         </div>
         <p
           placeholder="Post title"
-          className="w-full resize-none appearance-none overflow-hidden bg-transparent text-4xl font-bold focus:outline-none"
+          className="w-full resize-none appearance-none overflow-hidden bg-transparent text-3xl md:text-4xl font-heading focus:outline-none"
         >  {post?.title}
         </p>
 
