@@ -50,6 +50,27 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
 }
 
 
+export async function DELETE(req: NextRequest, context: z.infer<typeof routeContextSchema>) {
+    try {
+        const { params } = routeContextSchema.parse(context)
+        const post = await db.business.delete({
+            where: {
+                id: params.id
+            },
+        })
+
+        return new Response(JSON.stringify(post))
+
+    } catch (error) {
+
+        if (error instanceof z.ZodError) {
+            return new Response(JSON.stringify(error.issues), { status: 422 })
+        }
+
+        return new Response(null, { status: 500 })
+    }
+}
+
 
 
 export async function POST(req: NextRequest, context: z.infer<typeof routeContextSchema>) {

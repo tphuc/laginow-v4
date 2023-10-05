@@ -82,22 +82,28 @@ export default async function BusinessLayout({ children, params }: BusinessProps
               {
                 title: 'Tổng quan',
                 href: `/business/${params.businessId}`,
-                icon:'grid'
+                icon:'barChart'
+              },
+              {
+                title: 'Thông tin',
+                href: `/business/${params.businessId}/thong-tin`,
+                icon: 'penSquare'
               },
               {
                 title: 'Sản phẩm & Dịch vụ',
                 href: `/business/${params.businessId}/san-pham`,
                 icon:'package'
               },
-              {
-                title: 'Thông tin',
-                href: `/business/${params.businessId}/thong-tin`,
-                icon: 'pen'
-              },
+             
               {
                 title: 'Hình ảnh',
                 href: `/business/${params.businessId}/hinh-anh`,
                 icon: 'media'
+              },
+              {
+                title: 'Khác',
+                href: `/business/${params.businessId}/khac`,
+                icon: 'settings'
               }
             ]} />
         </div>

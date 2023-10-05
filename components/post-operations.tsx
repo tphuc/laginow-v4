@@ -60,7 +60,7 @@ export function PostOperations({ post }: PostOperationsProps) {
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
             <Link href={`/editor/${post.id}`} className="flex w-full">
-              Edit
+              Sửa
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -68,7 +68,7 @@ export function PostOperations({ post }: PostOperationsProps) {
             className="flex cursor-pointer items-center text-destructive focus:text-destructive"
             onSelect={() => setShowDeleteAlert(true)}
           >
-            Delete
+            Xoá
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

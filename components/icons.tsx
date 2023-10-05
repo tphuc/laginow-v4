@@ -23,11 +23,15 @@ import {
   Twitter,
   User,
   X,
+AlertCircle,
   type LucideIcon as LucideIcon,
   AppWindow,
   LayoutGrid,
   Pen,
   Package2,
+  PenSquare,
+  BarChart2,
+  Globe2,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -57,7 +61,11 @@ export const Icons = {
   app: AppWindow,
   grid: LayoutGrid,
   pen: Pen,
+  penSquare: PenSquare,
+  barChart: BarChart2,
   package: Package2,
+  alertCircle: AlertCircle,
+  globe: Globe2,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

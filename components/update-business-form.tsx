@@ -215,7 +215,7 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
                                 className="min-w-[200px] min-h-[200px]" 
                             />
                             <FormDescription>
-                                Ảnh hiển thị tốt nhất với tỉ lệ 16:9, bạn có thể thay đổi bất cứ lúc nào.
+                                Ảnh hiển thị tốt nhất với tỉ lệ 1:1, bạn có thể thay đổi bất cứ lúc nào.
                             </FormDescription>
                         </FormItem>
                     )}
@@ -243,15 +243,6 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
                         </FormItem>
                     )}
                 />
-
-
-                {/* <MultiImageGrid 
-                getId={(item) => item.fileId}
-                items={[
-                    {fileId: "64edd08c88c257da33da3e99", url: "https://ik.imagekit.io/laginow4/Yellow_Creative_Noodle_Food_Promotion_Banner_-3_F8qhDjtJq.jpg", thumbnailUrl: "https://ik.imagekit.io/laginow4/tr:n-ik_ml_thumbna…ive_Noodle_Food_Promotion_Banner_-3_F8qhDjtJq.jpg", name: "Yellow_Creative_Noodle_Food_Promotion_Banner_-3_F8qhDjtJq.jpg", width: 6912,},
-                    // {id:"2"}
-                ]} /> */}
-
 
 
 

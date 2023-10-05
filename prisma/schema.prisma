@@ -112,6 +112,7 @@ model Business {
   banner            Json?
   displayBanner     Boolean?
   avgRating         Float?
+  verified          Boolean?
 
   tags        Tag[]
   MasterTag   MasterTag? @relation(fields: [masterTagId], references: [id])

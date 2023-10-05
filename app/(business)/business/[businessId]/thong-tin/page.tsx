@@ -13,6 +13,7 @@ import { DashboardShell } from "@/components/shell"
 import { UpdateBusinessForm } from "@/components/update-business-form"
 import { UpdateBusinessWorkingHrsForm } from "@/components/update-business-working-hours-form"
 import { useRouter } from 'next/router'
+import { DeleteBusinessForm } from "@/components/delete-business-form"
 
 export const metadata = {
   title: "Billing",
@@ -61,6 +62,16 @@ export default async function Page({ params }: PageProps) {
 
         <div className="grid gap-8 pb-10">
           <UpdateBusinessWorkingHrsForm businessId={params.businessId} />
+        </div>
+
+
+        <DashboardHeader
+        heading="Xoá"
+      // text="Manage billing and your subscription plan."
+      />
+
+        <div className="grid gap-8 pb-10">
+          <DeleteBusinessForm businessId={params.businessId} />
         </div>
 
     </DashboardShell>

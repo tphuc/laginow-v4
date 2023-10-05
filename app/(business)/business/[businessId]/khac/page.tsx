@@ -4,12 +4,16 @@ import { authOptions } from "@/lib/auth"
 import { getCurrentUser } from "@/lib/session"
 // import { stripe } from "@/lib/stripe"
 // import { getUserSubscriptionPlan } from "@/lib/subscription"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+
+// import { BillingForm } from "@/components/billing-form"
+import { DashboardHeader } from "@/components/dashboard-header"
+import { Icons } from "@/components/icons"
 import { DashboardShell } from "@/components/shell"
-import { Badge } from "@/components/ui/badge"
-import { ArrowUpRight, Dot, Link2 } from "lucide-react"
-import Link from "next/link"
-import { Card, Text, Metric, LineChart, ProgressBar } from "@tremor/react";
-import { BusinessViewChart } from "@/components/business-views-chart"
+import { UpdateBusinessForm } from "@/components/update-business-form"
+import { UpdateBusinessWorkingHrsForm } from "@/components/update-business-working-hours-form"
+import { UpdateBusinessMedia } from "@/components/update-business-media"
+
 export const metadata = {
   title: "Billing",
   description: "Manage billing and your subscription plan.",
@@ -19,9 +23,8 @@ interface PageProps {
   params: { businessId: string }
 }
 
-// const dataFormatter = (number: number) => `${Intl.NumberFormat("us").format(number).toString()}%`;
 
-export default async function Page(props: PageProps) {
+export default async function Page({ params }: PageProps) {
   const user = await getCurrentUser()
 
   if (!user) {
@@ -41,21 +44,16 @@ export default async function Page(props: PageProps) {
 
   return (
     <DashboardShell>
-      {/* <DashboardHeader
-        heading=""
-        text=""
-      /> */}
-      <div className="relative w-full p-1 space-y-2">
-        <Link className="underline inline-flex items-center" href={`/t/${props.params.businessId}`}>
-          <Badge className="py-0 px-0 pr-2 cursor-pointer" variant={'outline'}> <Dot className="text-green-500 w-8 h-8" />
-            Xem trang hiển thị công khai <ArrowUpRight className="w-4 h-4" strokeWidth={1.5} />
-          </Badge>
-        </Link>
 
-        <div className="w-full grid">
-          <BusinessViewChart businessId={props.params?.businessId}  />
+      <DashboardHeader
+        heading="Hình ảnh"
+        text="Thêm hình ảnh về kinh doanh của bạn"
+      />
+
+        <div className="grid gap-8 pb-10">
+         
         </div>
-      </div>
+
     </DashboardShell>
   )
 }

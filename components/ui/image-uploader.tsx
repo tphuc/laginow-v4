@@ -60,7 +60,8 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
       }
     };
 
-    const handleImageChange = async () => {
+    const handleImageChange = async (e) => {
+      e?.preventDefault()
       if (image) {
         try {
           setIsLoading(true);
@@ -84,9 +85,9 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
         setIsLoading(false);
       }
 
-      if (uploadInputRef.current) {
-        uploadInputRef.current.click();
-      }
+      // if (uploadInputRef.current) {
+      //   uploadInputRef.current.click();
+      // }
     };
 
     const handleImageDelete = async () => {
@@ -129,7 +130,7 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
           <>
             <Image  src={image?.url} quality={100} width={200} height={200}  alt="Uploaded" className="w-auto h-full rounded-md object-cover" />
             <div className="absolute top-0 right-0 m-1">
-              <button
+              {/* <button
                 onClick={handleImageChange}
                 className={cn(
                   "px-2 py-2 border border-1 border-input bg-secondary text-primary text-sm rounded-md",
@@ -141,7 +142,7 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
                 ) : (
                   <IcImage className="w-4 h-4" strokeWidth={1.5} />
                 )}
-              </button>
+              </button> */}
               <button
                 onClick={handleImageDelete}
                 className={cn(

@@ -26,9 +26,10 @@ export function PageItems({ page }: PageItemsProps) {
      
         <Link
           href={`/business/${page?.id}`}
-          className="font-semibold flex gap-2 hover:underline"
+
+          className="font-heading flex gap-2 hover:underline"
         >
-           <Flag strokeWidth={1.5}/> {page?.title}
+           <Globe2 strokeWidth={1.5}/> {page?.title}
         </Link>
         <div>
           <p className="text-sm text-muted-foreground">

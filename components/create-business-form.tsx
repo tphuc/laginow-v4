@@ -167,7 +167,7 @@ export function CreateBusinessForm() {
                             <FormLabel>Ảnh bìa</FormLabel>
                             <ImageUploader value={field.value} onChange={field.onChange} className="w-full h-auto" />
                             <FormDescription>
-                                Ảnh hiển thị tốt nhất với tỉ lệ 16:9, bạn có thể thay đổi bất cứ lúc nào.
+                                Ảnh hiển thị tốt nhất với tỉ lệ 1:1, bạn có thể thay đổi bất cứ lúc nào.
                             </FormDescription>
                         </FormItem>
                     )}

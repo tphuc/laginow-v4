@@ -18,20 +18,20 @@ export const dashboardConfig: DashboardConfig = {
       href: "/dashboard",
       icon: "post",
     },
-    {
-      title: "Thanh toán",
-      href: "/dashboard/billing",
-      icon: "billing",
-    },
-    {
-      title: "Cài đặt",
-      href: "/dashboard/settings",
-      icon: "settings",
-    },
+    // {
+    //   title: "Thanh toán",
+    //   href: "/dashboard/billing",
+    //   icon: "billing",
+    // },
+    // {
+    //   title: "Cài đặt",
+    //   href: "/dashboard/settings",
+    //   icon: "settings",
+    // },
     {
       title: "Trang",
       href: "/dashboard/pages",
-      icon: "app",
+      icon: "globe",
     },
   ],
 }

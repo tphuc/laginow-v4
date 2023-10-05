@@ -29,8 +29,8 @@ export async function DELETE(
     const { params } = routeContextSchema.parse(context)
 
     // Check if the user has access to this post.
-    if (!(await verifyCurrentUserHasAccessToPost(params.postId))) {
-      return new Response(null, { status: 403 })
+    if (!(await verifyCurrentUserHasOwnershipToPost(params.postId))) {
+      return new Response("not owner", { status: 403 })
     }
 
     // Delete the post.
@@ -124,4 +124,17 @@ async function verifyCurrentUserHasAccessToPost(postId: string) {
   })
 
   return count > 0
+}
+
+
+async function verifyCurrentUserHasOwnershipToPost(postId: string) {
+  const session = await getServerSession(authOptions)
+  const count = await db.post.findFirst({
+    where: {
+      id: postId,
+      userId: session?.user.id,
+    },
+  })
+
+  return !!count?.id
 }

@@ -12,9 +12,9 @@ async function fetchData(url: string) {
     try {
         let res = await fetch(`${url}`, {
             method: "GET",
-            cache: 'default',
+            cache: 'reload',
             next: {
-                revalidate: 3600
+                revalidate: 300
             }
         })
 
@@ -29,22 +29,16 @@ async function fetchData(url: string) {
 
 
 
-export const preferredRegion = 'home'
-export const dynamic = 'auto'
+// export const preferredRegion = 'home'
+// export const dynamic = 'auto'
 
 
 
 export default async function Page() {
 
-    // function getHost(){
-    //     const host = headers().get("host");
-    //     const protocal = process?.env.NODE_ENV === "development"?"http":"https"
-    //     return `${protocal}://${host}`
-    // }
-
-
     let businessPages = await fetchData(`https://laginow-v4.vercel.app/api/public/business?take=10`)
     let posts = await fetchData(`https://laginow-v4.vercel.app/api/public/post?take=10`)
+
 
 
     return <div className="relative space-y-5 max-w-screen-xl w-full gap-2">
@@ -53,7 +47,7 @@ export default async function Page() {
         <div className="shadow-sm border bg-gray-100 border-input aspect-video rounded-lg overflow-hidden h-80 w-full text-white text-center flex items-center justify-center">
             <Image alt='' width={400} height={300} className="ml-[40%] object-cover rounded-sm" src={'/hero.svg'} />
             <div className="absolute top-2 left-2 p-[4.5%] space-y-4">
-                <p className="text-secondary-foreground text-3xl md:text-5xl font-heading text-left pr-[10%] md:pr-[45%]">Tạo trang kinh doanh của bạn trên Laginow</p>
+                <p className="text-secondary-foreground text-3xl md:text-5xl font-heading text-left pr-[10%] md:pr-[45%]">Tạo trang kinh doanh của bạn trên Lagi Now</p>
                 <p className="text-secondary-foreground text-xl text-2xl text-left text-gray-400 pr-[10%]">Kết nối và quảng bá đến cộng đồng</p>
                 <Link
                     href="/login"
@@ -66,6 +60,51 @@ export default async function Page() {
         </div>
 
         <br />
+        <div className="flex gap-2 flex-wrap">
+            <Link href='/' className="rounded-xl overflow-hidden ">
+                <div className="relative w-full min-w-[280px] md:max-w-[280px] overflow-hidden bg-white">
+                    <Image className="w-full md:w-[280px] h-[280px] aspect-video object-cover transition ease-in-out hover:scale-[1.05]" width={200} height={200} src={'/boba.jpeg'} alt={''} />
+                    <div className="absolute top-0 left-0 w-full h-full bg-overlayGradient"></div>
+                    <div className="font-heading text-white absolute text-2xl bottom-2 left-2 p-[5%]">
+                        Thức uống chuộng
+                    </div>
+                </div>
+
+            </Link>
+
+            <Link href='/' className="rounded-xl overflow-hidden">
+                <div className="relative w-full min-w-[280px] md:max-w-[280px] overflow-hidden bg-white">
+                    <Image className="w-full md:w-[280px] h-[280px] aspect-video object-cover transition ease-in-out hover:scale-[1.05]" width={200} height={200} src={'/food.jpeg'} alt={''} />
+                    <div className="absolute top-0 left-0 w-full h-full bg-overlayGradient"></div>
+                    <div className="font-heading text-white absolute text-2xl bottom-2 left-2 p-[5%]">
+                        Món ăn yêu thích
+                    </div>
+                </div>
+
+            </Link>
+
+            <Link href='/' className="rounded-xl overflow-hidden">
+                <div className="relative w-full min-w-[280px] md:max-w-[280px] overflow-hidden bg-white">
+                    <Image className="w-full md:w-[280px] h-[280px] aspect-video object-cover transition ease-in-out hover:scale-[1.05]" width={200} height={200} src={'/coffee2.jpeg'} alt={''} />
+                    <div className="absolute top-0 left-0 w-full h-full bg-overlayGradient"></div>
+                    <div className="font-heading text-white absolute text-2xl bottom-2 left-2 p-[5%]">
+                       Quán coffee chill
+                    </div>
+                </div>
+
+            </Link>
+            <Link href='/' className="rounded-xl overflow-hidden">
+                <div className="relative w-full min-w-[280px] md:max-w-[280px] overflow-hidden bg-white">
+                    <Image className="w-full md:w-[280px] h-[280px] aspect-video object-cover transition ease-in-out hover:scale-[1.05]" width={200} height={200} src={'/night.jpeg'} alt={''} />
+                    <div className="absolute top-0 left-0 w-full h-full bg-overlayGradient"></div>
+                    <div className="font-heading text-white absolute text-2xl bottom-2 left-2 p-[5%]">
+                       Địa điểm giải trí
+                    </div>
+                </div>
+
+            </Link>
+        </div>
+        <br/>
         <p className="text-3xl font-heading">Trang nổi bật</p>
 
         <div className="flex gap-2 flex-wrap">

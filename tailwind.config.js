@@ -25,7 +25,11 @@ module.exports = {
             },
         },
         extend: {
+            backgroundImage: {
+                overlayGradient: `linear-gradient(0deg, #111111aa, #11111100, transparent)`,
+            },
             colors: {
+              
                 tremor: {
                     brand: {
                         faint: "#eff6ff", // blue-50
