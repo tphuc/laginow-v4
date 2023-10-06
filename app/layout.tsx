@@ -44,10 +44,18 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "vi_VN",
-    // url: siteConfig.url,
+    url: siteConfig.url,
     title: siteConfig.name,
     description: siteConfig.description,
     siteName: siteConfig.name,
+    images: [
+      {
+        url: `${siteConfig.url}/opengraph.webp`,
+        width: 1504,
+        height: 879,
+        alt: '',
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -61,7 +69,7 @@ export const metadata = {
     shortcut: "/favicon-16x16.png",
     apple: "/apple-touch-icon.png",
   },
-//   manifest: `${siteConfig.url}/site.webmanifest`,
+  manifest: `${siteConfig.url}/site.webmanifest`,
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {

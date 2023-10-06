@@ -5,11 +5,20 @@ import { UserAccountNav } from "@/components/user-account-nav"
 import { getCurrentUser } from "@/lib/session"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import { Metadata } from 'next'
 
 interface MarketingLayoutProps {
     children: React.ReactNode
 }
 
+
+ 
+export const metadata: Metadata = {
+  title: {
+    absolute: 'Điều khoản',
+  },
+}
+ 
 
 export default async function MarketingLayout({
     children,

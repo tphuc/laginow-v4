@@ -9,6 +9,7 @@ import { getCurrentUser } from "@/lib/session"
 import { getOpenHrs, isCurrentlyOpen } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Clock10, Package, Plus, PlusCircle, Star } from "lucide-react"
+import { Metadata } from "next"
 import { headers } from "next/headers"
 import Image from "next/image"
 import { useForm } from "react-hook-form"
@@ -17,6 +18,7 @@ import { useForm } from "react-hook-form"
 interface PageProps {
     params: { id: string }
 }
+
 
 async function getBusiness(id: string) {
     return await db.business.findUnique({
@@ -38,6 +40,25 @@ async function getBusinessProduct(id: string) {
         }
     })
 }
+
+
+// or Dynamic metadata
+export async function generateMetadata(
+    { params }: PageProps,
+    // parent: ResolvingMetadata
+  ) {
+    const business: any = await getBusiness(params.id)
+  
+    return {
+      title: business?.title,
+      description: business?.address,
+      openGraph: {
+        images: [business?.banner?.url],
+      },
+    } as Metadata
+  }
+  
+
 
 async function getBusinessReviews(id: string) {
     return await db.review.findMany({
