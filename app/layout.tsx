@@ -36,7 +36,7 @@ export const metadata = {
     "Dich vu",
     "Du lich",
   ],
-  creator: "felixtr",
+  creator: "@tphuc",
   // themeColor: [
   //   { media: "(prefers-color-scheme: light)", color: "white" },
   //   { media: "(prefers-color-scheme: dark)", color: "black" },
@@ -61,8 +61,8 @@ export const metadata = {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [`${siteConfig.url}/og.jpg`],
-    creator: "@shadcn",
+    images: [`${siteConfig.url}/opengraph.webp`],
+    creator: "@tphuc",
   },
   icons: {
     icon: "/favicon.ico",
