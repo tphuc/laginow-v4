@@ -5,7 +5,7 @@ import StarRating from './ui/stars-rating';
 import { Badge } from './ui/badge';
 import Link from 'next/link';
 import { cn, getOpenHrs, isCurrentlyOpen, timeAgo } from '@/lib/utils';
-import { Clock10 } from 'lucide-react';
+import { Clock10, Shield, ShieldAlert, ShieldCheck, UserCheck, UserCog, UserCog2 } from 'lucide-react';
 import ImageViewable from './image-viewable';
 import { Avatar } from '@radix-ui/react-avatar';
 import { AvatarImage } from './ui/avatar';
@@ -58,7 +58,7 @@ function PublicPostCard({ data }: { data: any }) {
           <div className='flex gap-2 items-center'>
             <UserAvatar user={data?.user} />
             <div>
-            <p >{data?.user?.name}</p>
+            <p className='flex items-center gap-1' >{data?.user?.name} {data?.user?.isAdmin && <UserCog  className='w-4 h-4oo stroke-sky-800'/> } </p>
             <p className='text-sm text-muted-foreground'>{format(new Date(data?.createdAt), 'dd LLL, y', { locale :vi})}</p>
             </div>
           </div>

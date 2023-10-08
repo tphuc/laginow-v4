@@ -62,7 +62,7 @@ export function BusinessReviewList({ businessId, ...props }: { businessId: strin
         ))}
 
 
-      </div> : <p>Chưa có đánh giá</p>}
+      </div> : <p className="text-muted-foreground">Chưa có đánh giá</p>}
 
     </div>
   )

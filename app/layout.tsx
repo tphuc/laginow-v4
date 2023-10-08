@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 // import { Analytics } from "@/components/analytics"
 import { ThemeProvider } from "@/components/theme-provider"
+import QueryWrapper from "@/components/query-wrapper"
 
 const fontSans = localFont({
   src: "../assets/fonts/Inter-VariableFont.ttf",
@@ -75,7 +76,9 @@ export const metadata = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
+      
       <head />
+      <QueryWrapper>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
@@ -83,12 +86,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
           fontHeading.variable
         )}
       >
+      
         <ThemeProvider attribute="class" defaultTheme="light"  enableSystem={false}>
           {children}
           {/* <Analytics /> */}
           <Toaster />
         </ThemeProvider>
+       
       </body>
+      </QueryWrapper>
     </html>
   )
 }

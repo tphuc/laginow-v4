@@ -18,7 +18,9 @@ async function fetchData(url: string) {
             }
         })
 
-        return res.json()
+        let data = await res.json()
+
+        return data?.data
     }
     catch (e) {
         console.log(e)

@@ -48,9 +48,9 @@ export default async function DashboardPage() {
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon name="post" />
-            <EmptyPlaceholder.Title>No posts created</EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Title>Chưa có bài nào</EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
-              You don&apos;t have any posts yet. Start creating content.
+              Bạn chưa tạo bài viết nào, hãy bắt đầu tạo bài viết mới.
             </EmptyPlaceholder.Description>
             <PostCreateButton variant="outline" />
           </EmptyPlaceholder>

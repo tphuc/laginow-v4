@@ -40,7 +40,7 @@ const SelectContent = React.forwardRef<
     <SelectPrimitive.Content
       ref={ref}
       className={cn(
-        "relative z-50 max-h-[200px] min-w-[8rem] overflow-scroll scrollbar-hide rounded-md border bg-popover text-popover-foreground shadow-md animate-in fade-in-80",
+        "relative z-50 max-h-[200px] min-w-[8rem] max-w-[90vw] overflow-scroll scrollbar-hide rounded-md border bg-popover text-popover-foreground shadow-md animate-in fade-in-80",
         position === "popper" && "translate-y-1",
         className
       )}
@@ -75,8 +75,8 @@ SelectLabel.displayName = SelectPrimitive.Label.displayName
 
 const SelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
->(({ className, children, ...props }, ref) => (
+  {hideIndicator?: boolean} & React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
+>(({ className, hideIndicator, children, ...props }, ref) => (
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
@@ -85,11 +85,11 @@ const SelectItem = React.forwardRef<
     )}
     {...props}
   >
-    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-      <SelectPrimitive.ItemIndicator>
+     {!hideIndicator && <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+     <SelectPrimitive.ItemIndicator>
         <Check className="h-4 w-4" />
       </SelectPrimitive.ItemIndicator>
-    </span>
+    </span> }
 
     <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
   </SelectPrimitive.Item>

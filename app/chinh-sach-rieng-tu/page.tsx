@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     title: {
       absolute: 'Chính sách riêng tư',
     },
-  }
+}
    
 
 const Page = () => {

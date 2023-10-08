@@ -29,7 +29,7 @@ export default async function MarketingLayout({
                         },
                         {
                             title: "Tìm kiếm",
-                            href: "/#",
+                            href: "/timkiem",
                         },
                     ]} 
                     />

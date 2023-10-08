@@ -43,8 +43,19 @@ export async function GET(req: NextRequest) {
       cursor: cursor ? { id: cursor } : undefined
     })
 
+    let total = await db.business?.count({
+      where,
+      orderBy: {
+        createdAt: 'desc'
+      },
+      cursor: cursor ? { id: cursor } : undefined
+    })
 
-    return new Response(JSON.stringify(data));
+
+    return new Response(JSON.stringify({
+      data,
+      total
+    }));
 
   }
   catch (e) {
