@@ -14,6 +14,29 @@ export async function GET(req: NextRequest) {
 
     const take = url.searchParams.get("take");
     const lastCursor = url.searchParams.get("lastCursor");
+    const tag = url.searchParams.get("tag");
+    const text = url.searchParams.get("text");
+
+    let where = {}
+
+    if (tag) {
+      where['tags'] = {
+        some: {
+          id: tag
+        }
+      }
+    }
+
+    if(text){
+      where[`OR`] = [
+        {
+          title: {contains: text ?? ''}
+        },
+        {
+          address: {contains: text ?? ''}
+        }
+      ]
+    }
 
     let result = await db.business.findMany({
       take: take ? parseInt(take as string) : 10,
@@ -23,6 +46,10 @@ export async function GET(req: NextRequest) {
           id: lastCursor as string,
         }
       }),
+      include: {
+        tags: true
+      },
+      where,
       orderBy: {
         createdAt: "desc",
       }
@@ -49,10 +76,11 @@ export async function GET(req: NextRequest) {
       cursor: {
         id: cursor,
       },
+      where,
     });
 
     const data = {
-      data: result, 
+      data: result,
       metaData: {
         lastCursor: cursor,
         hasNextPage: nextPage.length > 0,

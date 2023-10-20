@@ -65,11 +65,7 @@ export default async function BusinessLayout({ children, params }: BusinessProps
             label: item.title
           })) } title={business?.title} />
           <UserAccountNav
-            user={{
-              name: user?.name,
-              image: user?.image,
-              email: user?.email,
-            }}
+            user={user}
           />
         </div>
       </header>

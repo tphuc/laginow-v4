@@ -26,7 +26,7 @@ import { FormBusinessCreateSchema, FormBusinessReviewCreateSchema } from "@/lib/
 import slugify from "slugify"
 import { toast, useToast } from "./ui/use-toast"
 import { useState } from "react"
-import { Loader2, Plus } from "lucide-react"
+import { Loader2, Plus, Star } from "lucide-react"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
 import { Textarea } from "./ui/textarea"
 import StarRating from "./ui/stars-rating"
@@ -87,7 +87,7 @@ export function AddReviewButton({businessId}) {
 
         <Sheet key={'right'}>
             <SheetTrigger asChild>
-                <Button size='sm' className="inline-flex rounded-lg gap2"> <Plus className="w-4 h-4" /> Thêm</Button>
+                <Button size='sm' variant={'secondary'} className="inline-flex border border-input rounded-lg gap-2"> <Star className="w-4 h-4" /> Đánh giá </Button>
             </SheetTrigger>
             <SheetContent side={'right'}>
                 <SheetHeader>

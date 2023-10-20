@@ -8,6 +8,9 @@ import { Toaster } from "@/components/ui/toaster"
 // import { Analytics } from "@/components/analytics"
 import { ThemeProvider } from "@/components/theme-provider"
 import QueryWrapper from "@/components/query-wrapper"
+import AuthProvider from "@/components/auth-provider"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
 
 const fontSans = localFont({
   src: "../assets/fonts/Inter-VariableFont.ttf",
@@ -21,7 +24,7 @@ const fontHeading = localFont({
 })
 
 interface RootLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode,
 }
 
 export const metadata = {
@@ -73,27 +76,29 @@ export const metadata = {
   manifest: `${siteConfig.url}/site.webmanifest`,
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
-  return (
+export default async function RootLayout({ children}: RootLayoutProps) {
+  const session = await getServerSession(authOptions)
+  return (  
+   
     <html lang="en" suppressHydrationWarning>
-      
+
       <head />
       <QueryWrapper>
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
-          fontHeading.variable
-        )}
-      >
-      
-        <ThemeProvider attribute="class" defaultTheme="light"  enableSystem={false}>
-          {children}
-          {/* <Analytics /> */}
-          <Toaster />
-        </ThemeProvider>
-       
-      </body>
+        <body
+          className={cn(
+            "min-h-screen bg-background font-sans antialiased",
+            fontSans.variable,
+            fontHeading.variable
+          )}
+        >
+          <AuthProvider session={session}>
+            <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+              {children}
+              {/* <Analytics /> */}
+              <Toaster />
+            </ThemeProvider>
+          </AuthProvider>
+        </body>
       </QueryWrapper>
     </html>
   )

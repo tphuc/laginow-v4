@@ -123,7 +123,7 @@ export default async function Page({ params }) {
                 <div className="flex gap-2">{business?.tags?.map((item: any) => (
                     <p key={item?.id} className="text-sm cursor-pointer text-muted-foreground">{item?.name}</p>
                 ))}</div>
-                <Badge className="inline-flex gap-2 justify-between items-center px-1" variant={isCurrentlyOpenHr ? 'success' : 'destructive'}>
+                <Badge className="inline-flex gap-2 justify-between items-center px-2 py-1 border" variant={isCurrentlyOpenHr ? 'success' : 'destructive'}>
                     <div className="flex items-center gap-2">
                         <Clock10 className="w-4 h-4" strokeWidth={1.5} />
                         {isCurrentlyOpenHr ? 'Đang mở cửa' : "Đóng cửa"}

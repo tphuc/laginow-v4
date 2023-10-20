@@ -84,6 +84,7 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
         let data: any = {
             ...body
         }
+
         if(body.tags?.length){
             data.tags = {
                 connect: body.tags

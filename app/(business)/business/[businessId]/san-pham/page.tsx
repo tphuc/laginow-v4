@@ -59,7 +59,7 @@ export default async function Page({ params }: PageProps) {
 
         : (
           <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="post" />
+            <EmptyPlaceholder.Icon name='package' />
             <EmptyPlaceholder.Title>Chưa có sản phẩm nào</EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
               Tạo và quản lí sản phẩm / dịch vụ của kinh doanh của bạn.

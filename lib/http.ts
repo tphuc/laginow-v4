@@ -56,6 +56,29 @@ export function useGetBusinessInfo(id?: string){
     
 }
 
+
+export function useGetUserInfo(id?: string){
+    
+    const { data, error, isLoading, mutate } = useSWR(`/api/users/${id}`, async (url) => {
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+        })
+        
+        return response.json()
+    })
+
+    return {
+        data, 
+        isLoading,
+        error,
+        mutate
+    }
+    
+}
+
 export function useGetBusinessPageEvents(id: string, options: {from?: Date, to?: Date}){
     let searchParams = new URLSearchParams()
     if(options?.from){

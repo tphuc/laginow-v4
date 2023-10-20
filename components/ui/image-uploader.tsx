@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { cn } from '@/lib/utils';
@@ -128,7 +129,8 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
       >
         {image ? (
           <>
-            <Image  src={image?.url} quality={100} width={200} height={200}  alt="Uploaded" className="w-auto h-full rounded-md object-cover" />
+            
+            <img  alt='' src={image?.url} className="w-auto h-full max-w-[300px] max-h-[300px] rounded-md object-cover" />
             <div className="absolute top-0 right-0 m-1">
               {/* <button
                 onClick={handleImageChange}

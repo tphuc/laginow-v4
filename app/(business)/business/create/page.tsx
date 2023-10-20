@@ -37,11 +37,6 @@ export default async function Page({ params }: Props) {
     redirect("/login")
   }
 
-  const post = await getPostForUser(params.postId, user.id)
-
-  if (!post) {
-    notFound()
-  }
 
   return (
 

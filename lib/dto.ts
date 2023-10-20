@@ -65,7 +65,7 @@ export const FormBusinessCreateSchema = z.object({
     tags: z.array(z.object({
         value: z.any(),
         label: z.any()
-    })).optional(),
+    })).max(2, "Tối đa 2 danh mục").optional(),
     workingHrs: z.any().default({
         mon: {
             startTime: '06:00',

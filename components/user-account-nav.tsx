@@ -12,12 +12,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { UserAvatar } from "@/components/user-avatar"
+import { useGetUserInfo } from "@/lib/http"
+import { Icons } from "./icons"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: Pick<User, "name" | "image" | "email">
+  user: User & { businesses?: any}
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
+
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -39,11 +43,23 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/dashboard">Quản lí</Link>
+          <Link href="/dashboard">Quản lí chung</Link>
         </DropdownMenuItem>
+
         <DropdownMenuItem asChild>
           <Link href="/dashboard/pages">Trang của bạn</Link>
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <div>
+          {user?.businesses?.map((item) => <DropdownMenuItem key={item?.id} asChild>
+
+            <Link href={`/business/${item?.id}`} className="gap-2">
+              <Icons.globe className="w-4 h-4" strokeWidth={1.5} />
+              <p>{item?.title}</p>
+            </Link>
+
+          </DropdownMenuItem>)}
+        </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer"

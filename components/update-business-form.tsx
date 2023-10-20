@@ -180,7 +180,7 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
                                 </SelectContent>
                             </Select> */}
                             <FormDescription>
-                                Tối đa 3 danh mục
+                                Tối đa 2 danh mục
                             </FormDescription>
                             <FormMessage />
                         </FormItem>

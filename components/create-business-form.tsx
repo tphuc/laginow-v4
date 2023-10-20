@@ -143,7 +143,7 @@ export function CreateBusinessForm() {
                                 </SelectContent>
                             </Select> */}
                             <FormDescription>
-                                Tối đa 3 danh mục
+                                Tối đa 2 danh mục
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -164,8 +164,8 @@ export function CreateBusinessForm() {
                     name='banner'
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Ảnh bìa</FormLabel>
-                            <ImageUploader value={field.value} onChange={field.onChange} className="w-full h-auto" />
+                            <FormLabel>Ảnh logo</FormLabel>
+                            <ImageUploader value={field.value} onChange={field.onChange} className="w-full md:w-[220px] h-auto aspect-square" />
                             <FormDescription>
                                 Ảnh hiển thị tốt nhất với tỉ lệ 1:1, bạn có thể thay đổi bất cứ lúc nào.
                             </FormDescription>

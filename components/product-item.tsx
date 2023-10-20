@@ -12,14 +12,14 @@ interface ProductItemProps {
 
 export function ProductItem({ product }: ProductItemProps) {
   return (
-    <div className="flex items-center shadow-sm gap-2 justify-between p-3">
-      <Image alt='' width={60} height={60} className="ring-1 object-cover ring-gray-900/5 bg-secondary outline-none" src={product?.images?.['url'] ?? ''}></Image>
+    <div className="flex items-center shadow-sm gap-2 justify-between px-3 py-2">
+      <Image alt='' width={60} height={60} className="ring-1 rounded-sm object-cover ring-gray-900/5 bg-secondary outline-none" src={product?.images?.['url'] ?? null} />
       <div className="flex items-center justify-between flex-1">
         <div className="grid">
 
           <Link
             href={`/business/${product?.businessId}/product/${product.id}`}
-            className="font-semibold hover:underline text-ellipsis overflow-hidden"
+            className="font-heading hover:underline text-ellipsis overflow-hidden"
           >
             {product.name}
           </Link>
