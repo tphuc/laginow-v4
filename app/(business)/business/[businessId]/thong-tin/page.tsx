@@ -14,6 +14,7 @@ import { UpdateBusinessForm } from "@/components/update-business-form"
 import { UpdateBusinessWorkingHrsForm } from "@/components/update-business-working-hours-form"
 import { useRouter } from 'next/router'
 import { DeleteBusinessForm } from "@/components/delete-business-form"
+import { UpdateBusinessContactVerified } from "@/components/update-business-contact-verified"
 
 export const metadata = {
   title: "Billing",
@@ -52,6 +53,16 @@ export default async function Page({ params }: PageProps) {
 
         <div className="grid gap-8 pb-10">
           <UpdateBusinessForm businessId={params.businessId} />
+        </div>
+
+      
+        <DashboardHeader
+        heading="Thông tin liên hệ"
+        text="Xác minh trang của bạn để làm đối tác và sử dụng nhiều tính năng nâng cao"
+      />
+
+        <div className="grid gap-8 pb-10">
+          <UpdateBusinessContactVerified businessId={params.businessId} />
         </div>
 
 

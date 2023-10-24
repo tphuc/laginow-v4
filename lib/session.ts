@@ -37,6 +37,16 @@ export async function verifyCurrentUserHasAccessToBusiness(businessId: string) {
   return !!found
 }
 
+export async function isBusinessVerified(businessId: string) {
+  const found = await db.business.findUnique({
+    where: {
+      id: businessId,
+    },
+  })
+  return found?.verified
+}
+
+
 
 export async function isAdmin() {
   const session = await getServerSession(authOptions)

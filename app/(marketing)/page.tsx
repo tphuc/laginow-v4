@@ -1,9 +1,11 @@
 import BusinessPageCard from "@/components/public-page-card";
 import PublicPostCard from "@/components/public-post-card";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 
 
 
@@ -38,8 +40,8 @@ async function fetchData(url: string) {
 
 export default async function Page() {
 
-    let businessPages = await fetchData(`https://laginow-v4.vercel.app/api/public/business?take=10`)
-    let posts = await fetchData(`https://laginow-v4.vercel.app/api/public/post?take=10`)
+    let businessPages = await fetchData(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/public/business?take=10`)
+    let posts = await fetchData(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/public/post?take=10`)
 
 
 
@@ -109,6 +111,7 @@ export default async function Page() {
         <br/>
         <p className="text-3xl font-heading">Trang nổi bật</p>
 
+        <Suspense fallback={<Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}>
         <div className="flex gap-2 flex-wrap">
             {
                 businessPages?.map((item: any) => <BusinessPageCard
@@ -117,9 +120,11 @@ export default async function Page() {
                 />)
             }
         </div>
+        </Suspense>
 
         <br />
         <p className="text-3xl font-heading">Bài viết nổi bật</p>
+        <Suspense fallback={<Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}>
         <div className="flex gap-2 flex-wrap">
             {
                 posts?.map((item: any) => <PublicPostCard
@@ -128,6 +133,7 @@ export default async function Page() {
                 />)
             }
         </div>
+        </Suspense>
 
     </div>
 }

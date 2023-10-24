@@ -39,7 +39,7 @@ export default async function Page({ params }: PageProps) {
     include: {
       business: true
     }
-  })
+  }) ?? []
 
 
   return (
@@ -51,13 +51,13 @@ export default async function Page({ params }: PageProps) {
         <ProductCreateButton bussinessId={params.businessId}>Thêm</ProductCreateButton>
       </DashboardHeader>
 
-      {data?.length ? <div className="divide-y divide-border rounded-md border">
+      <div className="divide-y divide-border rounded-md border">
         {data?.map((item: any) => (
           <ProductItem key={item?.id} product={item} />
         ))}
       </div>
 
-        : (
+        {!data.length && (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon name='package' />
             <EmptyPlaceholder.Title>Chưa có sản phẩm nào</EmptyPlaceholder.Title>

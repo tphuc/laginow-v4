@@ -23,7 +23,9 @@ import {
   Twitter,
   User,
   X,
-AlertCircle,
+  Diamond,
+  Gem,
+  AlertCircle,
   type LucideIcon as LucideIcon,
   AppWindow,
   LayoutGrid,
@@ -32,6 +34,7 @@ AlertCircle,
   PenSquare,
   BarChart2,
   Globe2,
+  Rocket,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -66,6 +69,9 @@ export const Icons = {
   package: Package2,
   alertCircle: AlertCircle,
   globe: Globe2,
+  diamond: Diamond,
+  gem: Gem,
+  rocket: Rocket,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

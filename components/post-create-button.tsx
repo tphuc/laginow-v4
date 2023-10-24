@@ -27,7 +27,7 @@ export function PostCreateButton({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: "Untitled Post",
+        title: "chưa có tiêu đề",
       }),
     })
 

@@ -16,8 +16,9 @@ import { vi } from 'date-fns/locale';
 
 const PostCardDescription = ({ postData }) => {
   const getParagraphText = () => {
+    let blocks = postData?.blocks ?? []
     let text = ''
-      for(let block of postData?.blocks) {
+      for(let block of blocks) {
           if(block.type === "paragraph") {
             text += `${block?.data?.text} . ` ;
             // return block?.data?.text;

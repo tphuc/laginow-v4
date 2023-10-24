@@ -125,7 +125,10 @@ model Business {
   // contact information
   phone   String?
   website String?
+  facebookUrl String?
   address String?
+
+  displayContact Boolean? @default(false)
 
   // working hours
   monStartHr String?
@@ -279,6 +282,7 @@ model PageEvent {
 
 enum EventType {
   PAGE_VIEW
+  SEARCH_VIEW
   BUTTON_CLICK
   FORM_SUBMIT
   LINK_CLICK

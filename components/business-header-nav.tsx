@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import * as React from "react"
 import Link from "next/link"
@@ -14,12 +14,12 @@ import { BusinessSelectCombobox } from "./select-business-site-combobox"
 
 interface MainNavProps {
   title?: string;
-  userBusinesses: {value: string, label: string}[];
+  userBusinesses: { value: string, label: string }[];
   items?: {
     title: string;
     href: string;
     disabled?: boolean | undefined;
-}[]
+  }[]
   children?: React.ReactNode
 }
 
@@ -33,18 +33,18 @@ export function BusinessHeaderNav({ items, title, userBusinesses, children }: Ma
         <span className="hidden font-heading sm:inline-block">
           {siteConfig.name}
         </span>
-      
-      
+
+
       </Link>
       <button
         className="flex items-center space-x-2 md:hidden"
         onClick={() => setShowMobileMenu(!showMobileMenu)}
       >
-        <Menu/>
-        {showMobileMenu ?? <X /> }
+        <Menu />
+        {showMobileMenu ?? <X />}
       </button>
-     
-      <BusinessSelectCombobox items={userBusinesses}/>
+
+      <BusinessSelectCombobox items={userBusinesses} />
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">
           {items?.map((item, index) => (
@@ -65,11 +65,11 @@ export function BusinessHeaderNav({ items, title, userBusinesses, children }: Ma
         </nav>
       ) : null}
 
-{showMobileMenu && items && (
+      {showMobileMenu && items && (
         <MobileNav items={items}>{children}</MobileNav>
       )}
-      
-      
+
+
 
     </div>
   )

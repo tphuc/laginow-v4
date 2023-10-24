@@ -13,7 +13,7 @@ interface ProductItemProps {
 export function ProductItem({ product }: ProductItemProps) {
   return (
     <div className="flex items-center shadow-sm gap-2 justify-between px-3 py-2">
-      <Image alt='' width={60} height={60} className="ring-1 rounded-sm object-cover ring-gray-900/5 bg-secondary outline-none" src={product?.images?.['url'] ?? null} />
+      <Image alt='' width={60} height={60} className="ring-1 rounded-sm object-cover ring-gray-900/5 bg-secondary outline-none" src={product?.images?.['url'] ?? ''} />
       <div className="flex items-center justify-between flex-1">
         <div className="grid">
 
@@ -21,7 +21,7 @@ export function ProductItem({ product }: ProductItemProps) {
             href={`/business/${product?.businessId}/product/${product.id}`}
             className="font-heading hover:underline text-ellipsis overflow-hidden"
           >
-            {product.name}
+            {product.name || 'Chưa có tên'}
           </Link>
           <p className="text-sm text-muted-foreground">{vndFormat(product.price)}</p>
           <div>

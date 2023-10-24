@@ -12,12 +12,13 @@ export interface UploadImageProps {
   defaultValue?: { fileId?: string, url: string} | null;
   placeholder?: any,
   className?: string,
+  imageClassName?: string,
   style?:  React.CSSProperties,
   resetAfterUploaded?: boolean;
 }
 
 const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
-  ({ onChange, defaultValue, resetAfterUploaded, style, className, placeholder = 'Chọn ảnh', ...rest }, ref) => {
+  ({ onChange, defaultValue, resetAfterUploaded, style, imageClassName, className, placeholder = 'Chọn ảnh', ...rest }, ref) => {
     const [image, setImage] = useState<any>(defaultValue);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -38,7 +39,7 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
 
         try {
           setIsLoading(true);
-          const response = await fetch('/api/editor/upload-image', {
+          const response = await fetch('/api/editor/upload-image2', {
             method: 'POST',
             body: formData,
           });
@@ -66,7 +67,7 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
       if (image) {
         try {
           setIsLoading(true);
-          const response = await fetch('/api/delete-image', {
+          const response = await fetch('/api/delete-image2', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -95,7 +96,7 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
       if (image) {
         try {
           setIsLoading(true);
-          const response = await fetch('/api/editor/delete-image', {
+          const response = await fetch('/api/editor/delete-image2', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -130,7 +131,7 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
         {image ? (
           <>
             
-            <img  alt='' src={image?.url} className="w-auto h-full max-w-[300px] max-h-[300px] rounded-md object-cover" />
+            <img  alt='' src={image?.url} className={cn("w-auto h-full border border-input max-w-[300px] max-h-[300px] rounded-md object-cover", imageClassName)} />
             <div className="absolute top-0 right-0 m-1">
               {/* <button
                 onClick={handleImageChange}

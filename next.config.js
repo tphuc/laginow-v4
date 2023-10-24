@@ -4,7 +4,7 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ['pbs.twimg.com', 'ik.imagekit.io'],
+    domains: ['pbs.twimg.com', 'ik.imagekit.io', 'lh3.googleusercontent.com', 'storage.googleapis.com'],
   },
 }
 

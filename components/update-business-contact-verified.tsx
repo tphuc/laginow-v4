@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
 import Link from "next/link"
-import { useGetBusinessTags } from "@/lib/http"
+import { useGetBusinessInfo, useGetBusinessTags } from "@/lib/http"
 import ImageUploader from "./ui/image-uploader"
 import { Switch } from "./ui/switch"
 import { MultiSelect } from "./ui/multi-select"
@@ -25,53 +25,65 @@ import MultiImageGrid from "./multi-image-uploader"
 import { FormBusinessCreateSchema } from "@/lib/dto"
 import slugify from "slugify"
 import { toast, useToast } from "./ui/use-toast"
-import { useState } from "react"
-import { Loader2 } from "lucide-react"
-import { redirect } from "next/navigation"
+import { useEffect, useState } from "react"
+import { BadgeCheck, Facebook, Globe, Loader2 } from "lucide-react"
+import { Badge } from "./ui/badge"
 
 
 
 
 
-export function CreateBusinessForm() {
+export function UpdateBusinessContactVerified({ businessId }: { businessId?: string }) {
+
+    // const { data } = useGetBusinessInfo(businessId);
 
     const form = useForm({
-        resolver: zodResolver(FormBusinessCreateSchema),
+        resolver: zodResolver(z.object({
+            phone: z.string().optional(),
+            website: z.string().optional(),
+            facebookUrl: z.string().optional(),
+            displayContact: z.boolean().optional()
+        })),
+        defaultValues: async () => {
+            const response = await fetch(`/api/business/${businessId}`, {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+            }).then(res => res.json())
+            return {
+                ...response,
+              
+            }
+            
+        }
     })
-    const { toast } = useToast()
-    let { data: businessTags } = useGetBusinessTags();
+    const { toast } = useToast();
+
+
+
+    const { data: businessTags } = useGetBusinessTags();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof FormBusinessCreateSchema>) {
         let formattedValues = {
             ...values,
-            slug: slugify(values.title, { lower: true }),
-            tags: values?.tags?.map(item => ({
-                id: item.value
-            }))
         }
 
         setIsLoading(true)
         try {
-            let res = await fetch('/api/business', {
-                method: "POST",
+            let res = await fetch(`/api/business/${businessId}`, {
+                method: "PATCH",
                 body: JSON.stringify(formattedValues),
                 redirect: "manual",
             })
 
-
             if (res.ok) {
                 toast({
-                    title: "Tạo thành công",
+                    title: "Chỉnh sửa thành công",
                     variant: "default"
                 })
-
-                let page = await res.json()
-                
-
-                redirect(`/business/${page?.id}`)
-
             }
         } catch (e) {
             console.log(e);
@@ -85,7 +97,7 @@ export function CreateBusinessForm() {
 
     return (
         <Form  {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 md:space-y-4">
                 {/* <FormField
                     control={form.control}
                     name="username"
@@ -112,15 +124,16 @@ export function CreateBusinessForm() {
 
                 <FormField
                     control={form.control}
-                    name="title"
+                 
+                    name="phone"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Tên trang (*)</FormLabel>
+                             <FormLabel className="flex items-center gap-2">Số điện thoại liên hệ <Facebook className="w-4 h-4"/></FormLabel>
                             <FormControl>
-                                <Input placeholder="Homestay Lagi..." {...field} />
+                                <Input placeholder="+84" {...field} />
                             </FormControl>
                             <FormDescription>
-                                Tên của trang, không quá 264 kí tự.
+                                
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -129,31 +142,16 @@ export function CreateBusinessForm() {
 
                 <FormField
                     control={form.control}
-                    name="tags"
+                 
+                    name="website"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Danh mục (*)</FormLabel>
+                             <FormLabel className="flex items-center gap-2">Trang web <Globe className="w-4 h-4"/></FormLabel>
                             <FormControl>
-                                <MultiSelect items={businessTags?.map(item => ({
-                                    value: item.id,
-                                    label: item.name
-                                }))} placeholder="chọn danh mục" max={3} onChange={field.onChange} defaultValue={field.value}></MultiSelect>
+                                <Input  placeholder="www" {...field} />
                             </FormControl>
-                            {/* <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Chọn doanh mục kinh doanh" />
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    {data?.map((item: { id: any, name: any }) => {
-                                        return <SelectItem value={item.id}>{item?.name}</SelectItem>
-                                    })}
-
-                                </SelectContent>
-                            </Select> */}
                             <FormDescription>
-                                Tối đa 2 danh mục
+                                
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -162,56 +160,57 @@ export function CreateBusinessForm() {
 
                 <FormField
                     control={form.control}
-                    name="address"
+                 
+                    name="facebookUrl"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Địa chỉ</FormLabel>
-                            <Input placeholder="42 Thống Nhất ..." {...field} />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    name='banner'
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Ảnh logo</FormLabel>
-                            <ImageUploader value={field.value} onChange={field.onChange} className="w-full md:w-[220px]  h-auto aspect-square" />
+                            <FormLabel className="flex items-center gap-2">Link FB <Facebook className="w-4 h-4"/></FormLabel>
+                            <FormControl>
+                                <Input  placeholder="" {...field} />
+                            </FormControl>
                             <FormDescription>
-                                Ảnh hiển thị tốt nhất với tỉ lệ 1:1, bạn có thể thay đổi bất cứ lúc nào.
+                                
                             </FormDescription>
+                            <FormMessage />
                         </FormItem>
                     )}
-
                 />
 
-                {/* <FormField
+            
+
+         
+
+                <FormField
                     control={form.control}
-                    name="displayBanner"
+                    name="displayContact"
                     render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                        <FormItem className="flex flex-row items-center flex-wrap justify-between rounded-lg border p-4">
                             <div className="space-y-0.5">
-                                <FormLabel className="text-base">Hiển thị ảnh bìa</FormLabel>
-                                <FormDescription>
-                                    Tắt hiển thị nếu bạn chưa có ảnh bìa
-                                </FormDescription>
+                                <FormLabel className="text-base gap-1">Hiển thị thông tin liên hệ {!form.getValues('verified') && <Badge variant={'secondary'}>Chưa xác minh</Badge>} </FormLabel>
+                       
+                                {!form.getValues('verified') && <FormDescription className="inline-flex flex-wrap gap-1 items-center">
+
+                                    Chưa xác minh.
+                                    Liên hệ để xác minh trang, mở khoá nhiều tính năng và nhận huy hiệu.
+                                    <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white'/> 
+                                </FormDescription> }
+
+                                {form.getValues('verified') && <FormDescription>
+
+                                <p className="inline-flex flex-wrap gap-1 items-center">
+                                Trang đã được xác minh. Có thể hiển thị thông tin liên hệ trên hồ sơ trang.  <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white'/> </p>
+                                </FormDescription> }
                             </div>
                             <FormControl>
                                 <Switch
+                                    defaultValue={field.value}
                                     checked={field.value}
                                     onCheckedChange={field.onChange}
                                 />
                             </FormControl>
                         </FormItem>
                     )}
-                /> */}
-
-
-                {/* <MultiImageGrid 
-                getId={(item) => item.fileId}
-                items={[
-                    {fileId: "64edd08c88c257da33da3e99", url: "https://ik.imagekit.io/laginow4/Yellow_Creative_Noodle_Food_Promotion_Banner_-3_F8qhDjtJq.jpg", thumbnailUrl: "https://ik.imagekit.io/laginow4/tr:n-ik_ml_thumbna…ive_Noodle_Food_Promotion_Banner_-3_F8qhDjtJq.jpg", name: "Yellow_Creative_Noodle_Food_Promotion_Banner_-3_F8qhDjtJq.jpg", width: 6912,},
-                    // {id:"2"}
-                ]} /> */}
+                />
 
 
 
@@ -220,9 +219,8 @@ export function CreateBusinessForm() {
 
 
 
-
-                <Button type="submit" size='sm' className={isLoading ? "pointer-events-none" : ""}>
-                    Xác nhận
+                <Button size='sm' type="submit" className={isLoading ? "pointer-events-none" : ""}>
+                    Cập nhật
                     {isLoading && <Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}
                 </Button>
             </form>

@@ -10,10 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { DashboardHeader } from "@/components/dashboard-header"
 import { Icons } from "@/components/icons"
 import { DashboardShell } from "@/components/shell"
-import { UpdateBusinessForm } from "@/components/update-business-form"
-import { UpdateBusinessWorkingHrsForm } from "@/components/update-business-working-hours-form"
-import { UpdateBusinessMedia } from "@/components/update-business-media"
-
+import { EmptyPlaceholder } from "@/components/empty-placeholder"
 export const metadata = {
   title: "Billing",
   description: "Manage billing and your subscription plan.",
@@ -46,13 +43,26 @@ export default async function Page({ params }: PageProps) {
     <DashboardShell>
 
       <DashboardHeader
-        heading="Hình ảnh"
-        text="Thêm hình ảnh về kinh doanh của bạn"
-      />
+        heading="Quảng cáo"
+        text="Nâng cao thương hiệu của bạn, thu hút khách hàng mới và thúc đẩy tăng trưởng bằng các giải pháp quảng cáo trên nền tảng Lagi Now"
+      >
+        
+      </DashboardHeader>
 
         <div className="grid gap-8 pb-10">
-         
+        { (
+          <EmptyPlaceholder>
+            <EmptyPlaceholder.Icon name='rocket' />
+            <EmptyPlaceholder.Title>Chưa có chiến dịch quảng cáo nào</EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Description>
+             Tính năng đang phát triển, sẽ ra mắt sớm
+            </EmptyPlaceholder.Description>
+            {/* <ProductCreateButton bussinessId={params.businessId} variant={'outline'}>Thêm</ProductCreateButton> */}
+          </EmptyPlaceholder>
+        )}
         </div>
+
+       
 
     </DashboardShell>
   )

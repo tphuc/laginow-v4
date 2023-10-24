@@ -43,6 +43,11 @@ export function PageItems({ page }: PageItemsProps) {
           <span className="sr-only">Open</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+        <DropdownMenuItem className="gap-2">
+            <Link href={`/business/${page?.id}`} className="flex w-full">
+              Quản lí
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuItem className="gap-2">
             <Globe2 className="w-4 h-4"/>
             <Link href={`/t/${page?.id}`} className="flex w-full">

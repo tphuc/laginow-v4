@@ -105,7 +105,7 @@ export default async function Page({ params }) {
     let businessProducts = await getBusinessProduct(params.id);
 
 
-    await addPageEvent(`https://laginow-v4.vercel.app/api/business/${params.id}/page-event`)
+    await addPageEvent(`${process?.env?.NEXT_PUBLIC_API_ENDPOINT}/api/business/${params.id}/page-event`)
 
 
     let isCurrentlyOpenHr = isCurrentlyOpen(business?.workingHrs ?? {})

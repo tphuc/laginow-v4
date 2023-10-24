@@ -97,9 +97,9 @@ export default async function BusinessLayout({ children, params }: BusinessProps
                 icon: 'media'
               },
               {
-                title: 'Khác',
-                href: `/business/${params.businessId}/khac`,
-                icon: 'settings'
+                title: 'Quảng cáo',
+                href: `/business/${params.businessId}/quang-cao`,
+                icon: 'rocket'
               }
             ]} />
         </div>

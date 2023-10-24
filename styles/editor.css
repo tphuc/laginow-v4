@@ -102,3 +102,9 @@
   padding-right: 0px;
 }
 
+
+.image-tool__caption {
+  padding: 0px;
+  font-size: 12px;
+  border: none;
+}

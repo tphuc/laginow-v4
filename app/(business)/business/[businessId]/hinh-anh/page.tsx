@@ -47,7 +47,7 @@ export default async function Page({ params }: PageProps) {
 
       <DashboardHeader
         heading="Hình ảnh"
-        text="Thêm hình ảnh về kinh doanh của bạn"
+        text="Thêm hình ảnh cho trang kinh doanh của bạn"
       />
 
         <div className="grid gap-8 pb-10">

@@ -37,9 +37,11 @@ export async function POST(request: NextRequest) {
         name, width, height, size,
       }
     });
+
+    
   } catch (error) {
     console.log(44, error)
-    return NextResponse.json({ success: false });
+    return NextResponse.json({ success: false }, {status: 500});
   }
 }
 

@@ -44,7 +44,7 @@ export default async function MarketingLayout({
                             )}
                         >
                             Đăng nhập
-                        </Link>}
+                    </Link>}
                     </nav>
                 </div>
             </header>

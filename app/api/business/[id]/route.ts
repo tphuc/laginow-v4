@@ -7,6 +7,7 @@ import { BusinessCreateSchema, BusinessUpdateSchema, FormBusinessUpdateSchema } 
 
 import db from '@/lib/prisma'
 import slugify from 'slugify';
+import { isAdmin, isBusinessVerified, verifyCurrentUserHasAccessToBusiness } from '@/lib/session';
 
 
 
@@ -78,8 +79,18 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
 
         let json = await req.json();
         const body = BusinessUpdateSchema.parse(json)
-
         const { params } = routeContextSchema.parse(context)
+
+        // Check if the user has access to this post.
+        if(!(await isAdmin())){
+            if ( !(await verifyCurrentUserHasAccessToBusiness(params.id)) ) {
+                return new Response("not authorized", { status: 403 })
+            }
+        }
+       
+       
+
+      
 
         let data: any = {
             ...body
@@ -102,6 +113,50 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
 
     } catch (error) {
 
+        if (error instanceof z.ZodError) {
+            return new Response(JSON.stringify(error.issues), { status: 422 })
+        }
+
+        return new Response(null, { status: 500 })
+    }
+}
+
+
+export async function PATCH(req: NextRequest, context: z.infer<typeof routeContextSchema>) {
+    try {
+
+        let json = await req.json();
+      
+        const { params } = routeContextSchema.parse(context)
+
+          // Check if the user has access to this post.
+          if(!(await isAdmin())){
+            if (!(await verifyCurrentUserHasAccessToBusiness(params.id)) && !(await isBusinessVerified(params.id)) ) {
+                return new Response("not authorized", { status: 403 })
+            }
+        }
+       
+   
+
+        
+        const body = z.object({
+            phone: z.string().optional(), 
+            website: z.string().optional(),
+            facebookUrl: z.string().optional(),
+            displayContact: z.boolean().optional(),
+        }).parse(json)
+
+        const record = await db.business.update({
+            where: {
+                id: params.id
+            },
+            data: body
+        })
+
+        return new Response(JSON.stringify(record))
+
+    } catch (error) {
+        console.log(error)
         if (error instanceof z.ZodError) {
             return new Response(JSON.stringify(error.issues), { status: 422 })
         }

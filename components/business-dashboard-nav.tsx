@@ -26,7 +26,7 @@ export function BusinessDashboardNav({ items, title }: BusinessDashboardNavProps
         const Icon =  Icons[item?.icon ?? 'arrowRight']
         return (
           item?.href && (
-            <Link key={index} href={item?.disabled ? "/" : item?.href}>
+            <Link key={index} prefetch={false} href={item?.disabled ? "/" : item?.href}>
               <span
                 className={cn(
                   "group flex flex-nowrap whitespace-nowrap items-center rounded-md px-3 py-2 text-sm font-medium",

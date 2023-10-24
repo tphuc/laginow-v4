@@ -83,7 +83,6 @@ async function seedSubCategories() {
         "Cửa Hàng ",
         "Cửa Hàng Phụ Kiện",
         "Dịch Vụ Rửa Xe & Vệ Sinh Ô Tô",
-        "Trạm Xăng"
       ]
     },
     {
@@ -101,7 +100,6 @@ async function seedSubCategories() {
       "name": "Dịch Vụ Nhà Cửa",
       "subcategories": [
         "Dịch Vụ Sửa Chữa Ống Nước",
-        "Nhà Thầu Điện",
         "Dịch Vụ Vệ Sinh Nhà & Hầu Gia Đình",
         "Dịch Vụ Cảnh Quan & Khu Vườn",
         "Dịch Vụ Kiểm Soát Côn Trùng",
@@ -109,13 +107,12 @@ async function seedSubCategories() {
       ]
     },
     {
-      "name": "Du Lịch & Du Học",
+      "name": "Du Lịch",
       "subcategories": [
-        "Công Ty Du Lịch & Nhà Tổ Chức Tour",
         "Công Ty Du Lịch",
         "Chuyến Tham Quan & Hướng Dẫn Viên",
-        "Hoạt Động Phiêu Lưu & Ngoài Trời",
-        "Dịch Vụ Vận Chuyển (Ví Dụ: Taxi, Cho Thuê Xe)"
+        "Hoạt Động Ngoài Trời",
+        "Dịch Vụ Vận Chuyển"
       ]
     },
     {
@@ -124,7 +121,6 @@ async function seedSubCategories() {
         "Trung Tâm Cộng Đồng",
         "Thư Viện",
         "Tổ Chức Phi Lợi Nhuận & Từ Thiện",
-        "Trung Tâm Thanh Thiếu Niên & Nhà Dưỡng Lão"
       ]
     }
   ]
@@ -158,16 +154,15 @@ async function seedSubCategories() {
 
 
 async function main() {
-  // await seedSubCategories()
+  await seedSubCategories()
 
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+.then(async () => {
+  await prisma.$disconnect()
+})
+.catch(async (e) => {
+  await prisma.$disconnect()
+  process.exit(1)
+})
