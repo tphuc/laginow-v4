@@ -154,7 +154,7 @@ async function seedSubCategories() {
 
 
 async function main() {
-  await seedSubCategories()
+  // await seedSubCategories()
 
 }
 
