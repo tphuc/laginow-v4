@@ -76,6 +76,8 @@ export const metadata = {
   manifest: `${siteConfig.url}/site.webmanifest`,
 }
 
+export const runtime = "edge"
+
 export default async function RootLayout({ children}: RootLayoutProps) {
   const session = await getServerSession(authOptions)
   return (  

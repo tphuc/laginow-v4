@@ -70,6 +70,8 @@ async function getBusinessReviews(id: string) {
 }
 
 
+export const runtime = "edge"
+
 async function addPageEvent(url: string) {
   
     try {
