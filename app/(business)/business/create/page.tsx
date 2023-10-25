@@ -26,7 +26,6 @@ async function getPostForUser(postId: Post["id"], userId: User["id"]) {
   })
 }
 
-export const runtime = "edge"
 
 interface Props {
   params: { postId: string }

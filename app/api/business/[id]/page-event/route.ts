@@ -167,3 +167,9 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
 }
 
 
+
+export const OPTIONS = async (request: NextRequest) => {
+  return new NextResponse('', {
+    status: 200
+  })
+}

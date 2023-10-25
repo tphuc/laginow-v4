@@ -120,3 +120,10 @@ async function verifyCurrentUserHasOwnershipToProduct(postId: string) {
 
   return !!record
 }
+
+
+export const OPTIONS = async (request: NextRequest) => {
+  return new NextResponse('', {
+    status: 200
+  })
+}

@@ -70,3 +70,9 @@ export async function POST(request: NextRequest) {
 
 
 
+
+export const OPTIONS = async (request: NextRequest) => {
+  return new NextResponse('', {
+    status: 200
+  })
+}

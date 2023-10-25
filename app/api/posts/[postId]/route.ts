@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth"
 import db from "@/lib/prisma"
 import { Prisma } from "@prisma/client"
 import { imagekit } from "@/lib/imagekit"
+import { NextRequest, NextResponse } from "next/server"
 
 
 const postPatchSchema = z.object({
@@ -137,4 +138,11 @@ async function verifyCurrentUserHasOwnershipToPost(postId: string) {
   })
 
   return !!count?.id
+}
+
+
+export const OPTIONS = async (request: NextRequest) => {
+  return new NextResponse('', {
+    status: 200
+  })
 }

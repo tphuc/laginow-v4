@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth"
 import db from "@/lib/prisma"
 import { RequiresProPlanError } from "@/lib/exceptions"
 import slugify from "slugify"
+import { NextRequest, NextResponse } from "next/server"
 // import { getUserSubscriptionPlan } from "@/lib/subscription"
 
 const postCreateSchema = z.object({
@@ -91,4 +92,11 @@ export async function POST(req: Request) {
 
     return new Response(null, { status: 500 })
   }
+}
+
+
+export const OPTIONS = async (request: NextRequest) => {
+  return new NextResponse('', {
+    status: 200
+  })
 }

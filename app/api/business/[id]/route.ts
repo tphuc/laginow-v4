@@ -166,3 +166,9 @@ export async function PATCH(req: NextRequest, context: z.infer<typeof routeConte
 }
 
 
+export const OPTIONS = async (request: NextRequest) => {
+    return new NextResponse('', {
+      status: 200
+    })
+  }
+

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url)
@@ -36,4 +36,10 @@ export async function GET(req: Request) {
       console.error('Error fetching link metadata:', error);
       return new Response(null, { status: 500 })
     }
+}
+
+export const OPTIONS = async (request: NextRequest) => {
+  return new NextResponse('', {
+    status: 200
+  })
 }

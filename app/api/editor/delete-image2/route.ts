@@ -44,3 +44,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, message: "Failed to delete the image" }, { status: 500 });
   }
 }
+
+
+export const OPTIONS = async (request: NextRequest) => {
+  return new NextResponse('', {
+    status: 200
+  })
+}

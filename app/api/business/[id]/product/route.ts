@@ -85,3 +85,9 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
     return new Response(null, { status: 500 });
   }
 }
+
+export const OPTIONS = async (request: NextRequest) => {
+  return new NextResponse('', {
+    status: 200
+  })
+}
