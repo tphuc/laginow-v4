@@ -157,7 +157,8 @@ export const EventTypeEnum = z.enum([
     'PAGE_VIEW',
     'BUTTON_CLICK',
     'FORM_SUBMIT',
-    'LINK_CLICK'
+    'LINK_CLICK',
+    'SEARCH_VIEW'
 ]);
 
 export const PageEventCreateSchema = z.object({
