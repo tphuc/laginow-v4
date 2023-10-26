@@ -74,10 +74,24 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
           }
         })
 
-        return new Response(JSON.stringify(record));
+        return new Response(JSON.stringify(record), {
+          status: 200,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          }
+        });
       }
       else {
-        return new Response(JSON.stringify({ msg: currentTime - lastInteractionTime }));
+        return new Response(JSON.stringify({ msg: currentTime - lastInteractionTime }), {
+          status: 200,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          }
+        }) ;
       }
 
     }
@@ -96,7 +110,14 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
         }
       })
 
-      return new Response(JSON.stringify(record));
+      return new Response(JSON.stringify(record), {
+        status: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        }
+      });
     }
 
 
