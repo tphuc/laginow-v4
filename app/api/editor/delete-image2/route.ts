@@ -1,15 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Storage } from "@google-cloud/storage"; // Import the Storage class from the Google Cloud Storage library
-
+import lagiJson from './lagi-361510-276b6fc08e21.json'
 // Your existing credentials
 const projectId = "lagi-361510";
-const keyFilename = './lagi-361510-276b6fc08e21.json';
 const bucketName = "laginow";
 
 const deleteImage = (fileName: string) => new Promise((resolve, reject) => {
   const storage = new Storage({
     projectId,
-    keyFilename,
+    credentials: lagiJson,
   });
 
   const bucket = storage.bucket(bucketName);
