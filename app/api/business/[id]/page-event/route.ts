@@ -152,7 +152,14 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
     return new Response(JSON.stringify({
       pageViews: pageEvents,
       todayPageViews
-    }));
+    }), {
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      }
+    });
 
   }
   catch (e) {
