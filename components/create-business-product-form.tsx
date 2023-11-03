@@ -32,38 +32,38 @@ import { useRouter } from "next/navigation"
 
 
 
-export function UpdateBusinessProductForm({ businessId, productId }: { businessId?: string; productId: string }) {
+export function CreateBusinessProductForm({ businessId, productId }: { businessId?: string; productId?: string }) {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [preloading, setIsPreloading] = useState<boolean>(false);
-const router = useRouter()
+    const router= useRouter()
     const form = useForm({
         // resolver: zodResolver(FormBusinessCreateSchema),
-        defaultValues: async () => {
-            setIsPreloading(true)
-            const response = await fetch(`/api/products/${productId}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }).then(res => res.json())
-            setIsPreloading(false)
-            return response
+        // defaultValues: async () => {
+        //     setIsPreloading(true)
+        //     const response = await fetch(`/api/products/${productId}`, {
+        //         method: "GET",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //     }).then(res => res.json())
+        //     setIsPreloading(false)
+        //     return response
 
-        }
+        // }
     })
 
     const { toast } = useToast();
 
     async function update(values) {
         setIsLoading(true)
-        let body = ProductCreateSchema.refine (values);
-        console.log(62, body)
+        let body = ProductCreateSchema.parse(values);
+
         try {
-            let res = await fetch(`/api/products/${productId}`, {
-                method: "PATCH",
+            let res = await fetch(`/api/business/${businessId}/product`, {
+                method: "POST",
                 body: JSON.stringify({
-                    ...values
+                    ...body
                 }),
                 redirect: "manual",
             })

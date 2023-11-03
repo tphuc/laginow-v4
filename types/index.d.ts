@@ -15,6 +15,7 @@ export type SidebarNavItem = {
   title: string
   disabled?: boolean
   external?: boolean
+  prefetch?: boolean
   icon?: keyof typeof Icons
 } & (
   | {

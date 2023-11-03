@@ -19,9 +19,10 @@ import { Button } from "./ui/button"
 import { Minus, Plus, SheetIcon, ShoppingBag, ShoppingCart } from "lucide-react"
 import LoaderSkeleton from "./loader-skeleton"
 import Image from "next/image"
-import { vndFormat } from "@/lib/utils"
+import { cn, vndFormat } from "@/lib/utils"
 import { toast } from "./ui/use-toast"
 import { Divider } from "@tremor/react"
+import { useState } from "react"
 interface UserCartProps extends React.HTMLAttributes<HTMLDivElement> {
   user: any
 }
@@ -37,11 +38,12 @@ function calculateTotal(cart) {
 export function UserCart({ user }: UserCartProps) {
   const session = useSession();
 
-  let { data, isLoading, mutate } = useGetUserInfo(user?.id)
-
+  let { data, isLoading: isFetchLoading, mutate } = useGetUserInfo(user?.id);
+  console.log(Object.values(data?.cart ?? {}))
+  let [isLoading, setIsLoading] = useState(false);
   const updateCart = async (product: any, quantity: number) => {
 
-
+    
     let user: any = session.data?.user
     if (!user) {
       toast({ title: 'Cần đăng nhập', variant: "default" })
@@ -50,6 +52,27 @@ export function UserCart({ user }: UserCartProps) {
     let cart: Object = user?.cart ?? {}
 
 
+    setIsLoading(true)
+
+    if(quantity <= 0){
+      delete cart[product?.id]
+      let res = await fetch(`/api/users/${session?.data?.user?.id}/update-cart`, {
+        method: "POST",
+        body: JSON.stringify({
+          cart
+        })
+      })
+  
+      if (res.ok) {
+        toast({
+          title: "Cập nhật giỏ hàng thành công"
+        })
+      }
+      setIsLoading(false)
+      await mutate()
+      return
+     
+    }
 
     cart[product?.id] = { ...product, quantity }
 
@@ -66,6 +89,7 @@ export function UserCart({ user }: UserCartProps) {
       })
     }
 
+    setIsLoading(false)
     await mutate()
 
     // await mutate(`/api/users/${session?.data?.user?.id}`)
@@ -88,19 +112,19 @@ export function UserCart({ user }: UserCartProps) {
             Tự cập nhật khi bạn thêm sản phẩm từ shop.
           </SheetDescription>
         </SheetHeader>
-        {isLoading && <LoaderSkeleton />}
-        <div className="divide-y pb-[200px] overflow-scroll scrollbar-hide divide-solid flex-1">
+        {isFetchLoading && <LoaderSkeleton />}
+        <div className={cn("divide-y  pb-[200px] overflow-scroll scrollbar-hide divide-solid flex-1", isLoading && "pointer-events-none")}>
           {
-            Object.values(data?.cart ?? {}).map(((item: any) => <div key={item?.id} className="flex gap-1 flex-wrap py-3">
+            (Object.values(data?.cart ?? {}) ?? []).map(((item: any) => <div key={item?.id} className="flex gap-1 flex-wrap py-3">
               <Image width={100} height={100} className="w-12 h-12 rounded-md" alt='' src={item?.images?.[`url`]} />
               <div className="px-2 max-w-[200px] whitespace-nowrap overflow-hidden">
-                <p className="font-heading text-eclipsis">{item?.name}</p>
+                <Link href={`t/${item?.businessId}`} className="font-heading text-eclipsis">{item?.name}</Link>
                 <div className="flex items-center gap-2">
-                  <Button onClick={() => updateCart(item, item?.quantity - 1 < 1 ? 1 : item?.quantity - 1)} className="w-5 h-5 rounded-full p-0">
+                  <Button disabled={isLoading} onClick={() => updateCart(item, item?.quantity - 1)} className="w-5 h-5 rounded-full p-0">
                     <Minus className="w-4 h-4" />
                   </Button>
                   <span>{item?.quantity}</span>
-                  <Button onClick={() => updateCart(item, item?.quantity + 1)} className="w-5 h-5 rounded-full p-0">
+                  <Button disabled={isLoading} onClick={() => updateCart(item, item?.quantity + 1)} className="w-5 h-5 rounded-full p-0">
                     <Plus className="w-4 h-4" />
                   </Button>
                 </div>

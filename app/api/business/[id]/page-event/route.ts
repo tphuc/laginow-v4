@@ -9,6 +9,7 @@ import db from '@/lib/prisma'
 import slugify from 'slugify';
 import { getCurrentUser, verifyCurrentUserHasAccessToBusiness, verifyCurrentUserHasAccessToUpdateProduct } from '@/lib/session';
 import { startOfDay, subDays } from 'date-fns';
+import { startOfDayVN } from '@/lib/utils';
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -22,8 +23,7 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
     const session = await getServerSession(authOptions)
     const user = session?.user
 
-
-
+    let tzTimestamp = startOfDayVN(new Date())
     let userAgentInfo = userAgent(req)
     let referer = req.headers.get('referer') ?? ''
 
@@ -50,6 +50,8 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
           data: {
             ...body,
             ipAddress: req.ip,
+            timestamp: new Date(),
+            tzTimestamp: tzTimestamp,
             referer: referer,
             businessId: params?.id,
             geo: req.geo,
@@ -67,6 +69,8 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
             ...body,
             ipAddress: req.ip,
             referer: referer,
+            timestamp: new Date(),
+            tzTimestamp: tzTimestamp,
             businessId: params?.id,
             geo: req.geo,
             userId: user?.id,
@@ -101,6 +105,7 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
         data: {
           ...body,
           timestamp: new Date(),
+          tzTimestamp: tzTimestamp,
           ipAddress: req.ip,
           referer: referer,
           businessId: params?.id,
@@ -144,18 +149,18 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
     let from = new Date(url.searchParams.get('from') ?? subDays(new Date(), 7)) ?? null
     let to = new Date(url.searchParams.get('to') ?? new Date()) ?? null
 
-    let pageEvents = await db.pageEvent?.groupBy({
-      by: ['timestamp'],
+    let pageViewEvents = await db.pageEvent?.groupBy({
+      by: ['tzTimestamp'],
       where: {
-        timestamp: {
+        tzTimestamp: {
           gte: from,
           lte: to
         },
 
-        eventType: 'PAGE_VIEW'
+        eventType:"PAGE_VIEW"
       },
       orderBy: {
-        timestamp: 'asc'
+        tzTimestamp: 'asc'
       },
       _count: {
         id: true
@@ -164,15 +169,22 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
 
     let todayPageViews = await db.pageEvent?.count({
       where: {
-        timestamp: {
-          gte: startOfDay(new Date())
-        }
+        tzTimestamp: startOfDayVN(new Date()),
+        eventType:"PAGE_VIEW"
+      }
+    })
+
+    let todaySearchViews = await db.pageEvent?.count({
+      where: {
+        tzTimestamp: startOfDayVN(new Date()),
+        eventType:"SEARCH_VIEW"
       }
     })
 
     return new Response(JSON.stringify({
-      pageViews: pageEvents,
-      todayPageViews
+      pageViews: pageViewEvents,
+      todayPageViews,
+      todaySearchViews
     }), {
       status: 200,
       headers: {

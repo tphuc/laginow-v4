@@ -28,9 +28,9 @@ export const ProductCreateSchema = z.object({
     createdAt: z.string().optional(),
     images: z.any().optional(),
     businessId: z.string().optional(),
-    minPrice: z.any().optional(),
-    maxPrice: z.any().optional(),
-    price: z.any().optional(),
+    minPrice: z.string().transform(d => parseInt(d)).optional().nullable(),
+    maxPrice: z.string().transform(d => parseInt(d)).optional().nullable(),
+    price: z.any().optional().transform(d => parseInt(d)).optional().nullable(),
     visible: z.boolean().optional(),
     orderable: z.boolean().optional(),
 });
@@ -43,7 +43,7 @@ export const ProductUpdateSchema = z.object({
     images: z.any().optional().nullable(),
     minPrice: z.string().transform(d => parseInt(d)).optional().nullable(),
     maxPrice: z.string().transform(d => parseInt(d)).optional().nullable(),
-    price: z.string().transform(d => parseInt(d)).optional().nullable(),
+    price: z.any().transform(d => parseInt(d)).optional().nullable(),
     visible: z.boolean().optional().nullable(),
     orderable: z.boolean().optional().nullable(),
 });

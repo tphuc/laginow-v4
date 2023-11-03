@@ -76,6 +76,11 @@ export default async function BusinessLayout({ children, params }: BusinessProps
             title={business?.title}
             items={[
               {
+                title: 'Đơn hàng',
+                href: `/business/${params.businessId}/don-hang`,
+                icon:'listTodo'
+              },
+              {
                 title: 'Tổng quan',
                 href: `/business/${params.businessId}`,
                 icon:'barChart'
@@ -88,7 +93,8 @@ export default async function BusinessLayout({ children, params }: BusinessProps
               {
                 title: 'Sản phẩm & Dịch vụ',
                 href: `/business/${params.businessId}/san-pham`,
-                icon:'package'
+                icon:'package',
+                prefetch: true
               },
              
               {

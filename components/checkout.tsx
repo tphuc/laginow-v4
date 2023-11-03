@@ -1,7 +1,7 @@
 'use client';
 
 import Image from "next/image"
-import { cn, vndFormat } from "@/lib/utils"
+import { cn, startOfDayVN, vndFormat } from "@/lib/utils"
 import { useSession } from "next-auth/react";
 import { authOptions } from "@/lib/auth";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
@@ -65,6 +65,7 @@ export default function Checkout({ }) {
         let {deliveryAddress, deliveryPhone} = values;
         console.log(values)
         
+        let tzTimestamp = startOfDayVN(new Date())
         setIsLoading(true)
         
         const response = await fetch(`/api/order`, {
@@ -72,7 +73,8 @@ export default function Checkout({ }) {
             body: JSON.stringify({
                 cart: user?.cart,
                 deliveryAddress,
-                deliveryPhone
+                deliveryPhone,
+                tzTimestamp
             }),
             headers: {
               "Content-Type": "application/json",

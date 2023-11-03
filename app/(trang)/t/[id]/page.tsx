@@ -10,9 +10,6 @@ import { getOpenHrs, isCurrentlyOpen } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Clock10, Package, Plus, PlusCircle, Star } from "lucide-react"
 import { Metadata } from "next"
-import { headers } from "next/headers"
-import Image from "next/image"
-import { useForm } from "react-hook-form"
 
 
 interface PageProps {
@@ -160,8 +157,6 @@ export default async function Page({ params }) {
             </div>
             <BusinessReviewList businessId={params.id} />
         </div>
-
-
 
         {/* <div className="mt-4 relative w-full">
             <Tabs defaultValue="product" className="w-full">

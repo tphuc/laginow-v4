@@ -55,6 +55,8 @@ export function BusinessProductList({ products, ...props }: { products: any }) {
       })
     })
 
+    mutate(`/api/users/${session?.data?.user?.id}`)
+
     if(res.ok){
       toast({
         title:"Thêm vào giỏ hàng thành công"

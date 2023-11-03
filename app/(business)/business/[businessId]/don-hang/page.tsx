@@ -35,23 +35,24 @@ export default async function Page({ params }: PageProps) {
     redirect("/login")
   }
 
-  const data = await prisma.product.findMany({
+  const data = await prisma.order.findMany({
     where: {
       businessId: params.businessId,
     },
     include: {
       // business: true,
-      // items: true,
-      // user: true
+      items: true,
+      user: true
     }
   }) ?? []
 
+  // console.log(data)
 
   return (
     <DashboardShell>
       <DashboardHeader
-        heading="Sản phẩm & dịch vụ"
-        text="Quản lí sản phẩm và dịch vụ"
+        heading="Đơn hàng"
+        text="Xem đơn đặt hàng"
       >
            <ProductCreateButtonSheet businessId={params.businessId}>Thêm</ProductCreateButtonSheet>
       </DashboardHeader>

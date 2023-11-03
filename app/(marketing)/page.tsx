@@ -92,7 +92,7 @@ export default async function Page() {
                     <Image className="w-full md:w-[280px] h-[280px] aspect-video object-cover transition ease-in-out hover:scale-[1.05]" width={200} height={200} src={'/coffee2.jpeg'} alt={''} />
                     <div className="absolute top-0 left-0 w-full h-full bg-overlayGradient"></div>
                     <div className="font-heading text-white absolute text-2xl bottom-2 left-2 p-[5%]">
-                       Quán coffee chill
+                        Quán coffee chill
                     </div>
                 </div>
 
@@ -102,37 +102,37 @@ export default async function Page() {
                     <Image className="w-full md:w-[280px] h-[280px] aspect-video object-cover transition ease-in-out hover:scale-[1.05]" width={200} height={200} src={'/night.jpeg'} alt={''} />
                     <div className="absolute top-0 left-0 w-full h-full bg-overlayGradient"></div>
                     <div className="font-heading text-white absolute text-2xl bottom-2 left-2 p-[5%]">
-                       Địa điểm giải trí
+                        Địa điểm giải trí
                     </div>
                 </div>
 
             </Link>
         </div>
-        <br/>
+        <br />
         <p className="text-3xl font-heading">Trang nổi bật</p>
 
         <Suspense fallback={<Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}>
-        <div className="flex gap-2 flex-wrap">
-            {
-                businessPages?.map((item: any) => <BusinessPageCard
-                    data={item}
-                    key={item?.id}
-                />)
-            }
-        </div>
+            <div className="flex gap-2 flex-wrap">
+                {
+                    businessPages?.map((item: any) => <BusinessPageCard
+                        data={item}
+                        key={item?.id}
+                    />)
+                }
+            </div>
         </Suspense>
 
         <br />
         <p className="text-3xl font-heading">Bài viết nổi bật</p>
         <Suspense fallback={<Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}>
-        <div className="flex gap-2 flex-wrap">
-            {
-                posts?.map((item: any) => <PublicPostCard
-                    data={item}
-                    key={item?.id}
-                />)
-            }
-        </div>
+            <div className="flex gap-2 flex-wrap">
+                {
+                    posts?.map((item: any) => <PublicPostCard
+                        data={item}
+                        key={item?.id}
+                    />)
+                }
+            </div>
         </Suspense>
 
     </div>

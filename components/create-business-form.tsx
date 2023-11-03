@@ -70,7 +70,7 @@ export function CreateBusinessForm() {
                 let page = await res.json()
                 
 
-                redirect(`/business/${page?.id}`)
+                redirect(`/dashboard/pages`)
 
             }
         } catch (e) {

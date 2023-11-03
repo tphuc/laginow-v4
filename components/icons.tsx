@@ -35,6 +35,7 @@ import {
   BarChart2,
   Globe2,
   Rocket,
+  ListTodo,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -72,6 +73,7 @@ export const Icons = {
   diamond: Diamond,
   gem: Gem,
   rocket: Rocket,
+  listTodo: ListTodo,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

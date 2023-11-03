@@ -9,7 +9,6 @@ import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { MobileNav } from "@/components/mobile-nav"
 import { Menu, X } from "lucide-react"
-import { UserAccountNav } from "./user-account-nav"
 
 interface MainNavProps {
   items?: {

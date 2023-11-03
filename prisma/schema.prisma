@@ -267,6 +267,7 @@ model PageEvent {
   id         Int       @id @default(autoincrement())
   eventType  EventType
   timestamp  DateTime  @default(now()) @db.Date
+  tzTimestamp DateTime?
   ipAddress  String?
   userAgent  Json?
   geo        Json?
@@ -286,6 +287,12 @@ enum EventType {
   BUTTON_CLICK
   FORM_SUBMIT
   LINK_CLICK
+}
+
+enum OrderStatus {
+  REQUESTED
+  DONE
+  CANCELLED
 }
 
 enum UserViewBusinessContext {
@@ -324,6 +331,10 @@ model Order {
 
   deliveryAddress String
   deliveryPhone   String
+
+  timestamp  DateTime  @default(now())
+  tzTimestamp DateTime?
+  status    OrderStatus? @default(REQUESTED)
 
   @@index([userId])
   @@index([businessId])

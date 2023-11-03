@@ -21,16 +21,22 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
   try {
     const { params } = routeContextSchema.parse(context);
 
-    // Assume that `db.product.findMany` is how you fetch products from your database.
-    // You would filter products based on the businessId.
-    const products = await db.product.findMany({
+    const data = await db.order.findUnique({
       where: {
-        businessId: params.id,
+        id: params.id,
       },
+      include: {
+        user: true,
+        items: {
+          include: {
+            product: true
+          }
+        }
+      }
     });
 
-    // Send the fetched products as the response
-    return new Response(JSON.stringify(products));
+
+    return new Response(JSON.stringify(data));
 
   } catch (error) {
     return new Response(null, { status: 500 });

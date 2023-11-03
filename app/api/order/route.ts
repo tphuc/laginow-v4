@@ -72,7 +72,7 @@ export async function POST(req: Request) {
       data: {
         deliveryAddress: body.deliveryAddress,
         deliveryPhone: body.deliveryPhone,
-        cart: JSON.stringify({})
+        cart: {}
       }
     })
 
@@ -149,4 +149,71 @@ export const OPTIONS = async (request: NextRequest) => {
   return new NextResponse('', {
     status: 200
   })
+}
+
+
+const updateOrderSchema = z.object({
+  orderIds: z.array(z.string()), // An array of order IDs to update
+  status: z.enum(['DONE', 'REQUESTED', 'CANCELLED']), // The new status to set for the orders
+});
+
+
+export async function PUT(req: NextRequest) {
+  try {
+
+    const json = await req.json()
+    const body = updateOrderSchema.parse(json)
+
+    const {orderIds, status} = body;
+
+    // Perform batch updates in your database
+    const updatedOrders = await Promise.all(
+      orderIds.map(async (orderId) => {
+        return db.order.update({
+          where: {
+            id: orderId,
+          },
+          data: {
+            status: status,
+          },
+        });
+      })
+    );
+
+    return new Response(JSON.stringify(updatedOrders), { status: 200 });
+  } catch (error) {
+    console.log(error)
+    return new Response(JSON.stringify({ error: "Batch update failed" }), {
+      status: 500,
+    });
+  }
+}
+
+
+const deleteOrderSchema = z.object({
+  orderIds: z.array(z.string()), // An array of order IDs to delete
+});
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const requestBody = deleteOrderSchema.parse(req.body);
+    const { orderIds } = requestBody;
+
+    // Perform batch delete in your database
+    await Promise.all(
+      orderIds.map(async (orderId) => {
+        return db.order.delete({
+          where: {
+            id: orderId,
+          },
+        });
+      })
+    );
+
+    return new Response(null, { status: 204 }); // Return a successful "No Content" response
+  } catch (error) {
+    return new Response(JSON.stringify({ error: "Batch delete failed" }), {
+      status: 500,
+    });
+  }
 }

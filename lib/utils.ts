@@ -1,14 +1,48 @@
 import ms from 'ms'
 import { ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { addDays, subDays } from 'date-fns'
+import { addDays, format, formatDistance, parse, subDays } from 'date-fns'
+const { vi } = require('date-fns/locale');
+
+const { startOfDay } = require('date-fns');
+const { utcToZonedTime } = require('date-fns-tz');
+
+// Set the target time zone to Vietnam
+const vietnamTimeZone = 'Asia/Ho_Chi_Minh';
 
 
-export const timeAgo = (timestamp: Date, timeOnly?: boolean): string => {
-  if (!timestamp) return 'never'
-  return `${ms(Date.now() - new Date(timestamp).getTime())}${
-    timeOnly ? '' : ' ago'
-  }`
+
+export const startOfDayVN = (datetime: Date) => {
+  const currentDateTimeInVietnam = utcToZonedTime(datetime, vietnamTimeZone);
+  // Get the start of the day in Vietnam time
+  const startOfDayInVietnam = startOfDay(currentDateTimeInVietnam);
+  return startOfDayInVietnam
+}
+
+
+export const getDayVN = (datetime: Date) => {
+ // Convert to Vietnam Standard Time (ICT)
+const vietnamTimezone = 'Asia/Ho_Chi_Minh';
+const vietnamTime = utcToZonedTime(datetime, vietnamTimezone);
+
+// Format the result as per your requirement
+  return format(vietnamTime, 'dd-MM');
+}
+
+
+
+
+// export const timeAgo = (timestamp: Date, timeOnly?: boolean): string => {
+//   if (!timestamp) return 'never'
+//   return `${ms(Date.now() - new Date(timestamp).getTime())}${timeOnly ? '' : ' ago'
+//     }`
+// }
+
+// Example usage: timeAgo(new Date(), new Date('2023-10-01'));
+export function timeAgo(targetDate, referenceDate = new Date()) {
+  return formatDistance(targetDate, referenceDate, {
+    locale: vi,
+  });
 }
 
 
@@ -68,10 +102,12 @@ type DataObject = {
   _count: { id: number };
   timestamp: string;
 };
+
+
 export function fillMissingDates(originalArray: DataObject[]): DataObject[] {
   // Check if originalArray is empty or undefined
   if (!originalArray?.length) {
-      return [];
+    return [];
   }
 
   const sortedArray = [...originalArray].sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
@@ -82,20 +118,41 @@ export function fillMissingDates(originalArray: DataObject[]): DataObject[] {
   const endDate = new Date(sortedArray[sortedArray.length - 1].timestamp);
 
   while (currentDate <= endDate) {
-      const timestampString = currentDate.toISOString();
+    const timestampString = currentDate.toISOString();
 
-      if (dateSet.has(timestampString)) {
-          newArray.push(sortedArray.find(item => item.timestamp === timestampString)!);
-      } else {
-          newArray.push({
-              _count: { id: 0 },
-              timestamp: timestampString
-          });
-      }
+    if (dateSet.has(timestampString)) {
+      newArray.push(sortedArray.find(item => item.timestamp === timestampString)!);
+    } else {
+      newArray.push({
+        _count: { id: 0 },
+        timestamp: timestampString
+      });
+    }
 
-      currentDate = addDays(currentDate, 1);
+    currentDate = addDays(currentDate, 1);
   }
 
   return newArray;
 }
 
+
+export function fillEmptyDates(data: any, startDate: Date, endDate: Date) {
+  const filledData: any[] = [];
+
+  let currentDate = startDate;
+
+  while (currentDate <= endDate) {
+    const dateStr = getDayVN(currentDate)
+    const existingData: any = data.find(item => item.timestamp === dateStr);
+
+    if (existingData) {
+      filledData.push(existingData);
+    } else {
+      filledData.push({ count: 0, timestamp: dateStr });
+    }
+
+    currentDate = addDays(currentDate, 1)
+  }
+
+  return filledData;
+}
