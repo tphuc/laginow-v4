@@ -1,6 +1,7 @@
-import { Inter as FontSans } from "next/font/google"
+
 import localFont from "next/font/local"
 
+import { Inter } from 'next/font/google'
 import 'styles/globals.css'
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
@@ -11,17 +12,27 @@ import QueryWrapper from "@/components/query-wrapper"
 import AuthProvider from "@/components/auth-provider"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
+import { fontHeading, fontSans } from "@/lib/font"
 
-const fontSans = localFont({
-  src: "../assets/fonts/Inter-VariableFont.ttf",
-  variable: "--font-sans",
-})
 
-// Font files can be colocated inside of `pages`
-const fontHeading = localFont({
-  src: "../assets/fonts/CalSans-SemiBold.woff2",
-  variable: "--font-heading",
-})
+// const fontSans = localFont({
+//   src: "./Inter-VariableFont.ttf",
+
+//   display: 'swap',
+//   // weight: ["400"],
+//   variable: '--font-sans',
+// })
+
+
+// const fontHeading = localFont({
+//   preload: true,
+//   src: "./CalSans-SemiBold.woff",
+//   // subsets: ['latin'],
+//   weight: "600",
+//   // display: 'swap',
+//   variable: "--font-heading",
+// });
+
 
 interface RootLayoutProps {
   children: React.ReactNode,
@@ -77,19 +88,16 @@ export const metadata = {
 }
 
 
-export default async function RootLayout({ children}: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
   const session = await getServerSession(authOptions)
-  return (  
-   
-    <html lang="en" suppressHydrationWarning>
+  return (
 
+    <html lang="en" suppressHydrationWarning className={`${fontHeading.variable} ${fontSans.variable}`}>
       <head />
       <QueryWrapper>
         <body
           className={cn(
-            "min-h-screen bg-background font-sans antialiased",
-            fontSans.variable,
-            fontHeading.variable
+            "min-h-screen bg-background antialiased",
           )}
         >
           <AuthProvider session={session}>

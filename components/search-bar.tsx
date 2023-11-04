@@ -62,7 +62,7 @@ export default function SearchBarFilter() {
 
   const {data, isLoading} = useGetBusiness(debouncedSearch)
   const handleInputChange = (e: any) => {
-
+    
     let value = e?.target?.value
     setSearch(value)
 
@@ -75,7 +75,8 @@ export default function SearchBarFilter() {
 
 
     return <Popover open={open} onOpenChange={setOpen}>
-        <PopoverAnchor>
+       
+       <PopoverAnchor className="w-full md:w-auto">
           <Input ref={ref} value={search} onChange={handleInputChange}  
           onClick={(e) => {
             setOpen(true)
@@ -83,16 +84,17 @@ export default function SearchBarFilter() {
             ref?.current?.focus()
           }}  
           placeholder="Tìm kiếm..." className="w-full h-9 md:w-[300px] inline-flex rounded-lg" size={0.5} />
+          
         </PopoverAnchor>
-        <PopoverContent autoFocus={false} className="p-1 flex min-h-[60px] flex-col max-h-[400px] overflow-scroll scrollbar-hide">
-          {(!data?.data?.length && !isLoading) && <p className="text-sm text-muted-foreground p-2">Không tìm thấy kết quả</p>}
+        <PopoverContent align="start" sideOffset={0} autoFocus={false} className="p-1 w-[320px] md:w-[500px] flex min-h-[60px] flex-col max-h-[400px] overflow-scroll scrollbar-hide">
+          {(!data?.data?.length && !isLoading) && <p className="text-sm text-muted-foreground p-2">Nhập thêm từ khoá để tìm kiếm...</p>}
           {isLoading && <LoaderSkeleton/>}
           {data?.data?.map((item: any) => <Link href={`/t/${item?.id}`} className="p-1 gap-2 rounded-md flex cursor-pointer hover:bg-secondary" key={item?.id}>
-            <Image className="rounded-sm" src={item?.banner?.url ?? '/placeholder.svg'} alt='' width={50} height={50}/>
-            <div>
-            <p className="text-sm">{item?.title}</p>
-            <div className="text-xs text-muted-foreground" >{item?.tags?.map((item) => <p key={item?.id}>{item?.name}</p>)}</div>
-            <p className="text-xs text-muted-foreground" >{item?.address}</p>
+            <Image className="rounded-sm border border-input aspect-square" src={item?.banner?.url ?? '/placeholder.svg'} alt='' width={50} height={50}/>
+            <div className="flex-1">
+            <p className="text-sm font-medium font-heading truncate">{item?.title}</p>
+            <div className="flex flex-nowrap text-ellipsis overflow-hidden" >{item?.tags?.map((item) => <p className="truncate text-xs text-muted-foreground" key={item?.id}>{item?.name}</p>)}</div>
+            <p className="text-xs w-[200px] whitespace-nowrap" >{item?.address}</p>
             </div>
           </Link>)}
         </PopoverContent>

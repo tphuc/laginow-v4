@@ -153,8 +153,8 @@ module.exports = {
                 "tremor-metric": ["1.875rem", { lineHeight: "2.25rem" }],
             },
             fontFamily: {
-                sans: ["var(--font-sans)", ...fontFamily.sans],
-                heading: ["var(--font-heading)", ...fontFamily.sans],
+                sans: ["var(--font-sans)"],
+                heading: ["var(--font-heading)"],
             },
             keyframes: {
                 "accordion-down": {

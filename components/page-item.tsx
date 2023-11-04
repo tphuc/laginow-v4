@@ -3,7 +3,7 @@ import Link from "next/link"
 
 import { formatDate } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Flag, Globe2 } from "lucide-react"
+import { Flag, Globe2, LayoutDashboard } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -44,7 +44,8 @@ export function PageItems({ page }: PageItemsProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
         <DropdownMenuItem className="gap-2">
-            <Link href={`/business/${page?.id}`} className="flex w-full">
+            <Link href={`/business/${page?.id}`} className="flex w-full items-center gap-2">
+              <LayoutDashboard className="w-4 h-4"/>
               Quản lí
             </Link>
           </DropdownMenuItem>

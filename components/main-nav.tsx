@@ -9,13 +9,14 @@ import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { MobileNav } from "@/components/mobile-nav"
 import { Menu, X } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
 
 interface MainNavProps {
   items?: {
     title: string;
     href: string;
     disabled?: boolean | undefined;
-}[]
+  }[]
   children?: React.ReactNode
 }
 
@@ -49,17 +50,54 @@ export function MainNav({ items, children }: MainNavProps) {
           ))}
         </nav>
       ) : null}
-      
-      <button
+
+
+
+
+      {/* <button
         className="flex items-center space-x-2 md:hidden"
         onClick={() => setShowMobileMenu(!showMobileMenu)}
       >
-        <Menu/>
-        {showMobileMenu ?? <X /> }
+        <Menu />
+        {showMobileMenu ?? <X />}
       </button>
       {showMobileMenu && items && (
         <MobileNav items={items}>{children}</MobileNav>
-      )}
+      )} */}
+
+      <Sheet>
+        <SheetTrigger asChild>
+          <Menu className="md:hidden aspect-square px-0 text-secondary-foreground" />
+        </SheetTrigger>
+        <SheetContent side="left" className="w-[90vw]">
+
+          <div className="grid gap-4 py-4">
+            <Link href="/" className="text-xl font-heading">
+              Lagi Now
+            </Link>
+            {items?.length ? (
+              <nav className="">
+                {items?.map((item, index) => (
+                  <Link
+                    key={index}
+                    href={item.disabled ? "#" : item.href}
+                    className={cn(
+                      "flex items-center text-md font-medium transition-colors hover:text-foreground/80 sm:text-sm",
+                      item.href.startsWith(`/${segment}`)
+                        ? "text-foreground"
+                        : "text-foreground/60",
+                      item.disabled && "cursor-not-allowed opacity-80"
+                    )}
+                  >
+                    {item.title}
+                  </Link>
+                ))}
+              </nav>
+            ) : null}
+          </div>
+
+        </SheetContent>
+      </Sheet>
 
     </div>
   )

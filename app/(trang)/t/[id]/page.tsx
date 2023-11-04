@@ -44,13 +44,18 @@ export async function generateMetadata(
     { params }: PageProps,
     // parent: ResolvingMetadata
   ) {
-    const business: any = await getBusiness(params.id)
+    const business = await getBusiness(params.id)
+    let images: any = []
+
+    if(business?.banner?.['url']){
+        images.push(business?.banner?.['url'])
+    }
   
     return {
       title: business?.title,
       description: business?.address,
       openGraph: {
-        images: [business?.banner?.url],
+        images
       },
     } as Metadata
   }

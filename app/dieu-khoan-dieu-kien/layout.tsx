@@ -6,6 +6,7 @@ import { getCurrentUser } from "@/lib/session"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { Metadata } from 'next'
+import { dashboardConfig } from "@/config/dashboard"
 
 interface MarketingLayoutProps {
     children: React.ReactNode
@@ -31,16 +32,7 @@ export default async function MarketingLayout({
             <header className="sticky top-0 container z-40 bg-background">
                 <div className="flex items-center justify-between py-3 md:py-4">
                     <MainNav 
-                    items={[
-                        {
-                            title: "Trang chủ",
-                            href: "/#",
-                        },
-                        {
-                            title: "Tìm kiếm",
-                            href: "/timkiem",
-                        },
-                    ]} 
+                    items={dashboardConfig.mainNav} 
                     />
                     <nav className="flex items-center gap-2">
                         

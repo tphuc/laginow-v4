@@ -124,8 +124,8 @@ const SearchPage = ({}) => {
     // console.log("data:",data);
 
     return (
-        <div className="space-y-2">
-            <div className="flex items-center gap-2 flex-wrap">
+        <div className="w-full space-y-2">
+            <div className="flex w-full items-center gap-2 flex-wrap">
 
                 <Select value={params?.get('tag') ?? ""} onValueChange={(e) => router?.push(pathname + `?tag=${e}`)} >
                     <SelectContent className="relative">
@@ -166,7 +166,6 @@ const SearchPage = ({}) => {
 
 
             </div>
-
             {(isLoading || isFetchingNextPage) && <LoaderSkeleton className="my-2" ></LoaderSkeleton>}
         </div>
     );
