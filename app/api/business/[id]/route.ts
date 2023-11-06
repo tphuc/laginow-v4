@@ -144,6 +144,8 @@ export async function PATCH(req: NextRequest, context: z.infer<typeof routeConte
             website: z.string().optional(),
             facebookUrl: z.string().optional(),
             displayContact: z.boolean().optional(),
+            googleMapsUrl: z.string().optional(),
+            googleMapsUrlEmbeded: z.string().optional(),
         }).parse(json)
 
         const record = await db.business.update({

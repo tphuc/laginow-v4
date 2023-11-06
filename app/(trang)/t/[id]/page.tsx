@@ -8,8 +8,10 @@ import db from "@/lib/prisma"
 import { getCurrentUser } from "@/lib/session"
 import { getOpenHrs, isCurrentlyOpen } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Clock10, Package, Plus, PlusCircle, Star } from "lucide-react"
+import { Clock10, Facebook, Globe2, MapPin, Package, Phone, Pin, Plus, PlusCircle, Star } from "lucide-react"
 import { Metadata } from "next"
+import Image from "next/image"
+import Link from "next/link"
 
 
 interface PageProps {
@@ -43,23 +45,23 @@ async function getBusinessProduct(id: string) {
 export async function generateMetadata(
     { params }: PageProps,
     // parent: ResolvingMetadata
-  ) {
+) {
     const business = await getBusiness(params.id)
     let images: any = []
 
-    if(business?.banner?.['url']){
+    if (business?.banner?.['url']) {
         images.push(business?.banner?.['url'])
     }
-  
+
     return {
-      title: business?.title,
-      description: business?.address,
-      openGraph: {
-        images
-      },
+        title: business?.title,
+        description: business?.address,
+        openGraph: {
+            images
+        },
     } as Metadata
-  }
-  
+}
+
 
 
 async function getBusinessReviews(id: string) {
@@ -73,7 +75,7 @@ async function getBusinessReviews(id: string) {
 
 
 async function addPageEvent(url: string) {
-  
+
     try {
         let res = await fetch(`${url}`, {
             method: "POST",
@@ -114,12 +116,12 @@ export default async function Page({ params }) {
 
 
 
-    return <div className="relative space-y-5 max-w-screen-xl w-full gap-2">
+    return <div className="relative space-y-5 max-w-screen-xl w-full gap-1">
         <div className="flex gap-4 flex-wrap">
-            {/* {(business?.banner as any)?.url || 1 && <div className="bg-secondary aspect-video rounded-lg h-auto w-full md:w-[360px] text-white text-center flex items-center justify-center">
-                <Image alt='' width={240} height={200} className="w-auto h-full rounded-md object-cover" src={(business?.banner as any)?.url} />
-            </div>} */}
-            <div className="space-y-2 flex-1 ">
+            {business?.banner?.['url'] && <div className="bg-secondary aspect-square rounded-lg  h-[80px] w-[80px] md:w-[160px] md:h-auto text-white text-center flex items-center justify-center">
+                <Image alt='' width={140} height={140} className="w-auto  border border-input h-full rounded-md object-cover aspect-square" src={business?.banner?.['url']} />
+            </div>}
+            <div className="space-y-2 flex-1 min-w-[320px]">
                 <p className="text-3xl font-medium font-heading">{business?.title}</p>
                 <p className="">{business?.address}</p>
                 <div className="flex gap-2">{business?.tags?.map((item: any) => (
@@ -136,6 +138,67 @@ export default async function Page({ params }) {
 
         </div>
         <br />
+        <div className="w-full">
+            {/* <p className="text-2xl flex items-center gap-2 py-2 font-medium font-heading">
+                Thông tin liên hệ
+            </p> */}
+            <div className="w-full">
+                <div className="flex w-full overflow-hidden flex-col gap-4 md:flex-row">
+
+                    <div className="md:w-1/2">
+                        <div className="bg-white rounded-lg mb-4 md:mb-0 space-y-4">
+                            <div >
+                                <p className="flex items-center gap-2 font-heading text-secondary-foreground">
+                                    <Phone className="w-5 h-5" strokeWidth={2} /> SĐT
+                                </p>
+                                <Link href="tel:(123) 456-7890" className="hover:underline">{business?.phone}</Link>
+                            </div>
+
+                            <div >
+                                <p className="flex items-center gap-2 font-heading text-secondary-foreground">    <Globe2 className="w-5 h-5" strokeWidth={2} /> Website </p>
+
+                                <Link href="https://www.example.com" className="hover:underline">{business?.website}</Link>
+                            </div>
+                            <div>
+                                <p className="flex items-center gap-2 font-heading text-secondary-foreground">
+                                    <Facebook className="w-5 h-5" strokeWidth={2} /> Facebook
+                                </p>
+                                <Link href="https://www.facebook.com/examplepage" className="hover:underline truncate max-w-[200px] text-eclipsis">{business?.facebookUrl}</Link>
+                            </div>  
+                            
+                            <div>
+                                <p className="flex items-center gap-2 font-heading text-secondary-foreground">
+                                    <MapPin className="w-5 h-5" strokeWidth={2} /> Google Maps
+                                </p>
+                                <Link href="https://www.facebook.com/examplepage" className="hover:underline truncate max-w-[200px] text-eclipsis">{business?.googleMapsUrl}</Link>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div className="w-full md:w-1/2  relative">
+           
+                            {/* <div className="mb-4">
+                                <p className="flex items-center gap-2 font-heading text-secondary-foreground">
+                                    <Pin className="w-5 h-5" strokeWidth={2} /> Google maps
+                                </p>
+                                <Link href="https://www.facebook.com/examplepage" className="hover:underline">{business?.googleMapsUrl}</Link>
+                            </div> */}
+
+                            <div className="relative overflow-hidden w-full aspect-video">
+                                {business?.googleMapsUrlEmbeded && <iframe
+                                    //   frameborder="0"
+                                    //   style="border:0"
+                                    className="w-full h-full absolute rounded-md border  border-input top-0 left-0"
+                                    src={business?.googleMapsUrlEmbeded}
+
+                                />}
+                            </div>
+               
+                    </div>
+                </div>
+            </div>
+        </div>
         <div className="w-full rounded-lg">
             <div className="scrollbar-hide rounded-lg flex w-full snap-x snap-mandatory gap-2 overflow-x-scroll scroll-smooth">
                 {(business?.images as any)?.map((item: any, id: number) => <div key={id} className="relative shrink-0 snap-start snap-always rounded-xl bg-orange-100 h-[100px] md:h-[100px]">
@@ -146,14 +209,15 @@ export default async function Page({ params }) {
         </div>
 
         <br />
-        <div className="w-full relative space-y-2">
+        <div className="w-full relative space-y-4">
             <p className="text-xl flex items-center gap-2 font-medium font-heading">
-                <Package className="w-6 h-6" strokeWidth={1.5} /> Sản phẩm & Dịch vụ
+                {/* <Package className="w-6 h-6" strokeWidth={1.5} />  */}
+                Sản phẩm & Dịch vụ
             </p>
             <BusinessProductList products={businessProducts ?? []} />
             <br />
 
-            <div className="grid grid-cols-2 gap-2 font-medium ">
+            <div className="grid grid-cols-2 gap-2 md:gap-4 font-medium ">
 
                 <span className="font-heading text-xl">Đánh giá</span>
                 <div className="flex justify-end">

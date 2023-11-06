@@ -15,21 +15,26 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
 import Link from "next/link"
 import { useGetBusinessInfo, useGetBusinessTags } from "@/lib/http"
-import ImageUploader from "./ui/image-uploader"
 import { Switch } from "./ui/switch"
-import { MultiSelect } from "./ui/multi-select"
-import MultiImageGrid from "./multi-image-uploader"
-import { FormBusinessCreateSchema } from "@/lib/dto"
 import slugify from "slugify"
 import { toast, useToast } from "./ui/use-toast"
 import { useEffect, useState } from "react"
-import { BadgeCheck, Facebook, Globe, Loader2 } from "lucide-react"
+import { BadgeCheck, Facebook, Globe, Loader2, MapPin, Phone } from "lucide-react"
 import { Badge } from "./ui/badge"
 
 
+
+let validationSchema = z.object({
+    phone: z.string().optional(),
+    website: z.string().optional(),
+    facebookUrl: z.string().optional(),
+    googleMapsUrl: z.string().optional(),
+    displayContact: z.boolean().optional(),
+    address: z.string().optional()
+
+})
 
 
 
@@ -42,20 +47,23 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
             phone: z.string().optional(),
             website: z.string().optional(),
             facebookUrl: z.string().optional(),
-            displayContact: z.boolean().optional()
+            displayContact: z.boolean().optional(),
+            googleMapsUrl: z.string().optional(),
         })),
         defaultValues: async () => {
             const response = await fetch(`/api/business/${businessId}`, {
                 method: "GET",
                 headers: {
-                  "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
             }).then(res => res.json())
+
+            setInitData(response)
             return {
                 ...response,
-              
+
             }
-            
+
         }
     })
     const { toast } = useToast();
@@ -65,17 +73,29 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
     const { data: businessTags } = useGetBusinessTags();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
+    const [initData, setInitData] = useState(null);
     // 2. Define a submit handler.
-    async function onSubmit(values: z.infer<typeof FormBusinessCreateSchema>) {
+    async function onSubmit(values: z.infer<typeof validationSchema>) {
         let formattedValues = {
             ...values,
         }
+
+
+        let searchparams = new URLSearchParams();
+        searchparams.set('url', formattedValues.googleMapsUrl as string);
+
+        let res = await fetch(`/api/google/get-embeded?${searchparams.toString()}`)
+        let data = await res.json()
+        let googleMapsUrlEmbeded = data?.embededUrl;
 
         setIsLoading(true)
         try {
             let res = await fetch(`/api/business/${businessId}`, {
                 method: "PATCH",
-                body: JSON.stringify(formattedValues),
+                body: JSON.stringify({
+                    ...formattedValues,
+                    googleMapsUrlEmbeded
+                }),
                 redirect: "manual",
             })
 
@@ -124,16 +144,16 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
 
                 <FormField
                     control={form.control}
-                 
+
                     name="phone"
                     render={({ field }) => (
                         <FormItem>
-                             <FormLabel className="flex items-center gap-2">Số điện thoại liên hệ <Facebook className="w-4 h-4"/></FormLabel>
+                            <FormLabel className="flex items-center gap-2">Số điện thoại liên hệ <Phone className="w-4 h-4" /></FormLabel>
                             <FormControl>
                                 <Input placeholder="+84" {...field} />
                             </FormControl>
                             <FormDescription>
-                                
+
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -142,16 +162,16 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
 
                 <FormField
                     control={form.control}
-                 
+
                     name="website"
                     render={({ field }) => (
                         <FormItem>
-                             <FormLabel className="flex items-center gap-2">Trang web <Globe className="w-4 h-4"/></FormLabel>
+                            <FormLabel className="flex items-center gap-2">Trang web <Globe className="w-4 h-4" /></FormLabel>
                             <FormControl>
-                                <Input  placeholder="www" {...field} />
+                                <Input placeholder="www" {...field} />
                             </FormControl>
                             <FormDescription>
-                                
+
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -160,25 +180,52 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
 
                 <FormField
                     control={form.control}
-                 
+
                     name="facebookUrl"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="flex items-center gap-2">Link FB <Facebook className="w-4 h-4"/></FormLabel>
+                            <FormLabel className="flex items-center gap-2">Link FB <Facebook className="w-4 h-4" /></FormLabel>
                             <FormControl>
-                                <Input  placeholder="" {...field} />
+                                <Input placeholder="" {...field} />
                             </FormControl>
                             <FormDescription>
-                                
+
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
 
-            
+                <FormField
+                    control={form.control}
 
-         
+                    name="googleMapsUrl"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="flex items-center gap-2">Link Google Maps <MapPin className="w-4 h-4" /></FormLabel>
+                            <FormControl>
+                                <Input placeholder="" {...field} />
+                            </FormControl>
+                            <FormDescription>
+
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <div className="relative overflow-hidden w-full min-w-[340px] aspect-video">
+                <iframe
+                    //   frameborder="0"
+                    //   style="border:0"
+                    className="w-full h-full absolute rounded-md border border-input top-0 left-0"
+                    src={initData?.['googleMapsUrlEmbeded']}
+
+                >
+                </iframe>
+                </div>
+
+
 
                 <FormField
                     control={form.control}
@@ -187,19 +234,19 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
                         <FormItem className="flex flex-row items-center flex-wrap justify-between rounded-lg border p-4">
                             <div className="space-y-0.5">
                                 <FormLabel className="text-base gap-1">Hiển thị thông tin liên hệ {!form.getValues('verified') && <Badge variant={'secondary'}>Chưa xác minh</Badge>} </FormLabel>
-                       
+
                                 {!form.getValues('verified') && <FormDescription className="inline-flex flex-wrap gap-1 items-center">
 
                                     Chưa xác minh.
                                     Liên hệ để xác minh trang, mở khoá nhiều tính năng và nhận huy hiệu.
-                                    <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white'/> 
-                                </FormDescription> }
+                                    <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' />
+                                </FormDescription>}
 
                                 {form.getValues('verified') && <FormDescription>
 
-                                <p className="inline-flex flex-wrap gap-1 items-center">
-                                Trang đã được xác minh. Có thể hiển thị thông tin liên hệ trên hồ sơ trang.  <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white'/> </p>
-                                </FormDescription> }
+                                    <p className="inline-flex flex-wrap gap-1 items-center">
+                                        Trang đã được xác minh. Có thể hiển thị thông tin liên hệ trên hồ sơ trang.  <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' /> </p>
+                                </FormDescription>}
                             </div>
                             <FormControl>
                                 <Switch
@@ -213,6 +260,7 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
                 />
 
 
+                {/* <Places2/> */}
 
 
 

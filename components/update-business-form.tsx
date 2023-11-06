@@ -42,7 +42,7 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
             const response = await fetch(`/api/business/${businessId}`, {
                 method: "GET",
                 headers: {
-                  "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
             }).then(res => res.json())
 
@@ -60,7 +60,7 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
                     label: item.name
                 }))
             }
-            
+
         }
     })
     const { toast } = useToast();
@@ -134,7 +134,7 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
 
                 <FormField
                     control={form.control}
-                 
+
                     name="title"
                     render={({ field }) => (
                         <FormItem>
@@ -157,13 +157,13 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
                         <FormItem>
                             <FormLabel>Danh mục (*)</FormLabel>
                             <FormControl>
-                                <MultiSelect 
-                                defaultValue={field.value}
-                                items={businessTags?.map(item => ({
-                                    value: item.id,
-                                    label: item.name
-                                }))} placeholder="chọn danh mục" max={3} onChange={field.onChange} 
-                                    
+                                <MultiSelect
+                                    defaultValue={field.value}
+                                    items={businessTags?.map(item => ({
+                                        value: item.id,
+                                        label: item.name
+                                    }))} placeholder="chọn danh mục" max={3} onChange={field.onChange}
+
                                 />
                             </FormControl>
                             {/* <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -193,10 +193,10 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Địa chỉ</FormLabel>
-                            <Input 
+                            <Input
                                 // defaultValue={data?.address}
-                                placeholder="42 Thống Nhất ..." 
-                                {...field} 
+                                placeholder="42 Thống Nhất ..."
+                                {...field}
                             />
                         </FormItem>
                     )}
@@ -207,12 +207,12 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Ảnh bìa</FormLabel>
-                            <br/>
-                            <ImageUploader 
-                                defaultValue={field.value} 
-                                onChange={field.onChange} 
-                                style={{display:"inline-flex"}}
-                                className="min-w-[200px] min-h-[200px]" 
+                            <br />
+                            <ImageUploader
+                                defaultValue={field.value}
+                                onChange={field.onChange}
+                                style={{ display: "inline-flex" }}
+                                className="min-w-[200px] min-h-[200px]"
                             />
                             <FormDescription>
                                 Ảnh hiển thị tốt nhất với tỉ lệ 1:1, bạn có thể thay đổi bất cứ lúc nào.

@@ -10,11 +10,11 @@ export const fontSans = localFont({
   })
   
   
-export const fontHeading = Be_Vietnam_Pro({
+export const fontHeading = localFont({
     // preload: true,
-    // src: "../app/Inter-VariableFont.ttf",
+    src: "../app/CalSans-SemiBold.ttf",
     // subsets: ['latin'],
-    weight: ["600"],
+    // weight: ["600"],
     display: 'swap',
     variable: "--font-heading",
   });

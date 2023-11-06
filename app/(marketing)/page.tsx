@@ -8,7 +8,8 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 import db from '@/lib/prisma'
-import { fontHeading } from "../layout";
+
+
 
 async function fetchData(url: string) {
 

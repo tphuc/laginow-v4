@@ -126,6 +126,8 @@ model Business {
   phone   String?
   website String?
   facebookUrl String?
+  googleMapsUrl String?
+  googleMapsUrlEmbeded String? @db.Text
   address String?
 
   displayContact Boolean? @default(false)
@@ -339,3 +341,5 @@ model Order {
   @@index([userId])
   @@index([businessId])
 }
+
+

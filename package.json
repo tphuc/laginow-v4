@@ -5,7 +5,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "prisma generate && next dev --turbo",
+    "dev": "prisma generate && next dev",
     "build": "prisma generate && prisma db push && prisma db seed && next build",
     "start": "next start",
     "lint": "next lint"
@@ -60,7 +60,7 @@
     "@radix-ui/react-toggle": "^1.0.2",
     "@radix-ui/react-toggle-group": "^1.0.3",
     "@radix-ui/react-tooltip": "^1.0.5",
-    "@react-spring/web": "^9.7.3",
+    "@react-google-maps/api": "^2.19.2",
     "@tanstack/react-query": "^4.35.7",
     "@tanstack/react-table": "^8.10.7",
     "@tremor/react": "^3.10.0",

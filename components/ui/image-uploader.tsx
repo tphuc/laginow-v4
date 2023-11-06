@@ -123,14 +123,13 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
       ref={ref}
       style={style}
       className={cn(
-        "relative transition-all flex min-h-[100px] min-w-[100px] justify-center items-center border border-input rounded-md ",
+        "relative transition-all flex min-h-[100px] min-w-[100px] justify-center items-center border border-input rounded-md",
         className
       )}
      
       >
         {image ? (
           <>
-            
             <img  alt='' src={image?.url} className={cn("w-auto h-full border border-input max-w-[300px] max-h-[300px] rounded-md object-cover", imageClassName)} />
             <div className="absolute top-0 right-0 m-1">
               {/* <button

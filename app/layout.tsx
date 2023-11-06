@@ -12,26 +12,27 @@ import QueryWrapper from "@/components/query-wrapper"
 import AuthProvider from "@/components/auth-provider"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
-import { fontHeading, fontSans } from "@/lib/font"
+import MapWrapper from "@/components/map-wrapper"
+// import { fontHeading, fontSans } from "@/lib/font"
 
 
-// const fontSans = localFont({
-//   src: "./Inter-VariableFont.ttf",
+const fontSans = localFont({
+  src: "./Inter-VariableFont.ttf",
 
-//   display: 'swap',
-//   // weight: ["400"],
-//   variable: '--font-sans',
-// })
+  display: 'swap',
+  // weight: ["400"],
+  variable: '--font-sans',
+})
 
 
-// const fontHeading = localFont({
-//   preload: true,
-//   src: "./CalSans-SemiBold.woff",
-//   // subsets: ['latin'],
-//   weight: "600",
-//   // display: 'swap',
-//   variable: "--font-heading",
-// });
+const fontHeading = localFont({
+  // preload: true,
+  src: "./CalSans-SemiBold.woff2",
+  // subsets: ['latin'],
+  // weight: "600",
+  display: 'swap',
+  variable: "--font-heading",
+});
 
 
 interface RootLayoutProps {
@@ -92,7 +93,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   const session = await getServerSession(authOptions)
   return (
 
-    <html lang="en" suppressHydrationWarning className={`${fontHeading.variable} ${fontSans.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${fontSans.variable} ${fontHeading.variable}`} >
       <head />
       <QueryWrapper>
         <body
@@ -101,11 +102,13 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           <AuthProvider session={session}>
+            {/* <MapWrapper> */}
             <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
               {children}
               {/* <Analytics /> */}
               <Toaster />
             </ThemeProvider>
+            {/* </MapWrapper> */}
           </AuthProvider>
         </body>
       </QueryWrapper>
