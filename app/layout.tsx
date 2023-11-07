@@ -12,7 +12,6 @@ import QueryWrapper from "@/components/query-wrapper"
 import AuthProvider from "@/components/auth-provider"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
-import MapWrapper from "@/components/map-wrapper"
 // import { fontHeading, fontSans } from "@/lib/font"
 
 
@@ -102,13 +101,11 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           <AuthProvider session={session}>
-            {/* <MapWrapper> */}
             <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
               {children}
               {/* <Analytics /> */}
               <Toaster />
             </ThemeProvider>
-            {/* </MapWrapper> */}
           </AuthProvider>
         </body>
       </QueryWrapper>
