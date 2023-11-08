@@ -27,7 +27,7 @@ import slugify from "slugify"
 import { toast, useToast } from "./ui/use-toast"
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
-import { redirect } from "next/navigation"
+import {  useRouter } from "next/navigation"
 
 
 
@@ -41,7 +41,7 @@ export function CreateBusinessForm() {
     const { toast } = useToast()
     let { data: businessTags } = useGetBusinessTags();
     const [isLoading, setIsLoading] = useState<boolean>(false);
-
+    const router = useRouter()
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof FormBusinessCreateSchema>) {
         let formattedValues = {
@@ -70,7 +70,7 @@ export function CreateBusinessForm() {
                 let page = await res.json()
                 
 
-                redirect(`/dashboard/pages`)
+                router.push(`/dashboard/pages`)
 
             }
         } catch (e) {
