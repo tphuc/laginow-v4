@@ -138,7 +138,7 @@ export default async function Page({ params }) {
 
         </div>
         <br />
-        <div className="w-full">
+        {business?.displayContact && <div className="w-full">
             {/* <p className="text-2xl flex items-center gap-2 py-2 font-medium font-heading">
                 Thông tin liên hệ
             </p> */}
@@ -151,54 +151,55 @@ export default async function Page({ params }) {
                                 <p className="flex items-center gap-2 font-heading text-secondary-foreground">
                                     <Phone className="w-5 h-5" strokeWidth={2} /> SĐT
                                 </p>
-                                <Link href="tel:(123) 456-7890" className="hover:underline">{business?.phone}</Link>
+                                <Link href={`tel:${business?.phone}`} className="hover:underline">{business?.phone}</Link>
                             </div>
 
                             <div >
                                 <p className="flex items-center gap-2 font-heading text-secondary-foreground">    <Globe2 className="w-5 h-5" strokeWidth={2} /> Website </p>
 
-                                <Link href="https://www.example.com" className="hover:underline">{business?.website}</Link>
+                                <Link href={`${business?.website}`} className="hover:underline">{business?.website}</Link>
                             </div>
                             <div>
                                 <p className="flex items-center gap-2 font-heading text-secondary-foreground">
                                     <Facebook className="w-5 h-5" strokeWidth={2} /> Facebook
                                 </p>
-                                <Link href="https://www.facebook.com/examplepage" className="hover:underline truncate max-w-[200px] text-eclipsis">{business?.facebookUrl}</Link>
-                            </div>  
-                            
+                                <Link href={`${business?.facebookUrl}`} className="hover:underline truncate max-w-[200px] text-eclipsis">{business?.facebookUrl}</Link>
+                            </div>
+
                             <div>
                                 <p className="flex items-center gap-2 font-heading text-secondary-foreground">
                                     <MapPin className="w-5 h-5" strokeWidth={2} /> Google Maps
                                 </p>
-                                <Link href="https://www.facebook.com/examplepage" className="hover:underline truncate max-w-[200px] text-eclipsis">{business?.googleMapsUrl}</Link>
+                                <Link href={`${business?.googleMapsUrl}`} className="hover:underline truncate max-w-[200px] text-eclipsis">{business?.googleMapsUrl}</Link>
                             </div>
                         </div>
                     </div>
 
 
                     <div className="w-full md:w-1/2  relative">
-           
-                            {/* <div className="mb-4">
+
+                        {/* <div className="mb-4">
                                 <p className="flex items-center gap-2 font-heading text-secondary-foreground">
                                     <Pin className="w-5 h-5" strokeWidth={2} /> Google maps
                                 </p>
                                 <Link href="https://www.facebook.com/examplepage" className="hover:underline">{business?.googleMapsUrl}</Link>
                             </div> */}
 
-                            <div className="relative overflow-hidden w-full aspect-video">
-                                {business?.googleMapsUrlEmbeded && <iframe
-                                    //   frameborder="0"
-                                    //   style="border:0"
-                                    className="w-full h-full absolute rounded-md border  border-input top-0 left-0"
-                                    src={business?.googleMapsUrlEmbeded}
+                        <div className="relative overflow-hidden w-full aspect-video">
+                            {business?.googleMapsUrlEmbeded && <iframe
+                                //   frameborder="0"
+                                //   style="border:0"
+                                className="w-full h-full absolute rounded-md border  border-input top-0 left-0"
+                                src={business?.googleMapsUrlEmbeded}
 
-                                />}
-                            </div>
-               
+                            />}
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+        }
         <div className="w-full rounded-lg">
             <div className="scrollbar-hide rounded-lg flex w-full snap-x snap-mandatory gap-2 overflow-x-scroll scroll-smooth">
                 {(business?.images as any)?.map((item: any, id: number) => <div key={id} className="relative shrink-0 snap-start snap-always rounded-xl bg-orange-100 h-[100px] md:h-[100px]">
