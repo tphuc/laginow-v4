@@ -214,7 +214,7 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
                     )}
                 />
 
-                <div className="relative overflow-hidden w-full min-w-[340px] aspect-video">
+                {!!initData?.['googleMapsUrlEmbeded'] ? <div className="relative overflow-hidden w-full min-w-[340px] aspect-video">
                 <iframe
                     //   frameborder="0"
                     //   style="border:0"
@@ -223,7 +223,8 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
 
                 >
                 </iframe>
-                </div>
+                </div> : null}
+                
 
 
 
@@ -236,8 +237,7 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
                                 <FormLabel className="text-base gap-1">Hiển thị thông tin liên hệ {!form.getValues('verified') && <Badge variant={'secondary'}>Chưa xác minh</Badge>} </FormLabel>
 
                                 {!form.getValues('verified') && <FormDescription className="inline-flex flex-wrap gap-1 items-center">
-
-                                    Chưa xác minh.
+               
                                     Liên hệ để xác minh trang, mở khoá nhiều tính năng và nhận huy hiệu.
                                     <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' />
                                 </FormDescription>}

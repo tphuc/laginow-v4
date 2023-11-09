@@ -4,15 +4,16 @@ import React, { forwardRef } from 'react';
 import StarRating from './ui/stars-rating';
 import Link from 'next/link';
 import { cn, getOpenHrs, isCurrentlyOpen } from '@/lib/utils';
-import { BadgeCheck, CheckCircle, Clock, } from 'lucide-react';
+import { BadgeCheck, CheckCircle, Clock, Clock10, } from 'lucide-react';
 import ImageViewable from './image-viewable';
 import { useInView } from 'react-intersection-observer';
+import { Badge } from './ui/badge';
 
 
 
 
 
-const BusinessPageCard = forwardRef(({ data }: {data: any}, ref: any) => {
+const BusinessPageCard = forwardRef(({ data }: { data: any }, ref: any) => {
   let isCurrentlyOpenHr = isCurrentlyOpen(data?.workingHrs ?? {});
 
   const { ref: inviewRef, inView, entry } = useInView({
@@ -27,9 +28,9 @@ const BusinessPageCard = forwardRef(({ data }: {data: any}, ref: any) => {
           method: "POST",
           // headers: headers() as HeadersInit,
           body: JSON.stringify({
-              eventType: 'SEARCH_VIEW'
+            eventType: 'SEARCH_VIEW'
           },)
-      })
+        })
       }
     },
   });
@@ -42,12 +43,12 @@ const BusinessPageCard = forwardRef(({ data }: {data: any}, ref: any) => {
       </Link>
       <div className='space-y-1'>
         <div className="p-2">
-        {(data?.avgRating || 1) && <div className='flex items-center gap-1'>
+          {(data?.avgRating || 1) && <div className='flex items-center gap-1'>
             <StarRating defaultValue={data?.avgRating ?? 0} changeable={false} />
             <p className='flex items-center font-heading justify-center text-cyan-700 w-6 h-6 rounded-full'>{data?.avgRating}</p>
           </div>}
-          <Link ref={inviewRef} href={`/t/${data?.id}`} className="font-heading inline-flex items-center gap-1 text-xl hover:underline">{data?.title} {data?.verified && <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white'/>}</Link>
-        
+          <Link ref={inviewRef} href={`/t/${data?.id}`} className="font-heading inline-flex items-center gap-1 text-xl hover:underline">{data?.title} {data?.verified && <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' />}</Link>
+
           <p className="text-muted-foreground text-base text-sm">
             {data?.address}
           </p>
@@ -55,13 +56,13 @@ const BusinessPageCard = forwardRef(({ data }: {data: any}, ref: any) => {
             {data?.tags?.map((item) => <p className='text-xs px-2 py-1 rounded-md bg-gray-200/50 text-gray-700' key={item?.id}>{item?.name}</p>)}
           </div>
           {/* <br /> */}
-          <div className={cn("inline-flex cursor-default absolute top-4 left-4 gap-2 justify-between items-center px-1.5 py-0.5 text-sm bg-muted text-xs border border-input rounded-full text-muted-foreground", isCurrentlyOpen(data?.workingHrs) ? 'text-white bg-teal-500' : 'text-muted-foreground' )} >
-            <div className="flex text-sm items-center gap-2">
-              <Clock className="w-4 h-4" strokeWidth={1.5} />
-              {isCurrentlyOpenHr ? 'Đang mở' : "Đóng cửa"}
+          <Badge className={cn("inline-flex gap-2 absolute top-4 left-4 justify-between items-center px-2 py-1 border ", !isCurrentlyOpenHr && "opacity:50")} variant={isCurrentlyOpenHr ? 'success' : 'default'}>
+            <div className="flex items-center gap-2">
+              <Clock10 className="w-4 h-4" strokeWidth={1.5} />
+              {isCurrentlyOpenHr ? 'Đang mở cửa' : "Đóng cửa"}
             </div>
-            <div className='text-sm'> {getOpenHrs(data?.workingHrs)?.startTime} - {getOpenHrs(data?.workingHrs)?.endTime}</div>
-          </div>
+            {/* <div> {getOpenHrs(data?.workingHrs)?.startTime} - {getOpenHrs(data?.workingHrs)?.endTime}</div> */}
+          </Badge>
         </div>
       </div>
     </div>

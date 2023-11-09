@@ -16,7 +16,7 @@ async function fetchData(url: string) {
     try {
         let res = await fetch(`${url}`, {
             method: "GET",
-            cache:"reload",
+            cache: "no-cache",
             // next: {
             //     revalidate: 3600
             // }
