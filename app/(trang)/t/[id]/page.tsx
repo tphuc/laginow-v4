@@ -112,7 +112,7 @@ export default async function Page({ params }) {
     await addPageEvent(`${process?.env?.NEXT_PUBLIC_API_ENDPOINT}/api/business/${params.id}/page-event`)
 
 
-    let isCurrentlyOpenHr = isCurrentlyOpen(business?.workingHrs ?? {})
+    let isCurrentlyOpenHr = await isCurrentlyOpen(business?.workingHrs ?? {})
 
 
 
@@ -130,7 +130,7 @@ export default async function Page({ params }) {
                 <Badge className="inline-flex gap-2 justify-between items-center px-2 py-1 border" variant={isCurrentlyOpenHr ? 'success' : 'default'}>
                     <div className="flex items-center gap-2">
                         <Clock10 className="w-4 h-4" strokeWidth={1.5} />
-                        {isCurrentlyOpenHr ? 'Đang mở cửa' : "Đóng cửa"}
+                        {/* {isCurrentlyOpenHr ? 'Đang mở cửa' : "Đóng cửa"} */}
                     </div>
                     <div> {getOpenHrs(business?.workingHrs)?.startTime} - {getOpenHrs(business?.workingHrs)?.endTime}</div>
                 </Badge>
