@@ -5,12 +5,24 @@ import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { UserAuthForm } from "@/components/user-auth-form"
 import { Icons } from "@/components/icons"
+import { redirect, useSearchParams } from "next/navigation"
+import { getCurrentUser } from "@/lib/session"
+
+
+
 export const metadata: Metadata = {
   title: "Login",
   description: "Login to your account",
 }
 
-export default function LoginPage() {
+export default async function LoginPage({searchParams}) {
+
+  const user = await getCurrentUser()
+  if(user && searchParams?.redirect){
+    redirect(searchParams?.redirect.replace(".", "/"))
+  }
+
+
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
       <Link

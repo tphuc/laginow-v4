@@ -15,10 +15,11 @@ interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  
+
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false)
   const searchParams = useSearchParams()
+  const redirect = searchParams?.get('redirect') ?? '/'
 
   
 
@@ -40,7 +41,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         className={cn(buttonVariants({ variant: "secondary" }), 'border border-input')}
         onClick={() => {
           setIsGitHubLoading(true)
-          signIn("google", {callbackUrl:"/"})
+          signIn("google", {callbackUrl: `/${redirect?.replace('.', '/')}`})
         }}
         disabled={isLoading || isGitHubLoading}
       >

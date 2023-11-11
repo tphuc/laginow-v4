@@ -123,7 +123,7 @@ export default async function Page() {
                 <p className={"text-secondary-foreground text-3xl md:text-5xl font-heading text-left pr-[10%] md:pr-[45%]"}>Tạo trang kinh doanh của bạn trên Lagi Now</p>
                 <p className="text-secondary-foreground text-xl text-2xl text-left text-gray-400 pr-[10%]">Kết nối và quảng bá đến cộng đồng</p>
                 <Link
-                    href="/login"
+                    href="/login?redirect=business.create"
                     className="flex"
                 >
                     <Button  variant={'default'}> Đăng ký </Button>

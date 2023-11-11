@@ -27,7 +27,7 @@ import slugify from "slugify"
 import { toast, useToast } from "./ui/use-toast"
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
-import {  useRouter } from "next/navigation"
+import {  useRouter, useSearchParams } from "next/navigation"
 
 
 
@@ -38,6 +38,9 @@ export function CreateBusinessForm() {
     const form = useForm({
         resolver: zodResolver(FormBusinessCreateSchema),
     })
+
+
+
     const { toast } = useToast()
     let { data: businessTags } = useGetBusinessTags();
     const [isLoading, setIsLoading] = useState<boolean>(false);
