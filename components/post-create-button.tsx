@@ -38,8 +38,8 @@ export function PostCreateButton({
     if (!response?.ok) {
       if (response.status === 402) {
         return toast({
-          title: "Limit of 3 posts reached.",
-          description: "Please upgrade to the PRO plan.",
+          title: "Tối đa 3 bài viết",
+          description: "Đạt đến giới hạn bài viết tối đa có thể tạo",
           variant: "destructive",
         })
       }

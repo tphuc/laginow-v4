@@ -33,7 +33,8 @@ export async function GET(req: NextRequest) {
     let data = await db.post?.findMany({
       where: where,
       orderBy: {
-        createdAt: 'desc'
+        // createdAt: 'desc',
+        rank: 'desc'
       },
       include: {
         user: true

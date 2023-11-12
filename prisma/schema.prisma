@@ -84,6 +84,8 @@ model Post {
   images    Json?    @default("[]")
   published Boolean?
 
+  rank      Int?     @default(0)
+
   @@unique([userId, title])
   @@index([title])
   @@index([userId])
