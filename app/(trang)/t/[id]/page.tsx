@@ -203,7 +203,7 @@ export default async function Page({ params }) {
         <div className="w-full rounded-lg">
             <div className="scrollbar-hide rounded-lg flex w-full snap-x snap-mandatory gap-2 overflow-x-scroll scroll-smooth">
                 {(business?.images as any)?.map((item: any, id: number) => <div key={id} className="relative shrink-0 snap-start snap-always rounded-xl bg-orange-100 h-[100px] md:h-[100px]">
-                    <ImageViewable src={item?.url} quality={100} width={100} height={100} alt="Uploaded" className="w-auto h-full rounded-md object-cover" />
+                    <ImageViewable src={item?.url} quality={100} width={100} height={100} alt="Uploaded" className="w-auto h-full rounded-md border border-input object-cover" />
                 </div>
                 )}
             </div>

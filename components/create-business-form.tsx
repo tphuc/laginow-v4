@@ -120,7 +120,7 @@ export function CreateBusinessForm() {
                         <FormItem>
                             <FormLabel>Tên trang (*)</FormLabel>
                             <FormControl>
-                                <Input placeholder="Homestay Lagi..." {...field} />
+                                <Input placeholder="Lagi Now..." {...field} />
                             </FormControl>
                             <FormDescription>
                                 Tên của trang, không quá 264 kí tự.
@@ -139,8 +139,9 @@ export function CreateBusinessForm() {
                             <FormControl>
                                 <MultiSelect items={businessTags?.map(item => ({
                                     value: item.id,
-                                    label: item.name
-                                }))} placeholder="chọn danh mục" max={3} onChange={field.onChange} defaultValue={field.value}></MultiSelect>
+                                    label: item.name,
+                                    slug: item?.slug
+                                }))} placeholder="chọn danh mục" max={2} onChange={field.onChange} defaultValue={field.value}></MultiSelect>
                             </FormControl>
                             {/* <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
@@ -156,7 +157,7 @@ export function CreateBusinessForm() {
                                 </SelectContent>
                             </Select> */}
                             <FormDescription>
-                                Tối đa 2 danh mục
+                                Tối đa 2 danh mục, bạn có thể thay đổi bất cứ lúc nào.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -169,7 +170,7 @@ export function CreateBusinessForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Địa chỉ</FormLabel>
-                            <Input placeholder="42 Thống Nhất ..." {...field} />
+                            <Input placeholder="42 Thống Nhất..." {...field} />
                         </FormItem>
                     )}
                 />
@@ -224,7 +225,7 @@ export function CreateBusinessForm() {
 
 
 
-                <Button type="submit" size='sm' className={isLoading ? "pointer-events-none" : ""}>
+                <Button type="submit" size='sm' disabled={isLoading} className={isLoading ? "pointer-events-none" : ""}>
                     Xác nhận
                     {isLoading && <Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}
                 </Button>

@@ -17,6 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import slugify from "slugify"
 
 
 interface Item {
@@ -36,53 +37,78 @@ interface MultiSelectProps {
 export function MultiSelect({ onChange, value, defaultValue, max = 1000, items, placeholder }: MultiSelectProps) {
   const [open, setOpen] = React.useState(false);
   const [selectedItems, setSelectedItems] = React.useState(defaultValue || []);
-
+  const [search, setSearch] = React.useState('');
 
   React.useEffect(() => {
-    if(defaultValue?.length){
+    if (defaultValue?.length) {
       setSelectedItems(defaultValue)
     }
   }, [defaultValue])
 
+
+  const filteredItems =  items?.filter(item => {
+    let itemSearchText = `${slugify(item?.label ?? '', { lower: true, locale : "vi"})} ${item?.label}`
+    return itemSearchText.includes(search)
+  }
+   
+  ) ?? [];
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <div className={cn(
-      "flex flex-wrap w-full items-center shadow-sm gap-1 rounded-md border border-input bg-transparent px-1 py-1 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-0 disabled:cursor-not-allowed disabled:opacity-50",
-    )}>
-      {selectedItems?.map((item) => <Button key={item?.value} onClick={() => {
-         const updatedList = selectedItems.filter((selectedItem) => selectedItem.value !== item.value);
-         setSelectedItems(updatedList);
-         onChange?.(updatedList)
-      }} className="rounded-sm gap-2 truncate" size={'sm'} variant={'outline'}>
-        {item.label} 
-        <X className="h-4 w-4 opacity-50" strokeWidth={1.5}/>
-      </Button>)}
-      <PopoverTrigger asChild>
-        <Button
-          variant="ghost"
-          size={'sm'}
-          role="combobox"
-          aria-expanded={open}
-          className="rounded-sm gap-2 text-muted-foreground"
-        >
-          <Plus className="h-4 w-4 opacity-50" />
-          {placeholder}
-        </Button>
-        
-      </PopoverTrigger>
+        "flex flex-wrap w-full items-center shadow-sm gap-1 rounded-md border border-input bg-transparent px-1 py-1 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-0 disabled:cursor-not-allowed disabled:opacity-50",
+      )}>
+        {selectedItems?.map((item) => <Button key={item?.value} onClick={() => {
+          const updatedList = selectedItems.filter((selectedItem) => selectedItem.value !== item.value);
+          setSelectedItems(updatedList);
+          onChange?.(updatedList)
+        }} className="rounded-sm gap-2 truncate" size={'sm'} variant={'outline'}>
+          {item.label}
+          <X className="h-4 w-4 opacity-50" strokeWidth={1.5} />
+        </Button>)}
+        <PopoverTrigger asChild>
+          <Button
+            variant="ghost"
+            size={'sm'}
+            role="combobox"
+            aria-expanded={open}
+            className="rounded-sm gap-2 text-muted-foreground"
+          >
+            <Plus className="h-4 w-4 opacity-50" />
+            {placeholder}
+          </Button>
+
+        </PopoverTrigger>
       </div>
       <PopoverContent className="w-auto p-0">
-        <Command>
-          <CommandInput placeholder="Search ..." />
+        <Command shouldFilter={false}
+        //  filter={(value, search) => {
+
+        //   let item: any = items?.find(item => {
+        //     return item?.value === value
+        //   })
+
+
+      
+        //   // console.log(items?.length, itemSearchText, search, itemSearchText?.includes?.(search))
+
+        //   if (itemSearchText?.includes?.(search)) return 1
+        //   return 0
+        // }}
+        >
+          <CommandInput placeholder="Search ..." value={search} onValueChange={setSearch} />
           <CommandEmpty>Not found.</CommandEmpty>
-          <CommandGroup className="max-h-48 overflow-scroll">
-            {items?.map((item) => (
+          <CommandGroup className="max-h-[300px] overflow-scroll">
+            {filteredItems?.map((item) => (
               <CommandItem
-                key={item.value}
+              
+                key={`${item.value}`}
                 value={item.value}
                 onSelect={(currentValue) => {
-                
 
+                  if(selectedItems?.length === max){
+                    return
+                  }
 
                   if (!selectedItems.some((_item) => _item?.value === item.value)) {
                     setSelectedItems([...selectedItems, item]);
