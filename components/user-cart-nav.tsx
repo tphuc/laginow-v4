@@ -140,7 +140,7 @@ export function UserCart({ user }: UserCartProps) {
 
         <div className="absolute pr-2 w-full left-1 bottom-2">
           <Link href='/checkout' className="relative w-full">
-            <Button className="mx-auto w-full border border-input" >Tạo đơn đặt hàng</Button>
+            <Button disabled={Object?.keys(data?.cart ?? {})?.length <= 0} className="mx-auto w-full border border-input" >Tạo đơn đặt hàng</Button>
           </Link>
         </div>
 

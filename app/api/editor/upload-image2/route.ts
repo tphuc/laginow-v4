@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import ImageKit from 'imagekit'
-import { imagekit } from '@/lib/imagekit';
 import { Storage } from '@google-cloud/storage';
 import lagiJson from './lagi-361510-276b6fc08e21.json'
 

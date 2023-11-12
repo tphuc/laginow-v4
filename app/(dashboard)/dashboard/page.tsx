@@ -36,7 +36,7 @@ export default async function DashboardPage() {
   return (
     <DashboardShell>
       <DashboardHeader heading="Bài viết" text="tạo và quản lí bài viêt">
-        {/* <PostCreateButton /> */}
+      <PostCreateButton variant="outline" />
       </DashboardHeader>
       <div>
         {posts?.length ? (

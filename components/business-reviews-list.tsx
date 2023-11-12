@@ -13,6 +13,8 @@ import StarRating from "./ui/stars-rating"
 import { useGetBusinessReview } from "@/lib/http"
 import { useState } from "react"
 import ImageViewable from "./image-viewable"
+import { format, parseISO } from "date-fns"
+import { vi } from "date-fns/locale"
 
 
 
@@ -38,7 +40,7 @@ export function BusinessReviewList({ businessId, ...props }: { businessId: strin
                 <div className="flex items-center xs:justify-between md:justify-end">
                   <StarRating defaultValue={review?.rating} changeable={false} onChange={() => { }} />
                 </div>
-                <span className="font-normal text-sm">{timeAgo(review?.updatedAt)}</span>
+                <span className="font-normal text-sm">{review?.updatedAt && format( parseISO(review?.updatedAt), 'dd LLL, y', {locale: vi})}</span>
               </div>
 
 
