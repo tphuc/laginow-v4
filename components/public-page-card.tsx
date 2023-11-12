@@ -39,7 +39,7 @@ const BusinessPageCard = forwardRef(({ data }: { data: any }, ref: any) => {
   return (
     <div ref={ref} className="relative p-2 w-full min-w-[280px] md:max-w-[280px] rounded-xl overflow-hidden shadow-sm border border-input bg-white">
       <Link href={`/t/${data?.id}`}>
-        <ImageViewable className="w-full border border-input/50 md:w-[280px] rounded-lg h-[280px] aspect-video object-cover" width={200} height={200} src={data?.banner?.url ?? '/placeholder.svg'} alt={''} />
+        <Image className="w-full border border-input/50 md:w-[280px] rounded-lg h-[280px] aspect-video object-cover" width={200} height={200} src={data?.banner?.url ?? '/placeholder.svg'} alt={''} />
       </Link>
       <div className='space-y-1'>
         <div className="p-2">
@@ -47,8 +47,13 @@ const BusinessPageCard = forwardRef(({ data }: { data: any }, ref: any) => {
             <StarRating defaultValue={data?.avgRating ?? 0} changeable={false} />
             <p className='flex items-center font-heading justify-center text-cyan-700 w-6 h-6 rounded-full'>{data?.avgRating}</p>
           </div>}
-          <Link ref={inviewRef} href={`/t/${data?.id}`} className="font-heading w-full truncate text-ellipsis inline-flex items-center gap-1 text-xl hover:underline">{data?.title} </Link>
-          {data?.verified && <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' />}
+         
+         <div className='inline-flex w-full items-center flex-wrap'>
+         <Link ref={inviewRef} href={`/t/${data?.id}`} className="inline-block font-heading max-w-[270px] truncate text-ellipsis  text-xl hover:underline"> {data?.title}  </Link>
+         {data?.verified && <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' />}
+         </div>
+        
+        
 
           <p className="text-muted-foreground text-base text-sm">
             {data?.address}

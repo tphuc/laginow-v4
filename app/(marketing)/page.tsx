@@ -33,33 +33,13 @@ async function fetchData(url: string) {
     }
 }
 
-async function fetchBusiness(){
-
-
-    let skip = 0
-    let take = 20
-    // let from = new Date(url.searchParams.get('from') ?? subDays(new Date(), 7)) ?? null
-    // let to = new Date(url.searchParams.get('to') ?? new Date()) ?? null
-
-    let where = {
-      // published: true,
-    }
-
-    let data = await db.business?.findMany({
-      where: where,
-      orderBy: {
-        createdAt: 'desc'
-      },
-      include: {
-        tags: true
-      },
-      skip: skip,
-      take: take,
-    
-    })
+async function fetchCountBusiness(){
+    let data = await db.business?.count({})
 
     return data
 }
+
+
 
 async function fetchPost(){
 
@@ -107,30 +87,41 @@ async function fetchPost(){
 
 export default async function Page() {
 
-    let businessPages = await fetchData(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/public/business?take=10`)
-    // let businessPages = await fetchBusiness()
-    // let posts = await fetchPost()
-    let posts = await fetchData(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/public/post?take=10`)
+    let _businessPages = fetchData(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/public/business?take=24`)
+    let _posts = fetchData(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/public/post?take=16`)
+    let _totalBusiness = fetchCountBusiness()
 
 
+    const [businessPages, posts, totalBusiness] = await Promise.all([_businessPages, _posts, _totalBusiness])
 
-    return <div className="relative space-y-5 max-w-screen-xl w-full gap-2">
+    return <div className="relative space-y-4 max-w-screen-xl w-full gap-2">
 
 
         <div className="shadow-sm border bg-gray-100 border-input aspect-video rounded-lg overflow-hidden h-80 w-full text-white text-center flex items-center justify-center">
             <Image alt='' width={400} height={300} className="ml-[40%] object-cover rounded-sm" src={'/hero.svg'} />
             <div className="absolute top-2 left-2 p-[4.5%] space-y-4">
                 <p className={"text-secondary-foreground text-3xl md:text-5xl font-heading text-left pr-[10%] md:pr-[45%]"}>Tạo trang kinh doanh của bạn trên Lagi Now</p>
+              
                 <p className="text-secondary-foreground text-xl text-2xl text-left text-gray-400 pr-[10%]">Kết nối và quảng bá đến cộng đồng</p>
+                
                 <Link
                     href="/login?redirect=business.create"
                     className="flex"
                 >
-                    <Button  variant={'default'}> Đăng ký </Button>
+                    <Button  variant={'default'}> Đăng ký ngay </Button>
                 </Link>
+               
+
 
             </div>
         </div>
+
+
+        <div className="p-4 text-xl font-heading bg-slate-100 opacity-80 text-left border border-slate-300 bg-gradient-to-r from-cyan-100 to-indigo-100 rgb(204, 251, 241)) rounded-lg border-md shadow-sm text-blue-900">
+        <span className="text-2xl white pr-1">{totalBusiness}</span> trang đã đăng kí trên Lagi Now {" "}
+            🎉
+        </div>
+       
 
         <br />
         <div className="w-full flex gap-2 flex-wrap">
