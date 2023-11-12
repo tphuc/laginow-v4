@@ -47,12 +47,13 @@ const BusinessPageCard = forwardRef(({ data }: { data: any }, ref: any) => {
             <StarRating defaultValue={data?.avgRating ?? 0} changeable={false} />
             <p className='flex items-center font-heading justify-center text-cyan-700 w-6 h-6 rounded-full'>{data?.avgRating}</p>
           </div>}
-          <Link ref={inviewRef} href={`/t/${data?.id}`} className="font-heading inline-flex items-center gap-1 text-xl hover:underline">{data?.title} {data?.verified && <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' />}</Link>
+          <Link ref={inviewRef} href={`/t/${data?.id}`} className="font-heading w-full truncate text-ellipsis inline-flex items-center gap-1 text-xl hover:underline">{data?.title} </Link>
+          {data?.verified && <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' />}
 
           <p className="text-muted-foreground text-base text-sm">
             {data?.address}
           </p>
-          <div className='flex flex-wrap gap-2 pt-1'>
+          <div className='flex flex-wrap gap-1 pt-1'>
             {data?.tags?.map((item) => <p className='text-xs px-2 py-1 rounded-md bg-gray-200/50 text-gray-700' key={item?.id}>{item?.name}</p>)}
           </div>
           {/* <br /> */}

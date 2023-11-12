@@ -15,7 +15,7 @@ export default function ImageViewable(props){
     <DialogTrigger asChild>
       <Image alt='' {...props}/>
     </DialogTrigger>
-    <DialogContent className="sm:max-w-[425px]">
+    <DialogContent className="max-w-[425px] md:maw-w-[700px]">
       <div className="grid bg-transparent gap-4 py-4">
         <img alt='' {...props} className="w-[90vw] height-auto" />
       </div>

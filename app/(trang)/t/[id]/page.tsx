@@ -8,6 +8,7 @@ import db from "@/lib/prisma"
 import { getCurrentUser } from "@/lib/session"
 import { getOpenHrs, isCurrentlyOpen } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Divider } from "@tremor/react"
 import { Clock10, Facebook, Globe2, MapPin, Package, Phone, Pin, Plus, PlusCircle, Star } from "lucide-react"
 import { Metadata } from "next"
 import Image from "next/image"
@@ -138,6 +139,7 @@ export default async function Page({ params }) {
 
         </div>
         <br />
+        {/* <Divider/> */}
         {business?.displayContact && <div className="w-full">
             {/* <p className="text-2xl flex items-center gap-2 py-2 font-medium font-heading">
                 Thông tin liên hệ
@@ -146,7 +148,7 @@ export default async function Page({ params }) {
                 <div className="flex w-full overflow-hidden flex-col gap-4 md:flex-row">
 
                     <div className="md:w-1/2">
-                        <div className="bg-white rounded-lg mb-4 md:mb-0 space-y-4">
+                        <div className="rounded-lg mb-4 md:mb-0 space-y-4">
                             <div >
                                 <p className="flex items-center gap-2 font-heading text-secondary-foreground">
                                     <Phone className="w-5 h-5" strokeWidth={2} /> SĐT
@@ -200,14 +202,25 @@ export default async function Page({ params }) {
             </div>
         </div>
         }
+
+        {
+            business?.images?.['length'] && <>
+            <Divider/>
+            <p className="text-xl flex items-center gap-2 font-medium font-heading">
+                {/* <Package className="w-6 h-6" strokeWidth={1.5} />  */}
+                Hình ảnh ({business?.images?.['length']})
+            </p>
         <div className="w-full rounded-lg">
             <div className="scrollbar-hide rounded-lg flex w-full snap-x snap-mandatory gap-2 overflow-x-scroll scroll-smooth">
-                {(business?.images as any)?.map((item: any, id: number) => <div key={id} className="relative shrink-0 snap-start snap-always rounded-xl bg-orange-100 h-[100px] md:h-[100px]">
-                    <ImageViewable src={item?.url} quality={100} width={100} height={100} alt="Uploaded" className="w-auto h-full rounded-md border border-input object-cover" />
+                {(business?.images as any)?.map((item: any, id: number) => <div key={id} className="relative shrink-0 snap-start snap-always rounded-xl bg-orange-100 h-[150px] md:h-[150px]">
+                    <ImageViewable src={item?.url} quality={100} width={150} height={150} alt="Uploaded" className="w-auto h-full rounded-md border border-input object-cover" />
                 </div>
                 )}
             </div>
         </div>
+            </>
+        }
+        
 
         <br />
         <div className="w-full relative space-y-4">
