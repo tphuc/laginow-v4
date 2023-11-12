@@ -8,8 +8,9 @@ import { useSelectedLayoutSegment } from "next/navigation"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { MobileNav } from "@/components/mobile-nav"
-import { Menu, X } from "lucide-react"
+import { Home, Menu, X } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
+import { Badge } from "./ui/badge"
 
 interface MainNavProps {
   items?: {
@@ -67,13 +68,15 @@ export function MainNav({ items, children }: MainNavProps) {
 
       <Sheet>
         <SheetTrigger asChild>
-          <Menu className="md:hidden aspect-square px-0 text-secondary-foreground" />
+          <Badge variant={'secondary'} className="p-1 block md:hidden rounded-sm border border-input">
+          <Menu className="aspect-square px-0 text-secondary-foreground" />
+          </Badge>
         </SheetTrigger>
-        <SheetContent side="left" className="w-[90vw]">
+        <SheetContent side="left" className="w-[90vw] px-2">
 
-          <div className="grid gap-4 py-4">
-            <Link href="/" className="text-xl font-heading">
-              Lagi Now
+          <div className="divide-y mt-[20px] divide-border rounded-md border-t">
+            <Link href="/" className="flex px-2 py-2 items-center gap-2 text-xl font-heading">
+             <Home className="w-5 h-5"/> Lagi Now
             </Link>
             {items?.length ? (
               <nav className="">
@@ -82,7 +85,7 @@ export function MainNav({ items, children }: MainNavProps) {
                     key={index}
                     href={item.disabled ? "#" : item.href}
                     className={cn(
-                      "flex items-center text-md font-medium transition-colors hover:text-foreground/80 sm:text-sm",
+                      "flex items-center px-2 py-2 text-lg transition-colors hover:text-foreground/80 sm:text-sm",
                       item.href.startsWith(`/${segment}`)
                         ? "text-foreground"
                         : "text-foreground/60",
