@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
     let data = await db.business?.findMany({
       where: where,
       orderBy: {
-        createdAt: 'desc'
+        rank: 'desc'
       },
       include: {
         tags: true
@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
     let total = await db.business?.count({
       where,
       orderBy: {
-        createdAt: 'desc'
+        rank: 'desc'
       },
       cursor: cursor ? { id: cursor } : undefined
     })

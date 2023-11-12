@@ -120,7 +120,7 @@ export default async function Page({ params }) {
     return <div className="relative space-y-5 max-w-screen-xl w-full gap-1">
         <div className="flex gap-4 flex-wrap">
             {business?.banner?.['url'] && <div className="bg-secondary aspect-square rounded-lg  h-[80px] w-[80px] md:w-[160px] md:h-auto text-white text-center flex items-center justify-center">
-                <Image alt='' width={140} height={140} className="w-auto  border border-input h-full rounded-md object-cover aspect-square" src={business?.banner?.['url']} />
+                <ImageViewable alt='' width={140} height={140} className="w-auto  border border-input h-full rounded-md object-cover aspect-square" src={business?.banner?.['url']} />
             </div>}
             <div className="space-y-2 flex-1 min-w-[320px]">
                 <p className="text-3xl font-medium font-heading">{business?.title}</p>
@@ -153,7 +153,9 @@ export default async function Page({ params }) {
                                 <p className="flex items-center gap-2 font-heading text-secondary-foreground">
                                     <Phone className="w-5 h-5" strokeWidth={2} /> SĐT
                                 </p>
+                                <Badge variant={'secondary'} className="border border-input">
                                 <Link href={`tel:${business?.phone}`} className="hover:underline">{business?.phone}</Link>
+                                </Badge>
                             </div>
 
                             <div >

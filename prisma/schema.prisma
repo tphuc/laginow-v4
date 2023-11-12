@@ -119,6 +119,7 @@ model Business {
   displayBanner     Boolean?
   avgRating         Float?
   verified          Boolean?
+  rank              Int?     @default(0)
 
   tags        Tag[]
   MasterTag   MasterTag? @relation(fields: [masterTagId], references: [id])
