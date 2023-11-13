@@ -9,7 +9,7 @@ import { getCurrentUser } from "@/lib/session"
 import { getOpenHrs, isCurrentlyOpen } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Divider } from "@tremor/react"
-import { Clock10, Facebook, Globe2, MapPin, Package, Phone, Pin, Plus, PlusCircle, Star } from "lucide-react"
+import { BadgeCheck, Clock10, Facebook, Globe2, MapPin, Package, Phone, Pin, Plus, PlusCircle, Star } from "lucide-react"
 import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
@@ -123,7 +123,11 @@ export default async function Page({ params }) {
                 <ImageViewable alt='' width={140} height={140} className="w-auto  border border-input h-full rounded-md object-cover aspect-square" src={business?.banner?.['url']} />
             </div>}
             <div className="space-y-2 flex-1 min-w-[320px]">
-                <p className="text-3xl font-medium font-heading">{business?.title}</p>
+                <div className='inline-flex w-full items-center gap-1 flex-wrap'>
+                    <p className="text-3xl font-medium font-heading">{business?.title}</p>
+                    {business?.verified && <BadgeCheck className='w-8 h-8 fill-sky-600 stroke-white' />}
+
+                </div>
                 <p className="">{business?.address}</p>
                 <div className="flex gap-2">{business?.tags?.map((item: any) => (
                     <p key={item?.id} className="text-sm cursor-pointer text-muted-foreground">{item?.name}</p>
@@ -134,14 +138,14 @@ export default async function Page({ params }) {
                         {/* {isCurrentlyOpenHr ? 'Đang mở cửa' : "Đóng cửa"} */}
                     </div>
                     {
-                        ( getOpenHrs(business?.workingHrs)?.startTime &&
-                        getOpenHrs(business?.workingHrs)?.endTime ) ? 
-                        <div> {getOpenHrs(business?.workingHrs)?.startTime} - {getOpenHrs(business?.workingHrs)?.endTime}</div>
-                        : <div>
-                            chưa mở cửa
-                        </div>
+                        (getOpenHrs(business?.workingHrs)?.startTime &&
+                            getOpenHrs(business?.workingHrs)?.endTime) ?
+                            <div> {getOpenHrs(business?.workingHrs)?.startTime} - {getOpenHrs(business?.workingHrs)?.endTime}</div>
+                            : <div>
+                                chưa mở cửa
+                            </div>
                     }
-                  
+
                 </Badge>
             </div>
 
@@ -162,14 +166,14 @@ export default async function Page({ params }) {
                                     <Phone className="w-5 h-5" strokeWidth={2} /> SĐT
                                 </p>
                                 <Badge variant={'secondary'} className="border border-input">
-                                <Link href={`tel:${business?.phone}`} className="hover:underline">{business?.phone}</Link>
+                                    <Link href={`tel:${business?.phone}`} className="hover:underline">{business?.phone}</Link>
                                 </Badge>
                             </div>
 
                             <div >
                                 <p className="flex items-center gap-2 font-heading text-secondary-foreground">    <Globe2 className="w-5 h-5" strokeWidth={2} /> Website </p>
 
-                                <Link href={`${business?.website}`} className="hover:underline">{business?.website}</Link>
+                                <p className="hover:underline">{business?.website}</p>
                             </div>
                             <div>
                                 <p className="flex items-center gap-2 font-heading text-secondary-foreground">
@@ -213,25 +217,25 @@ export default async function Page({ params }) {
         </div>
         }
 
-<Divider/>
-            <p className="text-xl flex items-center gap-2 font-medium font-heading">
-                {/* <Package className="w-6 h-6" strokeWidth={1.5} />  */}
-                Hình ảnh ({business?.images?.['length']})
-            </p>
+        <Divider />
+        <p className="text-xl flex items-center gap-2 font-medium font-heading">
+            {/* <Package className="w-6 h-6" strokeWidth={1.5} />  */}
+            Hình ảnh ({business?.images?.['length']})
+        </p>
         {
             !!business?.images?.['length'] && <>
-           
-        <div className="w-full rounded-lg">
-            <div className="scrollbar-hide rounded-lg flex w-full snap-x snap-mandatory gap-2 overflow-x-scroll scroll-smooth">
-                {(business?.images as any)?.map((item: any, id: number) => <div key={id} className="relative shrink-0 snap-start snap-always rounded-xl bg-orange-100 h-[150px] md:h-[150px]">
-                    <ImageViewable src={item?.url} quality={100} width={150} height={150} alt="Uploaded" className="w-auto h-full rounded-md border border-input object-cover" />
+
+                <div className="w-full rounded-lg">
+                    <div className="scrollbar-hide rounded-lg flex w-full snap-x snap-mandatory gap-2 overflow-x-scroll scroll-smooth">
+                        {(business?.images as any)?.map((item: any, id: number) => <div key={id} className="relative shrink-0 snap-start snap-always rounded-xl bg-orange-100 h-[150px] md:h-[150px]">
+                            <ImageViewable src={item?.url} quality={100} width={150} height={150} alt="Uploaded" className="w-auto h-full rounded-md border border-input object-cover" />
+                        </div>
+                        )}
+                    </div>
                 </div>
-                )}
-            </div>
-        </div>
             </>
         }
-        
+
 
         <br />
         <div className="w-full relative space-y-4">

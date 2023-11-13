@@ -5,7 +5,6 @@ import StarRating from './ui/stars-rating';
 import Link from 'next/link';
 import { cn, getOpenHrs, isCurrentlyOpen } from '@/lib/utils';
 import { BadgeCheck, CheckCircle, Clock, Clock10, } from 'lucide-react';
-import ImageViewable from './image-viewable';
 import { useInView } from 'react-intersection-observer';
 import { Badge } from './ui/badge';
 
@@ -13,7 +12,7 @@ import { Badge } from './ui/badge';
 
 
 
-const BusinessPageCard = forwardRef(({ data }: { data: any }, ref: any) => {
+const BusinessPageCard = forwardRef(({ data, tracking }: { data: any, tracking? }, ref: any) => {
   let isCurrentlyOpenHr = isCurrentlyOpen(data?.workingHrs ?? {});
 
   const { ref: inviewRef, inView, entry } = useInView({
@@ -22,7 +21,7 @@ const BusinessPageCard = forwardRef(({ data }: { data: any }, ref: any) => {
     threshold: 0,
     delay: 100,
     onChange: async (inView) => {
-      if (inView) {
+      if (inView && tracking) {
         // Fire a tracking event to your tracking service of choice.
         let res = await fetch(`${process?.env?.NEXT_PUBLIC_API_ENDPOINT}/api/business/${data?.id}/page-event`, {
           method: "POST",

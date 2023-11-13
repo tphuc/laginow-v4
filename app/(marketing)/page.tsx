@@ -2,7 +2,6 @@ import BusinessPageCard from "@/components/public-page-card";
 import PublicPostCard from "@/components/public-post-card";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";

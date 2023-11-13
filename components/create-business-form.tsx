@@ -120,7 +120,7 @@ export function CreateBusinessForm() {
                         <FormItem>
                             <FormLabel>Tên trang (*)</FormLabel>
                             <FormControl>
-                                <Input placeholder="Lagi Now..." {...field} />
+                                <Input placeholder="vd: Cửa hàng A" {...field} />
                             </FormControl>
                             <FormDescription>
                                 Tên của trang, không quá 264 kí tự.

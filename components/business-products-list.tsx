@@ -74,7 +74,7 @@ export function BusinessProductList({ products, ...props }: { products: any }) {
     <div className="w-full items-center flex flex-wrap relative mt-4 gap-2 md:gap-4 ">
       {!products?.length && <p className="text-muted-foreground">Chưa liệt kê sản phẩm / dịch vụ</p>}
       {products.map((product: Product) => (
-        <div key={product?.id} className="inline-flex shadow-sm flex-wrap  w-full md:w-[320px] border border-input rounded-lg gap-3 justify-between p-3">
+        <div key={product?.id} className="inline-flex shadow-sm flex-wrap  w-full md:w-[360px] border border-input rounded-lg gap-3 justify-between p-3">
           <div className="aspect-square rounded-md bg-black overflow-hidden h-24 w-24 text-white text-center flex items-center justify-center">
             <ImageViewable alt='' width={100} height={100} className="object-cover" src={product?.images?.['url'] ?? '/placeholder.svg'} />
           </div>
@@ -102,7 +102,9 @@ export function BusinessProductList({ products, ...props }: { products: any }) {
                 </SheetContent>
               </Sheet>
               <p className="text-sm text-muted-foreground">{vndFormat(product.price)}</p>
-              {product?.orderable && <Button onClick={() => addToCart(product)} variant={'secondary'} size='sm' className="rounded-md border border-input shadow-sm gap-2"><ShoppingBag className="w-4 h-4" /> Thêm vào giỏ hàng</Button>}
+              <div>
+              {product?.orderable && <Button onClick={() => addToCart(product)} variant={'secondary'} size='sm' className="rounded-md inline-flex border border-input shadow-sm gap-2"><ShoppingBag className="w-4 h-4" /> Thêm vào giỏ hàng</Button>}
+              </div>
             </div>
 
           </div>
