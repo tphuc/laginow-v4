@@ -137,12 +137,12 @@ export async function PATCH(req: NextRequest, context: z.infer<typeof routeConte
         }
 
         const body = z.object({
-            phone: z.string().optional(), 
-            website: z.string().optional(),
-            facebookUrl: z.string().optional(),
-            displayContact: z.boolean().optional(),
-            googleMapsUrl: z.string().optional(),
-            googleMapsUrlEmbeded: z.string().optional(),
+            phone: z.any().optional(), 
+            website: z.any().optional(),
+            facebookUrl: z.any().optional(),
+            displayContact: z.any().optional(),
+            googleMapsUrl: z.any().optional(),
+            googleMapsUrlEmbeded: z.any().optional(),
         }).parse(json)
 
         const record = await db.business.update({

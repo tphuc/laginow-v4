@@ -66,7 +66,7 @@ export function DeleteBusinessForm({ businessId }: { businessId: string }) {
         <div className="space-y-2">
            
             <Button size='sm' type="submit" variant={'destructive'} className={isDeleteLoading ? "pointer-events-none" : "gap-2 items-center"} onClick={() => setShowDeleteAlert(true)}>
-                Xác nhận xoá <Trash className="w-4 h-4" strokeWidth={1.5}/>
+               Xoá trang <Trash className="w-4 h-4" strokeWidth={1.5}/>
                 {isDeleteLoading && <Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}
             </Button>
             <p className="text-muted-foreground text-sm"> Cẩn thận, hành động này không thể hoàn tác </p>

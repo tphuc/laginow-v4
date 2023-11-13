@@ -61,9 +61,8 @@ export async function GET(req: NextRequest) {
     let url = new URL(req.url)
     let query = url?.searchParams?.get('url')
 
-
     
-    const response = await fetch(`https://jsonlink.io/api/extract?url=${query}`);
+    const response = await fetch(`https://jsonlink.io/api/extract?url=${query}&api_key=pk_ad349eb67e4801e21fe2648786068ff04e297920`);
     let data = await response.json();
     let imageUrl = data?.images?.[0]
     console.log(data)

@@ -44,11 +44,11 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
 
     const form = useForm({
         resolver: zodResolver(z.object({
-            phone: z.string().optional(),
-            website: z.string().optional(),
-            facebookUrl: z.string().optional(),
-            displayContact: z.boolean().optional(),
-            googleMapsUrl: z.string().optional(),
+            phone: z.any().optional(),
+            website: z.any().optional(),
+            facebookUrl: z.any().optional(),
+            displayContact: z.any().optional(),
+            googleMapsUrl: z.any().optional(),
         })),
         defaultValues: async () => {
             const response = await fetch(`/api/business/${businessId}`, {
@@ -84,9 +84,14 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
         let searchparams = new URLSearchParams();
         searchparams.set('url', formattedValues.googleMapsUrl as string);
 
-        let res = await fetch(`/api/google/get-embeded?${searchparams.toString()}`)
-        let data = await res.json()
-        let googleMapsUrlEmbeded = data?.embededUrl;
+        let googleMapsUrlEmbeded: any = null;
+        if(formattedValues?.googleMapsUrl){
+            let res = await fetch(`/api/google/get-embeded?${searchparams.toString()}`)
+            let data = await res.json()
+            googleMapsUrlEmbeded = data?.embededUrl;
+        }
+     
+       
 
         setIsLoading(true)
         try {
