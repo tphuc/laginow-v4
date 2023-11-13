@@ -25,6 +25,10 @@ module.exports = {
             },
         },
         extend: {
+            aspectRatio: {
+                '4/3': '4 / 3',
+                '3/4': '3 / 4',
+              },
             backgroundImage: {
                 overlayGradient: `linear-gradient(0deg, #111111aa, #11111100, transparent)`,
             },

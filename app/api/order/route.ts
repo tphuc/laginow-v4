@@ -109,7 +109,7 @@ export async function POST(req: Request) {
 
     const email = await mailTransporter.sendMail({
       from: 'contact@laginow.com', // sender address
-      to: `felixtran2000@gmail.com`, // list of receivers
+      to: `${order?.business?.owner?.email}`, // list of receivers
       subject: "Yêu cầu đơn hàng mới trên Lagi NoNow", // Subject line
       text: "Hello world?", // plain text body
       html: emailTemplate({

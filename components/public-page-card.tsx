@@ -12,7 +12,7 @@ import { Badge } from './ui/badge';
 
 
 
-const BusinessPageCard = forwardRef(({ data, tracking }: { data: any, tracking? }, ref: any) => {
+const BusinessPageCard = forwardRef(({ data, tracking = false }: { data: any, tracking?: boolean }, ref: any) => {
   let isCurrentlyOpenHr = isCurrentlyOpen(data?.workingHrs ?? {});
 
   const { ref: inviewRef, inView, entry } = useInView({
