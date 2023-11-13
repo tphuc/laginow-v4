@@ -131,9 +131,9 @@ export async function PATCH(req: NextRequest, context: z.infer<typeof routeConte
 
           // Check if the user has access to this post.
           if(!(await isAdmin())){
-            if ( !(await isBusinessVerified(params.id)) ) {
-                return new Response("not authorized", { status: 403 })
-            }
+            // if ( !(await isBusinessVerified(params.id)) ) {
+            //     return new Response("not authorized", { status: 403 })
+            // }
         }
 
         const body = z.object({

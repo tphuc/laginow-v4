@@ -236,13 +236,13 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
                             <div className="space-y-0.5">
                                 <FormLabel className="text-base gap-1">Hiển thị thông tin liên hệ {!form.getValues('verified') && <Badge variant={'secondary'}>Chưa xác minh</Badge>} </FormLabel>
 
-                                {!form.getValues('verified') && <FormDescription className="inline-flex flex-wrap gap-1 items-center">
+                                {!initData?.['verified'] && <FormDescription className="inline-flex flex-wrap gap-1 items-center">
                
                                     Liên hệ để xác minh trang, mở khoá nhiều tính năng và nhận huy hiệu.
                                     <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' />
                                 </FormDescription>}
 
-                                {form.getValues('verified') && <FormDescription>
+                                {initData?.['verified'] && <FormDescription>
 
                                     <p className="inline-flex flex-wrap gap-1 items-center">
                                         Trang đã được xác minh. Có thể hiển thị thông tin liên hệ trên hồ sơ trang.  <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' /> </p>
