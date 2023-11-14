@@ -47,9 +47,10 @@ const BusinessPageCard = forwardRef(({ data, tracking = false }: { data: any, tr
             <p className='flex items-center font-heading justify-center text-cyan-700 w-6 h-6 rounded-full'>{data?.avgRating}</p>
           </div>}
          
-         <div className='inline-flex w-full items-center flex-wrap'>
-         <Link ref={inviewRef} href={`/t/${data?.id}`} className="inline-block font-heading max-w-[270px] truncate text-ellipsis  text-xl hover:underline"> {data?.title}  </Link>
+         <div className='inline-flex w-full items-center flex-wrap gap-1'>
          {data?.verified && <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' />}
+         <Link ref={inviewRef} href={`/t/${data?.id}`} className="inline-block font-heading max-w-[270px] truncate text-ellipsis  text-xl hover:underline"> {data?.title}  </Link>
+
          </div>
         
         

@@ -30,6 +30,6 @@ export default async function Page({ params }) {
 
 
     return <div className="relative space-y-5 max-w-screen-xl w-full gap-2">
-        <Checkout/>
+        <Checkout user={user}/>
     </div>
 }

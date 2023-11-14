@@ -39,23 +39,23 @@ function calculateTotal(cart) {
 
 
 
-export default function Checkout({ }) {
-    const user: any = useSession()?.data?.user
+export default function Checkout({ user }) {
+    // const user: any = useSession()?.data?.user
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false)
     const form = useForm({
         defaultValues: async () => {
-            const response = await fetch(`/api/users/${user?.id}`, {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-            }).then(res => res.json())
+            // const response = await fetch(`/api/users/${user?.id}`, {
+            //     method: "GET",
+            //     headers: {
+            //       "Content-Type": "application/json",
+            //     },
+            // }).then(res => res.json())
 
           
             return {
-                deliveryAddress: response?.deliveryAddress,
-                deliveryPhone: response?.deliveryPhone,
+                deliveryAddress: user?.deliveryAddress,
+                deliveryPhone: user?.deliveryPhone,
             }
             
         }
