@@ -74,7 +74,7 @@ export function MainNav({ items, children }: MainNavProps) {
           <Menu className="aspect-square px-0 text-secondary-foreground" />
           </Badge>
         </SheetTrigger>
-        <Link href="/" className="flex md:hidden px-2 py-2 items-center gap-2 text-xl font-heading">
+        <Link href="/timkiem" className="flex md:hidden px-2 py-2 items-center gap-2 text-xl font-heading">
       Tìm kiếm
             </Link>
 </div>
