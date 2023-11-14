@@ -4,9 +4,8 @@ import React, { forwardRef } from 'react';
 import StarRating from './ui/stars-rating';
 import Link from 'next/link';
 import { cn, getOpenHrs, isCurrentlyOpen } from '@/lib/utils';
-import { BadgeCheck, CheckCircle, Clock, Clock10, } from 'lucide-react';
+import { BadgeCheck } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
-import { Badge } from './ui/badge';
 
 
 
@@ -37,7 +36,7 @@ const BusinessPageCardTwo = forwardRef(({ data, showRating = false, tracking = f
 
   return (
 
-    <div ref={ref} className="md:1/1 relative aspect-1/1 w-[80%] shrink-0 snap-start shadow-sm mb-2 border border-input overflow-hidden snap-always snap-start rounded-xl bg-white sm:w-[80%] md:w-[20%]">
+    <div ref={ref} className="md:1/1 relative aspect-1/1 w-[80%] shrink-0 snap-center shadow-sm mb-2 border border-input overflow-hidden snap-always rounded-xl bg-white sm:w-[80%] md:w-[20%]">
        
    
         <Image width={300} height={300} src={data?.banner?.url ?? '/placeholder.svg'} alt={''} className="w-full aspect-square object-cover" />
@@ -49,7 +48,12 @@ const BusinessPageCardTwo = forwardRef(({ data, showRating = false, tracking = f
         <div className='inline-flex h-[30px] w-full items-center flex-wrap gap-1'>
       
       
-         <Link ref={inviewRef} href={`/t/${data?.id}`} className="inline-flex gap-1 items-center font-heading max-w-[270px] truncate text-ellipsis  text-xl hover:underline">  {data?.verified && <BadgeCheck style={{width:24, height:24}} className='w-6 h-6 fill-sky-600 stroke-white' />} {data?.title}  </Link>
+         <Link ref={inviewRef} href={`/t/${data?.id}`} className="inline-flex gap-1 items-center font-heading max-w-[270px] truncate text-ellipsis  text-xl hover:underline">  
+         
+         {data?.verified && <span><BadgeCheck style={{width:24, height:24}} className='w-6 h-6 fill-sky-600 stroke-white' /></span> } 
+         <span> {data?.title} </span>
+
+         </Link>
         
          </div>
          <p className="text-muted-foreground text-base text-sm">

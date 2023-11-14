@@ -4,9 +4,10 @@ import type { Icon } from "lucide-react"
 import { Icons } from "@/components/icons"
 
 export type NavItem = {
-  title: string
+  title: any
   href: string
-  disabled?: boolean
+  disabled?: boolean,
+  laptopHidden?: boolean 
 }
 
 export type MainNavItem = NavItem

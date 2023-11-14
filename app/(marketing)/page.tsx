@@ -107,9 +107,13 @@ export default async function Page() {
     return <div className="relative space-y-4 w-full gap-2">
 
 
+        <div className="px-4 md:px-0 w-full relative space-y-4">
 
-
-        <div className="shadow-sm relative container max-w-screen-xl border bg-gray-100 border-input aspect-video rounded-lg overflow-hidden h-80 w-full text-white text-center flex items-center justify-center">
+        <div 
+            // className="shadow-sm relative w-full  max-w-screen-xl border bg-gray-100 border-input  rounded-lg overflow-hidden h-80 text-white text-center flex items-center justify-center"
+            className="w-full relative mx-auto border border-input rounded-lg shadow-sm bg-slate-100/50 max-w-screen-xl flex items-center justify-center gap-2 flex-wrap"
+            
+            >
             <Image alt='' width={400} height={300} className="ml-[40%] object-cover rounded-sm" src={'/hero.svg'} />
             <div className="absolute top-2 left-2 p-[4.5%] space-y-4">
                 <p className={"text-secondary-foreground text-3xl md:text-5xl font-heading text-left pr-[10%] md:pr-[45%]"}>Tạo trang kinh doanh của bạn trên Lagi Now</p>
@@ -127,13 +131,14 @@ export default async function Page() {
 
             </div>
         </div>
-        <div className="p-4  relative container max-w-screen-xl text-xl font-heading bg-slate-100 opacity-80 text-left border border-slate-300 bg-gradient-to-r from-cyan-100 to-indigo-100 rgb(204, 251, 241)) rounded-lg border-md shadow-sm text-blue-900">
+        <div className="p-4  mx-auto px-4 relative container max-w-screen-xl text-xl font-heading bg-slate-100 opacity-80 text-left border border-slate-300 bg-gradient-to-r from-cyan-100 to-indigo-100 rgb(204, 251, 241)) rounded-lg border-md shadow-sm text-blue-900">
             <span className="text-2xl white pr-1">{totalBusiness}</span> trang đã đăng kí trên Lagi Now {" "}
             🎉
         </div>
+        </div>
 
         <br />
-        <div className="relative  flex flex-col items-center justify-center bg-gray-50 py-20">
+        <div className="relative flex flex-col items-center justify-center bg-gray-50 py-20">
             <div className="absolute inset-auto h-96 w-96 scale-150 bg-sky-300 opacity-20 blur-3xl"></div>
 
             <div className="absolute inset-auto h-96 w-96 translate-x-full scale-150 bg-indigo-300 opacity-20 blur-3xl"></div>
@@ -167,7 +172,6 @@ export default async function Page() {
                 <div className="max-w-lg px-4 mx-auto max-w-screen-xl">
                     <h1 className="text-4xl font-bold tracking-tight font-heading text-secondary-foreground"> Quán coffee chill </h1>
                     <p className="mt-5 opacity-50"> </p>
-                    {/* <button className="to mt-5 min-w-[10rem] rounded-full bg-blue-500 bg-gradient-to-r from-teal-500 px-5 py-3 font-bold text-white shadow-xl">Khám phá</button> */}
                 </div>
 
 
@@ -193,7 +197,6 @@ export default async function Page() {
                 <div className="max-w-lg px-4 mx-auto max-w-screen-xl">
                     <h1 className="text-4xl font-bold tracking-tight font-heading text-secondary-foreground">Quán được ưa thích</h1>
                     <p className="mt-2 text-lg opacity-50"> Có nhiều lượt đánh giá tích cực nhất </p>
-                    {/* <button className="to mt-5 min-w-[10rem] rounded-full bg-blue-500 bg-gradient-to-r from-teal-500 px-5 py-3 font-bold text-white shadow-xl">Khám phá</button> */}
                 </div>
 
 
