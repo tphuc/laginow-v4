@@ -83,7 +83,7 @@ export default function SearchBarFilter() {
             e.preventDefault()
             ref?.current?.focus()
           }}  
-          placeholder="Tìm kiếm..." className="w-full h-9 md:w-[300px] inline-flex rounded-lg" size={0.5} />
+          placeholder="Tìm kiếm..." className="w-full h-9 md:w-[360px] border border-input inline-flex rounded-lg" size={0.5} />
           
         </PopoverAnchor>
         <PopoverContent align="start" sideOffset={0} autoFocus={false} className="p-1 w-[320px] md:w-[500px] flex min-h-[60px] flex-col max-h-[400px] overflow-scroll scrollbar-hide">

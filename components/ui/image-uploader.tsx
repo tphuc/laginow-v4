@@ -5,15 +5,16 @@ import { cn } from '@/lib/utils';
 import { Image as IcImage, Loader2, LoaderIcon, Trash, Upload, UploadCloud, UploadIcon } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState, ChangeEvent, useRef } from 'react';
+import { toast } from './use-toast';
 
 export interface UploadImageProps {
   onChange?: (value: any) => void;
-  value?: { fileId?: string, url: string};
-  defaultValue?: { fileId?: string, url: string} | null;
+  value?: { fileId?: string, url: string };
+  defaultValue?: { fileId?: string, url: string } | null;
   placeholder?: any,
   className?: string,
   imageClassName?: string,
-  style?:  React.CSSProperties,
+  style?: React.CSSProperties,
   resetAfterUploaded?: boolean;
 }
 
@@ -23,7 +24,7 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     React.useEffect(() => {
-      if(defaultValue){
+      if (defaultValue) {
         setImage(defaultValue)
       }
     }, [defaultValue])
@@ -34,6 +35,23 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
       const file = event.target.files?.[0];
 
       if (file) {
+
+        // Check the file size (in bytes)
+        const maxSize = 4 * 1024 * 1024; // 4MB in bytes
+
+        if (file.size > maxSize) {
+          // File exceeds the maximum allowed size
+          toast({
+            title: "Tối đa kích thước 4MB"
+          });
+          // Optionally, you can clear the input field
+          if (uploadInputRef.current) {
+            uploadInputRef.current.value = '';
+          }
+          return;
+        }
+
+
         const formData = new FormData();
         formData.append('file', file);
 
@@ -49,7 +67,7 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
             let file = data?.file;
             setImage(file);
             onChange?.(file);
-            if(resetAfterUploaded){
+            if (resetAfterUploaded) {
               setImage(null)
             }
           } else {
@@ -119,18 +137,18 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
 
     return (
       <div
-      {...rest}
-      ref={ref}
-      style={style}
-      className={cn(
-        "relative transition-all flex min-h-[100px] min-w-[100px] justify-center items-center border border-input rounded-md",
-        className
-      )}
-     
+        {...rest}
+        ref={ref}
+        style={style}
+        className={cn(
+          "relative transition-all flex min-h-[100px] min-w-[100px] justify-center items-center border border-input rounded-md",
+          className
+        )}
+
       >
         {image ? (
           <>
-            <img  alt='' src={image?.url} className={cn("w-auto h-full border border-input max-w-[300px] max-h-[300px] rounded-md object-cover", imageClassName)} />
+            <img alt='' src={image?.url} className={cn("w-auto h-full border border-input max-w-[300px] max-h-[300px] rounded-md object-cover", imageClassName)} />
             <div className="absolute top-0 right-0 m-1">
               {/* <button
                 onClick={handleImageChange}

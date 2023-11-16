@@ -43,30 +43,30 @@ const fetchData = async ({ take, lastCursor, tag }: QueryParams) => {
 
 const useDebounce = (callback: Function | null, delay: number) => {
     const [debouncedValue, setDebouncedValue] = useState<string | null>(null);
-  
+
     useEffect(() => {
-      if (callback !== null) {
-        const debounceHandler = setTimeout(() => {
-          if (callback) {
-            callback(debouncedValue);
-          }
-        }, delay);
-  
-        return () => {
-          clearTimeout(debounceHandler);
-        };
-      }
+        if (callback !== null) {
+            const debounceHandler = setTimeout(() => {
+                if (callback) {
+                    callback(debouncedValue);
+                }
+            }, delay);
+
+            return () => {
+                clearTimeout(debounceHandler);
+            };
+        }
     }, [callback, delay, debouncedValue]);
-  
+
     return debouncedValue;
-  };
+};
 
 
 
 
 
 
-const SearchPage = ({}) => {
+const SearchPage = ({ masterTags }: {masterTags}) => {
     // to know when the last element is in view
     const { ref, inView } = useInView();
     const router = useRouter();
@@ -124,50 +124,67 @@ const SearchPage = ({}) => {
     // console.log("data:",data);
 
     return (
-        <div className="w-full space-y-2">
-            <div className="flex w-full items-center gap-2 flex-wrap">
+        <div className="relative flex flex-col lg:flex-row">
 
-                <Select value={params?.get('tag') ?? ""} onValueChange={(e) => router?.push(pathname + `?tag=${e}`)} >
-                    <SelectContent className="relative">
-                        <SelectItem value="" hideIndicator className="whitespace-nowrap text-xs w-full overflow-hidden pl-2 text-ellipsis">Tất cả</SelectItem>
-                        {businessTags?.map((item: any) => <SelectItem hideIndicator value={item?.id} key={item?.id} className="whitespace-nowrap text-xs w-full overflow-hidden pl-2 text-ellipsis">{item.name}</SelectItem>)}
-                       
-                    </SelectContent>
-                    <SelectTrigger className="w-full h-9 md:w-[300px] rounded-lg">
-                        <SelectValue className="w-full" placeholder="chọn" />
-                    </SelectTrigger>
-                </Select>
-                <SearchBarFilter/>
+            {/* <div className="relative lg:w-1/5 p-6 sticky top-[60px] h-full">
+                <h2 className="text-xl font-heading mb-4"> Tìm kiếm </h2>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Filter 1:</label>
+                    <input type="text" className="border rounded p-2 w-full" />
+                </div>
+
+            </div> */}
+
+
+            <div className="lg:w-3/4 p-4 ">
+                <div className="w-full mx-auto px-4 max-w-screen-xl space-y-2 pb-20">
+                    <div className="flex w-full items-center gap-2 flex-wrap">
+
+                        <Select value={params?.get('tag') ?? ""} onValueChange={(e) => router?.push(pathname + `?tag=${e}`)} >
+                            <SelectContent className="relative">
+                                <SelectItem value="" hideIndicator className="whitespace-nowrap text-xs w-full overflow-hidden pl-2 text-ellipsis">Tất cả</SelectItem>
+                                {businessTags?.map((item: any) => <SelectItem hideIndicator value={item?.id} key={item?.id} className="whitespace-nowrap text-xs w-full overflow-hidden pl-2 text-ellipsis">{item.name}</SelectItem>)}
+
+                            </SelectContent>
+                            <SelectTrigger className="w-full h-9 md:w-[300px] rounded-lg">
+                                <SelectValue className="w-full" placeholder="chọn" />
+                            </SelectTrigger>
+                        </Select>
+                        <SearchBarFilter />
+                    </div>
+                    <div className="flex gap-2 flex-wrap">
+                    {(isLoading || isFetchingNextPage) && <LoaderSkeleton className="my-2" ></LoaderSkeleton>}
+                        {isSuccess &&
+                            data?.pages.map((page) =>
+                                page.data.map((item: any, index: number) => {
+                                    // if the last element in the page is in view, add a ref to it
+                                    if (page.data.length === index + 1) {
+                                        return (
+                                            <BusinessPageCard
+                                                ref={ref}
+                                                key={item.id}
+                                                data={item}
+                                            />
+
+                                        );
+                                    } else {
+                                        return (
+                                            <BusinessPageCard
+                                                key={item.id}
+                                                data={item}
+                                            />
+                                        );
+                                    }
+                                })
+                            )}
+
+
+                    </div>
+                  
+                </div>
             </div>
-            <div className="flex gap-2 flex-wrap">
-                {isSuccess &&
-                    data?.pages.map((page) =>
-                        page.data.map((item: any, index: number) => {
-                            // if the last element in the page is in view, add a ref to it
-                            if (page.data.length === index + 1) {
-                                return (
-                                    <BusinessPageCard
-                                        ref={ref}
-                                        key={item.id}
-                                        data={item}
-                                    />
-
-                                );
-                            } else {
-                                return (
-                                    <BusinessPageCard
-                                        key={item.id}
-                                        data={item}
-                                    />
-                                );
-                            }
-                        })
-                    )}
-
-
-            </div>
-            {(isLoading || isFetchingNextPage) && <LoaderSkeleton className="my-2" ></LoaderSkeleton>}
         </div>
+
     );
 };
 

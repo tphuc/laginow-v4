@@ -8,9 +8,11 @@ import { useSelectedLayoutSegment } from "next/navigation"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { MobileNav } from "@/components/mobile-nav"
-import { Menu, X } from "lucide-react"
+import { Home, Menu, X } from "lucide-react"
 import { UserAccountNav } from "./user-account-nav"
 import { BusinessSelectCombobox } from "./select-business-site-combobox"
+import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
+import { Badge } from "./ui/badge"
 
 interface MainNavProps {
   title?: string;
@@ -36,14 +38,44 @@ export function BusinessHeaderNav({ items, title, userBusinesses, children }: Ma
 
 
       </Link>
-      <button
-        className="flex items-center space-x-2 md:hidden"
-        onClick={() => setShowMobileMenu(!showMobileMenu)}
-      >
-        <Menu />
-        {showMobileMenu ?? <X />}
-      </button>
+      <Sheet>
+        <div className="flex items-center gap-2">
+          <SheetTrigger asChild>
+            <Badge variant={'secondary'} className="p-1 block md:hidden rounded-sm border border-input">
+              <Menu className="aspect-square px-0 text-secondary-foreground" />
+            </Badge>
+          </SheetTrigger>
+         
+        </div>
+        <SheetContent side="left" className="w-[90vw] px-2">
 
+          <div className="divide-y mt-[20px] divide-border rounded-md border-t">
+            <Link href="/" className="flex px-2 py-2 items-center gap-2 text-xl font-heading">
+              <Home className="w-5 h-5" /> Lagi Now
+            </Link>
+            {items?.length ? (
+              <nav className="">
+                {items?.map((item, index) => (
+                  <Link
+                    key={index}
+                    href={item.disabled ? "#" : item.href}
+                    className={cn(
+                      "flex items-center px-2 py-2 text-lg transition-colors hover:text-foreground/80 sm:text-sm",
+                      item.href.startsWith(`/${segment}`)
+                        ? "text-foreground"
+                        : "text-foreground/60",
+                      item.disabled && "cursor-not-allowed opacity-80"
+                    )}
+                  >
+                    {item.title}
+                  </Link>
+                ))}
+              </nav>
+            ) : null}
+          </div>
+
+        </SheetContent>
+      </Sheet>
       <BusinessSelectCombobox items={userBusinesses} />
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">
@@ -65,9 +97,7 @@ export function BusinessHeaderNav({ items, title, userBusinesses, children }: Ma
         </nav>
       ) : null}
 
-      {showMobileMenu && items && (
-        <MobileNav items={items}>{children}</MobileNav>
-      )}
+     
 
 
 
