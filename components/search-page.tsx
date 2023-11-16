@@ -124,7 +124,7 @@ const SearchPage = ({ masterTags }: {masterTags}) => {
     // console.log("data:",data);
 
     return (
-        <div className="relative flex flex-col lg:flex-row">
+        <div className="relative mx-auto max-w-screen-xl w-full flex flex-col lg:flex-row">
 
             {/* <div className="relative lg:w-1/5 p-6 sticky top-[60px] h-full">
                 <h2 className="text-xl font-heading mb-4"> Tìm kiếm </h2>
@@ -136,7 +136,7 @@ const SearchPage = ({ masterTags }: {masterTags}) => {
             </div> */}
 
 
-            <div className="lg:w-3/4 p-4 ">
+            <div className="lg:w-4/4 p-4 ">
                 <div className="w-full mx-auto px-4 max-w-screen-xl space-y-2 pb-20">
                     <div className="flex w-full items-center gap-2 flex-wrap">
 
