@@ -13,10 +13,19 @@ async function getMasterTags(){
     return data;
 }
 
+async function getTags(){
+    let data = await db.tag?.findMany({
+        
+    })
+    return data;
+}
+
 export default async function Page() {
-    let masterTags = await getMasterTags()
+    let _masterTags = getMasterTags()
+    let _tags =  getTags()
+    let [masterTags, tags] = await Promise.all([_masterTags, _tags])
     
     return <div className="relative w-full">
-        <SearchPage masterTags={masterTags}/>
+        <SearchPage masterTags={masterTags} businessTags={tags}/>
     </div>
 }

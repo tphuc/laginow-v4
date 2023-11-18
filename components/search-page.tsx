@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import axios from "axios";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import BusinessPageCard from "./public-page-card";
 import { CardSkeleton } from "./card-skeleton";
@@ -14,14 +14,49 @@ import { useGetBusinessTags } from "@/lib/http";
 import SearchBarFilter from "./search-bar";
 import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import debounce from "lodash/debounce";
+import { cn } from "@/lib/utils";
+import { MultiSelect } from "./ui/multi-select";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { Label } from "./ui/label";
+import useSWRInfinite from "swr/infinite";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
+import { Button } from "./ui/button";
+import { Filter } from "lucide-react";
+
 
 type QueryParams = {
     take?: number;
     lastCursor?: string;
-    tag?: string
+    tag?: string,
+    tags?: string
 };
 
-const fetchData = async ({ take, lastCursor, tag }: QueryParams) => {
+const useFetch = (path, limit) => {
+    const getKey = (pageIndex, previousPageData) => {
+        if (previousPageData && !previousPageData.length) return null;
+        const pageNumber = pageIndex + 1;
+        return `https://fakestoreapi.com/${path}?_page=${pageNumber}&_limit=${limit}`;
+    };
+
+
+    const { data, error, size, setSize, } = useSWRInfinite(getKey, async (url) => {
+        let res = await fetch(url)
+        return await res.json()
+    });
+
+    const loadMore = () => setSize(size + 1);
+
+    return {
+        data: data ? data.flat() : [],
+        isLoading: !error && !data,
+        isError: error,
+        loadMore,
+        hasNextPage: data && data[data.length - 1]?.length === limit,
+    };
+};
+
+
+const fetchData = async ({ take, lastCursor, tag, tags }: QueryParams) => {
     let searchQuery = new URLSearchParams();
     if (take) {
         searchQuery.append('take', `${take}`)
@@ -35,47 +70,40 @@ const fetchData = async ({ take, lastCursor, tag }: QueryParams) => {
         searchQuery.append('tag', tag)
     }
 
-    const response = await axios.get("/api/public/business-query", {
-        params: { take, lastCursor, tag },
+    if (tags) {
+        searchQuery.append('tags', tags)
+    }
+
+    console.log('fetchdata', tags)
+    const response = await fetch(`/api/public/business-query?${searchQuery?.toString()}`, {
+        method: "GET"
     });
-    return response?.data;
-};
-
-const useDebounce = (callback: Function | null, delay: number) => {
-    const [debouncedValue, setDebouncedValue] = useState<string | null>(null);
-
-    useEffect(() => {
-        if (callback !== null) {
-            const debounceHandler = setTimeout(() => {
-                if (callback) {
-                    callback(debouncedValue);
-                }
-            }, delay);
-
-            return () => {
-                clearTimeout(debounceHandler);
-            };
-        }
-    }, [callback, delay, debouncedValue]);
-
-    return debouncedValue;
+    let data = await response.json()
+    return data;
 };
 
 
 
 
 
-
-const SearchPage = ({ masterTags }: {masterTags}) => {
+const SearchPage = ({ masterTags, businessTags }: { masterTags, businessTags }) => {
     // to know when the last element is in view
     const { ref, inView } = useInView();
     const router = useRouter();
     const pathname = usePathname()
     const params = useSearchParams()
+    const queryClient = useQueryClient()
     const [isPending, startTransition] = useTransition();
 
-    const [text, setText] = useState("");
+    let selectedTags = businessTags?.filter((item) => params?.get('tags')?.includes(item?.id))?.map(item => ({
+        label: item?.name,
+        value: item?.id
+    }))
 
+    console.log(99, selectedTags, params?.get('tags'))
+
+    const [text, setText] = useState("");
+    // let searchTags = params?.get('tags') ? params?.get('tags')?.split(',') : []
 
     // useInfiniteQuery is a hook that accepts a queryFn and queryKey and returns the result of the queryFn
     const {
@@ -86,26 +114,38 @@ const SearchPage = ({ masterTags }: {masterTags}) => {
         fetchNextPage,
         isSuccess,
         isFetchingNextPage,
+        refetch,
+
+
     } = useInfiniteQuery({
-        queryFn: ({ pageParam = "" }) =>
-            fetchData({ take: 10, lastCursor: pageParam, tag: params?.get('tag') ?? '' }),
-        queryKey: ["businesses"],
+        queryFn: ({ pageParam, queryKey }) => {
+
+            return fetchData({ take: 10, lastCursor: pageParam, tag: params?.get('tag') ?? '', tags: queryKey?.[1] ?? '' })
+        },
+        staleTime: 0,
+        refetchOnMount: true,
+        queryKey: ["businesses", params?.get('tags')],
 
         getNextPageParam: (lastPage) => {
             return lastPage?.metaData.lastCursor;
         },
     });
 
-    const handleChange = (e) => {
-        startTransition(() => {
-            setText(e?.target?.value ?? '')
-        })
+
+
+    const onSearchTagsChange = (value) => {
+
+
+        let newSearchParams = new URLSearchParams()
+        newSearchParams?.set('tags', value?.map(item => item?.value)?.join(','))
+        router.push(`${pathname}?${newSearchParams?.toString()}`)
+
+
+
     }
 
-    const debouncehandleChange = debounce(handleChange)
 
-
-    const { data: businessTags } = useGetBusinessTags()
+    // const { data: businessTags } = useGetBusinessTags()
 
     useEffect(() => {
         // if the last element is in view and there is a next page, fetch the next page
@@ -121,42 +161,68 @@ const SearchPage = ({ masterTags }: {masterTags}) => {
             </div>
         );
 
-    // console.log("data:",data);
+
 
     return (
-        <div className="relative mx-auto max-w-screen-xl w-full flex flex-col lg:flex-row">
+        <div className={cn("relative  w-full flex flex-col lg:flex-row ",
+            // "mx-auto max-w-screen-xl"
+        )}>
 
-            {/* <div className="relative lg:w-1/5 p-6 sticky top-[60px] h-full">
+
+            <div className="relative hidden md:block bg-background z-40 lg:w-1/5 p-6 space-y-2 sm:sticky top-[50px] h-full">
                 <h2 className="text-xl font-heading mb-4"> Tìm kiếm </h2>
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Filter 1:</label>
-                    <input type="text" className="border rounded p-2 w-full" />
+                <MultiSelect
+                    className="p-1 border-none shadow-none rounded-lg"
+                    defaultValue={selectedTags}
+                    // defaultValue={searchTags?.map(item => ({value: item, label:item})) ?? []}
+                    items={businessTags?.map(item => ({
+                        value: item.id,
+                        label: item.name
+                    }))} placeholder="chọn danh mục" onChange={onSearchTagsChange}
+
+                />
+
+                <br />
+
+
+            </div>
+            <Sheet key={'right'}>
+                <div className="flex md:hidden items-center gap-2 px-4 py-2">
+                <SheetTrigger asChild>
+                    <Button variant={'secondary'} className="inline-flex border border-input rounded-lg gap-2"> <Filter className="w-4 h-4"/> Tìm kiếm  </Button>
+                </SheetTrigger>
+                <span className="text-muted-foreground">    {selectedTags?.length ?  `${selectedTags?.length} đã chọn` : "" }</span>
+             
                 </div>
+                <SheetContent>
+                    <div className="relative">
+                        <h2 className="text-xl font-heading mb-4"> Tìm kiếm </h2>
+                        <MultiSelect
+                            className="p-1 border-none shadow-none rounded-lg"
+                            defaultValue={selectedTags}
+                            // defaultValue={searchTags?.map(item => ({value: item, label:item})) ?? []}
+                            items={businessTags?.map(item => ({
+                                value: item.id,
+                                label: item.name
+                            }))} placeholder="chọn danh mục" onChange={onSearchTagsChange}
 
-            </div> */}
+                        />
+                        </div>
+                </SheetContent>
+            </Sheet>
 
 
-            <div className="lg:w-4/4 p-4 ">
-                <div className="w-full mx-auto px-4 max-w-screen-xl space-y-2 pb-20">
-                    <div className="flex w-full items-center gap-2 flex-wrap">
-
-                        <Select value={params?.get('tag') ?? ""} onValueChange={(e) => router?.push(pathname + `?tag=${e}`)} >
-                            <SelectContent className="relative">
-                                <SelectItem value="" hideIndicator className="whitespace-nowrap text-xs w-full overflow-hidden pl-2 text-ellipsis">Tất cả</SelectItem>
-                                {businessTags?.map((item: any) => <SelectItem hideIndicator value={item?.id} key={item?.id} className="whitespace-nowrap text-xs w-full overflow-hidden pl-2 text-ellipsis">{item.name}</SelectItem>)}
-
-                            </SelectContent>
-                            <SelectTrigger className="w-full h-9 md:w-[300px] rounded-lg">
-                                <SelectValue className="w-full" placeholder="chọn" />
-                            </SelectTrigger>
-                        </Select>
-                        <SearchBarFilter />
+            <div className="w-full lg:w-3/4  ">
+                <div className="relative w-full mx-auto px-4 max-w-screen-xl space-y-2 pb-20">
+                    <div className="hidden md:flex w-full bg-background sticky top-[60px] py-4 items-center gap-2 flex-wrap z-40">
+                        <SearchBarFilter className="py-4" />
                     </div>
-                    <div className="flex gap-2 flex-wrap">
                     {(isLoading || isFetchingNextPage) && <LoaderSkeleton className="my-2" ></LoaderSkeleton>}
+                    <div className="flex gap-2 flex-wrap" >
+                      
                         {isSuccess &&
-                            data?.pages.map((page) =>
-                                page.data.map((item: any, index: number) => {
+                            data?.pages?.map((page) =>
+                                page?.data?.map((item: any, index: number) => {
                                     // if the last element in the page is in view, add a ref to it
                                     if (page.data.length === index + 1) {
                                         return (
@@ -180,7 +246,7 @@ const SearchPage = ({ masterTags }: {masterTags}) => {
 
 
                     </div>
-                  
+
                 </div>
             </div>
         </div>

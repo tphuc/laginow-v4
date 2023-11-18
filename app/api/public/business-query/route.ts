@@ -15,7 +15,14 @@ export async function GET(req: NextRequest) {
     const take = url.searchParams.get("take");
     const lastCursor = url.searchParams.get("lastCursor");
     const tag = url.searchParams.get("tag");
+    const _tags = url.searchParams.get("tags") ?? null
     const text = url.searchParams.get("text");
+
+
+
+    let tags = _tags?.split(',') ?? []
+    console.log(21, _tags, tags)
+
 
     let where = {}
 
@@ -26,6 +33,19 @@ export async function GET(req: NextRequest) {
         }
       }
     }
+
+    if (tags?.length) {
+      where['tags'] = {
+        some: {
+          id: {
+            in: tags ?? []
+          }
+        }
+         
+     
+      }
+    }
+
 
     if(text){
       where[`OR`] = [
@@ -47,7 +67,7 @@ export async function GET(req: NextRequest) {
         }
       }),
       include: {
-        tags: true
+        tags: true,
       },
       where,
       orderBy: {
@@ -94,6 +114,8 @@ export async function GET(req: NextRequest) {
     if (e instanceof z.ZodError) {
       return new Response(JSON.stringify(e.issues), { status: 422 });
     }
+
+    console.log(e)
 
     return new Response(JSON.stringify(e), { status: 500 });
   }

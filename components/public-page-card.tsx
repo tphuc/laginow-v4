@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import StarRating from './ui/stars-rating';
 import Link from 'next/link';
 import { cn, getOpenHrs, isCurrentlyOpen } from '@/lib/utils';
@@ -13,7 +13,8 @@ import { Badge } from './ui/badge';
 
 
 const BusinessPageCard = forwardRef(({ data, tracking = false }: { data: any, tracking?: boolean }, ref: any) => {
-  let isCurrentlyOpenHr = isCurrentlyOpen(data?.workingHrs ?? {});
+  const [isCurrentlyOpenHr, setCurrentlyOpen] = useState(isCurrentlyOpen(data?.workingHrs ?? {}));
+
 
   const { ref: inviewRef, inView, entry } = useInView({
     /* Optional options */
@@ -23,13 +24,13 @@ const BusinessPageCard = forwardRef(({ data, tracking = false }: { data: any, tr
     onChange: async (inView) => {
       if (inView && tracking) {
         // Fire a tracking event to your tracking service of choice.
-        let res = await fetch(`${process?.env?.NEXT_PUBLIC_API_ENDPOINT}/api/business/${data?.id}/page-event`, {
-          method: "POST",
-          // headers: headers() as HeadersInit,
-          body: JSON.stringify({
-            eventType: 'SEARCH_VIEW'
-          },)
-        })
+        // let res = await fetch(`${process?.env?.NEXT_PUBLIC_API_ENDPOINT}/api/business/${data?.id}/page-event`, {
+        //   method: "POST",
+        //   // headers: headers() as HeadersInit,
+        //   body: JSON.stringify({
+        //     eventType: 'SEARCH_VIEW'
+        //   },)
+        // })
       }
     },
   });
@@ -62,10 +63,10 @@ const BusinessPageCard = forwardRef(({ data, tracking = false }: { data: any, tr
             {data?.tags?.map((item) => <p className='text-xs px-2 py-1 rounded-md bg-gray-200/50 text-gray-700' key={item?.id}>{item?.name}</p>)}
           </div>
           {/* <br /> */}
-          <Badge className={cn("inline-flex gap-2 absolute top-4 left-4 justify-between items-center px-2 py-1 border ", !isCurrentlyOpenHr && "opacity:50")} variant={isCurrentlyOpenHr ? 'success' : 'default'}>
+          <Badge className={cn("inline-flex gap-2 border border-input absolute top-4 left-4 justify-between items-center px-2 py-1 border ", !isCurrentlyOpenHr && "opacity:50")} variant={isCurrentlyOpenHr ? 'success' : 'secondary'}>
             <div className="flex items-center gap-2">
               <Clock10 className="w-4 h-4" strokeWidth={1.5} />
-              {isCurrentlyOpenHr ? 'Đang mở cửa' : "Đóng cửa"}
+              {isCurrentlyOpenHr ? 'Đang mở cửa' : "Chưa mở cửa"}
             </div>
             {/* <div> {getOpenHrs(data?.workingHrs)?.startTime} - {getOpenHrs(data?.workingHrs)?.endTime}</div> */}
           </Badge>

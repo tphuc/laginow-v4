@@ -32,9 +32,10 @@ interface MultiSelectProps {
   items?: Item[];
   placeholder?: string;
   max?: number;
+  className?: string;
 }
 
-export function MultiSelect({ onChange, value, defaultValue, max = 1000, items, placeholder }: MultiSelectProps) {
+export function MultiSelect({ onChange, value, className, defaultValue, max = 1000, items, placeholder }: MultiSelectProps) {
   const [open, setOpen] = React.useState(false);
   const [selectedItems, setSelectedItems] = React.useState(defaultValue || []);
   const [search, setSearch] = React.useState('');
@@ -57,12 +58,13 @@ export function MultiSelect({ onChange, value, defaultValue, max = 1000, items, 
     <Popover open={open} onOpenChange={setOpen}>
       <div className={cn(
         "flex flex-wrap w-full items-center shadow-sm gap-1 rounded-md border border-input bg-transparent px-1 py-1 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-0 disabled:cursor-not-allowed disabled:opacity-50",
+        className
       )}>
         {selectedItems?.map((item) => <Button key={item?.value} onClick={() => {
           const updatedList = selectedItems.filter((selectedItem) => selectedItem.value !== item.value);
           setSelectedItems(updatedList);
           onChange?.(updatedList)
-        }} className="rounded-sm gap-2 truncate" size={'sm'} variant={'outline'}>
+        }} className="rounded-md gap-2 truncate border border-input" size={'sm'} variant={'secondary'}>
           {item.label}
           <X className="h-4 w-4 opacity-50" strokeWidth={1.5} />
         </Button>)}
