@@ -96,11 +96,15 @@ export default async function BusinessLayout({ children, params }: BusinessProps
                 icon:'package',
                 prefetch: true
               },
-             
               {
                 title: 'Hình ảnh',
                 href: `/business/${params.businessId}/hinh-anh`,
                 icon: 'media'
+              },
+              {
+                title: 'Thành viên',
+                href: `/business/${params.businessId}/thanh-vien`,
+                icon: 'user2'
               },
               {
                 title: 'Quảng cáo',

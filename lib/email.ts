@@ -18,7 +18,7 @@ const options = {
   hour12: false, // Use 24-hour format,
   hour: 'numeric',
   minute: '2-digit',
-  
+
 };
 
 
@@ -303,7 +303,7 @@ export const emailTemplate = ({ time, name, phone, address, businessId, items })
         </div>
         <div class="customer-info">
             <h2>Thông tin đơn hàng</h2>
-            <p>${new Date(time)?.toLocaleString(locale, {timeStyle: 'short', dateStyle:'medium'})}</p>
+            <p>${new Date(time)?.toLocaleString(locale, { timeStyle: 'short', dateStyle: 'medium' })}</p>
             <p><strong></strong> ${name}</p>
             <p><strong></strong> ${phone}</p>
             <p>${address}</p>
@@ -324,8 +324,86 @@ export const emailTemplate = ({ time, name, phone, address, businessId, items })
            
         </div>
         <div class="order-button">
-            <a href="#">Trang quản lí đơn hàng</a>
+            <a href="https://laginow.com">Trang quản lí đơn hàng</a>
         </div>
+    </div>
+</body>
+</html>`
+
+
+
+
+export const emailInvitationTemplate = ({ ownerName, businessName, inviteId }) => `
+<!<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        p {
+          margin: 0px;
+          padding: 0px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #222222;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+        .customer-info {
+            margin-top: 20px;
+        }
+        .order-items {
+          gap: 5px;
+          margin-top: 20px;
+        }
+        .item {
+            display: flex;
+            margin-bottom:5px;
+            gap: 5px;
+        }
+        .item img {
+            max-width: 100px;
+            max-height: 100px;
+            min-width: 100px;
+            min-height: 100px;
+        }
+
+        .order-product {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        .order-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .order-button a {
+            background-color: #222222;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+      <h4> ${ownerName} đã gửi lời mời cho bạn làm đồng quản lí trang ${businessName} </h4>
+    </div>
+    <div class="order-button">
+      <a href="https://laginow.com/invite/${inviteId}">Chấp nhận</a>
+    </div>
     </div>
 </body>
 </html>`

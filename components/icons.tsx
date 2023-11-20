@@ -36,6 +36,7 @@ import {
   Globe2,
   Rocket,
   ListTodo,
+  Users
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -74,6 +75,7 @@ export const Icons = {
   gem: Gem,
   rocket: Rocket,
   listTodo: ListTodo,
+  user2: Users,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

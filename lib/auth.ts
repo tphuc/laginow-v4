@@ -29,7 +29,7 @@ export const authOptions: AuthOptions = {
       else if (new URL(url).origin === baseUrl) return url
       return baseUrl
     },
-    async jwt({ token, user, account, profile, isNewUser }:any) {// This user return by provider {} as you mentioned above MY CONTENT {token:}
+    async jwt({ token, user, account, profile, isNewUser }: any) {// This user return by provider {} as you mentioned above MY CONTENT {token:}
 
       if (user) {
         token.id = user.id
@@ -42,7 +42,7 @@ export const authOptions: AuthOptions = {
       const userInfo = await db.user.findUnique({
         where: { id: user.id },
         include: {
-          businesses: true, 
+          businesses: true,
         },
       });
 
@@ -55,4 +55,44 @@ export const authOptions: AuthOptions = {
       };
     },
   },
+  events: {
+    createUser: async (message) => {
+      let user = message.user;
+
+      // Check if there is an invite for this user
+      const invite = await db.invite.findFirst({
+        where: {
+          email: user.email ?? '',
+          accepted: true
+        },
+      });
+
+
+      if (invite) {
+        const staffMember = await db.staff.create({
+          data: {
+            user: {
+              connect: {
+                id: user.id,
+              },
+            },
+            business: {
+              connect: {
+                id: invite.businessId,
+              },
+            },
+          },
+        });
+
+        // Delete the invite after creating the staff record
+        await db.invite.delete({
+          where: {
+            id: invite.id,
+          },
+        });
+      }
+
+
+    },
+  }
 };

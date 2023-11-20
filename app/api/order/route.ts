@@ -107,9 +107,29 @@ export async function POST(req: Request) {
       }
     });
 
+    let staffs = await db.staff?.findMany({
+      where: {
+        businessId: cart[Object.keys(cart)[0]].businessId,
+      },
+      include: {
+        user: true
+      }
+    })
+
+    const staffEmails = staffs?.map((item) => item?.user?.email).filter(email => email);
+
+    // Extract business owner's email address
+    const ownerEmail = order?.business?.owner?.email || '';
+    
+    // Combine staff emails and business owner's email into a single array
+    const allEmails = [...staffEmails, ownerEmail];
+    const emailsTo = allEmails.join(',');
+
+
+
     const email = await mailTransporter.sendMail({
       from: 'contact@laginow.com', // sender address
-      to: `${order?.business?.owner?.email}`, // list of receivers
+      to: emailsTo, // list of receivers
       subject: "Yêu cầu đơn hàng mới trên Lagi NoNow", // Subject line
       text: "Hello world?", // plain text body
       html: emailTemplate({

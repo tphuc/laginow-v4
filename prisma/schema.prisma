@@ -60,6 +60,7 @@ model User {
   Order            Order[]
   deliveryAddress  String?
   deliveryPhone    String?
+  Staff            Staff[]
 
   @@index([email])
 }
@@ -84,11 +85,36 @@ model Post {
   images    Json?    @default("[]")
   published Boolean?
 
-  rank      Int?     @default(0)
+  rank Int? @default(0)
 
   @@unique([userId, title])
   @@index([title])
   @@index([userId])
+}
+
+model Invite {
+  id         String   @id @default(nanoid(7))
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+  email      String
+  business   Business @relation(fields: [businessId], references: [id])
+  businessId String
+  accepted   Boolean? @default(false)
+  @@unique([email, businessId])
+  @@index([email])
+}
+
+model Staff {
+  id         String   @id @default(nanoid(7))
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+  business   Business @relation(fields: [businessId], references: [id])
+  businessId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@unique([userId, businessId])
 }
 
 model Collection {
@@ -119,19 +145,19 @@ model Business {
   displayBanner     Boolean?
   avgRating         Float?
   verified          Boolean?
-  rank              Int?     @default(0)
+  rank              Int?         @default(0)
 
   tags        Tag[]
   MasterTag   MasterTag? @relation(fields: [masterTagId], references: [id])
   masterTagId String?
 
   // contact information
-  phone   String?
-  website String?
-  facebookUrl String?
-  googleMapsUrl String?
+  phone                String?
+  website              String?
+  facebookUrl          String?
+  googleMapsUrl        String?
   googleMapsUrlEmbeded String? @db.Text
-  address String?
+  address              String?
 
   displayContact Boolean? @default(false)
 
@@ -163,6 +189,8 @@ model Business {
   BusinessPost     BusinessPost[]
   PageEvent        PageEvent[]
   Order            Order[]
+  Invite           Invite[]
+  Staff            Staff[]
 
   @@index([slug])
   @@index([ownerId])
@@ -269,18 +297,18 @@ model BusinessPost {
 }
 
 model PageEvent {
-  id         Int       @id @default(autoincrement())
-  eventType  EventType
-  timestamp  DateTime  @default(now()) @db.Date
+  id          Int       @id @default(autoincrement())
+  eventType   EventType
+  timestamp   DateTime  @default(now()) @db.Date
   tzTimestamp DateTime?
-  ipAddress  String?
-  userAgent  Json?
-  geo        Json?
-  referer    String? // Referring URL or other reference info
-  business   Business? @relation(fields: [businessId], references: [id], onDelete: SetNull)
-  businessId String?
-  user       User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
-  userId     String?
+  ipAddress   String?
+  userAgent   Json?
+  geo         Json?
+  referer     String? // Referring URL or other reference info
+  business    Business? @relation(fields: [businessId], references: [id], onDelete: SetNull)
+  businessId  String?
+  user        User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId      String?
 
   @@index([userId])
   @@index([businessId])
@@ -333,16 +361,13 @@ model Order {
   business   Business @relation(fields: [businessId], references: [id])
   businessId String
 
-
   deliveryAddress String
   deliveryPhone   String
 
-  timestamp  DateTime  @default(now())
+  timestamp   DateTime     @default(now())
   tzTimestamp DateTime?
-  status    OrderStatus? @default(REQUESTED)
+  status      OrderStatus? @default(REQUESTED)
 
   @@index([userId])
   @@index([businessId])
 }
-
-
