@@ -85,7 +85,7 @@ const images = [
 
 function Masonry() {
     // Hook1: Tie media queries to the number of columns
-    const columns = useMediaQuery('(min-width: 1500px)') ? 4 : 1
+    const columns = useMediaQuery('(min-width: 1500px)') ? 4 : 2
     // Hook2: Measure the width of the container element
     const [ref, { width }] = useMeasure()
     // Hook3: Hold items
@@ -140,7 +140,7 @@ export default function SearchSection() {
             </h1>
             <SearchBarHome />
         </div>
-        <div className="absolute opacity-50 md:opacity-90 z-10 w-full top-0 left-[55%] w-[40vw] overflow-hidden">
+        <div style={{maxWidth:700}} className="absolute opacity-50 md:opacity-90 z-10 w-full top-0 left-[55%] w-[40vw] overflow-hidden">
           <Masonry />
         </div>
     </div>
