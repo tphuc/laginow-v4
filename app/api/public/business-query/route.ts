@@ -54,6 +54,9 @@ export async function GET(req: NextRequest) {
         },
         {
           address: {contains: text ?? ''}
+        },
+        {
+          slug: {contains: text ?? ''}
         }
       ]
     }

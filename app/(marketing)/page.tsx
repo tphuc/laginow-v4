@@ -8,6 +8,7 @@ import { Suspense } from "react";
 
 import db from '@/lib/prisma'
 import BusinessPageCardTwo from "@/components/public-page-card-two";
+import SearchSection from "./search-section";
 
 
 
@@ -65,17 +66,17 @@ async function fetchBusinessHighRating() {
         },
         take: 8,
         orderBy: [
-          {
-            avgRating: 'desc', // Order by avgRating in descending order
-          },
-          {
-            Review: {
-              _count: 'desc', // Then, order by the number of reviews in descending order
+            {
+                avgRating: 'desc', // Order by avgRating in descending order
             },
-          },
+            {
+                Review: {
+                    _count: 'desc', // Then, order by the number of reviews in descending order
+                },
+            },
         ],
-      });
-      
+    });
+
     return businessWithHighestRating
 
 }
@@ -106,35 +107,47 @@ export default async function Page() {
 
     return <div className="relative space-y-4 w-full gap-2">
 
-
-        <div className="px-4 md:px-0 w-full relative space-y-4">
-
-        <div 
+        <div
             // className="shadow-sm relative w-full  max-w-screen-xl border bg-gray-100 border-input  rounded-lg overflow-hidden h-80 text-white text-center flex items-center justify-center"
-            className="w-full relative mx-auto border border-input rounded-lg shadow-sm bg-slate-100/50 max-w-screen-xl flex items-center justify-center gap-2 flex-wrap"
-            
-            >
-            <Image alt='' width={400} height={300} className="ml-[40%] object-cover rounded-sm" src={'/hero.svg'} />
-            <div className="absolute top-2 left-2 p-[4.5%] space-y-4">
-                <p className={"text-secondary-foreground text-3xl md:text-5xl font-heading text-left pr-[10%] md:pr-[45%]"}>Tạo trang kinh doanh của bạn trên Lagi Now</p>
+            className="w-full "
 
-                <p className="text-secondary-foreground text-xl text-2xl text-left text-gray-400 pr-[10%]">Kết nối và quảng bá đến cộng đồng</p>
-
-                <Link
-                    href="/login?redirect=business.create"
-                    className="flex"
-                >
-                    <Button variant={'default'}> Đăng ký ngay </Button>
-                </Link>
-
-
-
+        >
+            <SearchSection />
+            <br/>
+            <div className="p-4 border border-slate-300 mx-auto px-4 relative container max-w-screen-xl text-xl font-heading bg-slate-100 opacity-80 text-left bg-gradient-to-r from-cyan-100 to-indigo-100 rgb(204, 251, 241)) rounded-lg border-md shadow-sm text-blue-900">
+                <span className="text-2xl white pr-1">{totalBusiness}</span> trang đã đăng kí trên Lagi Now {" "}
+                🎉
             </div>
         </div>
-        <div className="p-4  mx-auto px-4 relative container max-w-screen-xl text-xl font-heading bg-slate-100 opacity-80 text-left border border-slate-300 bg-gradient-to-r from-cyan-100 to-indigo-100 rgb(204, 251, 241)) rounded-lg border-md shadow-sm text-blue-900">
-            <span className="text-2xl white pr-1">{totalBusiness}</span> trang đã đăng kí trên Lagi Now {" "}
-            🎉
-        </div>
+        <div className="px-4 md:px-0 w-full relative space-y-4">
+
+
+
+            <div
+                // className="shadow-sm relative w-full  max-w-screen-xl border bg-gray-100 border-input  rounded-lg overflow-hidden h-80 text-white text-center flex items-center justify-center"
+                className="w-full relative mx-auto rounded-xl border border-slate-300 shadow-sm overflow-hidden bg-slate-200/50 max-w-screen-xl flex items-center justify-center gap-2 flex-wrap"
+
+            >
+                <Image alt='' width={400} height={300} className="ml-[40%] object-cover rounded-sm" src={'/hero.svg'} />
+                <div className="absolute top-2 left-2 p-[4.5%] space-y-4">
+                    <p className={"text-secondary-foreground text-3xl md:text-5xl font-heading text-left pr-[10%] md:pr-[45%]"}>Tạo trang kinh doanh của bạn trên Lagi Now</p>
+
+                    <p className="text-secondary-foreground text-xl text-2xl text-left text-gray-400 pr-[10%]">Kết nối và quảng bá đến cộng đồng</p>
+
+                    <Link
+                        href="/login?redirect=business.create"
+                        className="flex"
+                    >
+                        <Button variant={'default'}> Đăng ký ngay </Button>
+                    </Link>
+
+
+
+                </div>
+            </div>
+
+
+
         </div>
 
         <br />
@@ -153,7 +166,7 @@ export default async function Page() {
                 <div className="scrollbar-hide mt-14 flex w-full snap-x snap-mandatory scroll-px-[200px] gap-4 overflow-x-scroll scroll-smooth px-10">
                     {
                         foodCollection?.map((item: any, index: any) => <BusinessPageCardTwo
-                        
+
                             data={item}
                             key={`${index}_${item?.id}`}
                         />)
@@ -203,7 +216,7 @@ export default async function Page() {
                 <div className="scrollbar-hide mt-14 flex w-full snap-x snap-mandatory scroll-px-[200px] gap-4 overflow-x-scroll scroll-smooth px-10">
                     {
                         businessesHighRating?.map((item: any, index: any) => <BusinessPageCardTwo
-                        showRating
+                            showRating
                             data={item}
                             key={`${index}_${item?.id}`}
                         />)
@@ -271,25 +284,25 @@ export default async function Page() {
                     {
                         businessPages?.map((item: any, index: any) => <BusinessPageCard
                             tracking
-                            data={item} 
+                            data={item}
                             key={`${index}_${item?.id}`}
                         />)
                     }
                 </div>
             </Suspense>
 
-            <br/>
+            <br />
             <p className="text-3xl font-heading">Bài viết nổi bật</p>
-        <Suspense fallback={<Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}>
-            <div className="flex gap-2 flex-wrap">
-                {
-                    posts?.map((item: any, index) => <PublicPostCard
-                        data={item}
-                        key={`${index}_${item?.id}`}
-                    />)
-                }
-            </div>
-        </Suspense>
+            <Suspense fallback={<Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}>
+                <div className="flex gap-2 flex-wrap">
+                    {
+                        posts?.map((item: any, index) => <PublicPostCard
+                            data={item}
+                            key={`${index}_${item?.id}`}
+                        />)
+                    }
+                </div>
+            </Suspense>
         </div>
 
 
