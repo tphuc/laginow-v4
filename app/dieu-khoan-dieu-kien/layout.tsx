@@ -2,7 +2,7 @@ import { MainNav } from "@/components/main-nav"
 import { SiteFooter } from "@/components/site-footer"
 import { buttonVariants } from "@/components/ui/button"
 import { UserAccountNav } from "@/components/user-account-nav"
-import { getCurrentUser } from "@/lib/session"
+import { getCurrentUser, getUserBusiness } from "@/lib/session"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { Metadata } from 'next'
@@ -25,7 +25,7 @@ export default async function MarketingLayout({
     children,
 }: MarketingLayoutProps) {
 
-    const user = await getCurrentUser();
+    const [user, businesses] = await Promise.all([getCurrentUser(), getUserBusiness()]);
 
     return (
         <div className="relative flex min-h-screen flex-col space-y-1 md:space-y-6">
@@ -36,7 +36,7 @@ export default async function MarketingLayout({
                     />
                     <nav className="flex items-center gap-2">
                         
-                        {user ? <UserAccountNav user={user}/> : <Link
+                        {user ? <UserAccountNav user={user} businesses={businesses}/> : <Link
                             href="/login"
                             className={cn(
                                 buttonVariants({ variant: "secondary", size: "sm" }),

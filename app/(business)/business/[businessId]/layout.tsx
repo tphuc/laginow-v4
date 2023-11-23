@@ -3,7 +3,7 @@ import { DashboardNav } from "@/components/dashboard-nav"
 import { MainNav } from "@/components/main-nav"
 import { UserAccountNav } from "@/components/user-account-nav"
 import { dashboardConfig } from "@/config/dashboard"
-import { getCurrentUser } from "@/lib/session"
+import { getCurrentUser, getUserBusiness } from "@/lib/session"
 import prisma from "@/lib/prisma"
 import { BusinessHeaderNav } from "@/components/business-header-nav"
 import { redirect } from "next/navigation"
@@ -48,7 +48,7 @@ async function getBusinessesOfUser(userId: string) {
 }
 
 export default async function BusinessLayout({ children, params }: BusinessProps) {
-  const user = await getCurrentUser();
+  const [user, businesses] = await Promise.all([getCurrentUser(), getUserBusiness()]);
   if(!user){
     redirect("/login")
   }
@@ -66,6 +66,7 @@ export default async function BusinessLayout({ children, params }: BusinessProps
           })) } title={business?.title} />
           <UserAccountNav
             user={user}
+            businesses={businesses}
           />
         </div>
       </header>

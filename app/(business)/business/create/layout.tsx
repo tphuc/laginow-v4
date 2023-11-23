@@ -1,7 +1,7 @@
 import { MainNav } from "@/components/main-nav"
 import { UserAccountNav } from "@/components/user-account-nav"
 import { dashboardConfig } from "@/config/dashboard"
-import { getCurrentUser } from "@/lib/session"
+import { getCurrentUser, getUserBusiness } from "@/lib/session"
 import { redirect } from "next/navigation"
 
 interface BusinessProps {
@@ -9,7 +9,7 @@ interface BusinessProps {
 }
   
   export default async function BusinessLayout({ children }: BusinessProps) {
-    const user = await getCurrentUser()
+    const [user, businesses] = await Promise.all([getCurrentUser(), getUserBusiness()]);
 
     if(!user){
       redirect("/login")
@@ -22,6 +22,7 @@ interface BusinessProps {
             <MainNav items={dashboardConfig.mainNav} />
             <UserAccountNav
               user={user}
+              businesses={businesses}
             />
           </div>
         </header>

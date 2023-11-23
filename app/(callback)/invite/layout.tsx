@@ -2,7 +2,7 @@ import { MainNav } from "@/components/main-nav"
 import { buttonVariants } from "@/components/ui/button"
 import { UserAccountNav } from "@/components/user-account-nav"
 import { dashboardConfig } from "@/config/dashboard"
-import { getCurrentUser } from "@/lib/session"
+import { getCurrentUser, getUserBusiness } from "@/lib/session"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 
@@ -15,7 +15,7 @@ export default async function Layout({
     children,
 }: LayoutProps) {
 
-    const user = await getCurrentUser();
+    const [user, businesses] = await Promise.all([getCurrentUser(), getUserBusiness()]);
 
     return (
         <div className="relative flex min-h-screen flex-col space-y-1 md:space-y-6">
@@ -26,7 +26,7 @@ export default async function Layout({
                     />
                     <nav className="flex items-center gap-2">
                         
-                        {user ? <UserAccountNav user={user}/> : <Link
+                        {user ? <UserAccountNav user={user} businesses={businesses}/> : <Link
                             href="/login"
                             className={cn(
                                 buttonVariants({ variant: "secondary", size: "sm" }),

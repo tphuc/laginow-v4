@@ -31,7 +31,23 @@ export async function verifyCurrentUserHasAccessToBusiness(businessId: string) {
   const found = await db.business.findUnique({
     where: {
       id: businessId,
-      ownerId: session?.user?.id
+      OR: [
+        {
+          ownerId: session?.user?.id
+        },
+        {
+          Staff: {
+            some: {
+              user: {
+                id: {
+                  equals: session?.user?.id
+                }
+              }
+            }
+          }
+        }
+      ]
+      
     },
   })
   return !!found
@@ -44,6 +60,32 @@ export async function isBusinessVerified(businessId: string) {
     },
   })
   return found?.verified
+}
+
+
+export async function getUserBusiness(){
+  const session = await getServerSession(authOptions)
+  const businesses = await db.business?.findMany({
+    where: {
+      OR: [
+        {
+          ownerId: session?.user?.id
+        },
+        {
+          Staff: {
+            some: {
+              user: {
+                id: {
+                  equals: session?.user?.id
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  })
+  return businesses
 }
 
 

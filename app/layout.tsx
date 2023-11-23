@@ -101,7 +101,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           <AuthProvider session={session}>
-            <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+            <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" enableSystem={false}>
               {children}
               {/* <Analytics /> */}
               <Toaster />

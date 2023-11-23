@@ -17,9 +17,10 @@ import { Icons } from "./icons"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: User & { businesses?: any}
+  businesses: any
 }
 
-export function UserAccountNav({ user }: UserAccountNavProps) {
+export function UserAccountNav({ user, businesses }: UserAccountNavProps) {
 
 
   return (
@@ -51,7 +52,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <div>
-          {user?.businesses?.map((item) => <DropdownMenuItem key={item?.id} asChild>
+          {businesses?.map((item) => <DropdownMenuItem key={item?.id} asChild>
 
             <Link href={`/business/${item?.id}`} className="gap-2">
               <Icons.globe className="w-4 h-4" strokeWidth={1.5} />

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 
 import { dashboardConfig } from "@/config/dashboard"
-import { getCurrentUser } from "@/lib/session"
+import { getCurrentUser, getUserBusiness } from "@/lib/session"
 import { MainNav } from "@/components/main-nav"
 import { DashboardNav } from "@/components/dashboard-nav"
 // import { SiteFooter } from "@/components/site-footer"
@@ -15,7 +15,7 @@ export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
 
-  const user = await getCurrentUser()
+  const [user, businesses] = await Promise.all([getCurrentUser(), getUserBusiness()]);
 
   if (!user) {
     return notFound()
@@ -28,6 +28,7 @@ export default async function DashboardLayout({
           <MainNav items={dashboardConfig.mainNav} />
           <UserAccountNav
             user={user}
+            businesses={businesses}
           />
         </div>
       </header>

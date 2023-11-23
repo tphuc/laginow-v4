@@ -9,6 +9,7 @@ import db from '@/lib/prisma'
 import slugify from 'slugify';
 import { getCurrentUser, verifyCurrentUserHasAccessToBusiness, verifyCurrentUserHasAccessToUpdateProduct } from '@/lib/session';
 import { startOfDay, subDays } from 'date-fns';
+import { Post } from '@prisma/client';
 
 
 
@@ -26,12 +27,14 @@ export async function GET(req: NextRequest) {
     // let to = new Date(url.searchParams.get('to') ?? new Date()) ?? null
 
     let where = {
-      // published: true,
+      title: {
+        not: "chưa có tiêu đề"
+      }
     }
 
 
     let data = await db.post?.findMany({
-      where: where,
+      where,
       orderBy: {
         // createdAt: 'desc',
         rank: 'desc'

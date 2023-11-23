@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation"
 import prisma from "@/lib/prisma"
-import { getCurrentUser } from "@/lib/session"
+import { getCurrentUser, getUserBusiness } from "@/lib/session"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { DashboardHeader } from "@/components/dashboard-header"
 import { PostCreateButton } from "@/components/post-create-button"
@@ -14,26 +14,13 @@ export const metadata = {
 }
 
 export default async function DashboardPage() {
-  const user = await getCurrentUser()
+  const [user, businesses] = await Promise.all([getCurrentUser(), getUserBusiness()]);
 
   if (!user) {
     redirect("/login")
   }
 
-  const businessPages = await prisma.business.findMany({
-    where: {
-     ownerId : user.id,
-    },
-    // select: {
-    //   id: true,
-    //   title: true,
-    //   published: true,
-    //   createdAt: true,
-    // },
-    // orderBy: {
-    //   updatedAt: "desc",
-    // },
-  })
+
 
   return (
     <DashboardShell>
@@ -41,13 +28,11 @@ export default async function DashboardPage() {
       <BusinessPageCreateButton variant="default" >Tạo trang</BusinessPageCreateButton>
       </DashboardHeader>
       <div>
-        {businessPages?.length ? (
+        {businesses?.length ? (
           <div>
             
-         
-
           <div className="divide-y mt-4 divide-border rounded-md border">
-            {businessPages.map((item: any, id:any) => (
+            {businesses.map((item: any, id:any) => (
               <PageItems key={id} page={item} />
             ))}
             
