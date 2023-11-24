@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Storage } from '@google-cloud/storage';
 import lagiJson from './lagi-361510-276b6fc08e21.json'
+// import sharp from 'sharp';
+
 
 const uploadImage = (fileName: string, buffer: any) => new Promise((resolve, reject) => {
   let projectId = "lagi-361510"; // Get this from Google Cloud
@@ -46,6 +48,8 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
+    
+
 
 
 
@@ -71,6 +75,21 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, error }, { status: 500 });
   }
 }
+
+// async function convertToJPG(file: File): Promise<Buffer> {
+//   // Check if the file is already in JPEG format
+//   if (file.type === 'image/jpeg') {
+//     const bytes = await file.arrayBuffer();
+//     return Buffer.from(bytes);
+//   }
+
+//   // Convert other image formats to JPEG using sharp
+//   const imageBuffer = await sharp(file)
+//     .jpeg() // You can customize the JPEG conversion options if needed
+//     .toBuffer();
+
+//   return imageBuffer;
+// }
 
 
 

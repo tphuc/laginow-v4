@@ -185,6 +185,7 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
                 uploadInputRef.current = inputRef;
               }}
               type="file"
+              accept="image/jpeg"
               className={cn("absolute w-0 h-0 opacity-0", isLoading ? "pointer-events-none" : "")}
               onChange={handleImageUpload}
             />
