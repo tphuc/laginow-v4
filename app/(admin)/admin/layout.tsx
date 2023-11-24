@@ -15,7 +15,7 @@ export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
 
-  const [user, businesses] = await Promise.all([getCurrentUser(), getUserBusiness()]);
+  const [user, businesses] = await Promise.all([getCurrentUser() as any, getUserBusiness()]);
 
 
   if (!user?.isAdmin) {
