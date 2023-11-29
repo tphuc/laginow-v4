@@ -17,7 +17,7 @@ const deleteImage = (fileName: string) => new Promise((resolve, reject) => {
   blob.delete((err) => {
     console.log(err)
     if (err) {
-      reject(`Unable to delete image, something went wrong`);
+      resolve(`Unable to delete image, something went wrong`);
     } else {
       resolve(`Image '${fileName}' deleted successfully`);
     }
