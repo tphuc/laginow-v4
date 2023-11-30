@@ -88,6 +88,13 @@ export async function getUserBusiness(){
   return businesses
 }
 
+export async function getMasterTags(){
+  const tags = await db.masterTag?.findMany({
+  })
+
+  return tags
+}
+
 
 
 export async function isAdmin() {

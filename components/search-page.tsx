@@ -100,7 +100,6 @@ const SearchPage = ({ masterTags, businessTags }: { masterTags, businessTags }) 
         value: item?.id
     }))
 
-    console.log(99, selectedTags, params?.get('tags'))
 
     const [text, setText] = useState("");
     // let searchTags = params?.get('tags') ? params?.get('tags')?.split(',') : []
@@ -218,6 +217,7 @@ const SearchPage = ({ masterTags, businessTags }: { masterTags, businessTags }) 
                         <SearchBarFilter className="py-4" />
                     </div>
                     {(isLoading || isFetchingNextPage) && <LoaderSkeleton className="my-2" ></LoaderSkeleton>}
+                    {!data?.pages?.[0]?.length && <p className="text-muted-foreground opacity-60">Không tìm thấy kết quả</p>}
                     <div className="flex gap-2 flex-wrap" >
                       
                         {isSuccess &&

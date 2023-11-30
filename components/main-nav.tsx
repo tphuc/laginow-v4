@@ -12,6 +12,8 @@ import { Home, Menu, X } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
 import { Badge } from "./ui/badge"
 import SearchBarFilter from "./search-bar"
+import useSWR from "swr"
+import Image from "next/image"
 
 interface MainNavProps {
   items?: {
@@ -25,7 +27,11 @@ interface MainNavProps {
 export function MainNav({ items, children }: MainNavProps) {
   const segment = useSelectedLayoutSegment()
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false)
-
+  const { data: masterTags } = useSWR(`/api/masterTags`, async (url) => {
+    let res = await fetch(url)?.then(res => res.json())
+    console.log(res)
+    return res
+  })
   return (
     <div className="flex gap-6 md:gap-10">
       <Link href="/" prefetch={false} className="hidden items-center space-x-2 md:flex">
@@ -33,7 +39,7 @@ export function MainNav({ items, children }: MainNavProps) {
           {siteConfig.name}
         </span>
       </Link>
-      
+
 
       {items?.length ? (
         <nav className="hidden gap-4 md:flex">
@@ -75,11 +81,11 @@ export function MainNav({ items, children }: MainNavProps) {
               <Menu className="aspect-square px-0 text-secondary-foreground" />
             </Badge>
           </SheetTrigger>
-         
+
         </div>
         <SheetContent side="left" className="w-[90vw] px-2">
 
-          <div className="divide-y mt-[20px] divide-border rounded-md border-t">
+          <div className="divide-y h-[100vh] pb-20 overflow-scroll mt-[20px] divide-border rounded-md border-t">
             <Link href="/" className="flex px-2 py-2 items-center gap-2 text-xl font-heading">
               <Home className="w-5 h-5" /> Lagi Now
             </Link>
@@ -102,7 +108,23 @@ export function MainNav({ items, children }: MainNavProps) {
                 ))}
               </nav>
             ) : null}
+
+            <nav className="">
+              {masterTags?.map((item, index) => (
+                <Link
+                  className="flex text-sm items-center px-2 py-1 text-lg transition-colors hover:text-foreground/80 sm:text-sm"
+                  key={index}
+                  href={`/timkiem?tags=${item?.tags?.map(item => item.id)?.join(',')}`}
+                >
+                    <Image src={item?.url ?? ''} alt='' width={50} height={50}  className="w-[50px] h-auto aspect-square"></Image>
+                  {item?.name}
+                </Link>
+              ))}
+            </nav>
           </div>
+
+
+
 
         </SheetContent>
       </Sheet>
