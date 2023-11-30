@@ -237,6 +237,7 @@ model MasterTag {
   slug     String     @unique
   tags     Tag[]
   Business Business[]
+  url      String?
 }
 
 model UserViewBusiness {

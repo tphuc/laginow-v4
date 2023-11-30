@@ -57,7 +57,7 @@ export default async function Page({ params }: PageProps) {
         heading="Trang"
         text="Xem trang"
       >
-        <ProductCreateButtonSheet businessId={params.businessId}>Thêm</ProductCreateButtonSheet>
+        {/* <ProductCreateButtonSheet businessId={params.businessId}>Thêm</ProductCreateButtonSheet> */}
       </DashboardHeader>
      
       <DataTable  data={data ?? []} columns={columns}/>

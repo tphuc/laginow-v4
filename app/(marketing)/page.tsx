@@ -55,6 +55,25 @@ async function fetchBusinessCollection(id: string) {
 
 }
 
+async function fetchTags() {
+    const tags = await db.tag.findMany({
+        include: {
+            MasterTag: true
+        }
+    })
+
+    return tags ?? []
+}
+
+async function fetchMasterTags() {
+    const tags = await db.masterTag.findMany({
+        include: {
+            tags: true
+        }
+    })
+
+    return tags ?? []
+}
 
 async function fetchBusinessHighRating() {
 
@@ -102,7 +121,8 @@ export default async function Page() {
     let _businessRating = fetchBusinessHighRating()
 
 
-    const [businessPages, posts, totalBusiness, foodCollection, drinkCollection, businessesHighRating] = await Promise.all([_businessPages, _posts, _totalBusiness, _foodCollection, _drinkCollection, _businessRating])
+    const [businessPages, posts, totalBusiness, foodCollection, drinkCollection, businessesHighRating, tags, masterTags] = 
+    await Promise.all([_businessPages, _posts, _totalBusiness, _foodCollection, _drinkCollection, _businessRating, fetchTags(), fetchMasterTags()])
 
 
     return <div className="relative space-y-4 w-full gap-2">
@@ -113,12 +133,22 @@ export default async function Page() {
 
         >
             <SearchSection />
-            <br/>
+            <div className="w-full bg-gray-100 border-b py-20 scrollbar-hide">
+            <div className="px-4 mx-auto max-w-screen-xl scrollbar-hide grid gap-1 grid-rows-2 md:grid-rows-4 grid-flow-col gap-4 overflow-scroll">
+                {masterTags?.map((item) => <Link href={`/timkiem?tags=${item?.tags?.map(item => item.id)?.join(',')}`} key={item?.id} className="pt-4 px-4 cursor-pointer rounded-xl bg-white text-sm min-w-[150px] border border-input">
+                    <p className="font-heading px-2 text-lg">{item?.name}</p>
+                    <Image src={item?.url ?? ''} alt='' width={80} height={80} className="w-[100px] h-auto aspect-square"></Image>
+                </Link>)}
+            </div>
+            </div>
+            <br />
             <div className="p-4 border border-slate-300 mx-auto px-4 relative container max-w-screen-xl text-xl font-heading bg-slate-100 opacity-80 text-left bg-gradient-to-r from-cyan-100 to-indigo-100 rgb(204, 251, 241)) rounded-lg border-md shadow-sm text-blue-900">
                 <span className="text-2xl white pr-1">{totalBusiness}</span> trang đã đăng kí trên Lagi Now {" "}
                 🎉
             </div>
+
         </div>
+
         <div className="px-4 md:px-0 w-full relative space-y-4">
 
 
