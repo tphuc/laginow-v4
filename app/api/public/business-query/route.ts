@@ -13,15 +13,14 @@ export async function GET(req: NextRequest) {
     const url = new URL(req.url);
 
     const take = url.searchParams.get("take");
-    const lastCursor = url.searchParams.get("lastCursor");
+    const lastCursor = url.searchParams.get("cursor");
     const tag = url.searchParams.get("tag");
     const _tags = url.searchParams.get("tags") ?? null
     const text = url.searchParams.get("text");
 
-
+    console.log('last cursor', lastCursor)
 
     let tags = _tags?.split(',') ?? []
-    console.log(21, _tags, tags)
 
 
     let where = {}
@@ -74,10 +73,9 @@ export async function GET(req: NextRequest) {
       },
       where,
       orderBy: {
-        createdAt: "desc",
-      }
+        id: "desc",
+      },
     });
-
 
     if (result.length == 0) {
       return new Response(JSON.stringify({
@@ -90,16 +88,20 @@ export async function GET(req: NextRequest) {
     }
 
     const lastPostInResults: any = result[result.length - 1];
-    const cursor: any = lastPostInResults.id;
+    const cursor: any = lastPostInResults?.id;
 
     const nextPage = await db.business.findMany({
       // Same as before, limit the number of events returned by this query.
-      take: take ? parseInt(take as string) : 7,
+      take: take ? parseInt(take as string) : 10,
+      
       skip: 1, // Do not include the cursor itself in the query result.
-      cursor: {
+      cursor:{
         id: cursor,
       },
       where,
+      orderBy: {
+        id: "desc",
+      },
     });
 
     const data = {
@@ -110,6 +112,8 @@ export async function GET(req: NextRequest) {
       }
     };
 
+
+
     return new Response(JSON.stringify(data), { status: 200 });
 
   }
@@ -118,7 +122,6 @@ export async function GET(req: NextRequest) {
       return new Response(JSON.stringify(e.issues), { status: 422 });
     }
 
-    console.log(e)
 
     return new Response(JSON.stringify(e), { status: 500 });
   }

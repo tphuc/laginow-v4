@@ -74,7 +74,7 @@ const fetchData = async ({ take, lastCursor, tag, tags }: QueryParams) => {
         searchQuery.append('tags', tags)
     }
 
-    console.log('fetchdata', tags)
+
     const response = await fetch(`/api/public/business-query?${searchQuery?.toString()}`, {
         method: "GET"
     });
@@ -121,14 +121,26 @@ const SearchPage = ({ masterTags, businessTags }: { masterTags, businessTags }) 
 
             return fetchData({ take: 10, lastCursor: pageParam, tag: params?.get('tag') ?? '', tags: queryKey?.[1] ?? '' })
         },
-        staleTime: 0,
-        refetchOnMount: true,
+        
+
+        staleTime: 100,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+
         queryKey: ["businesses", params?.get('tags')],
 
         getNextPageParam: (lastPage) => {
-            return lastPage?.metaData.lastCursor;
+            console.log(130, lastPage?.metaData)
+            if(lastPage?.metaData?.hasNextPage)
+                return lastPage?.metaData?.lastCursor;
+            else {
+                return null
+            }
+
         },
+        
     });
+
 
 
 
