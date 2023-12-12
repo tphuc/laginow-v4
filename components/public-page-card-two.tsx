@@ -36,7 +36,7 @@ const BusinessPageCardTwo = forwardRef(({ data, showRating = false, tracking = f
 
   return (
 
-    <div ref={ref} className="md:1/1 relative aspect-1/1 w-[80%] shrink-0 snap-center shadow-sm mb-2 border border-input overflow-hidden snap-always rounded-xl bg-white sm:w-[80%] md:w-[20%]">
+    <div ref={ref} className="md:1/1 relative aspect-1/1 w-[80%] shrink-0 snap-center shadow-sm mb-2 border border-input overflow-hidden snap-always rounded-xl bg-white sm:w-[80%] min-w-[240px] md:w-[320px] ">
        
    
         <Image width={300} height={300} src={data?.banner?.url ?? '/placeholder.svg'} alt={''} className="w-full aspect-square object-cover" />
@@ -56,9 +56,14 @@ const BusinessPageCardTwo = forwardRef(({ data, showRating = false, tracking = f
          </Link>
         
          </div>
-         <p className="text-muted-foreground text-base text-sm">
-            {data?.address}
-          </p>
+         <div className='flex items-center gap-1 flex-wrap'>
+         {
+          data?.tags?.map((item, id) =>  <p key={`${item?.id}_${id}`} className="text-muted-foreground bg-secondary rounded-md py-1 px-2 text-base text-sm">
+            {item?.name}
+          </p>)
+         }
+         </div>
+        
         </div>
       </div>
 

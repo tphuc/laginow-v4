@@ -47,7 +47,12 @@ async function fetchBusinessCollection(id: string) {
     const businessesInCollection = await db.collection.findUnique({
         where: { slug: id },
         include: {
-            Business: true,
+            Business: {
+                include: {
+                    tags: true
+                }
+            },
+            
         },
     });
 
@@ -193,10 +198,9 @@ export default async function Page() {
                 </div>
 
 
-                <div className="scrollbar-hide mt-14 flex w-full snap-x snap-mandatory scroll-px-[200px] gap-4 overflow-x-scroll scroll-smooth px-10">
+                <div className="scrollbar-hide mt-14 grid grid-rows-2 grid-flow-col gap-2 w-full snap-x snap-mandatory scroll-px-[200px] gap-4 overflow-x-scroll scroll-smooth px-10">
                     {
                         foodCollection?.map((item: any, index: any) => <BusinessPageCardTwo
-
                             data={item}
                             key={`${index}_${item?.id}`}
                         />)
