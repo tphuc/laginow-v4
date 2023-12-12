@@ -72,7 +72,7 @@ export default function SearchBarFilter({ className }: { className?: string }) {
     //   setOpen(true)
     //   ref?.current?.focus()
     // }
-    // e?.preventDefault()
+    e?.preventDefault()
   }
 
 
@@ -84,6 +84,12 @@ export default function SearchBarFilter({ className }: { className?: string }) {
       </div>
       <Input ref={ref} value={search} onChange={handleInputChange}
         onClick={(e) => {
+          setOpen(true)
+          e.preventDefault()
+          ref?.current?.focus()
+        }}
+  
+        onTouchStart={(e) => {
           setOpen(true)
           e.preventDefault()
           ref?.current?.focus()
