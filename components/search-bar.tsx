@@ -78,7 +78,7 @@ export default function SearchBarFilter({ className }: { className?: string }) {
 
   return <Popover open={open} onOpenChange={setOpen}>
 
-    <PopoverAnchor className="w-full border px-2 rounded-md shadow-sm md:w-auto flex items-center gap-1">
+    <PopoverAnchor className="relative w-full border px-2 rounded-md shadow-sm md:w-auto flex items-center gap-1">
       <div className="text-muted-foreground">
         <Search className="w-4 h-4" />
       </div>
