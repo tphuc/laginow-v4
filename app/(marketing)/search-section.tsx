@@ -132,16 +132,16 @@ function Masonry() {
   }
 
 export default function SearchSection() {
-    return <div className="w-full relative h-[380px] overflow-hidden space-y-2 bg-gradient-to-r from-cyan-600 to-indigo-600 py-5">
+    return <div className="w-full relative h-[380px] space-y-2 bg-gradient-to-r from-cyan-600 to-indigo-600 py-5">
 
         <div className="relative z-20 w-full container space-y-2">
             <h1 className="font-heading text-5xl text-white py-5">
                 Tìm kiếm hàng quán, <br /> dịch vụ tại Lagi Now
             </h1>
-            <SearchBarHome />
+            <SearchBarFilter />
         </div>
-        <div style={{maxWidth:700}} className="absolute opacity-50 md:opacity-90 z-10 w-full top-0 left-[55%] w-[40vw] overflow-hidden">
+        {/* <div style={{maxWidth:700}} className="absolute opacity-50 md:opacity-90 z-10 w-full top-0 left-[55%] w-[40vw] overflow-hidden">
           <Masonry />
-        </div>
+        </div> */}
     </div>
 }

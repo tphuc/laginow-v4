@@ -138,7 +138,7 @@ export default async function Page() {
 
         >
             <SearchSection />
-            <div className="w-full bg-gray-100 border-b py-20 scrollbar-hide">
+            <div className="w-full bg-gray-100 z-40 border-b py-20 scrollbar-hide">
             <div className="px-4 mx-auto max-w-screen-xl scrollbar-hide grid gap-1 grid-rows-2 md:grid-rows-4 grid-flow-col gap-4 overflow-scroll">
                 {masterTags?.map((item) => <Link href={`/timkiem?tags=${item?.tags?.map(item => item.id)?.join(',')}`} key={item?.id} className="pt-4 px-4 cursor-pointer rounded-xl bg-white text-sm min-w-[150px] border border-input">
                     <p className="font-heading px-2 text-lg">{item?.name}</p>
