@@ -36,7 +36,7 @@ export function DataTableViewOptions<TData>({
           className="ml-auto h-8 md:flex"
         >
           <MixerHorizontalIcon className="mr-2 h-4 w-4" />
-          Hiển thị
+          Display
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[150px]">

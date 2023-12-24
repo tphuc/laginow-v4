@@ -36,13 +36,19 @@ import {
   Globe2,
   Rocket,
   ListTodo,
-  Users
+  Users,
+  Newspaper,
+  Briefcase,
+  Landmark,
+  Coins,
+  Banknote
 } from "lucide-react"
 
 export type Icon = LucideIcon
 
 export const Icons = {
   logo: Command,
+  Newspaper: Newspaper,
   close: X,
   spinner: Loader2,
   chevronLeft: ChevronLeft,
@@ -73,9 +79,13 @@ export const Icons = {
   globe: Globe2,
   diamond: Diamond,
   gem: Gem,
+  Landmark: Landmark,
   rocket: Rocket,
   listTodo: ListTodo,
   user2: Users,
+  Coins: Coins,
+  Banknote: Banknote,
+  Briefcase: Briefcase,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

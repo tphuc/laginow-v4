@@ -48,7 +48,7 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem asChild>
+        {/* <DropdownMenuItem asChild>
           <Sheet key={'right'}>
             <SheetTrigger asChild>
               <Button size={'sm'} className="w-full gap-2 justify-between" variant={'ghost'}>
@@ -103,7 +103,7 @@ export function DataTableRowActions<TData>({
 
         <DropdownMenuItem asChild>
           <Link href={`/t/${row?.original?.['id']}`}>Xem trang </Link>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
 
 
       </DropdownMenuContent>

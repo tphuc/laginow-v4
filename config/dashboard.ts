@@ -6,6 +6,10 @@ export const dashboardConfig: DashboardConfig = {
       title: "Tìm kiếm",
       href: "/timkiem",
     },
+    {
+      title: "Bài viết",
+      href: "/news",
+    },
   ],
   sidebarNav: [
     {
@@ -29,4 +33,28 @@ export const dashboardConfig: DashboardConfig = {
       icon: "globe",
     },
   ],
+  newsNav: [
+    {
+        href:'/news',
+        title:"Bản tin",
+        icon: "Newspaper"
+    },
+    {
+        href:'/mua-ban',
+        title:"Mua bán",
+        icon: "Banknote"
+    },
+    {
+        href:'/bds',
+        title:"Bất động sản",
+        icon: "Landmark"
+    },
+    {
+        href:'/tuyen-dung',
+        title:"Tuyển dụng",
+        icon: "Briefcase"
+    },
+    
+
+]
 }

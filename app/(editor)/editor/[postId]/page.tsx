@@ -13,8 +13,14 @@ async function getPostForUser(postId: Post["id"], userId: User["id"]) {
       userId: userId,
     },
     include: {
-      
+
     }
+  })
+}
+
+async function getSellingProductType() {
+  return await prisma.sellingProductType.findMany({
+
   })
 }
 
@@ -23,7 +29,7 @@ interface EditorPageProps {
 }
 
 export default async function EditorPage({ params }: EditorPageProps) {
-  const user = await getCurrentUser()
+  const [user, sellingProductTypes] = await Promise.all([getCurrentUser(), getSellingProductType()])
 
   if (!user) {
     redirect("/login")
@@ -36,13 +42,18 @@ export default async function EditorPage({ params }: EditorPageProps) {
   }
 
   return (
-    <Editor
-      post={{
-        id: post.id,
-        title: post.title,
-        content: post?.content ? post.content : null,
-        published: post.published,
-      }}
-    />
+    <div>
+      <Editor
+        post={{
+          ...post,
+          id: post.id,
+          title: post.title,
+          content: post?.content ? post.content : null,
+          published: post.published,
+
+        }}
+        sellingProductTypes={sellingProductTypes}
+      />
+    </div>
   )
 }

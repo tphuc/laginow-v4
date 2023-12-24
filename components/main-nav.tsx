@@ -85,7 +85,7 @@ export function MainNav({ items, children }: MainNavProps) {
         </div>
         <SheetContent side="left" className="w-[90vw] px-2">
 
-          <div className="divide-y h-[100vh] pb-20 overflow-scroll mt-[20px] divide-border rounded-md border-t">
+          <div className="divide-y h-[100vh] pb-40 scrollbar-hide overflow-scroll mt-[20px] divide-border rounded-md border-t">
             <Link href="/" className="flex px-2 py-2 items-center gap-2 text-xl font-heading">
               <Home className="w-5 h-5" /> Lagi Now
             </Link>

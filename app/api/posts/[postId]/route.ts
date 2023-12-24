@@ -13,6 +13,28 @@ const postPatchSchema = z.object({
 
   // TODO: Type this properly from editorjs block types?
   content: z.any().optional(),
+  thumbnail: z.string().optional().nullable(),
+  images: z.array(z.string()).optional().nullable(),
+  published: z.boolean().optional().nullable(),
+  expiredTime: z.date().optional().nullable(),
+  googleMapsUrl: z.string().optional().nullable(),
+  googleMapsUrlEmbeded: z.string().optional().nullable(),
+  realEstateType: z.string().optional().nullable(),
+  contactPhone: z.string().optional().nullable(),
+  price: z.any().optional().nullable(),
+  postType: z.enum([
+    'NORMAL',
+    'NEWS',
+    'SELLING',
+    'JOB',
+    'REALESTATE'
+  ]).optional(), // Replace with the actual enum values
+  sellingProductTypeId: z.string().optional().nullable(),
+  rank: z.number().optional().nullable(),
+  keywords: z.string().optional().nullable(),
+  salary: z.string().optional().nullable(),
+  jobType: z.string().optional().nullable(),
+  jobGenderType: z.string().optional().nullable(),
 })
 
 const routeContextSchema = z.object({
@@ -88,9 +110,15 @@ export async function PATCH(
       console.log(e)
     }
 
-    const body = postPatchSchema.parse(json)
+    const { rank, sellingProductTypeId, ...body} = postPatchSchema.parse(json)
 
+    let googleMapsUrlEmbeded = ''
 
+    if(body?.googleMapsUrl){
+      let res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/google/get-embeded?url=${body?.googleMapsUrl}`)
+      let data = await res.json()
+      googleMapsUrlEmbeded = data?.embededUrl;
+  }
     // Update the post.
     // TODO: Implement sanitization for content.
     await db.post.update({
@@ -98,8 +126,10 @@ export async function PATCH(
         id: params.postId,
       },
       data: {
+        ...body as any,
         title: body?.title,
         content: body.content,
+        googleMapsUrlEmbeded,
         thumbnail
       },
     })
