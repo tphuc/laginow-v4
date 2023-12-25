@@ -116,14 +116,12 @@ export function MainNav({ items, children }: MainNavProps) {
                   key={index}
                   href={`/timkiem?tags=${item?.tags?.map(item => item.id)?.join(',')}`}
                 >
-                    <Image src={item?.url ?? ''} alt='' width={50} height={50}  className="w-[50px] h-auto aspect-square"></Image>
+                  <Image src={item?.url ?? ''} alt='' width={50} height={50} className="w-[50px] h-auto aspect-square"></Image>
                   {item?.name}
                 </Link>
               ))}
             </nav>
           </div>
-
-
 
 
         </SheetContent>

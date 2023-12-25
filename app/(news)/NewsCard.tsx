@@ -54,7 +54,7 @@ function NewsCard({ data }: { data: any }) {
                     <div className='flex gap-2 items-center'>
                         {/* <UserAvatar user={data?.user} /> */}
                         <div>
-                            <p className='flex items-center gap-1' >{data?.user?.name} {data?.user?.isAdmin && <UserCog className='w-4 h-4oo stroke-sky-800' />} </p>
+                            {/* <p className='flex items-center gap-1' >{data?.user?.name} {data?.user?.isAdmin && <UserCog className='w-4 h-4oo stroke-sky-800' />} </p> */}
                             <p className='text-sm text-muted-foreground'>{format(new Date(data?.createdAt), 'dd LLL, y', { locale: vi })}</p>
                         </div>
                     </div>

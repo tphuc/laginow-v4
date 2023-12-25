@@ -53,6 +53,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
 
         }}
         sellingProductTypes={sellingProductTypes}
+        user={user}
       />
     </div>
   )

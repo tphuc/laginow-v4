@@ -34,7 +34,7 @@
 }
 
 ::selection {
-  background: theme('colors.accent.DEFAULT');
+  background: theme('colors.border');
 }
 
 .cdx-settings-button:hover,

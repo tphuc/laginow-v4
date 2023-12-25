@@ -5,7 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import EditorJS from "@editorjs/editorjs"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Post } from "@prisma/client"
+import { Post, Prisma, User } from "@prisma/client"
 import { useForm } from "react-hook-form"
 import TextareaAutosize from "react-textarea-autosize"
 import * as z from "zod"
@@ -34,11 +34,13 @@ import { SelectValue } from "@radix-ui/react-select"
 import { Pen, PenBox } from "lucide-react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
 import { AccordionBody } from "@tremor/react"
+import { useSession } from "next-auth/react"
 
 
 interface EditorProps {
   post: any,
   sellingProductTypes?: any
+  user: Partial<User>
 }
 
 
@@ -59,7 +61,8 @@ const postPatchSchema = z.object({
 
 type FormData = z.infer<typeof postPatchSchema>
 
-export function Editor({ post, sellingProductTypes }: EditorProps) {
+export function Editor({ post, sellingProductTypes, user }: EditorProps) {
+  
   const form = useForm<FormData>({
     resolver: zodResolver(postPatchSchema),
     defaultValues: async () => {
@@ -233,7 +236,8 @@ export function Editor({ post, sellingProductTypes }: EditorProps) {
                         <SelectContent>
 
                           <SelectItem value='NORMAL'>Tin thường</SelectItem>
-                          <SelectItem value='NEWS'>Báo chí</SelectItem>
+                          
+                          {user?.canWriteNews && <SelectItem value='NEWS'>Báo chí</SelectItem>}
                           <SelectItem value='REALESTATE'>Bất động sản</SelectItem>
                           <SelectItem value='JOB'>Tuyển dụng</SelectItem>
                           <SelectItem value='SELLING'>Buôn bán</SelectItem>
