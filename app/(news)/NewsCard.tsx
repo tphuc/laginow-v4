@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import React from 'react';
 import Link from 'next/link';
-import { cn, getOpenHrs, isCurrentlyOpen, timeAgo } from '@/lib/utils';
+import { cn, getOpenHrs, isCurrentlyOpen, timeAgo, vndFormat } from '@/lib/utils';
 import { Clock10, Shield, ShieldAlert, ShieldCheck, UserCheck, UserCog, UserCog2 } from 'lucide-react';
 import { Avatar } from '@radix-ui/react-avatar';
 import { format } from 'date-fns';
@@ -44,7 +44,6 @@ const PostCardDescription = ({ postData }) => {
 
 function NewsCard({ data }: { data: any }) {
 
-    let isCurrentlyOpenHr = isCurrentlyOpen(data?.workingHrs ?? {})
     return (
         <div className="p-2 w-full min-w-[280px] rounded-md overflow-hidden border boder-input bg-white">
 
@@ -56,6 +55,34 @@ function NewsCard({ data }: { data: any }) {
                         <div>
                             {/* <p className='flex items-center gap-1' >{data?.user?.name} {data?.user?.isAdmin && <UserCog className='w-4 h-4oo stroke-sky-800' />} </p> */}
                             <p className='text-sm text-muted-foreground'>{format(new Date(data?.createdAt), 'dd LLL, y', { locale: vi })}</p>
+                        </div>
+                    </div>
+
+                    <Link href={`/p/${data?.id}`} className="font-heading text-secondary-foreground text-xl hover:underline">{data?.title}</Link>
+                    <PostCardDescription postData={data?.content}></PostCardDescription>
+
+                </div>
+
+            </div>
+        </div>
+    );
+}
+
+
+export function SellingCard({ data }: { data: any }) {
+
+    return (
+        <div className="p-2 w-full min-w-[280px] rounded-md overflow-hidden border boder-input bg-white">
+
+            <ImageViewable className="w-full rounded-md aspect-video object-cover" width={200} height={200} style={{obejctFit:"cover"}} src={data?.thumbnail ?? '/placeholder.svg'} alt={''} />
+            <div className='space-y-1'>
+                <div className="p-2">
+                    <div className='flex gap-2 items-center'>
+                        {/* <UserAvatar user={data?.user} /> */}
+                        <div>
+                            {/* <p className='flex items-center gap-1' >{data?.user?.name} {data?.user?.isAdmin && <UserCog className='w-4 h-4oo stroke-sky-800' />} </p> */}
+                            <p className='text-sm text-muted-foreground'>{timeAgo(data?.createdAt)}</p>
+                            <p className='text-md'>{vndFormat(data?.price)}</p>
                         </div>
                     </div>
 

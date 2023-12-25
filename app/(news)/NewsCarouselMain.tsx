@@ -7,7 +7,7 @@ import {
     CarouselSlide,
     CarouselSlideList,
     CarouselSlider,
-  } from '@/components/ui/carousel';
+  } from '@/components/ui/carousel-custom';
 import Image from 'next/image';
 import NewsCard, { NewsCardHorizontal } from './NewsCard';
 
