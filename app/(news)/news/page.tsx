@@ -144,7 +144,7 @@ export default async function Page({ searchParams }) {
     return <div className='relative w-full max-w-screen-2xl mx-auto grid grid-cols-5 gap-4'>
         <div className="col-span-5 md:col-span-4 w-full  max-w-screen-2xl mx-auto">
             <div className="">
-                <h1 className="text-2xl font-bold tracking-tight font-heading text-secondary-foreground"> Thông tin Lagi </h1>
+                <h1 className="text-2xl font-bold tracking-tight font-heading text-secondary-foreground"> Thông tin </h1>
             </div>
 
             <br />

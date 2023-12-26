@@ -53,6 +53,7 @@ const postPatchSchema = z.object({
   jobType: z.any()?.optional().transform(d => { return !d ? undefined : d }),
   jobGenderType: z.any()?.optional().transform(d => { return !d ? undefined : d }),
   realEstateType: z.any().optional()?.default("SELL").transform(d => { return !d ? undefined : d }),
+  realEstateAssetType: z.any().optional().transform(d => { return !d ? undefined : d }),
   contactPhone: z.any().optional(),
   googleMapsUrl: z.any().optional(),
   sellingProductTypeId: z.any().optional(),
@@ -209,7 +210,7 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
               {isSaving && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
-              <span>Lưu</span>
+              <span>Lưu & Đăng</span>
             </button>
           </div>
 
@@ -397,12 +398,37 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
 
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Loại BDS" />
+                              <SelectValue placeholder="Thể thức" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
                             <SelectItem value='RENT'>Thuê</SelectItem>
                             <SelectItem value='SELL'>Mua bán</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+
+<FormField
+                    control={form.control}
+                    name="realEstateAssetType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center gap-2"> Loại BĐS </FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Loại BDS" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value='APARTMENT'>Căn hộ / chung cư</SelectItem>
+                            <SelectItem value='HOME'>Nhà</SelectItem>
+                            <SelectItem value='OFFICE'>Văn phòng</SelectItem>
+                            <SelectItem value='LAND'>Đất</SelectItem>
+                            <SelectItem value='FLAT'>Mặt bằng</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormItem>

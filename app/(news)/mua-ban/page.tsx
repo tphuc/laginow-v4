@@ -48,7 +48,7 @@ async function getProductTypes(){
     return data
 }
 
-async function getLocalSellingPosts({ page, take }: { page: number; take: number }) {
+async function getLocalSellingPosts({ page, productType, take }: { page: number; productType?: string; take: number }) {
 
     const offset = (page - 1) * take;
     // let from = new Date(url.searchParams.get('from') ?? subDays(new Date(), 7)) ?? null
@@ -61,6 +61,7 @@ async function getLocalSellingPosts({ page, take }: { page: number; take: number
         title: {
             not: "chưa có tiêu đề"
         },
+        sellingProductTypeId: !!productType ? productType : undefined,
         postType: 'SELLING',
         createdAt: {
             gte: oneMonthAgo
@@ -94,8 +95,9 @@ async function getLocalSellingPosts({ page, take }: { page: number; take: number
 export default async function Page({searchParams}) {
     
     const page = parseInt(searchParams.page ?? '1')
+    const productType = searchParams.productType
     let [sellingPosts, productTypes] = await Promise.all([
-       getLocalSellingPosts({page: page, take: 9}),
+       getLocalSellingPosts({page: page, take: 9, productType: productType}),
        getProductTypes()
     ])
 
@@ -107,15 +109,16 @@ export default async function Page({searchParams}) {
 
             <CategoriesHeading productTypes={productTypes}/>
             <br/>
-            { productTypes?.find(item => item?.id === searchParams?.productType)?.title && <Link href={`/mua-ban?page=1`} className='bg-secondary px-4 py-2 items-center gap-2 inline-flex flex-item rounded-full border border-input'>
+            { productTypes?.find(item => item?.id === searchParams?.productType)?.title ? <Link href={`/mua-ban?page=1`} className='bg-secondary px-4 py-2 items-center gap-2 inline-flex flex-item rounded-full border text-teal-800 border-teal-500'>
                 {productTypes?.find(item => item?.id === searchParams?.productType)?.title}
                 <X className='w-4 h-4'/>
-            </Link>}
+            </Link> : <p className='text-muted-foreground'>Hiển thị tất cả</p>}
            
-            <div className="">
+            <div className="py-2">
                 <h1 className="text-2xl font-bold tracking-tight font-heading text-secondary-foreground"> Bài đăng </h1>
             </div>
             <br />
+            {sellingPosts?.data?.length === 0 && <p className='text-muted-foreground'>Chưa có bài đăng</p>}
             <NewsSellingPaginatedList data={sellingPosts?.data} maxPage={sellingPosts?.total}/>
         </div>
 

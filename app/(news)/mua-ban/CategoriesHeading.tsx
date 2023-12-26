@@ -37,7 +37,7 @@ export default function CategoriesHeading({ productTypes }) {
         <CarouselPrevious />
         <CarouselContent className="-ml-1">
             {productTypes.map((item, index) => {
-                return <CarouselItem key={index} className="pl-1 basis-1/2 md:basis-1/4 lg:basis-[12.5%]">
+                return <CarouselItem key={index} className="pl-1 basis-1/3 md:basis-1/4 lg:basis-[12.5%]">
                     <Link className='flex flex-col items-center justify-between inline-block py-2 space-y-2' key={item?.id} href={createPageURL(item?.id)}>
                         <Image width={100} height={100} alt='' src={item?.url ?? ''} className='w-[100px] hover:scale-[1.05] transition transition-transform aspect-square rounded-lg ' style={{ objectFit: "contain" }} />
                         <p className="text-sm text-center hover:text-accent-foreground px-2">{item?.title}</p>

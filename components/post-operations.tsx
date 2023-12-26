@@ -76,14 +76,14 @@ export function PostOperations({ post }: PostOperationsProps) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to delete this post?
+             Bạn có chắc muốn xoá
             </AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone.
+              Hành động không thể hoàn tác
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Trở lại</AlertDialogCancel>
             <AlertDialogAction
               onClick={async (event) => {
                 event.preventDefault()
@@ -104,7 +104,7 @@ export function PostOperations({ post }: PostOperationsProps) {
               ) : (
                 <Icons.trash className="mr-2 h-4 w-4" />
               )}
-              <span>Delete</span>
+              <span>Xoá</span>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

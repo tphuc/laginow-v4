@@ -77,32 +77,33 @@ model VerificationToken {
 }
 
 model Post {
-  id                   String              @id @default(cuid())
-  createdAt            DateTime            @unique @default(now())
-  updatedAt            DateTime            @unique @default(now())
-  user                 User?               @relation(fields: [userId], references: [id], onDelete: SetNull)
+  id                   String               @id @default(cuid())
+  createdAt            DateTime             @unique @default(now())
+  updatedAt            DateTime             @unique @default(now())
+  user                 User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId               String?
   title                String?
   content              Json?
   thumbnail            String?
-  images               Json?               @default("[]")
+  images               Json?                @default("[]")
   published            Boolean?
   expiredTime          DateTime?
   googleMapsUrl        String?
   googleMapsUrlEmbeded String?
   contactPhone         String?
-  postType             PostType?           @default(NORMAL)
-  sellingProductType   SellingProductType? @relation(fields: [sellingProductTypeId], references: [id])
-  rank                 Int?                @default(0)
+  postType             PostType?            @default(NORMAL)
+  sellingProductType   SellingProductType?  @relation(fields: [sellingProductTypeId], references: [id])
+  rank                 Int?                 @default(0)
   keywords             String?
   sellingProductTypeId String?
   // ----
   salary               String?
-  price                Int?
+  price                BigInt?
   jobType              JobType?
   jobGenderType        JobGenderType?
   realEstateType       RealEstateType?
-  NewsCollection       NewsCollection?     @relation(fields: [newsCollectionId], references: [id])
+  realEstateAssetType  RealEstateAssetType?
+  NewsCollection       NewsCollection?      @relation(fields: [newsCollectionId], references: [id])
   newsCollectionId     String?
 
   @@unique([userId, title])
@@ -372,6 +373,14 @@ enum JobGenderType {
 enum RealEstateType {
   RENT
   SELL
+}
+
+enum RealEstateAssetType {
+  APARTMENT
+  HOME
+  OFFICE
+  LAND
+  FLAT
 }
 
 enum UserViewBusinessContext {

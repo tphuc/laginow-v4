@@ -20,6 +20,7 @@ const postPatchSchema = z.object({
   googleMapsUrl: z.string().optional().nullable(),
   googleMapsUrlEmbeded: z.string().optional().nullable(),
   realEstateType: z.string().optional().nullable(),
+  realEstateAssetType: z.string().optional().nullable(),
   contactPhone: z.string().optional().nullable(),
   price: z.any().optional().nullable(),
   postType: z.enum([
@@ -56,8 +57,20 @@ export async function DELETE(
       return new Response("not owner", { status: 403 })
     }
 
-    // Delete the post.
-    await db.post.delete({
+    let oldRecord = await db.post.findUnique({
+      where: {
+        id: params.postId
+      }
+    }) 
+    let oldImages = (oldRecord?.content as any)?.blocks?.filter?.(item => item.type === 'image')?.map(item => item.data?.file?.fileId) ?? []
+    try {
+      await imagekit.bulkDeleteFiles(oldImages)
+    }
+    catch(e){
+      console.log(e)
+    }
+     // Delete the post.
+     await db.post.delete({
       where: {
         id: params.postId as string,
       },
