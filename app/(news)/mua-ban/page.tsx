@@ -80,12 +80,7 @@ export default async function Page({searchParams}) {
            
 
             <CategoriesHeading productTypes={productTypes}/>
-            <br/>
-            { productTypes?.find(item => item?.id === searchParams?.productType)?.title ? <Link href={`/mua-ban?page=1`} className='bg-secondary px-4 py-2 items-center gap-2 inline-flex flex-item rounded-full border text-teal-800 border-teal-500'>
-                {productTypes?.find(item => item?.id === searchParams?.productType)?.title}
-                <X className='w-4 h-4'/>
-            </Link> : <p className='text-muted-foreground'>Hiển thị tất cả</p>}
-           
+            <br/>           
             <div className="py-2">
                 <h1 className="text-2xl font-bold tracking-tight font-heading text-secondary-foreground"> Bài đăng </h1>
             </div>
