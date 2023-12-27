@@ -12,35 +12,6 @@ import NewsSellingPaginatedList from './NewsSellingPaginatedList'
 
 
 
-async function getLocalNews() {
-    return await db.post?.findMany({
-        include: {
-            user: true
-        },
-        where: {
-            title: {
-                not: "chưa có tiêu đề"
-            }
-        },
-        take: 4
-    })
-}
-
-async function getLocalNews2() {
-    return await db.post?.findMany({
-        include: {
-            user: true
-        },
-        where: {
-            title: {
-                not: "chưa có tiêu đề"
-            }
-        },
-        take: 4,
-        skip: 4
-    })
-}
-
 async function getProductTypes(){
     const data =  await db.sellingProductType?.findMany({
         
@@ -65,7 +36,8 @@ async function getLocalSellingPosts({ page, productType, take }: { page: number;
         postType: 'SELLING',
         createdAt: {
             gte: oneMonthAgo
-        }
+        },
+        visible: true
     }
 
     let data = await db.post?.findMany({

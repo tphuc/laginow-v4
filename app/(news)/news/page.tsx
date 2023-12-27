@@ -45,7 +45,8 @@ async function getLocalNews() {
         where: {
             title: {
                 not: "chưa có tiêu đề"
-            }
+            },
+            visible: true
         },
         take: 4
     })
@@ -59,7 +60,8 @@ async function getLocalNews2() {
         where: {
             title: {
                 not: "chưa có tiêu đề"
-            }
+            },
+            visible: true
         },
         take: 4,
         skip: 4
@@ -74,7 +76,7 @@ async function getLocalNewsaper({ page, take }: { page: number; take: number }) 
     // let to = new Date(url.searchParams.get('to') ?? new Date()) ?? null
     const currentDate = new Date();
     // Subtract one month from the current date
-    const oneMonthAgo = sub(currentDate, { months: 3 });
+    const oneMonthAgo = sub(currentDate, { months: 12 });
 
     const where: Prisma.PostWhereInput | undefined = {
         title: {
@@ -83,7 +85,8 @@ async function getLocalNewsaper({ page, take }: { page: number; take: number }) 
         postType: 'NEWS',
         createdAt: {
             gte: oneMonthAgo
-        }
+        },
+        visible: true
     }
 
     let data = await db.post?.findMany({

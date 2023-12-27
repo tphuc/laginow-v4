@@ -16,6 +16,7 @@ const postPatchSchema = z.object({
   thumbnail: z.string().optional().nullable(),
   images: z.array(z.string()).optional().nullable(),
   published: z.boolean().optional().nullable(),
+  visible: z.boolean().optional().nullable(),
   expiredTime: z.date().optional().nullable(),
   googleMapsUrl: z.string().optional().nullable(),
   googleMapsUrlEmbeded: z.string().optional().nullable(),

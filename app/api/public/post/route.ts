@@ -3,13 +3,9 @@ import { NextRequest, NextResponse, userAgent } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { z } from 'zod';
-import { BusinessCreateSchema, BusinessUpdateSchema, FormBusinessUpdateSchema, ProductCreateSchema, FormBusinessReviewCreateSchema, PageEventCreateSchema } from '@/lib/dto';
 
 import db from '@/lib/prisma'
-import slugify from 'slugify';
-import { getCurrentUser, verifyCurrentUserHasAccessToBusiness, verifyCurrentUserHasAccessToUpdateProduct } from '@/lib/session';
-import { startOfDay, subDays } from 'date-fns';
-import { Post } from '@prisma/client';
+
 
 
 
@@ -29,7 +25,8 @@ export async function GET(req: NextRequest) {
     let where = {
       title: {
         not: "chưa có tiêu đề"
-      }
+      },
+      visible: true
     }
 
 

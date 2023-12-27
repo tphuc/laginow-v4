@@ -14,33 +14,6 @@ const postCreateSchema = z.object({
   content: z.string().optional(),
 })
 
-export async function GET() {
-  try {
-    const session = await getServerSession(authOptions)
-
-    if (!session) {
-      return new Response("Unauthorized", { status: 403 })
-    }
-
-    const { user } = session
-    const posts = await db.post.findMany({
-      select: {
-        id: true,
-        title: true,
-        published: true,
-        createdAt: true,
-      },
-      where: {
-        userId: user.id,
-      },
-    })
-
-    return new Response(JSON.stringify(posts))
-  } catch (error) {
-    return new Response(null, { status: 500 })
-  }
-}
-
 let orderSchema = z.object({
   cart: z.any(),
   deliveryAddress: z.string(),

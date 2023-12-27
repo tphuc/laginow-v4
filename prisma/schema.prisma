@@ -105,6 +105,7 @@ model Post {
   realEstateAssetType  RealEstateAssetType?
   NewsCollection       NewsCollection?      @relation(fields: [newsCollectionId], references: [id])
   newsCollectionId     String?
+  visible              Boolean?             @default(true)
 
   @@unique([userId, title])
   @@index([title])

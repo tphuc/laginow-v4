@@ -35,6 +35,8 @@ import { Pen, PenBox } from "lucide-react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
 import { AccordionBody } from "@tremor/react"
 import { useSession } from "next-auth/react"
+import { Switch } from "./ui/switch"
+
 
 
 interface EditorProps {
@@ -56,6 +58,7 @@ const postPatchSchema = z.object({
   realEstateAssetType: z.any().optional().transform(d => { return !d ? undefined : d }),
   contactPhone: z.any().optional(),
   googleMapsUrl: z.any().optional(),
+  visible: z.boolean()?.optional().default(true),
   sellingProductTypeId: z.any().optional(),
   content: z.any().optional(),
 })
@@ -63,7 +66,7 @@ const postPatchSchema = z.object({
 type FormData = z.infer<typeof postPatchSchema>
 
 export function Editor({ post, sellingProductTypes, user }: EditorProps) {
-  
+
   const form = useForm<FormData>({
     resolver: zodResolver(postPatchSchema),
     defaultValues: async () => {
@@ -220,271 +223,297 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
                 <AccordionItem value="item-1">
                   <AccordionTrigger> <p className="font-heading text-xl">Tuỳ chỉnh bài đăng</p></AccordionTrigger>
                   <AccordionContent>
-                  <div className="space-y-2">
-                <FormField
-                  control={form.control}
-                  name="postType"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Loại bài đăng</FormLabel>
+                    <div className="space-y-2">
+                      <FormField
+                        control={form.control}
+                        name="postType"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Loại bài đăng</FormLabel>
 
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Loại bài đăng" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Loại bài đăng" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
 
-                          <SelectItem value='NORMAL'>Tin thường</SelectItem>
+                                <SelectItem value='NORMAL'>Tin thường</SelectItem>
+
+                                {user?.canWriteNews && <SelectItem value='NEWS'>Báo chí</SelectItem>}
+                                <SelectItem value='REALESTATE'>Bất động sản</SelectItem>
+                                <SelectItem value='JOB'>Tuyển dụng</SelectItem>
+                                <SelectItem value='SELLING'>Buôn bán</SelectItem>
+
+                              </SelectContent>
+                            </Select>
+
+                          </FormItem>
+                        )}
+                      />
+                      {form?.watch('postType') === 'NORMAL' && <p className="text-muted-foreground"> Tin thường có thời hạn 1 tháng. <br /> Mỗi tài khoản có tối đa 3 tin thường. <br /> Tài khoản đối tác có thể đăng 10 tin / tháng. </p>}
+                      {form?.watch('postType') === 'REALESTATE' && <p className="text-muted-foreground"> Tin BDS có thời hạn 1 tháng. Có thể gia hạn thêm. </p>}
+                      {form?.watch('postType') === 'SELLING' && <p className="text-muted-foreground"> Tin buôn bán có thời hạn 1 tháng. Có thể gia hạn thêm. </p>}
+                      {form?.watch('postType') === 'JOB' && <p className="text-muted-foreground"> Tin tuyển dụng có thời hạn 1 tháng. Có thể gia hạn thêm. </p>}
+                      <br />
+                      <FormField
+                        control={form.control}
+                        name="visible"
+                        render={({ field }) => (
+                          <FormItem>
                           
-                          {user?.canWriteNews && <SelectItem value='NEWS'>Báo chí</SelectItem>}
-                          <SelectItem value='REALESTATE'>Bất động sản</SelectItem>
-                          <SelectItem value='JOB'>Tuyển dụng</SelectItem>
-                          <SelectItem value='SELLING'>Buôn bán</SelectItem>
+                            <FormControl>
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                                <div className="space-y-0.5">
+                                  <FormLabel>Hiển thị</FormLabel>
+                                  <FormDescription>
+                                    Hiển thị hoặc ẩn bài viết
+                                  </FormDescription>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            </FormControl>
 
-                        </SelectContent>
-                      </Select>
-
-                    </FormItem>
-                  )}
-                />
-                {form?.watch('postType') === 'NORMAL' && <p className="text-muted-foreground"> Tin thường có thời hạn 1 tháng. <br /> Mỗi tài khoản có tối đa 3 tin thường. <br /> Tài khoản đối tác có thể đăng 10 tin / tháng. </p>}
-                {form?.watch('postType') === 'REALESTATE' && <p className="text-muted-foreground"> Tin BDS có thời hạn 1 tháng. Có thể gia hạn thêm. </p>}
-                {form?.watch('postType') === 'SELLING' && <p className="text-muted-foreground"> Tin buôn bán có thời hạn 1 tháng. Có thể gia hạn thêm. </p>}
-                {form?.watch('postType') === 'JOB' && <p className="text-muted-foreground"> Tin tuyển dụng có thời hạn 1 tháng. Có thể gia hạn thêm. </p>}
-                <br />
-                {
-                form?.watch('postType') === 'JOB' && <div className="block py-4 border-t space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="salary"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2"> Lương (VND) </FormLabel>
-                        <FormControl>
-                          <Input type='number' placeholder="lương nhân viên" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          Nhập thông tin này để hiện thị tìm kiếm tốt hơn
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-
-                  <FormField
-                    control={form.control}
-                    name="jobType"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2"> Loại công việc </FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="lựa chọn" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value='FULLTIME'>Toàn thời gian</SelectItem>
-                            <SelectItem value='PARTIME'>Bán thời gian</SelectItem>
-                            <SelectItem value='REMOTE'>Tại nhà</SelectItem>
-                            <SelectItem value='CONTRACT'>Hợp đồng</SelectItem>
-                            <SelectItem value='OTHER'>Khác</SelectItem>
-                            <SelectItem value=''>Tất cả</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="jobGenderType"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2"> Yêu cầu giới tính </FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="lựa chọn" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value='MALE'>Nam</SelectItem>
-                            <SelectItem value='FEMALE'>Nữ</SelectItem>
-                            <SelectItem value=''>Tất cả</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormItem>
-                    )}
-                  />
-
-                </div>
-              }
+                          </FormItem>
+                        )}
+                      />
+                      {
+                        form?.watch('postType') === 'JOB' && <div className="block py-4 border-t space-y-4">
+                          <FormField
+                            control={form.control}
+                            name="salary"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2"> Lương (VND) </FormLabel>
+                                <FormControl>
+                                  <Input type='number' placeholder="lương nhân viên" {...field} />
+                                </FormControl>
+                                <FormDescription>
+                                  Nhập thông tin này để hiện thị tìm kiếm tốt hơn
+                                </FormDescription>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
 
 
-              {
-                form?.watch('postType') === 'SELLING' && <div className="flex flex-col py-4 border-t space-y-2">
-                  <FormField
-                    control={form.control}
-                    name="price"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2"> Giá tiền (VND) </FormLabel>
-                        <FormControl>
-                          <Input placeholder="" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          Nhập thông tin giá để hiển thị tìm kiếm tốt hơn
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                          <FormField
+                            control={form.control}
+                            name="jobType"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2"> Loại công việc </FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
 
-                  <FormField
-                    control={form.control}
-                    name="sellingProductTypeId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2"> Thuộc loại </FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="lựa chọn" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value='FULLTIME'>Toàn thời gian</SelectItem>
+                                    <SelectItem value='PARTIME'>Bán thời gian</SelectItem>
+                                    <SelectItem value='REMOTE'>Tại nhà</SelectItem>
+                                    <SelectItem value='CONTRACT'>Hợp đồng</SelectItem>
+                                    <SelectItem value='OTHER'>Khác</SelectItem>
+                                    <SelectItem value=''>Tất cả</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
 
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Loại đồ bán" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {sellingProductTypes?.map((item) => <SelectItem key={item?.id} value={item?.id}>{item?.title}</SelectItem>)}
-                          </SelectContent>
-                        </Select>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              }
+                          <FormField
+                            control={form.control}
+                            name="jobGenderType"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2"> Yêu cầu giới tính </FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="lựa chọn" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value='MALE'>Nam</SelectItem>
+                                    <SelectItem value='FEMALE'>Nữ</SelectItem>
+                                    <SelectItem value=''>Tất cả</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
 
-              {
-                form?.watch('postType') === 'REALESTATE' && <div className="py-4 border-t space-y-4">
-
-                  <FormField
-                    control={form.control}
-                    name="price"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2"> Giá tiền (VND) </FormLabel>
-                        <FormControl>
-                          <Input type='number' placeholder="" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          {vndFormat(form.getValues('price'))}
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="realEstateType"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2"> Loại BĐS </FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Thể thức" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value='RENT'>Thuê</SelectItem>
-                            <SelectItem value='SELL'>Mua bán</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormItem>
-                    )}
-                  />
-
-<FormField
-                    control={form.control}
-                    name="realEstateAssetType"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2"> Loại BĐS </FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Loại BDS" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value='APARTMENT'>Căn hộ / chung cư</SelectItem>
-                            <SelectItem value='HOME'>Nhà</SelectItem>
-                            <SelectItem value='OFFICE'>Văn phòng</SelectItem>
-                            <SelectItem value='LAND'>Đất</SelectItem>
-                            <SelectItem value='FLAT'>Mặt bằng</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="googleMapsUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2"> Link Google Maps </FormLabel>
-                        <FormControl>
-                          <Input placeholder="link google maps" {...field} />
-                        </FormControl>
-                        <FormDescription>
-
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {!!post?.['googleMapsUrlEmbeded'] ? <div className="relative overflow-hidden w-full min-w-[340px] aspect-video">
-                    <iframe
-                      //   frameborder="0"
-                      //   style="border:0"
-                      className="w-full h-full absolute rounded-md border border-input top-0 left-0"
-                      src={post?.['googleMapsUrlEmbeded']}
-
-                    >
-                    </iframe>
-                  </div> : null}
-
-                  <FormField
-                    control={form.control}
-                    name="contactPhone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2"> SDT </FormLabel>
-                        <FormControl>
-                          <Input placeholder="Nhập số đt liên hệ" {...field} />
-                        </FormControl>
-                        <FormDescription>
-
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                </div>
-              }
+                        </div>
+                      }
 
 
-              </div>
+                      {
+                        form?.watch('postType') === 'SELLING' && <div className="flex flex-col py-4 border-t space-y-2">
+                          <FormField
+                            control={form.control}
+                            name="price"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2"> Giá tiền (VND) </FormLabel>
+                                <FormControl>
+                                  <Input placeholder="" {...field} />
+                                </FormControl>
+                                <FormDescription>
+                                  Nhập thông tin giá để hiển thị tìm kiếm tốt hơn
+                                </FormDescription>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="sellingProductTypeId"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2"> Thuộc loại </FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Loại đồ bán" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    {sellingProductTypes?.map((item) => <SelectItem key={item?.id} value={item?.id}>{item?.title}</SelectItem>)}
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      }
+
+                      {
+                        form?.watch('postType') === 'REALESTATE' && <div className="py-4 border-t space-y-4">
+
+                          <FormField
+                            control={form.control}
+                            name="price"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2"> Giá tiền (VND) </FormLabel>
+                                <FormControl>
+                                  <Input type='number' placeholder="" {...field} />
+                                </FormControl>
+                                <FormDescription>
+                                  {vndFormat(form.getValues('price'))}
+                                </FormDescription>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="realEstateType"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2"> Loại BĐS </FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Thể thức" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value='RENT'>Thuê</SelectItem>
+                                    <SelectItem value='SELL'>Mua bán</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="realEstateAssetType"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2"> Loại BĐS </FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Loại BDS" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value='APARTMENT'>Căn hộ / chung cư</SelectItem>
+                                    <SelectItem value='HOME'>Nhà</SelectItem>
+                                    <SelectItem value='OFFICE'>Văn phòng</SelectItem>
+                                    <SelectItem value='LAND'>Đất</SelectItem>
+                                    <SelectItem value='FLAT'>Mặt bằng</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="googleMapsUrl"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2"> Link Google Maps </FormLabel>
+                                <FormControl>
+                                  <Input placeholder="link google maps" {...field} />
+                                </FormControl>
+                                <FormDescription>
+
+                                </FormDescription>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          {!!post?.['googleMapsUrlEmbeded'] ? <div className="relative overflow-hidden w-full min-w-[340px] aspect-video">
+                            <iframe
+                              //   frameborder="0"
+                              //   style="border:0"
+                              className="w-full h-full absolute rounded-md border border-input top-0 left-0"
+                              src={post?.['googleMapsUrlEmbeded']}
+
+                            >
+                            </iframe>
+                          </div> : null}
+
+                          <FormField
+                            control={form.control}
+                            name="contactPhone"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="flex items-center gap-2"> SDT </FormLabel>
+                                <FormControl>
+                                  <Input placeholder="Nhập số đt liên hệ" {...field} />
+                                </FormControl>
+                                <FormDescription>
+
+                                </FormDescription>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                        </div>
+                      }
+
+
+                    </div>
 
                   </AccordionContent>
                 </AccordionItem>
@@ -492,11 +521,11 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
 
               </Accordion>
 
-           
 
 
 
-             
+
+
 
 
 

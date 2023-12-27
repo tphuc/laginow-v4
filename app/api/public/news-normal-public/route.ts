@@ -39,8 +39,8 @@ export async function GET(req: NextRequest) {
       postType: 'NORMAL',
       createdAt: {
         gte: oneMonthAgo
-      }
-
+      },
+      visible: true
     }
 
     let data = await db.post?.findMany({
