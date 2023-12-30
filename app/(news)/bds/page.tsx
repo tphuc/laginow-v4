@@ -39,7 +39,8 @@ async function getRealEstatePosts({ page, realEstateType, realEstateAssetType, t
         postType: 'REALESTATE',
         createdAt: {
             gte: oneMonthAgo
-        }
+        },
+        visible: true
     }
 
     let data = await db.post?.findMany({
