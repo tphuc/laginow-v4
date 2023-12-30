@@ -78,6 +78,7 @@ model VerificationToken {
 
 model Post {
   id                   String               @id @default(cuid())
+  slug                 String?              @unique
   createdAt            DateTime             @unique @default(now())
   updatedAt            DateTime             @unique @default(now())
   user                 User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
@@ -107,8 +108,8 @@ model Post {
   newsCollectionId     String?
   visible              Boolean?             @default(true)
 
-  @@unique([userId, title])
   @@index([title])
+  @@index([slug])
   @@index([userId])
 }
 

@@ -156,3 +156,17 @@ export function fillEmptyDates(data: any, startDate: Date, endDate: Date) {
 
   return filledData;
 }
+
+
+export function generateUniqueId() {
+  // Get the current timestamp
+  const timestamp = new Date().getTime();
+
+  // Generate a random number (you can use a more sophisticated random number generator)
+  const random = Math.floor(Math.random() * 10000);
+
+  // Combine timestamp and random number to create the unique ID
+  const uniqueId = `${timestamp}-${random}`;
+
+  return uniqueId;
+}

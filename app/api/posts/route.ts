@@ -6,6 +6,7 @@ import db from "@/lib/prisma"
 import { RequiresProPlanError } from "@/lib/exceptions"
 import slugify from "slugify"
 import { NextRequest, NextResponse } from "next/server"
+import { generateUniqueId } from "@/lib/utils"
 // import { getUserSubscriptionPlan } from "@/lib/subscription"
 
 const postCreateSchema = z.object({
@@ -65,11 +66,14 @@ export async function POST(req: Request) {
     //   }
     // }
 
+    const newId = generateUniqueId()
+
     const json = await req.json()
     const body = postCreateSchema.parse(json)
 
     const post = await db.post.create({
       data: {
+        slug: slugify(`${body?.title}-{newId}`, {}),
         title: body.title,
         content: body.content ?? '',
         userId: session.user.id,
