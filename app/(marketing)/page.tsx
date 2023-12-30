@@ -52,7 +52,7 @@ async function fetchBusinessCollection(id: string) {
                     tags: true
                 }
             },
-            
+
         },
     });
 
@@ -126,8 +126,25 @@ export default async function Page() {
     let _businessRating = fetchBusinessHighRating()
 
 
-    const [businessPages, posts, totalBusiness, foodCollection, drinkCollection, businessesHighRating, tags, masterTags] = 
-    await Promise.all([_businessPages, _posts, _totalBusiness, _foodCollection, _drinkCollection, _businessRating, fetchTags(), fetchMasterTags()])
+    const [
+        businessPages,
+        posts,
+        totalBusiness,
+        foodCollection,
+        drinkCollection,
+        businessesHighRating,
+        tags,
+        masterTags,
+        decoBusinesses,
+    ]
+
+        =
+        await Promise.all([_businessPages, _posts, _totalBusiness, _foodCollection, _drinkCollection, _businessRating,
+            fetchTags(),
+            fetchMasterTags(),
+            fetchBusinessCollection('deco1')
+
+        ])
 
 
     return <div className="relative space-y-4 w-full gap-2">
@@ -139,17 +156,17 @@ export default async function Page() {
         >
             <SearchSection />
             <div className="w-full bg-gray-100 z-40 border-b py-20 scrollbar-hide">
-            <div className="px-4 mx-auto max-w-screen-xl scrollbar-hide grid gap-1 grid-rows-2 md:grid-rows-4 grid-flow-col gap-4 overflow-scroll">
-                {masterTags?.map((item) => <Link href={`/timkiem?tags=${item?.tags?.map(item => item.id)?.join(',')}`} key={item?.id} className="pt-4 px-4 cursor-pointer rounded-xl bg-white text-sm min-w-[150px] border border-input">
-                    <p className="font-heading px-2 text-lg">{item?.name}</p>
-                    <Image src={item?.url ?? ''} alt='' width={80} height={80} className="w-[100px] h-auto aspect-square"></Image>
-                </Link>)}
-            </div>
+                <div className="px-4 mx-auto max-w-screen-xl scrollbar-hide grid gap-1 grid-rows-2 md:grid-rows-4 grid-flow-col gap-4 overflow-scroll">
+                    {masterTags?.map((item) => <Link href={`/timkiem?tags=${item?.tags?.map(item => item.id)?.join(',')}`} key={item?.id} className="pt-4 px-4 cursor-pointer rounded-xl bg-white text-sm min-w-[150px] border border-input">
+                        <p className="font-heading px-2 text-lg">{item?.name}</p>
+                        <Image src={item?.url ?? ''} alt='' width={80} height={80} className="w-[100px] h-auto aspect-square"></Image>
+                    </Link>)}
+                </div>
             </div>
             <br />
-            <div className="p-4 border border-slate-300 mx-auto px-4 relative container max-w-screen-xl text-xl font-heading bg-slate-100 opacity-80 text-left bg-gradient-to-r from-cyan-100 to-indigo-100 rgb(204, 251, 241)) rounded-lg border-md shadow-sm text-blue-900">
-                <span className="text-2xl white pr-1">{totalBusiness}</span> trang đã đăng kí trên Lagi Now {" "}
-                🎉
+            <div className="p-4 border border-amber-700 mx-auto px-4 relative container max-w-screen-xl text-xl font-heading bg-slate-100 opacity-80 text-left bg-gradient-to-r from-amber-100 to-rose-100 rgb(204, 251, 241)) rounded-lg border-md shadow-sm text-amber-900">
+                <span className="text-3xl white pr-1">{totalBusiness}</span> trang đã đăng kí trên Lagi Now {" "}   🎉
+             
             </div>
 
         </div>
@@ -160,12 +177,35 @@ export default async function Page() {
 
             <div
                 // className="shadow-sm relative w-full  max-w-screen-xl border bg-gray-100 border-input  rounded-lg overflow-hidden h-80 text-white text-center flex items-center justify-center"
-                className="w-full relative mx-auto rounded-xl border border-slate-300 shadow-sm overflow-hidden bg-slate-200/50 max-w-screen-xl flex items-center justify-center gap-2 flex-wrap"
+                className="w-full relative mx-auto rounded-xl border border-slate-300 shadow-sm overflow-hidden bg-slate-100 max-w-screen-xl flex items-center justify-center gap-2 flex-wrap"
 
             >
-                <Image alt='' width={400} height={300} className="ml-[40%] object-cover rounded-sm" src={'/hero.svg'} />
-                <div className="absolute top-2 left-2 p-[4.5%] space-y-4">
-                    <p className={"text-secondary-foreground text-3xl md:text-5xl font-heading text-left pr-[10%] md:pr-[45%]"}>Tạo trang kinh doanh của bạn trên Lagi Now</p>
+                <div className="flex relative  w-full items-center justify-center">
+                    <div className="relative w-full  max-w-screen-xl overflow-hidden">
+
+                        <div className="pointer-events-none absolute -top-1 z-10 h-20 w-full bg-gradient-to-b from-white to-transparent" />
+                        <div className="pointer-events-none absolute -bottom-1 z-10 h-20 w-full bg-gradient-to-t from-white to-transparent" />
+                        <div className="pointer-events-none absolute -left-1 z-10 h-full w-20 bg-gradient-to-r from-white to-transparent" />
+                        <div className="pointer-events-none absolute -right-1 z-10 h-full w-20 bg-gradient-to-l from-white to-transparent" />
+                        <div className="mx-auto pl-[20%] grid h-[350px] w-[350px] animate-skew-scroll grid-cols-2 gap-2 sm:w-[600px] md:w-[800px] sm:grid-cols-2">
+
+                            {decoBusinesses?.map((item, id) => <div key={item?.id} className="relative flex cursor-pointer items-center space-x-2 rounded-md border border-gray-100 p-2 shadow-sm transition-all hover:-translate-y-1 hover:translate-x-1 hover:scale-[1.025] hover:shadow-md">
+
+                                <Image className="w-full h-[80px] md:h-[120px] rounded-md object-cover" width={200} height={200} style={{ objectFit: "cover" }} src={(item?.banner as any)?.url ?? '/placeholder.svg'} alt={''} />
+
+                                {/* <p className="absolute top-1 left-1 text-gray-600">{item?.title}</p> */}
+                            </div>
+                            )}
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+                {/* <Image alt='' width={400} height={300} className="ml-[40%] object-cover rounded-sm" src={'/hero.svg'} /> */}
+                <div className="absolute top-1 z-10 left-2 h-full w-full p-[4%] bg-gray-100/60 md:bg-gray-100/20 space-y-4">
+                    <p className={"text-secondary-foreground text-3xl md:text-5xl font-heading pt-0 text-left pr-[10%] md:pr-[50%]"}>Tạo trang kinh doanh của bạn trên Lagi Now</p>
 
                     <p className="text-secondary-foreground text-xl text-2xl text-left text-gray-400 pr-[10%]">Kết nối và quảng bá đến cộng đồng</p>
 
@@ -173,7 +213,7 @@ export default async function Page() {
                         href="/login?redirect=business.create"
                         className="flex"
                     >
-                        <Button variant={'default'}> Đăng ký ngay </Button>
+                        <Button size='lg' className="bg-gradient-to-r from-amber-600 to-rose-500 rounded-md border-0 text-secondary hover:text-primary-foreground text-md shadow-md" variant={'ghost'}> Đăng ký ngay </Button>
                     </Link>
 
 
@@ -184,6 +224,9 @@ export default async function Page() {
 
 
         </div>
+
+
+
 
         <br />
         <div className="relative flex flex-col items-center justify-center bg-gray-50 py-20">
