@@ -90,7 +90,7 @@ export async function POST(req: Request) {
       return new Response("Requires Pro Plan", { status: 402 })
     }
 
-    return new Response(null, { status: 500 })
+    return new Response(error, { status: 500 })
   }
 }
 
