@@ -13,6 +13,7 @@ import AuthProvider from "@/components/auth-provider"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 // import { fontHeading, fontSans } from "@/lib/font"
+import { Analytics } from '@vercel/analytics/react';
 
 
 const fontSans = localFont({
@@ -114,6 +115,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
               <Toaster />
             </ThemeProvider>
           </AuthProvider>
+          <Analytics />
         </body>
       </QueryWrapper>
     </html>
