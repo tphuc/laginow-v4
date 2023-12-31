@@ -45,8 +45,8 @@ export function PostCreateButton({
       }
 
       return toast({
-        title: "Something went wrong.",
-        description: "Your post was not created. Please try again.",
+        title: "Có lỗi xảy ra",
+        description: "Không thể thêm bài viết",
         variant: "destructive",
       })
     }

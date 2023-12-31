@@ -138,7 +138,7 @@ export default async function Page({ searchParams }) {
             getLocalNews(),
             getLocalNews2(),
             _newsNormalPublic,
-            getLocalNewsaper({ page: pageNewspaper, take: 5 }),
+            getLocalNewsaper({ page: pageNewspaper, take: 3 }),
             getLocalNewsaper({ page: 1, take: 5 })
         ])
 

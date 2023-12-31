@@ -164,9 +164,11 @@ export default async function Page() {
                 </div>
             </div>
             <br />
-            <div className="p-4 border border-amber-700 mx-auto px-4 relative container max-w-screen-xl text-xl font-heading bg-slate-100 opacity-80 text-left bg-gradient-to-r from-amber-100 to-rose-100 rgb(204, 251, 241)) rounded-lg border-md shadow-sm text-amber-900">
+            <div className="relative px-4 md:px-0 container max-w-screen-xl mx-auto">
+            <div className="p-4  border border-amber-700 mx-auto   text-xl font-heading bg-slate-100 opacity-80 text-left bg-gradient-to-r from-amber-100 to-rose-100 rgb(204, 251, 241)) rounded-lg border-md shadow-sm text-amber-900">
                 <span className="text-3xl white pr-1">{totalBusiness}</span> trang đã đăng kí trên Lagi Now {" "}   🎉
              
+            </div>
             </div>
 
         </div>
