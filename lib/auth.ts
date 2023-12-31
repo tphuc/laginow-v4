@@ -32,6 +32,8 @@ export const authOptions: AuthOptions = {
     async jwt({ token, user, account, profile, isNewUser }: any) {// This user return by provider {} as you mentioned above MY CONTENT {token:}
 
       if (user) {
+        const expiresIn = 365 * 24 * 60 * 60; // 365 days in seconds
+        token.exp = Math.floor(Date.now() / 1000) + expiresIn;
         token.id = user.id
       }
       return token
