@@ -84,7 +84,7 @@ const LocalNewsCard = forwardRef(({ data, showRating = false, tracking = false }
         </div>
         </div>
         <div className='inline-flex w-full items-center flex-wrap gap-1'>
-          <Link  href={`/p/${data?.id}`} className="font-heading truncate text-eclipsis text-secondary-foreground text-xl hover:underline">{data?.title}</Link>
+          <Link  href={`/p/${data?.slug ?? data?.id}`} className="font-heading truncate text-eclipsis text-secondary-foreground text-xl hover:underline">{data?.title}</Link>
         </div>
         
         <PostCardDescription postData={data?.content}></PostCardDescription>

@@ -58,7 +58,7 @@ function NewsCard({ data }: { data: any }) {
                         </div>
                     </div>
 
-                    <Link href={`/p/${data?.id}`} className="font-heading text-secondary-foreground text-xl hover:underline">{data?.title}</Link>
+                    <Link href={`/p/${data?.slug ?? data?.id}`} className="font-heading text-secondary-foreground text-xl hover:underline">{data?.title}</Link>
                     <PostCardDescription postData={data?.content}></PostCardDescription>
 
                 </div>
@@ -86,7 +86,7 @@ export function SellingCard({ data }: { data: any }) {
                         </div>
                     </div>
 
-                    <Link href={`/p/${data?.id}`} className="font-heading text-secondary-foreground text-xl hover:underline">{data?.title}</Link>
+                    <Link href={`/p/${data?.slug ?? data?.id}`} className="font-heading text-secondary-foreground text-xl hover:underline">{data?.title}</Link>
                     <PostCardDescription postData={data?.content}></PostCardDescription>
 
                 </div>
@@ -113,7 +113,7 @@ export function NewsCardHorizontal({data}){
                         </div>
                     </div>
 
-                    <Link href={`/p/${data?.id}`} className="font-heading text-secondary-foreground text-xl hover:underline">{data?.title}</Link>
+                    <Link href={`/p/${data?.slug ?? data?.id}`} className="font-heading text-secondary-foreground text-xl hover:underline">{data?.title}</Link>
                     <PostCardDescription postData={data?.content}></PostCardDescription>
 
                 </div>
@@ -141,7 +141,7 @@ export function SubNewsCard({data}){
                         <p className='text-sm text-muted-foreground'>{format(new Date(data?.createdAt), 'dd LLL, y', { locale: vi })}</p>
                     </div>
 
-                    <Link href={`/p/${data?.id}`} className="font-heading text-secondary-foreground text-xl hover:underline">{data?.title}</Link>
+                    <Link href={`/p/${data?.slug ?? data?.id}`} className="font-heading text-secondary-foreground text-xl hover:underline">{data?.title}</Link>
                     <PostCardDescription postData={data?.content}></PostCardDescription>
                 </div>
             </div>

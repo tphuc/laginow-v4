@@ -73,7 +73,7 @@ export async function POST(req: Request) {
 
     const post = await db.post.create({
       data: {
-        slug: slugify(`${body?.title}-{newId}`, {}),
+        slug: slugify(`${body?.title}-${newId}`, {}),
         title: body.title,
         content: body.content ?? '',
         userId: session.user.id,

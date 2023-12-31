@@ -11,7 +11,14 @@ import { Metadata, ResolvingMetadata } from "next"
 async function getPostForUser(postId: Post["id"]) {
   return await prisma.post.findFirst({
     where: {
-      id: postId,
+      OR: [
+        {
+          id: postId,
+        },
+        {
+          slug: postId
+        }
+      ]
     },
     include: {
         user: true
@@ -19,7 +26,19 @@ async function getPostForUser(postId: Post["id"]) {
   })
 }
 
-
+export async function generateStaticParams() {
+  const posts = await await prisma.post.findMany({
+    where: {
+      slug: {
+        not: null
+      }
+    }
+  })
+ 
+  return posts.map((post) => ({
+    id: post.slug,
+  }))
+}
 
 interface EditorPageProps {
   params: { id: string }

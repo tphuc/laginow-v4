@@ -6,6 +6,7 @@ import db from "@/lib/prisma"
 import { Prisma } from "@prisma/client"
 import { imagekit } from "@/lib/imagekit"
 import { NextRequest, NextResponse } from "next/server"
+import slugify from "slugify"
 
 
 const postPatchSchema = z.object({
@@ -141,6 +142,7 @@ export async function PATCH(
       },
       data: {
         ...body as any,
+        slug: `${slugify(body?.title ?? '', {locale:'vi'})}-${params.postId?.slice(0,5)}`,
         title: body?.title,
         content: body.content,
         googleMapsUrlEmbeded,
