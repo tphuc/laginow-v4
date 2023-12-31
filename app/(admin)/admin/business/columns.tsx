@@ -35,7 +35,8 @@ export const columns = [
     accessorKey: 'title',
     header: 'Tên',
     cell: ({ row }) => {
-      return <div>
+      return <div className="flex items-center gap-1">
+        <Image alt='' width={60} height={60} className="w-[60px] rounded-md aspect-square" style={{objectFit:"cover"}} src={row?.original?.banner?.url}></Image>
         <p>{row?.original.title}</p>
       </div>
     }

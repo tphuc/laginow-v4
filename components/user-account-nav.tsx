@@ -44,7 +44,7 @@ export function UserAccountNav({ user, businesses }: UserAccountNavProps) {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/dashboard">Quản lí chung</Link>
+          <Link href="/dashboard">  Quản lí bài viết</Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>

@@ -36,16 +36,16 @@ const BusinessPageCardTwo = forwardRef(({ data, showRating = false, tracking = f
 
   return (
 
-    <div ref={ref} className="md:1/1 relative aspect-1/1 w-[80%] shrink-0 snap-center shadow-sm mb-2 border border-input overflow-hidden snap-always rounded-xl bg-white sm:w-[80%] min-w-[240px] md:w-[320px] ">
+    <div ref={ref} className="md:1/1 relative aspect-1/1 w-[80%] shrink-0 snap-center shadow-sm mb-2 border border-input overflow-hidden snap-always rounded-xl bg-white sm:w-[80%] min-w-[240px] md:w-[280px] ">
        
    
-        <Image width={300} height={300} src={data?.banner?.url ?? '/placeholder.svg'} alt={''} className="w-full aspect-square object-cover" />
+        <Image width={300} height={300} src={data?.banner?.url ?? ''} alt={''} className="w-full aspect-square object-cover bg-gradient-to-r from-stone-200 to-slate-300" />
         <div className="z-10 w-full px-4 border-t py-4 bg-white">
         {!!showRating && <div className='flex items-center gap-1'>
             <StarRating defaultValue={data?.avgRating ?? 0} changeable={false} />
             <p className='flex items-center font-heading justify-center text-cyan-700 w-6 h-6 rounded-full'>{data?.avgRating}</p>
           </div>}
-        <div className='inline-flex h-[30px] w-full items-center flex-wrap gap-1'>
+        <div className='inline-flex h-[30px] w-full items-center  space-y-1 flex-wrap gap-1'>
       
       
          <Link ref={inviewRef} href={`/t/${data?.id}`} className="inline-flex gap-1 items-center font-heading max-w-[270px] truncate text-ellipsis  text-xl hover:underline">  
@@ -58,7 +58,7 @@ const BusinessPageCardTwo = forwardRef(({ data, showRating = false, tracking = f
          </div>
          <div className='flex items-center gap-1 flex-wrap'>
          {
-          data?.tags?.map((item, id) =>  <p key={`${item?.id}_${id}`} className="text-muted-foreground bg-secondary rounded-md py-1 px-2 text-base text-sm">
+          data?.tags?.map((item, id) =>  <p key={`${item?.id}_${id}`} className="text-accent-foreground bg-secondary rounded-md py-1 px-2 text-base text-xs">
             {item?.name}
           </p>)
          }

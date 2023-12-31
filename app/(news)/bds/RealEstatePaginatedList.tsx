@@ -38,7 +38,7 @@ export default function RealEstatePaginatedList({ data, maxPage }) {
 
     return <div className="space-y-2">
 
-        <div className='grid grid-cols-1 md:grid-cols-4 gap-2 space-y-2'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-2 align-start'>
                 {data?.map((item, id) => <SellingCard key={id} data={item} />)}
             </div>
 

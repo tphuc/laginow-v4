@@ -105,6 +105,28 @@ async function fetchBusinessHighRating() {
 
 }
 
+async function fetchNewBusinesses() {
+
+    const data = await db.business.findMany({
+        where: {
+        },
+        take: 16,
+        orderBy: [
+            {
+                createdAt: 'desc', // Order by avgRating in descending order
+            },
+           
+        ],
+        include: {
+            tags: true
+        }
+    });
+
+    return data
+}
+
+
+
 
 
 
@@ -136,13 +158,15 @@ export default async function Page() {
         tags,
         masterTags,
         decoBusinesses,
+        newBusinesses
     ]
 
         =
         await Promise.all([_businessPages, _posts, _totalBusiness, _foodCollection, _drinkCollection, _businessRating,
             fetchTags(),
             fetchMasterTags(),
-            fetchBusinessCollection('deco1')
+            fetchBusinessCollection('deco1'),
+            fetchNewBusinesses()
 
         ])
 
@@ -237,9 +261,32 @@ export default async function Page() {
             <div className="absolute inset-auto h-96 w-96 translate-x-full scale-150 bg-indigo-300 opacity-20 blur-3xl"></div>
             <div className="w-full">
                 <div className="max-w-lg px-4 mx-auto max-w-screen-xl">
+                    <h1 className="text-4xl font-bold tracking-tight font-heading text-secondary-foreground"> Mới đăng kí trên Laginow </h1>
+                    <p className="mt-2 text-lg opacity-50"> Những vừa mới xuất hiện trên Lagi Now </p>
+                    {/* <button className="to mt-5 min-w-[10rem] rounded-full bg-blue-500 bg-gradient-to-r from-teal-500 px-5 py-3 font-bold text-white shadow-xl">Khám phá</button> */}
+                </div>
+
+
+                <div className="scrollbar-hide mt-14 grid grid-rows-2 grid-flow-col gap-2 w-full snap-x snap-mandatory scroll-px-[200px] gap-4 overflow-x-scroll scroll-smooth px-10">
+                    {
+                        newBusinesses?.map((item: any, index: any) => <BusinessPageCardTwo
+                            data={item}
+                            key={`${index}_${item?.id}`}
+                        />)
+                    }
+                </div>
+                <br />
+            </div>
+        </div>
+        {/* <div className="relative flex flex-col items-center justify-center bg-gray-50 py-20">
+            <div className="absolute inset-auto h-96 w-96 scale-150 bg-sky-300 opacity-20 blur-3xl"></div>
+
+            <div className="absolute inset-auto h-96 w-96 translate-x-full scale-150 bg-indigo-300 opacity-20 blur-3xl"></div>
+            <div className="w-full">
+                <div className="max-w-lg px-4 mx-auto max-w-screen-xl">
                     <h1 className="text-4xl font-bold tracking-tight font-heading text-secondary-foreground">Đồ ăn ưa chuộng</h1>
                     <p className="mt-2 text-lg opacity-50"> Tìm kiếm quán ăn ngon của địa phương </p>
-                    {/* <button className="to mt-5 min-w-[10rem] rounded-full bg-blue-500 bg-gradient-to-r from-teal-500 px-5 py-3 font-bold text-white shadow-xl">Khám phá</button> */}
+                 
                 </div>
 
 
@@ -253,10 +300,10 @@ export default async function Page() {
                 </div>
                 <br />
             </div>
-        </div>
+        </div> */}
 
 
-        <div className="relative flex flex-col items-center justify-center bg-gray-50 py-2">
+        {/* <div className="relative flex flex-col items-center justify-center bg-gray-50 py-2">
             <div className="absolute inset-auto h-96 w-96 scale-150 bg-sky-200 opacity-20 blur-3xl"></div>
 
             <div className="absolute inset-auto h-96 w-96 translate-x-full scale-150 bg-indigo-200 opacity-20 blur-3xl"></div>
@@ -279,9 +326,9 @@ export default async function Page() {
 
             </div>
 
-        </div>
+        </div> */}
 
-        <div className="relative  flex flex-col items-center justify-center bg-gray-50 py-20">
+        {/* <div className="relative  flex flex-col items-center justify-center bg-gray-50 py-20">
             <div className="absolute inset-auto h-96 w-96 scale-150 bg-sky-300 opacity-20 blur-3xl"></div>
 
             <div className="absolute inset-auto h-96 w-96 translate-x-full scale-150 bg-indigo-300 opacity-20 blur-3xl"></div>
@@ -303,11 +350,11 @@ export default async function Page() {
                 </div>
                 <br />
             </div>
-        </div>
+        </div> */}
 
 
 
-
+        
         <br />
         <div className="w-full mx-auto px-4 max-w-screen-xl flex gap-2 flex-wrap">
             <Link href='/' className="rounded-xl w-full md:w-auto overflow-hidden ">
@@ -356,7 +403,7 @@ export default async function Page() {
         <br />
 
 
-        <div className="w-full mx-auto max-w-screen-xl space-y-2 px-4 md:px-0">
+        {/* <div className="w-full mx-auto max-w-screen-xl space-y-2 px-4 md:px-0">
             <p className="text-3xl font-heading">Trang nổi bật</p>
             <Suspense fallback={<Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}>
                 <div className="flex gap-2  flex-wrap">
@@ -382,7 +429,7 @@ export default async function Page() {
                     }
                 </div>
             </Suspense>
-        </div>
+        </div> */}
 
 
 
