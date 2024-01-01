@@ -9,6 +9,9 @@ import BusinessPageCardTwo from "@/components/public-page-card-two";
 import SearchSection from "./search-section";
 import PostCarousel from "./PostCarousel";
 import PostTypeSection from "./PostTypesSection";
+import { UserAvatar } from "@/components/user-avatar";
+import StarRating from "@/components/ui/stars-rating";
+import ReviewSection from "./ReviewSection";
 
 
 
@@ -138,10 +141,10 @@ async function fetchMarketingPost() {
 }
 
 
-async function fetchReviews(){
+async function fetchReviews() {
     const data = await db.review?.findMany({
         include: {
-            
+            user: true,
             business: true
         },
         orderBy: {
@@ -234,6 +237,9 @@ export default async function Page() {
                 className="w-full relative mx-auto rounded-xl border border-slate-300 shadow-sm overflow-hidden bg-slate-100 max-w-screen-xl flex items-center justify-center gap-2 flex-wrap"
 
             >
+                 <div className="absolute inset-auto h-96 w-96 scale-150 bg-amber-300 opacity-20 blur-3xl"></div>
+
+<div className="absolute inset-auto h-96 w-96 translate-x-full scale-150 bg-rose-300 opacity-20 blur-3xl"></div>
                 <div className="flex relative  w-full items-center justify-center">
                     <div className="relative w-full  max-w-screen-xl overflow-hidden">
 
@@ -382,29 +388,32 @@ export default async function Page() {
         </div> */}
 
 
-        <div className="relative px-4 bg-gray-200/80 border-t border-input flex gap-2 flex-wrap">
+        <div className="relative px-4 border-t border-input flex gap-2 flex-wrap">
 
-            <div className="relative text-center w-full mx-auto max-w-screen-2xl space-y-4  py-[5%]">
+            <div className="relative text-center w-full mx-auto max-w-screen-2xl space-y-2  py-[5%]">
                 <h1 className="text-3xl md:text-4xl text-accent-foreground font-heading">
                     Bạn có nội dung muốn chia sẻ ?
                 </h1>
-                <p className="text-xl">
-                    Tham gia cộng đồng và tạo bài viết ngay bây giờ hoàn toàn miễn phí.
+                <p className="text-2xl text-muted-foreground font-heading">
+                    Tạo bài viết ngay bây giờ trên Lagi Now . Hoàn toàn miễn phí.
                 </p>
-                <Link href='#' className="inline-flex p-2 px-4 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-md border-0 text-secondary hover:text-primary-foreground text-md shadow-md">Tạo bài viết ngay</Link>
+                <br/>
+                <Link href='#' className="inline-flex shadow-sm transition-all hover:shadow-md p-2 px-4 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-md border-0 text-secondary hover:text-primary-foreground text-md">
+                    Tạo bài viết ngay
+                </Link>
 
                 <div className="w-full pt-8 flex items-center justify-center">
                     <PostCarousel data={marketingPosts} />
                 </div>
-               
-            </div>
-  
 
-          
+            </div>
+
+
+
 
         </div>
 
-        <PostTypeSection/>
+        <PostTypeSection />
         <br />
         <div className="w-full mx-auto px-4 max-w-screen-xl flex gap-2 flex-wrap">
             {/* <Link href='/' className="rounded-xl w-full md:w-auto overflow-hidden ">
@@ -450,8 +459,7 @@ export default async function Page() {
 
             </Link> */}
         </div>
-        <br />
-        
+
         <div>
 
         </div>
@@ -484,6 +492,17 @@ export default async function Page() {
             </Suspense>
         </div> */}
 
+
+        <div className="relative  w-full py-6">
+            <div className="absolute inset-auto h-96 w-96 scale-150 bg-sky-300 opacity-20 blur-3xl"></div>
+
+            <div className="absolute inset-auto h-96 w-96 translate-x-full scale-150 bg-indigo-300 opacity-20 blur-3xl"></div>
+            <div className="text-center py-8 space-y-2">
+            <h1 className="font-heading text-accent-foreground/90 text-3xl md:text-5xl">Đánh giá từ cộng đồng</h1>
+            <h1 className="font-heading text-accent-foreground/80 text-2xl">  Những trải nghiệm đích thực được cộng đồng chia sẻ </h1>
+            </div>
+            <ReviewSection data={marketingReviews} />
+        </div>
 
 
         <br />

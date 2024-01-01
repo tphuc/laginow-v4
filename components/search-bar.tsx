@@ -18,7 +18,7 @@ import LoaderSkeleton from "./loader-skeleton";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Search } from "lucide-react";
+import { Bus, Coffee, Home, Search, UtensilsCrossed } from "lucide-react";
 
 import * as Portal from '@radix-ui/react-portal';
 
@@ -83,8 +83,8 @@ export default function SearchBarFilter({ className }: { className?: string }) {
 
   return <div className="relative">
 
-    <div className="relative  w-full bg-white border px-2 rounded-md shadow-sm md:w-auto flex items-center gap-1">
-      <div className="text-muted-foreground">
+    <div className="relative  w-full bg-white border px-2 rounded-lg shadow-sm md:w-auto flex items-center gap-1">
+      <div className="text-muted-foreground rounded-lg">
         <Search className="w-4 h-4" />
       </div>
       <Input ref={ref} value={search} onChange={handleInputChange}
@@ -99,7 +99,7 @@ export default function SearchBarFilter({ className }: { className?: string }) {
           e.preventDefault()
           ref?.current?.focus()
         }}
-        placeholder="Tìm kiếm..." className={cn("w-full min-h-9 border-none rounded-none md:w-[360px] inline-flex shadow-none", className)} size={0.5} />
+        placeholder="Tìm kiếm..." className={cn("w-full min-h-9 border-none rounded-none md:w-[720px] inline-flex shadow-none", className)} size={0.5} />
 
 
 
@@ -119,6 +119,18 @@ export default function SearchBarFilter({ className }: { className?: string }) {
             <p className="w-[200px] text-sm whitespace-nowrap" >{item?.address}</p>
           </div>
         </Link>)}
+        <div className="flex flex-wrap gap-2 pt-2">
+        <div className="p-1 gap-2 px-4 py-2 bg-secondary border rounded-md flex cursor-pointer hover:bg-secondary">
+          <Link className="flex items-center gap-2" href='https://laginow.com/timkiem?tags=739Q,CkAF,Op8d,z0rr,MhZK,ejlq,jweb'>
+            <UtensilsCrossed className="w-6 h-6 stroke-width-1" /> Ăn uống  </Link>
+        </div>
+        <div className="p-1 gap-2 px-4 py-2 bg-secondary border rounded-md flex cursor-pointer hover:bg-secondary">
+          <Link className="flex items-center gap-2" href='https://laginow.com/timkiem?tags=cTEb,oWwv,d9aF,dT5A'><Home className="w-6 h-6 stroke-width-1" /> Phòng trọ  </Link>
+        </div>
+        <div className="p-1 gap-2 px-4 py-2 bg-secondary border rounded-md flex cursor-pointer hover:bg-secondary">
+          <Link className="flex items-center gap-2" href='https://laginow.com/timkiem?tags=739Q'><Coffee className="w-6 h-6 stroke-width-1" /> Quán cafe  </Link>
+        </div>
+      </div>
       </div> : null}
 
     </div>
