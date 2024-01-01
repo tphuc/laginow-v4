@@ -89,11 +89,15 @@ export default function SearchBarFilter({ className }: { className?: string }) {
       </div>
       <Input ref={ref} value={search} onChange={handleInputChange}
         onClick={(e) => {
-          setOpen(true)
-          e.preventDefault()
-          ref?.current?.focus()
+          if(!open){
+            setOpen(true)
+            e.preventDefault()
+            ref?.current?.focus()
+          }
+          else{
+            setOpen(false)
+          }
         }}
-
         onTouchStart={(e) => {
           setOpen(true)
           e.preventDefault()

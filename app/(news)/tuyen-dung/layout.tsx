@@ -27,7 +27,7 @@ export default async function MarketingLayout({
                     <MainNav
                         items={dashboardConfig.mainNav}
                     />
-                    <nav className="flex items-center gap-2">
+                    <nav className="flex items-center gap-2 px-4">
                         <UserCart user={user} />
                         {user ? <UserAccountNav user={user} businesses={businesses} /> : <Link
                             href="/login"

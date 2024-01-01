@@ -26,13 +26,13 @@ export default async function MarketingLayout({
                     <MainNav 
                     items={dashboardConfig.mainNav} 
                     />
-                    <nav className="flex items-center gap-2">
+                    <nav className="flex items-center gap-2 px-4">
                         <UserCart user={user}/>
                         {user ? <UserAccountNav user={user} businesses={businesses}/> : <Link
                             href="/login"
                             className={cn(
                                 buttonVariants({ variant: "secondary", size: "sm" }),
-                                "px-4"
+                                "px-4 border border-2"
                             )}
                         >
                             Đăng nhập
