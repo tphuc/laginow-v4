@@ -210,7 +210,7 @@ export default async function Page() {
 
         >
             <SearchSection />
-            <div className="w-full bg-gray-100 z-40 border-b py-20 scrollbar-hide">
+            <div className="w-full bg-gray-100 z-40 border-b py-10 scrollbar-hide">
                 <div className="px-4 mx-auto max-w-screen-xl scrollbar-hide grid gap-1 grid-rows-2 md:grid-rows-4 grid-flow-col gap-4 overflow-scroll">
                     {masterTags?.map((item) => <Link href={`/timkiem?tags=${item?.tags?.map(item => item.id)?.join(',')}`} key={item?.id} className="pt-4 px-4 cursor-pointer rounded-xl bg-white text-sm min-w-[150px] border border-input">
                         <p className="font-heading px-2 text-lg">{item?.name}</p>
@@ -395,7 +395,7 @@ export default async function Page() {
                     Bạn có nội dung muốn chia sẻ ?
                 </h1>
                 <p className="text-2xl text-muted-foreground font-heading">
-                    Tạo bài viết ngay bây giờ trên Lagi Now . Hoàn toàn miễn phí.
+                    Tạo bài viết quảng bá cho kinh doanh của bạn ngay bây giờ trên Lagi Now. Hoàn toàn miễn phí.
                 </p>
                 <br/>
                 <Link href='#' className="inline-flex shadow-sm transition-all hover:shadow-md p-2 px-4 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-md border-0 text-secondary hover:text-primary-foreground text-md">
@@ -495,10 +495,9 @@ export default async function Page() {
 
         <div className="relative  w-full py-6">
             <div className="absolute inset-auto h-96 w-96 scale-150 bg-sky-300 opacity-20 blur-3xl"></div>
-
             <div className="absolute inset-auto h-96 w-96 translate-x-full scale-150 bg-indigo-300 opacity-20 blur-3xl"></div>
             <div className="text-center py-8 space-y-2">
-            <h1 className="font-heading text-accent-foreground/90 text-3xl md:text-5xl">Đánh giá từ cộng đồng</h1>
+            <h1 className="font-heading text-accent-foreground/90 text-3xl md:text-5xl">Đánh giá từ cộng đồng 👍</h1>
             <h1 className="font-heading text-accent-foreground/80 text-2xl">  Những trải nghiệm đích thực được cộng đồng chia sẻ </h1>
             </div>
             <ReviewSection data={marketingReviews} />

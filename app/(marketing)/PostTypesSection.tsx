@@ -12,7 +12,7 @@ export default function PostTypeSection() {
             </div>
             <div className="text-left space-y-1">
                 <Link href='/bds' className="font-heading text-purple-700 text-2xl">Bất động sản</Link>
-                <p className="text-muted-foreground">Tin bất động sản mua bán cho thuê trong khu vực. Mua bán, cho thuê nhà cửa, văn phòng, đất... </p>
+                <p className="text-muted-foreground">Bài viết bất động sản mua bán cho thuê trong khu vực. Mua bán, cho thuê nhà cửa, văn phòng, đất... </p>
             </div>
         </div>
         <div className="p-6 bg-background cursor-pointer hover:bg-secondary transition-all text-secondary-foreground flex items-start gap-4  border-yellow-500  rounded-lg">
@@ -21,7 +21,7 @@ export default function PostTypeSection() {
             </div>
             <div className="text-left space-y-1">
             <Link href='/mua-ban' className="font-heading text-yellow-600 text-2xl">Buôn bán</Link>
-                <p className="text-muted-foreground">Tin mua bán, rao vặt thuộc nhiều lĩnh vực như xe cộ, thú cưng, thời trang, đồ điện tử... </p>
+                <p className="text-muted-foreground">Bài viết mua bán, rao vặt thuộc nhiều lĩnh vực như xe cộ, thú cưng, thời trang, đồ điện tử... </p>
             </div>
         </div>
         <div className="p-6 bg-background cursor-pointer hover:bg-secondary transition-all text-secondary-foreground flex items-start gap-4  border-cyan-500  rounded-lg">
@@ -30,7 +30,7 @@ export default function PostTypeSection() {
             </div>
             <div className="text-left space-y-1">
                 <Link href='/tuyen-dung' className="font-heading text-cyan-700 text-2xl">Tuyển dụng</Link>
-                <p className="text-muted-foreground">Tin mua bán, rao vặt thuộc nhiều lĩnh vực như xe cộ, thú cưng, thời trang, đồ điện tử... </p>
+                <p className="text-muted-foreground">Bài viết tuyển dụng, tìm kiếm việc làm toàn thời gian, bán thời gian... </p>
             </div>
         </div>
         <div className="p-6 bg-background cursor-pointer hover:bg-secondary transition-all text-secondary-foreground flex items-start gap-4  border-rose-500  rounded-lg">
