@@ -422,7 +422,7 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
                             name="realEstateType"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="flex items-center gap-2"> Loại BĐS </FormLabel>
+                                <FormLabel className="flex items-center gap-2"> Thể thức </FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
 
                                   <FormControl>
