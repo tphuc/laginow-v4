@@ -398,7 +398,7 @@ export default async function Page() {
                     Tạo nội dung quảng bá cho kinh doanh của bạn. Hoàn toàn miễn phí.
                 </p>
                 <br/>
-                <Link href='#' className="inline-flex shadow-sm transition-all hover:shadow-md p-2 px-4 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-md border-0 text-secondary hover:text-primary-foreground text-md">
+                <Link href="/login?redirect=dashboard" className="inline-flex shadow-sm transition-all hover:shadow-md p-2 px-4 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-md border-0 text-secondary hover:text-primary-foreground text-md">
                     Tạo bài viết ngay
                 </Link>
 
