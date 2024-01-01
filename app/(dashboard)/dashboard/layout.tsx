@@ -22,9 +22,9 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="flex min-h-screen flex-col space-y-1 md:space-y-6">
-      <header className="sticky top-0 z-40 border-b bg-background">
-        <div className="container flex h-16 items-center justify-between py-4">
+    <div className="flex min-h-screen flex-col space-y-1 ">
+     <header className="sticky backdrop-blur-lg w-full top-0  z-40 bg-background/90 border-b border-border">
+                <div className="flex items-center max-w-screen-2xl mx-auto w-full justify-between py-3 md:py-4">
           <MainNav items={dashboardConfig.mainNav} />
           <UserAccountNav
             user={user}
@@ -32,13 +32,13 @@ export default async function DashboardLayout({
           />
         </div>
       </header>
-      <div className="container flex flex-col md:grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
+      <div className="container flex flex-col md:grid flex-1 gap-12 md:grid-cols-[200px_1fr] pt-0 md:pt-6">
 
         <div className="relative border-gray-200 sm:w-full md:w-[200px] flex-col md:flex">
           <DashboardNav items={dashboardConfig.sidebarNav} />
         </div>
             
-        <main className="flex relative w-full flex-1 flex-col overflow-hidden">
+        <main className="flex relative w-full flex-1 flex-col overflow-hidden ">
           {children}
         </main>
 

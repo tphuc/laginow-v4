@@ -19,10 +19,10 @@ function StarRating({ defaultValue, onChange, changeable=false }: { defaultValue
       setRating(defaultValue)
   }, [defaultValue])
 
-  return <div className="flex stroke-cyan-700 items-center">
+  return <div className="flex stroke-blue-700 items-center">
     {
       [1, 2, 3, 4, 5].map((number) => (
-        <Star className={cn(`w-5 h-5 cursor-pointer `,  number > rating ? '#eee' : 'fill-cyan-600')} stroke='inherit' key={number} strokeWidth={1} onClick={() => handleStarClick(number)} />
+        <Star className={cn(`w-5 h-5 cursor-pointer `,  number > rating ? '#eee' : 'fill-blue-600')} stroke='inherit' key={number} strokeWidth={1} onClick={() => handleStarClick(number)} />
       ))
     }
   </div>;

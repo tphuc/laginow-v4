@@ -1,14 +1,14 @@
 import BusinessPageCard from "@/components/public-page-card";
 import PublicPostCard from "@/components/public-post-card";
-import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-
 import db from '@/lib/prisma'
 import BusinessPageCardTwo from "@/components/public-page-card-two";
 import SearchSection from "./search-section";
+import PostCarousel from "./PostCarousel";
+import PostTypeSection from "./PostTypesSection";
 
 
 
@@ -115,7 +115,7 @@ async function fetchNewBusinesses() {
             {
                 createdAt: 'desc', // Order by avgRating in descending order
             },
-           
+
         ],
         include: {
             tags: true
@@ -125,8 +125,33 @@ async function fetchNewBusinesses() {
     return data
 }
 
+async function fetchMarketingPost() {
+    const data = await db.newsCollection?.findUnique({
+        where: {
+            id: 'marketing'
+        },
+        include: {
+            posts: true
+        }
+    })
+    return data?.posts ?? []
+}
 
 
+async function fetchReviews(){
+    const data = await db.review?.findMany({
+        include: {
+            
+            business: true
+        },
+        orderBy: {
+            createdAt: 'desc'
+        },
+        take: 10
+
+    })
+    return data
+}
 
 
 
@@ -158,7 +183,9 @@ export default async function Page() {
         tags,
         masterTags,
         decoBusinesses,
-        newBusinesses
+        newBusinesses,
+        marketingPosts,
+        marketingReviews
     ]
 
         =
@@ -166,8 +193,9 @@ export default async function Page() {
             fetchTags(),
             fetchMasterTags(),
             fetchBusinessCollection('deco1'),
-            fetchNewBusinesses()
-
+            fetchNewBusinesses(),
+            fetchMarketingPost(),
+            fetchReviews()
         ])
 
 
@@ -189,10 +217,10 @@ export default async function Page() {
             </div>
             <br />
             <div className="relative px-4 md:px-0 container max-w-screen-xl mx-auto">
-            <div className="p-4  border border-amber-700 mx-auto   text-xl font-heading bg-slate-100 opacity-80 text-left bg-gradient-to-r from-amber-100 to-rose-100 rgb(204, 251, 241)) rounded-lg border-md shadow-sm text-amber-900">
-                <span className="text-3xl white pr-1">{totalBusiness}</span> trang đã đăng kí trên Lagi Now {" "}   🎉
-             
-            </div>
+                <div className="p-4  border border-amber-700 mx-auto   text-xl font-heading bg-slate-100 opacity-80 text-left bg-gradient-to-r from-amber-100 to-rose-100 rgb(204, 251, 241)) rounded-lg border-md shadow-sm text-amber-900">
+                    <span className="text-3xl white pr-1">{totalBusiness}</span> kinh doanh lớn và nhỏ đã đăng kí trên Lagi Now {" "}   🎉
+
+                </div>
             </div>
 
         </div>
@@ -237,9 +265,9 @@ export default async function Page() {
 
                     <Link
                         href="/login?redirect=business.create"
-                        className="flex"
+                        className="inline-flex p-2 px-4 bg-gradient-to-r from-amber-600 to-rose-500 rounded-md border-0 text-secondary hover:text-primary-foreground text-md shadow-md"
                     >
-                        <Button size='lg' className="bg-gradient-to-r from-amber-600 to-rose-500 rounded-md border-0 text-secondary hover:text-primary-foreground text-md shadow-md" variant={'ghost'}> Đăng ký ngay </Button>
+                        Đăng ký ngay
                     </Link>
 
 
@@ -271,6 +299,7 @@ export default async function Page() {
                     {
                         newBusinesses?.map((item: any, index: any) => <BusinessPageCardTwo
                             data={item}
+                            showRating
                             key={`${index}_${item?.id}`}
                         />)
                     }
@@ -353,11 +382,32 @@ export default async function Page() {
         </div> */}
 
 
+        <div className="relative px-4 bg-gray-200/80 border-t border-input flex gap-2 flex-wrap">
 
-        
+            <div className="relative text-center w-full mx-auto max-w-screen-2xl space-y-4  py-[5%]">
+                <h1 className="text-3xl md:text-4xl text-accent-foreground font-heading">
+                    Bạn có nội dung muốn chia sẻ ?
+                </h1>
+                <p className="text-xl">
+                    Tham gia cộng đồng và tạo bài viết ngay bây giờ hoàn toàn miễn phí.
+                </p>
+                <Link href='#' className="inline-flex p-2 px-4 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-md border-0 text-secondary hover:text-primary-foreground text-md shadow-md">Tạo bài viết ngay</Link>
+
+                <div className="w-full pt-8 flex items-center justify-center">
+                    <PostCarousel data={marketingPosts} />
+                </div>
+               
+            </div>
+  
+
+          
+
+        </div>
+
+        <PostTypeSection/>
         <br />
         <div className="w-full mx-auto px-4 max-w-screen-xl flex gap-2 flex-wrap">
-            <Link href='/' className="rounded-xl w-full md:w-auto overflow-hidden ">
+            {/* <Link href='/' className="rounded-xl w-full md:w-auto overflow-hidden ">
                 <div className="relative w-full min-w-[280px] md:max-w-[280px] overflow-hidden bg-white">
                     <Image className="w-full md:w-[280px] h-[280px] aspect-video object-cover transition ease-in-out hover:scale-[1.05]" width={200} height={200} src={'/boba.jpeg'} alt={''} />
                     <div className="absolute top-0 left-0 w-full h-full bg-overlayGradient"></div>
@@ -398,10 +448,13 @@ export default async function Page() {
                     </div>
                 </div>
 
-            </Link>
+            </Link> */}
         </div>
         <br />
+        
+        <div>
 
+        </div>
 
         {/* <div className="w-full mx-auto max-w-screen-xl space-y-2 px-4 md:px-0">
             <p className="text-3xl font-heading">Trang nổi bật</p>

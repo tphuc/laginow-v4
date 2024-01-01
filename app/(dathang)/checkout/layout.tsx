@@ -20,7 +20,7 @@ export default async function MarketingLayout({
     const [user, businesses] = await Promise.all([getCurrentUser(), getUserBusiness()]);
 
     return (
-        <div className="relative flex min-h-screen flex-col space-y-1 md:space-y-6">
+        <div className="relative flex min-h-screen flex-col space-y-1">
             <header className="sticky top-0 container z-40 bg-background">
                 <div className="flex items-center justify-between py-3 md:py-4">
                     <MainNav 
@@ -40,7 +40,7 @@ export default async function MarketingLayout({
                     </nav>
                 </div>
             </header>
-            <main className="container flex flex-col pb-4 md:grid flex-1 gap-12 ">{children}</main>
+            <main className="container flex flex-col pb-4 md:grid flex-1 gap-12 mt-0 ">{children}</main>
             <SiteFooter />
         </div>
     )

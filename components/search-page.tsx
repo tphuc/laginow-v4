@@ -180,7 +180,7 @@ const SearchPage = ({ masterTags, businessTags }: { masterTags, businessTags }) 
         )}>
 
 
-            <div className="relative hidden md:block bg-background z-40 lg:w-1/5 p-6 space-y-2 sm:sticky top-[50px] h-full">
+            <div className="relative hidden md:block bg-background z-40 lg:w-1/5 p-6 space-y-2 sm:sticky top-[65px] h-full">
                 <h2 className="text-xl font-heading mb-4"> Tìm kiếm </h2>
                 <MultiSelect
                     className="p-1 border-none shadow-none rounded-lg"
@@ -225,7 +225,7 @@ const SearchPage = ({ masterTags, businessTags }: { masterTags, businessTags }) 
 
             <div className="w-full lg:w-3/4  ">
                 <div className="relative w-full mx-auto px-4 max-w-screen-xl space-y-2 pb-20">
-                    <div className="hidden md:flex w-full bg-background sticky top-[60px] py-4 items-center gap-2 flex-wrap z-40">
+                    <div className="hidden md:flex w-full bg-background sticky top-[65px] py-4 items-center gap-2 flex-wrap z-40">
                         <SearchBarFilter className="py-4" />
                     </div>
                     {(isLoading || isFetchingNextPage) && <LoaderSkeleton className="my-2" ></LoaderSkeleton>}

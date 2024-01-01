@@ -10,7 +10,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
       <div className="container flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
         <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
           {/* <Icons.logo /> */}
-          <p className="font-heading">Lagi Now ©2023</p>
+          <p className="font-heading text-2xl">Lagi Now ©2024</p>
           <p className="text-center gap-2 text-sm leading-loose md:text-left">
             
             <a

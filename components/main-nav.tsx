@@ -33,7 +33,7 @@ export function MainNav({ items, children }: MainNavProps) {
     return res
   })
   return (
-    <div className="flex gap-6 md:gap-10">
+    <div className="flex px-4 gap-6 md:gap-10">
       <Link href="/" prefetch={false} className="hidden items-center space-x-2 md:flex">
         <span className="hidden font-heading text-2xl sm:inline-block">
           {siteConfig.name}

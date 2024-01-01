@@ -27,9 +27,9 @@ export default async function MarketingLayout({
     const [user, businesses] = await Promise.all([getCurrentUser(), getUserBusiness()]);
 
     return (
-        <div className="relative flex min-h-screen w-full flex-col space-y-1 md:space-y-6">
-            <header className="sticky w-full top-0  z-40 bg-background">
-                <div className="flex items-center container max-w-screen-xl mx-auto w-full justify-between py-3 md:py-4">
+        <div className="relative flex min-h-screen w-full flex-col">
+            <header className="sticky backdrop-blur-lg w-full top-0  z-40 bg-background/90 border-b border-border">
+                <div className="flex items-center max-w-screen-2xl mx-auto w-full justify-between py-3 md:py-4">
                     <MainNav 
                     items={dashboardConfig.mainNav} 
                     />
