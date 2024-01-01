@@ -134,7 +134,7 @@ function Masonry() {
 }
 
 export default function SearchSection({ business }: { business?: any[] }) {
-  return <div className="w-full relative h-[380px] space-y-2 bg-gradient-to-r from-blue-600 to-indigo-600 py-5">
+  return <div className="w-full relative max-h-[500px] space-y-2 bg-gradient-to-r from-blue-600 to-indigo-600 py-5">
 
     <div className="relative z-20 w-full container space-y-2">
       <h1 className="font-heading text-5xl text-white py-5">

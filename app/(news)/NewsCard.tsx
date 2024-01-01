@@ -47,7 +47,7 @@ function NewsCard({ data }: { data: any }) {
     return (
         <div className="relative p-2 w-full min-w-[280px] rounded-md overflow-hidden border boder-input bg-white">
 
-            <Image className="w-full max-h-[200px] rounded-md aspect-video" width={200} height={200} style={{objectFit:"cover"}} src={data?.thumbnail ?? '/placeholder.svg'} alt={''} />
+            <Image className="w-full max-h-[200px] max-w-[360px] rounded-md aspect-video" width={200} height={200} style={{objectFit:"cover"}} src={data?.thumbnail ?? '/placeholder.svg'} alt={''} />
             <div className='space-y-1'>
                 <div className="p-2">
                     <div className='flex gap-2 items-center'>
