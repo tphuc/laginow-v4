@@ -36,7 +36,23 @@ async function getBusinessesOfUser(userId: string) {
 
     return await prisma.business.findMany({
       where: {
-        ownerId: userId,
+        OR: [
+          {
+            ownerId: userId
+          },
+          {
+            Staff: {
+              some: {
+                user: {
+                  id: {
+                    equals: userId
+                  }
+                }
+              } 
+            }
+          }
+
+        ]
       },
       include: {
 
@@ -48,13 +64,14 @@ async function getBusinessesOfUser(userId: string) {
 }
 
 export default async function BusinessLayout({ children, params }: BusinessProps) {
-  const [user, businesses] = await Promise.all([getCurrentUser(), getUserBusiness()]);
+  const [user] = await Promise.all([getCurrentUser()]);
   if(!user){
     redirect("/login")
   }
 
   const business = await getBusinessOfUser(params.businessId) ?? null
   const allUserBusinessPages = await getBusinessesOfUser(user?.id) ?? []
+
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -66,7 +83,7 @@ export default async function BusinessLayout({ children, params }: BusinessProps
           })) } title={business?.title} />
           <UserAccountNav
             user={user}
-            businesses={businesses}
+            businesses={allUserBusinessPages}
           />
         </div>
       </header>

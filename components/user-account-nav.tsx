@@ -14,6 +14,7 @@ import {
 import { UserAvatar } from "@/components/user-avatar"
 import { useGetUserInfo } from "@/lib/http"
 import { Icons } from "./icons"
+import { Globe2, Pen } from "lucide-react"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: User & { businesses?: any}
@@ -44,18 +45,18 @@ export function UserAccountNav({ user, businesses }: UserAccountNavProps) {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/dashboard">  Quản lí bài viết</Link>
+          <Link className="flex items-center gap-2 font-medium" href="/dashboard"> <Pen className="w-4 h-4"/>  Quản lí bài viết</Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
-          <Link href="/dashboard/pages">Trang của bạn</Link>
+          <Link className="flex items-center gap-2 font-medium" href="/dashboard/pages"> <Globe2 className="w-4 h-4"/> Trang của bạn</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <div>
           {businesses?.map((item) => <DropdownMenuItem key={item?.id} asChild>
 
             <Link href={`/business/${item?.id}`} className="gap-2">
-              <Icons.globe className="w-4 h-4" strokeWidth={1.5} />
+              {/* <Icons.globe className="w-4 h-4" strokeWidth={1.5} /> */}
               <p>{item?.title}</p>
             </Link>
 

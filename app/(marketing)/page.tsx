@@ -1,6 +1,6 @@
 import BusinessPageCard from "@/components/public-page-card";
 import PublicPostCard from "@/components/public-post-card";
-import { Loader2 } from "lucide-react";
+import { Loader2, Pen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -398,8 +398,8 @@ export default async function Page() {
                     Tạo nội dung quảng bá cho kinh doanh của bạn. Hoàn toàn miễn phí.
                 </p>
                 <br/>
-                <Link href="/login?redirect=dashboard" className="inline-flex shadow-sm transition-all hover:shadow-md p-2 px-4 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-md border-0 text-secondary hover:text-primary-foreground text-md">
-                    Tạo bài viết ngay
+                <Link href="/login?redirect=dashboard" className="inline-flex items-center gap-2  transition-all hover:shadow-lg py-2 px-4 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-md border-0 text-secondary hover:text-primary-foreground shadow-md">
+                    Tạo bài viết <Pen className="w-4 h-4"/>
                 </Link>
 
                 <div className="w-full pt-8 flex items-center justify-center">
