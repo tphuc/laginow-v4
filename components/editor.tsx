@@ -129,6 +129,104 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
           table: Table,
           embed: Embed,
         },
+        i18n: {
+          /**
+           * @type {I18nDictionary}
+           */
+          messages: {
+            /**
+             * Other below: translation of different UI components of the editor.js core
+             */
+            ui: {
+              "blockTunes": {
+                "toggler": {
+                  "Click to tune": "Nhấn để chỉnh",
+                  "or drag to move": "Hoặc kéo thả để di chuyển"
+                },
+              },
+              "inlineToolbar": {
+                "converter": {
+                  "Convert to": "Chuyển đổi thành"
+                }
+              },
+              "toolbar": {
+                "toolbox": {
+                  "Add": "Thêm"
+                }
+              }
+            },
+        
+            /**
+             * Section for translation Tool Names: both block and inline tools
+             */
+            toolNames: {
+              "Text": "Chữ (Text)",
+              "Heading": "Tiêu đề mục (Heading)",
+              "List": "Danh sách",
+              "Warning": "Cảnh báo",
+              "Checklist": "Danh mục kiểm tra",
+              "Quote": "Ngoặc kép",
+              "Code": "Code",
+              "Delimiter": "Phẩy",
+              "Raw HTML": "HTML thuần",
+              "Table": "Bảng",
+              "Link": "Đường link",
+              "Marker": "Đánh dấu",
+              "Image": "Chèn 1 hình ảnh",
+              "Bold": "Đậm",
+              "Italic": "Nghiêng",
+              "InlineCode": "Gạch chân",
+            },
+        
+            /**
+             * Section for passing translations to the external tools classes
+             */
+            tools: {
+              /**
+               * Each subsection is the i18n dictionary that will be passed to the corresponded plugin
+               * The name of a plugin should be equal the name you specify in the 'tool' section for that plugin
+               */
+              "warning": { // <-- 'Warning' tool will accept this dictionary section
+                "Title": "Tiêu đề",
+                "Message": "Nội dung",
+              },
+        
+              /**
+               * Link is the internal Inline Tool
+               */
+              "link": {
+                "Add a link": "Thêm đường dẫn"
+              },
+              /**
+               * The "stub" is an internal block tool, used to fit blocks that does not have the corresponded plugin
+               */
+              "stub": {
+                'The block can not be displayed correctly.': 'Không hiển thị chính xác'
+              }
+            },
+        
+            /**
+             * Section allows to translate Block Tunes
+             */
+            blockTunes: {
+              /**
+               * Each subsection is the i18n dictionary that will be passed to the corresponded Block Tune plugin
+               * The name of a plugin should be equal the name you specify in the 'tunes' section for that plugin
+               *
+               * Also, there are few internal block tunes: "delete", "moveUp" and "moveDown"
+               */
+              "delete": {
+                "Delete": "Xoá"
+              },
+              "moveUp": {
+                "Move up": "Lên trên"
+              },
+              "moveDown": {
+                "Move down": "Xuống dưới"
+              }
+            },
+          }
+        },
       })
     }
   }, [post])
