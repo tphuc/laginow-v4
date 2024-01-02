@@ -296,7 +296,7 @@ export default async function Page() {
             <div className="w-full">
                 <div className="max-w-lg px-4 mx-auto max-w-screen-xl">
                     <h1 className="text-4xl font-bold tracking-tight font-heading text-secondary-foreground"> Mới đăng kí trên Laginow </h1>
-                    <p className="mt-2 text-lg opacity-50"> Những vừa mới xuất hiện trên Lagi Now </p>
+                    <p className="mt-2 text-lg opacity-50"> Những kinh doanh vừa mới xuất hiện trên Lagi Now </p>
                     {/* <button className="to mt-5 min-w-[10rem] rounded-full bg-blue-500 bg-gradient-to-r from-teal-500 px-5 py-3 font-bold text-white shadow-xl">Khám phá</button> */}
                 </div>
 
