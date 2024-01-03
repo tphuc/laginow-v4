@@ -170,3 +170,33 @@ export function generateUniqueId() {
 
   return uniqueId;
 }
+
+export function getResourceType(url: any) {
+  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
+  const videoExtensions = ['.mp4', '.avi', '.mkv', '.mov', '.wmv'];
+  
+
+
+  if (containsSubstring(url, imageExtensions)) {
+    console.log(url, 'image')
+      return 'image';
+  } else if (containsSubstring(url, videoExtensions)) {
+    console.log(url, 'video')
+      return 'video';
+      
+  } else {
+    console.log(url, 'image')
+      // Default to 'image' if not explicitly identified as 'video' or 'unknown'
+      return 'image';
+  }
+}
+
+function containsSubstring(url, substrings) {
+  for (let i = 0; i < substrings.length; i++) {
+      if (url?.includes(substrings[i])) {
+          return true;
+      }
+  }
+  return false;
+}
+

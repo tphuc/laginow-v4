@@ -157,6 +157,7 @@ export default async function Page({ searchParams }) {
                     <NewsCarouselMain data={newspaperPublicCarousel?.data} />
                 </div>
                 }
+                
                 {
                     !!newspaperPublicCarousel?.data?.length &&
                     <NewspaperList data={newspaperPublic?.data} maxPage={newspaperPublic?.total}></NewspaperList>
