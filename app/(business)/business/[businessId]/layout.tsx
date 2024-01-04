@@ -87,7 +87,7 @@ export default async function BusinessLayout({ children, params }: BusinessProps
           />
         </div>
       </header>
-      <div className="container flex flex-col md:grid flex-1 gap-12 md:grid-cols-[200px_1fr] md:pt-6">
+      <div className="container flex flex-col md:grid flex-1 gap-12 md:grid-cols-[200px_1fr] pt-1 md:pt-6">
 
         <div className="relative border-gray-200 sm:w-full md:w-[200px] flex-col md:flex">
           <BusinessDashboardNav

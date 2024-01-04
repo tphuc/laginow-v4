@@ -14,7 +14,6 @@ import {
 } from '@dnd-kit/core';
 import ImageUploader, { UploadImageProps } from './ui/image-uploader';
 import { cn } from '@/lib/utils';
-import ImageUploaderMultiFiles from './ui/image-uploader-multiple-files';
 
 interface DragItemProps extends UploadImageProps {
   id: string;
@@ -180,16 +179,10 @@ const SortableGrid: React.FC<SortableGridProps> = (props) => {
               }}
               key={item?.fileId ?? index} id={item?.fileId} index={index} defaultValue={item} />
           ))}
-          <ImageUploaderMultiFiles resetAfterUploaded={true} onChange={(values) => {
-            if (Array.isArray(values) && values.length > 0) {
-              // Check if each value has a fileId
-              const validValues = values.filter(value => value?.fileId);
-          
-              if (validValues.length > 0) {
-                // Append the valid values to the items array
-                setItems([...items, ...validValues]);
-                props?.onChange?.([...items, ...validValues]);
-              }
+          <ImageUploader resetAfterUploaded={true} onChange={(value) => {
+            if (value?.fileId) {
+              setItems([...items, value])
+              props?.onChange?.([...items, value])
             }
           }} className={cn('border border-input rounded-md h-[200px] min-w-[200px]', props?.className ?? '' )} />
         </Grid>

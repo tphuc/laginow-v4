@@ -68,7 +68,7 @@ export function BusinessSelectCombobox({ items }: Props) {
                                 onSelect={(currentValue) => {
                                     setValue(item.value)
                                     router.refresh()
-                                    router.push(`business/${item.value}`)
+                                    router.replace(`/business/${item.value}`)
                                     setOpen(false)
                                 }}
                                 className="text-ellipsis"
