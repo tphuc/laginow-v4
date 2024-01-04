@@ -15,10 +15,12 @@ import { UserAvatar } from "@/components/user-avatar"
 import { useGetUserInfo } from "@/lib/http"
 import { Icons } from "./icons"
 import { Globe2, Pen, Settings } from "lucide-react"
-import { User } from "@prisma/client"
+import { User } from "next-auth"
+// import { User } from "@prisma/client"
+import { User as DUser} from '@prisma/client'
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: User & { businesses?: any}
+  user: User & { isAdmin?: boolean, businesses?: any},
   businesses: any
 }
 
