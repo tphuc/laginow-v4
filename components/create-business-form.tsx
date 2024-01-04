@@ -49,7 +49,7 @@ export function CreateBusinessForm() {
     async function onSubmit(values: z.infer<typeof FormBusinessCreateSchema>) {
         let formattedValues = {
             ...values,
-            slug: slugify(values.title, { lower: true }),
+            slug: slugify(values.title, { lower: true, replacement: '-', locale:'vi', remove: /[^a-zA-Z0-9\s]/g  }),
             tags: values?.tags?.map(item => ({
                 id: item.value
             }))

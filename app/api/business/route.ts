@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     const post = await db.business.create({
       data: {
         title: body.title,
-        slug: slugify(body.title, { lower: true }),
+        slug: slugify(body.title, { lower: true, replacement: '-', locale:'vi', remove: /[^a-zA-Z0-9\s]/g  }),
         ownerId: user?.id,
         address: body.address,
         banner: body.banner as any,
