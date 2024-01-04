@@ -42,7 +42,7 @@ async function deletePost(postId: string) {
 }
 
 interface PostOperationsProps {
-  post: Pick<Post, "id" | "title">
+  post: Pick<Post, "id" | "title" | "slug">
 }
 
 export function PostOperations({ post }: PostOperationsProps) {
@@ -58,8 +58,14 @@ export function PostOperations({ post }: PostOperationsProps) {
           <span className="sr-only">Open</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+        <DropdownMenuItem>
+            <Link href={`/p/${post?.slug}`} className="flex w-full">
+              Xem
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <Link href={`/editor/${post.id}`} className="flex w-full">
+            <Link href={`/editor/${post?.id}`} className="flex w-full">
               Sửa
             </Link>
           </DropdownMenuItem>
