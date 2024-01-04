@@ -4,6 +4,10 @@ import db from '@/lib/prisma'
 
 
 
+interface PageProps {
+  
+}
+
 async function getMasterTags(){
     let data = await db.masterTag?.findMany({
         include: {
@@ -19,6 +23,24 @@ async function getTags(){
     })
     return data;
 }
+
+
+export async function generateMetadata(
+
+    // parent: ResolvingMetadata
+) {
+
+    const masterTags = await getMasterTags()
+  
+    return {
+        title: 'Tìm kiếm trang kinh doanh tại Lagi Now',
+        description: `${masterTags?.map(item => item?.name)?.join(', ')}`,
+        openGraph: {
+            
+        },
+    }
+}
+
 
 export default async function Page() {
     let _masterTags = getMasterTags()

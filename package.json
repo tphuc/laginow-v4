@@ -74,6 +74,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
+    "copy-to-clipboard": "^3.3.3",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
     "downshift": "^8.1.0",

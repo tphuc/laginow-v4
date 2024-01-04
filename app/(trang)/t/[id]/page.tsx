@@ -63,6 +63,21 @@ export async function generateMetadata(
     } as Metadata
 }
 
+export async function generateStaticParams() {
+    const pages =  await db.post.findMany({
+      where: {
+        slug: {
+          not: null
+        }
+      }
+    })
+   
+    return pages.map((item) => ({
+      id: item.id,
+    }))
+  }
+  
+
 
 
 async function getBusinessReviews(id: string) {

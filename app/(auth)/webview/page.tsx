@@ -8,6 +8,7 @@ export default function Page(){
 
     return <div  className="container px-2 flex h-screen w-screen flex-col items-center justify-center">
         {userAgent}
-        <p>Check out <a href="https:/laginow.com/" target="_blank" rel="noopener noreferrer">freeCodeCamp</a>.</p>
+        <br/>
+       
     </div>
 }

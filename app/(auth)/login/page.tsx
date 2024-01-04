@@ -7,6 +7,8 @@ import { UserAuthForm } from "@/components/user-auth-form"
 import { Icons } from "@/components/icons"
 import { redirect, useSearchParams } from "next/navigation"
 import { getCurrentUser } from "@/lib/session"
+import { headers } from "next/headers"
+import OpenInDefaultBrowser from "./OpenInDefaultBrowser"
 
 
 
@@ -16,6 +18,13 @@ export const metadata: Metadata = {
 }
 
 export default async function LoginPage({searchParams}) {
+  const headersList = headers()
+  const userAgent = headersList.get('User-Agent')
+  
+  let isNotAllowed = false 
+  if(userAgent?.includes('FB') || userAgent?.includes('Zalo')){
+    isNotAllowed = true
+  }
 
   const user = await getCurrentUser()
   if(user && searchParams?.redirect){
@@ -45,7 +54,7 @@ export default async function LoginPage({searchParams}) {
           </h1>
           
         </div>
-        <UserAuthForm />
+        {isNotAllowed ? <OpenInDefaultBrowser/> : <UserAuthForm />}
         <p className="px-4 text-center text-sm text-muted-foreground">
             Bằng tạo tài khoản và đăng nhập, bạn đồng ý với {" "}
             <Link

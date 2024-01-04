@@ -27,7 +27,7 @@ async function getPostForUser(postId: Post["id"]) {
 }
 
 export async function generateStaticParams() {
-  const posts = await await prisma.post.findMany({
+  const posts =  await prisma.post.findMany({
     where: {
       slug: {
         not: null
