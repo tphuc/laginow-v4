@@ -35,7 +35,7 @@ export default async function DashboardLayout({
           />
         </div>
       </header>
-      <div className="container flex flex-col md:grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
+      <div className="container flex flex-col md:grid flex-1 gap-12 md:grid-cols-[200px_1fr] py-1">
 
         <div className="relative border-gray-200 sm:w-full md:w-[200px] flex-col md:flex">
           <DashboardNav items={[
@@ -57,7 +57,7 @@ export default async function DashboardLayout({
           ]} />
         </div>
             
-        <main className="flex relative w-full flex-1 flex-col overflow-hidden">
+        <main className="flex relative w-full flex-1 flex-col overflow-hidden py-4">
           {children}
         </main>
 

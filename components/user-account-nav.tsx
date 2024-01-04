@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { User } from "next-auth"
+// import { User } from "next-auth"
 import { signOut } from "next-auth/react"
 
 import {
@@ -14,7 +14,8 @@ import {
 import { UserAvatar } from "@/components/user-avatar"
 import { useGetUserInfo } from "@/lib/http"
 import { Icons } from "./icons"
-import { Globe2, Pen } from "lucide-react"
+import { Globe2, Pen, Settings } from "lucide-react"
+import { User } from "@prisma/client"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: User & { businesses?: any}
@@ -51,6 +52,9 @@ export function UserAccountNav({ user, businesses }: UserAccountNavProps) {
         <DropdownMenuItem asChild>
           <Link className="flex items-center gap-2 font-medium" href="/dashboard/pages"> <Globe2 className="w-4 h-4"/> Trang của bạn</Link>
         </DropdownMenuItem>
+        {user?.isAdmin && <DropdownMenuItem asChild>
+          <Link className="flex items-center gap-2 font-medium" href="/admin"> <Settings className="w-4 h-4"/> Admin</Link>
+        </DropdownMenuItem>}
         <DropdownMenuSeparator />
         <div>
           {businesses?.map((item) => <DropdownMenuItem key={item?.id} asChild>
