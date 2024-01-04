@@ -200,3 +200,25 @@ function containsSubstring(url, substrings) {
   return false;
 }
 
+
+export const getParagraphText = (_blocks) => {
+  let blocks = _blocks ?? []
+  let text = ''
+  for (let block of blocks) {
+      if (block.type === "paragraph") {
+          text += `${block?.data?.text} . `;
+          // return block?.data?.text;
+      }
+
+      else if (block.type === "header") {
+          text += ` ${block?.data?.text} `;
+          // return block?.data?.text;
+      }
+
+      else if (block.type === "list") {
+          text += ` ... `;
+          // return block?.data?.text;
+      }
+  }
+  return text?.replace("!&nbsp;", " ")?.replace("?&nbsp;", " ")?.replace("<b>", " ")?.replace("&nbsp;", " ") ?? '';  // Default empty string if no paragraph found
+};

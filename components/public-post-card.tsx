@@ -4,7 +4,7 @@ import React from 'react';
 import StarRating from './ui/stars-rating';
 import { Badge } from './ui/badge';
 import Link from 'next/link';
-import { cn, getOpenHrs, isCurrentlyOpen, timeAgo } from '@/lib/utils';
+import { cn, getOpenHrs, getParagraphText, isCurrentlyOpen, timeAgo } from '@/lib/utils';
 import { Clock10, Shield, ShieldAlert, ShieldCheck, UserCheck, UserCog, UserCog2 } from 'lucide-react';
 import ImageViewable from './image-viewable';
 import { Avatar } from '@radix-ui/react-avatar';
@@ -15,29 +15,8 @@ import { vi } from 'date-fns/locale';
 
 
 const PostCardDescription = ({ postData }) => {
-  const getParagraphText = () => {
-    let blocks = postData?.blocks ?? []
-    let text = ''
-      for(let block of blocks) {
-          if(block.type === "paragraph") {
-            text += `${block?.data?.text} . ` ;
-            // return block?.data?.text;
-          }
 
-          else if(block.type === "header") {
-            text +=  ` ${block?.data?.text} `;
-            // return block?.data?.text;
-          }
-
-          else if(block.type === "list") {
-            text +=  ` ... `;
-            // return block?.data?.text;
-          }
-      }
-      return text?.replace("!&nbsp;", " ")?.replace("?&nbsp;", " ") ?? '';  // Default empty string if no paragraph found
-  };
-
-  const paragraphText = getParagraphText();
+  const paragraphText = getParagraphText(postData?.blocks);
 
   return (
 

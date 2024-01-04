@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import React, { forwardRef } from 'react';
 import Link from 'next/link';
-import { cn, getOpenHrs, isCurrentlyOpen } from '@/lib/utils';
+import { cn, getOpenHrs, getParagraphText, isCurrentlyOpen } from '@/lib/utils';
 import { BadgeCheck } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 import { UserAvatar } from '@/components/user-avatar';
@@ -12,29 +12,8 @@ import { vi } from 'date-fns/locale';
 
 
 const PostCardDescription = ({ postData }) => {
-  const getParagraphText = () => {
-    let blocks = postData?.blocks ?? []
-    let text = ''
-    for (let block of blocks) {
-      if (block.type === "paragraph") {
-        text += `${block?.data?.text} . `;
-        // return block?.data?.text;
-      }
 
-      else if (block.type === "header") {
-        text += ` ${block?.data?.text} `;
-        // return block?.data?.text;
-      }
-
-      else if (block.type === "list") {
-        text += ` ... `;
-        // return block?.data?.text;
-      }
-    }
-    return text?.replace("!&nbsp;", " ")?.replace("?&nbsp;", " ") ?? '';  // Default empty string if no paragraph found
-  };
-
-  const paragraphText = getParagraphText();
+  const paragraphText = getParagraphText(postData?.blocks);
 
   return (
     <div className="flex text-wrap">{paragraphText?.slice(0, 150) + '...'}</div>
