@@ -48,8 +48,9 @@ export const columns = [
     accessorKey: 'isAdmin',
     header: 'Xác thực',
     cell: ({ row }) => {
-      return <div>
+      return <div className="flex items-center flex-wrap">
         {row?.original?.isAdmin && <Badge>Admin</Badge>}
+        {row?.original?.canWriteNews && <Badge variant={'sky'}>Viết Báo</Badge>}
       </div>
     }
   },

@@ -52,7 +52,7 @@ const BusinessPageCardTwo = forwardRef(({ data, showRating = false, tracking = f
           <Link ref={inviewRef} href={`/t/${data?.id}`} className="inline-flex gap-1 items-center font-heading max-w-[270px] truncate text-ellipsis  text-xl hover:underline">
 
 
-            {data?.verified && <span><BadgeCheck style={{ width: 24, height: 24 }} className='w-6 h-6 fill-sky-600 stroke-white' /></span>}
+            {data?.verified && <span><BadgeCheck style={{ width: 24, height: 24 }} className='w-6 h-6 fill-blue-600 stroke-white' /></span>}
             <span> {data?.title} </span>
 
           </Link>
