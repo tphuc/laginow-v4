@@ -220,5 +220,13 @@ export const getParagraphText = (_blocks) => {
           // return block?.data?.text;
       }
   }
-  return text?.replace("!&nbsp;", " ")?.replace("?&nbsp;", " ")?.replace("<b>", " ")?.replace('</b>', ' ').replace("&nbsp;", " ") ?? '';  // Default empty string if no paragraph found
+  return text?.replace("!&nbsp;", " ")
+  ?.replace("?&nbsp;", " ")
+  ?.replace("<b>", " ")
+  ?.replace('</b>', ' ')
+  ?.replace("&nbsp;", " ")
+  ?.replace("&nbsp;", " ")
+  ?.replace("&nbsp;", " ")
+  ?.replace("amp;", " ")
+  ?? '';  // Default empty string if no paragraph found
 };

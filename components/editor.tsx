@@ -31,7 +31,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger
 } from "@/components/ui/select"
 import { SelectValue } from "@radix-ui/react-select"
-import { Pen, PenBox } from "lucide-react"
+import { AlertTriangle, Pen, PenBox, Triangle } from "lucide-react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
 import { AccordionBody } from "@tremor/react"
 import { useSession } from "next-auth/react"
@@ -155,7 +155,7 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
                 }
               }
             },
-        
+
             /**
              * Section for translation Tool Names: both block and inline tools
              */
@@ -177,7 +177,7 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
               "Italic": "Nghiêng",
               "InlineCode": "Gạch chân",
             },
-        
+
             /**
              * Section for passing translations to the external tools classes
              */
@@ -190,7 +190,7 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
                 "Title": "Tiêu đề",
                 "Message": "Nội dung",
               },
-        
+
               /**
                * Link is the internal Inline Tool
                */
@@ -204,7 +204,7 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
                 'The block can not be displayed correctly.': 'Không hiển thị chính xác'
               }
             },
-        
+
             /**
              * Section allows to translate Block Tunes
              */
@@ -360,7 +360,7 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
                         name="visible"
                         render={({ field }) => (
                           <FormItem>
-                          
+
                             <FormControl>
                               <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
                                 <div className="space-y-0.5">
@@ -631,17 +631,23 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
 
             </div>
             <div className="col-span-6 md:col-span-4 border border-radius  rounded-md  mt-2">
-              <div className="py-4 w-full pl-4 flex items-center gap-4 border-b">
-                <Pen className="w-9 h-9 bg-secondary border border-input p-2 rounded-md text-muted-foreground stroke-width-1" />
-                <TextareaAutosize
-                  autoFocus
-                  id="title"
-                  defaultValue={post?.title ?? ''}
-                  placeholder="Tiêu đề"
-                  {...form.register("title")}
-                  className="resize-none appearance-none overflow-hidden bg-transparent text-2xl md:text-3xl font-heading focus:outline-none"
+              <div className="py-3 w-full pl-2  flex items-center gap-1 border-b">
+                <div className="flex text-muted-foreground rounded-md items-center px-1 py-1 ">
+                  Tiêu đề: 
+                </div>
 
-                />
+                <div className="relative flex items-center whitespace-nowrap flex-1 space-y-0">
+                  <TextareaAutosize
+                    autoFocus
+                    id="title"
+                    defaultValue={post?.title ?? ''}
+                    placeholder="Viết tiêu đề"
+                    {...form.register("title")}
+                    className="resize-none w-full appearance-none overflow-hidden bg-transparent text-2xl md:text-3xl font-heading pb-0 focus:outline-none"
+
+                  />
+                  {(form?.watch('title') === 'chưa có tiêu đề' || !form?.watch('title')?.length ) && <span className="px-4 flex items-center gap-1 text-sm text-muted-foreground">sửa <Pen className="w-3 h-3"/> </span>}
+                </div>
               </div>
               <div id="editor" className="w-full py-2 px-2 bg-secondary" />
               <p className="text-sm text-gray-500 p-4 border-t">
@@ -651,6 +657,11 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
                 </kbd>{" "}
                 để mở menu soạn thảo
               </p>
+              <p className="text-sm flex items-center gap-2 text-gray-500 p-4 border-t">
+              <AlertTriangle className="w-4 h-4"/>
+                Bài viết cần có tiêu đề để được hiển thị 
+              </p>
+                      
             </div>
           </div>
         </div>
