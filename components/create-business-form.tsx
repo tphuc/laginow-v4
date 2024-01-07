@@ -50,6 +50,43 @@ export function CreateBusinessForm() {
         let formattedValues = {
             ...values,
             slug: slugify(values.title, { lower: true, replacement: '-', locale:'vi', remove: /[^a-zA-Z0-9\s]/g  }),
+            workingHrs: {
+                mon: {
+                    isOff: false,
+                    startTime:'08:00',
+                    endTime:'18:00',
+                },
+                tue: {
+                    isOff: false,
+                    startTime:'08:00',
+                    endTime:'18:00',
+                },
+                wed: {
+                    isOff: false,
+                    startTime:'08:00',
+                    endTime:'18:00',
+                },
+                thu: {
+                    isOff: false,
+                    startTime:'08:00',
+                    endTime:'18:00',
+                },
+                fri: {
+                    isOff: false,
+                    startTime:'08:00',
+                    endTime:'18:00',
+                },
+                sat: {
+                    isOff: false,
+                    startTime:'08:00',
+                    endTime:'18:00',
+                },
+                sun: {
+                    isOff: false,
+                    startTime:'08:00',
+                    endTime:'18:00',
+                }
+            },
             tags: values?.tags?.map(item => ({
                 id: item.value
             }))
@@ -70,10 +107,10 @@ export function CreateBusinessForm() {
                     variant: "default"
                 })
 
-                let page = await res.json()
+                let business = await res.json()
                 
 
-                router.push(`/dashboard/pages`)
+                router.push(`/business/${business?.id}/thong-tin`)
 
             }
         } catch (e) {

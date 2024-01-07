@@ -129,7 +129,7 @@ export default function SearchBarFilter({ className }: { className?: string }) {
             <UtensilsCrossed className="w-6 h-6 stroke-width-1" /> Ăn uống  </Link>
         </div>
         <div className="p-1 gap-2 px-4 py-2 bg-secondary border rounded-md flex cursor-pointer hover:bg-secondary">
-          <Link className="flex items-center gap-2" href='https://laginow.com/timkiem?tags=cTEb,oWwv,d9aF,dT5A'><Home className="w-6 h-6 stroke-width-1" /> Phòng trọ  </Link>
+          <Link className="flex items-center gap-2" href='https://laginow.com/timkiem?tags=cTEb,oWwv,d9aF,dT5A'><Home className="w-6 h-6 stroke-width-1" />Lưu trú  </Link>
         </div>
         <div className="p-1 gap-2 px-4 py-2 bg-secondary border rounded-md flex cursor-pointer hover:bg-secondary">
           <Link className="flex items-center gap-2" href='https://laginow.com/timkiem?tags=739Q'><Coffee className="w-6 h-6 stroke-width-1" /> Quán cafe  </Link>

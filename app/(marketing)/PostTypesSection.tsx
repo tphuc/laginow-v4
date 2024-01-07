@@ -33,7 +33,7 @@ export default function PostTypeSection() {
                 <p className="text-secondary-foreground/80">Bài viết tuyển dụng, tìm kiếm việc làm toàn thời gian, bán thời gian... </p>
             </div>
         </Link>
-        <Link href='/tin-tuc' className="p-6 bg-background cursor-pointer hover:bg-secondary transition-all text-secondary-foreground flex items-start gap-4  border-rose-500  rounded-lg">
+        <Link href='/news' className="p-6 bg-background cursor-pointer hover:bg-secondary transition-all text-secondary-foreground flex items-start gap-4  border-rose-500  rounded-lg">
             <div className="bg-rose-100 border border-rose-500 rounded-lg p-2">
                 <Newspaper className="w-10 h-10 text-rose-500" />
             </div>
