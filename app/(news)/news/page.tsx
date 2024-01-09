@@ -114,6 +114,54 @@ async function getLocalNewsaper({ page, take }: { page: number; take: number }) 
 }
 
 
+async function getPosts({ page, take }: { page: number; take: number }) {
+
+    const offset = (page - 1) * take;
+    // let from = new Date(url.searchParams.get('from') ?? subDays(new Date(), 7)) ?? null
+    // let to = new Date(url.searchParams.get('to') ?? new Date()) ?? null
+    const currentDate = new Date();
+    // Subtract one month from the current date
+    const oneMonthAgo = sub(currentDate, { months: 12 });
+
+    const where: Prisma.PostWhereInput | undefined = {
+        title: {
+            not: "chưa có tiêu đề"
+        },
+        postType: 'NORMAL',
+        createdAt: {
+            gte: oneMonthAgo
+        },
+        visible: true
+    }
+
+    let data = await db.post?.findMany({
+        where,
+        orderBy: {
+            createdAt: 'desc'
+        },
+        include: {
+            user: true
+        },
+        take: take,
+        skip: offset,
+    })
+
+
+    let total = await db.post?.count({
+        where,
+    })
+
+
+    return {
+        data,
+        total
+    }
+}
+
+
+
+
+
 
 
 
@@ -122,7 +170,7 @@ export default async function Page({ searchParams }) {
     const pageNewsNormal = parseInt(searchParams.pageNewsNormal ?? '1')
     const pageNewspaper = parseInt(searchParams.pageNewspaper ?? '1')
     const take = 10
-    let _newsNormalPublic = fetchData(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/public/news-normal-public?page=${pageNewsNormal}&take=${take}`)
+    let _newsNormalPublic = getPosts({ page: pageNewsNormal, take: 10})
 
     // let newspaperPublic = getLocalNewsaper({ page: pageNewspaper, take: 5 })
 
