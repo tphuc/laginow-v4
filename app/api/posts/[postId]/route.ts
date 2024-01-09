@@ -142,7 +142,7 @@ export async function PATCH(
       },
       data: {
         ...body as any,
-        slug: `${slugify(body?.title ?? '', {locale:'vi'})}-${params.postId?.slice(0,5)}`,
+        slug: `${slugify(body?.title?.replace(":", "") ?? '', {locale:'vi', lower: true})}-${params.postId?.slice(0,5)}`,
         title: body?.title,
         content: body.content,
         googleMapsUrlEmbeded,

@@ -50,11 +50,17 @@ export async function generateMetadata(
   // parent: ResolvingMetadata
 ) {
   const post: any = await getPostForUser(params.id)
-
+  let images: any[] = []
+  if(post?.thumbnail){
+    images?.push(post?.thumbnail)
+  }
+  else {
+    images?.push('/ctahero.jpeg')
+  }
   return {
     title: post?.title,
     openGraph: {
-      images: [post?.thumbnail],
+      images
     },
   } as Metadata
 }
