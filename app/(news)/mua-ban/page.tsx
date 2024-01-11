@@ -64,6 +64,7 @@ async function getLocalSellingPosts({ page, productType, take }: { page: number;
     }
 }
 
+
 export default async function Page({searchParams}) {
     
     const page = parseInt(searchParams.page ?? '1')

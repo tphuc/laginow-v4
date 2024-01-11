@@ -13,6 +13,20 @@ interface MarketingLayoutProps {
     children: React.ReactNode
 }
 
+export const metadata = {
+    title:"Mua bán cho thuê nhà đất, mặt bằng| Lagi Now",
+    description: "Mua bán nhà đất, đăng tin bất động sản mua bán/cho thuê nhà đất, văn phòng,.",
+    keywords: [
+        "mua bán nhà đất",
+        "cho thuê nhà đất",
+        "mặt bằng kinh doanh",
+        "đăng tin bất động sản",
+        "Lagi Now",
+        "chợ bất động sản"
+    ]
+};
+
+
 
 export default async function MarketingLayout({
     children,

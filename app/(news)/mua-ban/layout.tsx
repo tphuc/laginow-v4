@@ -13,6 +13,10 @@ interface MarketingLayoutProps {
     children: React.ReactNode
 }
 
+export const metadata = {
+    title:"Mua bán rao vặt | Lagi Now",
+    description: "Mua bán rao vặt được đăng mỗi ngày. Đăng tin mua bán UY TÍN, NHANH CHÓNG, AN TOÀN với Lagi Now"
+}
 
 export default async function MarketingLayout({
     children,

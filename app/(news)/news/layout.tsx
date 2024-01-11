@@ -14,6 +14,21 @@ interface MarketingLayoutProps {
 }
 
 
+
+export const metadata = {
+    title:"Tin tức, báo chí | Lagi Now",
+    description: "Tin tức mới nhất về thông tin địa phương, tìm hiểu những gì đang diễn ra.",
+    keywords: [
+        "tin tức mới nhất",
+        "thế giới",
+        "kinh doanh",
+        "công nghệ",
+        "giải trí",
+        "thông tin đáng tin cậy"
+    ]
+}
+
+
 export default async function MarketingLayout({
     children,
 }: MarketingLayoutProps) {

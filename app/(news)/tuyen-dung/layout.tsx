@@ -14,6 +14,21 @@ interface MarketingLayoutProps {
 }
 
 
+export const metadata = {
+    title:"Tuyển dụng, tìm việc làm | Lagi Now",
+    description: "Đăng tin tuyển dụng tìm việc làm tại địa phương",
+    keywords: [
+        "tìm việc làm",
+        "tuyển dụng nhân sự",
+        "việc làm mới",
+        "đăng hồ sơ",
+        "nhân sự chất lượng",
+        "cơ hội nghề nghiệp",
+        "làm việc tại nhà"
+    ]
+}
+
+
 export default async function MarketingLayout({
     children,
 }: MarketingLayoutProps) {

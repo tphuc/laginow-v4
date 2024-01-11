@@ -162,9 +162,6 @@ async function getPosts({ page, take }: { page: number; take: number }) {
 
 
 
-
-
-
 export default async function Page({ searchParams }) {
 
     const pageNewsNormal = parseInt(searchParams.pageNewsNormal ?? '1')
