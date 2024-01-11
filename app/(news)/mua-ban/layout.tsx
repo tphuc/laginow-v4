@@ -14,7 +14,7 @@ interface MarketingLayoutProps {
 }
 
 export const metadata = {
-    title:"Mua bán rao vặt | Lagi Now",
+    title:"Mua bán rao vặt",
     description: "Mua bán rao vặt được đăng mỗi ngày. Đăng tin mua bán UY TÍN, NHANH CHÓNG, AN TOÀN với Lagi Now"
 }
 

@@ -15,7 +15,7 @@ interface MarketingLayoutProps {
 
 
 export const metadata = {
-    title:"Tuyển dụng, tìm việc làm | Lagi Now",
+    title:"Tuyển dụng, tìm việc làm",
     description: "Đăng tin tuyển dụng tìm việc làm tại địa phương",
     keywords: [
         "tìm việc làm",

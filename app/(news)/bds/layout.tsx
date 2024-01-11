@@ -14,7 +14,7 @@ interface MarketingLayoutProps {
 }
 
 export const metadata = {
-    title:"Mua bán cho thuê nhà đất, mặt bằng| Lagi Now",
+    title:"Mua bán cho thuê nhà đất, mặt bằng ",
     description: "Mua bán nhà đất, đăng tin bất động sản mua bán/cho thuê nhà đất, văn phòng,.",
     keywords: [
         "mua bán nhà đất",

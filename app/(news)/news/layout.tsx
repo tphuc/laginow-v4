@@ -16,7 +16,7 @@ interface MarketingLayoutProps {
 
 
 export const metadata = {
-    title:"Tin tức, báo chí | Lagi Now",
+    title:"Tin tức, báo chí",
     description: "Tin tức mới nhất về thông tin địa phương, tìm hiểu những gì đang diễn ra.",
     keywords: [
         "tin tức mới nhất",
