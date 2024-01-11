@@ -47,7 +47,7 @@ export default async function MarketingLayout({
                         {user ? <UserAccountNav user={user} businesses={businesses} /> : <Link
                             href="/login"
                             className={cn(
-                                buttonVariants({ variant: "secondary", size: "sm" }),
+                                buttonVariants({ variant: "default", size:"default" }),
                                 "px-4"
                             )}
                         >
@@ -62,7 +62,7 @@ export default async function MarketingLayout({
                     <NewsNav items={dashboardConfig.newsNav} />
                 </div>
 
-                <main className="flex col-span-8 md:col-span-7 md:pt-0 relative w-full flex-1 flex-col">
+                <main className="flex col-span-8 pb-8  min-h-screen md:col-span-7 md:pt-0 relative w-full flex-1 flex-col">
                     {children}
                 </main>
 

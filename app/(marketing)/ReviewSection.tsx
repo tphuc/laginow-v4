@@ -10,9 +10,9 @@ import Link from "next/link";
 
 
 export default function ReviewSection({ data }) {
-    return <div className="w-full mx-auto px-4  max-w-screen-xl columns-1 md:columns-3 lg:columns-3">
-        {data?.map((item) => <div key={item?.id} className="relative bg-background/50 block whitespace-normal break-keep break-inside-avoid  rounded-md mb-4">
-            <div className='block relative  break-inside-avoid z-10 break-inside-avoid border border-input shadow-sm hover:shadow-md transition-all cursor-default p-4 rounded-md'>
+    return <div className="w-full mx-auto px-4 py-4  max-w-screen-xl columns-1 md:columns-3 lg:columns-3">
+        {data?.map((item) => <div key={item?.id} className="relative bg-background/80 block whitespace-normal break-keep break-inside-avoid  rounded-md mb-4">
+            <div className='block relative  break-inside-avoid z-10 break-inside-avoid border border-slate-300 shadow-sm hover:shadow-md transition-all cursor-default p-4 rounded-md'>
                 <div className="flex items-center gap-2">
                     <UserAvatar user={item?.user}></UserAvatar>
                     <div>

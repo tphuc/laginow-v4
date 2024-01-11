@@ -1,6 +1,6 @@
 import BusinessPageCard from "@/components/public-page-card";
 import PublicPostCard from "@/components/public-post-card";
-import { Loader2, Pen } from "lucide-react";
+import { ArrowRight, ChevronRight, Loader2, Pen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -150,7 +150,7 @@ async function fetchReviews() {
         orderBy: {
             createdAt: 'desc'
         },
-        take: 15
+        take: 10
 
     })
     return data
@@ -210,9 +210,9 @@ export default async function Page() {
 
         >
             <SearchSection />
-            <div className="w-full bg-gray-100 z-40 border-b py-10 scrollbar-hide">
-                <div className="px-4 mx-auto max-w-screen-xl scrollbar-hide grid gap-1 grid-rows-2 md:grid-rows-4 grid-flow-col gap-4 overflow-scroll">
-                    {masterTags?.map((item) => <Link href={`/timkiem?tags=${item?.tags?.map(item => item.id)?.join(',')}`} key={item?.id} className="pt-4 px-4 cursor-pointer rounded-xl bg-white text-sm min-w-[150px] border border-input">
+            <div className="w-full bg-gray-200/50 z-40 border-b py-10 scrollbar-hide">
+                <div className="px-4 mx-auto max-w-screen-xl scrollbar-hide grid gap-1 grid-rows-2 md:grid-rows-3 grid-flow-col gap-4 overflow-scroll">
+                    {masterTags?.map((item) => <Link href={`/timkiem?tags=${item?.tags?.map(item => item.id)?.join(',')}`} key={item?.id} className="pt-4 px-4  cursor-pointer rounded-xl bg-white text-sm min-w-[150px] border border-gray-300">
                         <p className="font-heading px-2 text-lg">{item?.name}</p>
                         <Image src={item?.url ?? ''} alt='' width={80} height={80} className="w-[100px] h-auto aspect-square"></Image>
                     </Link>)}
@@ -259,6 +259,8 @@ export default async function Page() {
 
 
                         </div>
+
+                      
 
                     </div>
                 </div>
@@ -312,6 +314,15 @@ export default async function Page() {
                 </div>
                 <br />
             </div>
+            <Link
+                        href="/timkiem"
+                        className="inline-flex p-3 px-4 rounded-full bg-gradient-to-r from-blue-700 shadow-md hover:shadow-xl transition transition-all border border-indigo-500 to-violet-700  text-secondary hover:text-primary-foreground text-md "
+                    >
+                        Xem tất cả <ChevronRight/>
+                    </Link>
+                    
+                    <p className="text-muted-foreground pt-3 text-center text-xl px-[20%]"> Tổng hợp các cửa hàng kinh doanh dịch vụ tại địa phương. </p>
+                    <p className="text-3xl pt-2 text-muted-foreground font-heading">Tất cả trên Lagi Now</p>
         </div>
         {/* <div className="relative flex flex-col items-center justify-center bg-gray-50 py-20">
             <div className="absolute inset-auto h-96 w-96 scale-150 bg-sky-300 opacity-20 blur-3xl"></div>
@@ -493,8 +504,8 @@ export default async function Page() {
         </div> */}
 
 
-        <div className="relative  w-full py-6">
-            <div className="absolute inset-auto h-96 w-96 scale-150 bg-sky-300 opacity-20 blur-3xl"></div>
+        <div className="relative bg-secondary w-full">
+            <div className="absolute inset-auto h-96 w-96 scale-150 bg-sky-200 opacity-20 blur-3xl"></div>
             <div className="absolute inset-auto h-96 w-96 translate-x-full scale-150 bg-indigo-300 opacity-20 blur-3xl"></div>
             <div className="text-center py-8 space-y-2">
             <h1 className="font-heading text-accent-foreground/90 text-3xl md:text-5xl">Đánh giá từ cộng đồng 👍</h1>
@@ -504,7 +515,7 @@ export default async function Page() {
         </div>
 
 
-        <br />
+
 
     </div>
 }

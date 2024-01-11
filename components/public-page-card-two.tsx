@@ -36,7 +36,7 @@ const BusinessPageCardTwo = forwardRef(({ data, showRating = false, tracking = f
 
   return (
 
-    <div ref={ref} className="md:1/1 relative aspect-1/1 w-[80%] shrink-0 snap-center shadow-sm mb-2 border border-input overflow-hidden snap-always rounded-xl bg-white sm:w-[80%] min-w-[240px] md:w-[280px] ">
+    <div ref={ref} className="md:1/1 relative aspect-1/1 w-[80%] shrink-0 snap-center shadow-sm mb-2 border border-slate-300 overflow-hidden snap-always rounded-lg bg-white sm:w-[80%] min-w-[240px] md:w-[280px] ">
 
 
       <Image width={300} height={300} src={data?.banner?.url ?? ''} alt={'/placehover.svg'} className="w-full aspect-square object-cover bg-gradient-to-r from-stone-200 to-slate-300" />

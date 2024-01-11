@@ -29,7 +29,7 @@ export default async function Layout({
                         {user ? <UserAccountNav user={user} businesses={businesses}/> : <Link
                             href="/login"
                             className={cn(
-                                buttonVariants({ variant: "secondary", size: "sm" }),
+                                buttonVariants({ variant: "default", size:"default" }),
                                 "px-4"
                             )}
                         >

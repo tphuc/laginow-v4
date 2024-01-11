@@ -7,7 +7,7 @@ import Link from "next/link"
 
 export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
-    <div className="relative border-t mt-4">
+    <div className="relative border-t border-gray-300">
     <footer className="relative max-w-screen-2xl mx-auto px-4 py-8 space-y-12 md:space-y-0 md:grid md:grid-cols-4 md:gap-8">
       <div className="space-y-4">
         <h1 className="font-heading text-3xl">Lagi Now</h1>

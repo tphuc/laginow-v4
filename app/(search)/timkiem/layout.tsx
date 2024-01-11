@@ -16,8 +16,7 @@ export const viewport = {
     width: 'device-width',
     initialScale: 1,
     maximumScale: 1,
-
-  }
+}
 
 
 export default async function MarketingLayout({
@@ -31,14 +30,14 @@ export default async function MarketingLayout({
             <header className="sticky backdrop-blur-lg w-full top-0  z-40 bg-background/90 border-b border-border">
                 <div className="flex items-center max-w-screen-2xl mx-auto w-full justify-between py-3 md:py-4">
                     <MainNav 
-                    items={dashboardConfig.mainNav} 
+                        items={dashboardConfig.mainNav} 
                     />
                     <nav className="flex items-center gap-2 px-4">
                         <UserCart user={user}/>
                         {user ? <UserAccountNav user={user} businesses={businesses}/> : <Link
                             href="/login"
                             className={cn(
-                                buttonVariants({ variant: "secondary", size: "sm" }),
+                                buttonVariants({ variant: "default", size:"default" }),
                                 "px-4"
                             )}
                         >

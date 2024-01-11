@@ -29,7 +29,7 @@ export default async function Layout({
                         {user ? <UserAccountNav user={user} businesses={businesses}/> : <Link
                             href="/login"
                             className={cn(
-                                buttonVariants({ variant: "secondary", size: "sm" }),
+                                buttonVariants({ variant: "default", size:"default" }),
                                 "px-4"
                             )}
                         >
@@ -38,8 +38,8 @@ export default async function Layout({
                     </nav>
                 </div>
             </header>
-            <main className="container flex flex-col pb-4 md:grid flex-1 gap-12 ">{children}</main>
-            {/* <SiteFooter /> */}
+            <main className="container flex flex-col md:grid flex-1 gap-12 ">{children}</main>
+     
         </div>
     )
 }

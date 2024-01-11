@@ -36,7 +36,7 @@ export default async function MarketingLayout({
                         {user ? <UserAccountNav user={user} businesses={businesses} /> : <Link
                             href="/login"
                             className={cn(
-                                buttonVariants({ variant: "secondary", size: "sm" }),
+                                buttonVariants({ variant: "default", size:"default" }),
                                 "px-4"
                             )}
                         >
@@ -45,7 +45,7 @@ export default async function MarketingLayout({
                     </nav>
                 </div>
             </header>
-            <div className="relative grid grid-cols-8 max-w-screen-2xl gap-4 mx-auto px-4 pt-1 md:pt-6">
+            <div className="relative grid grid-cols-8 mb-8 max-w-screen-2xl gap-4 mx-auto px-4 pt-1 md:pt-6">
 
                 <div className="col-span-8 w-full overflow-hidden md:col-span-1">
                     <NewsNav items={dashboardConfig.newsNav} />

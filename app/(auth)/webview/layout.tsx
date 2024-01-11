@@ -31,7 +31,7 @@ export default async function MarketingLayout({
                         {user ? <UserAccountNav user={user} businesses={businesses}/> : <Link
                             href="/login"
                             className={cn(
-                                buttonVariants({ variant: "secondary", size: "sm" }),
+                                buttonVariants({ variant: "default", size:"default" }),
                                 "px-4 border border-2"
                             )}
                         >
@@ -40,7 +40,7 @@ export default async function MarketingLayout({
                     </nav>
                 </div>
             </header>
-            <main className="w-full overflow-hidden flex flex-col pb-4 flex-1 gap-4 ">{children}</main>
+            <main className="w-full overflow-hidden flex flex-col flex-1 gap-4 ">{children}</main>
             <SiteFooter />
         </div>
     )
