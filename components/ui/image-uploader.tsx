@@ -2,7 +2,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { Image as IcImage, Loader2, LoaderIcon, Trash, Upload, UploadCloud, UploadIcon } from 'lucide-react';
+import { Image as IcImage, Loader2, LoaderIcon, Trash, Trash2, Upload, UploadCloud, UploadIcon } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState, ChangeEvent, useRef } from 'react';
 import { toast } from './use-toast';
@@ -166,14 +166,14 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
               <button
                 onClick={handleImageDelete}
                 className={cn(
-                  "px-2 py-2 border border-1 border-input bg-secondary text-destructive text-sm rounded-md ml-1",
+                  "px-2 py-2 border-2 border-red-500 bg-red-200 text-destructive text-sm rounded-md ml-1",
                   isLoading ? "pointer-events-none" : ""
                 )}
               >
                 {isLoading ? (
                   <Loader2 className="animate-spin text-muted-foreground w-5 h-5" />
                 ) : (
-                  <Trash className="w-4 h-4" strokeWidth={1.5} />
+                  <Trash2 className="w-4 h-4 fill-red-200 stroke-width-2" strokeWidth={2} />
                 )}
               </button>
             </div>

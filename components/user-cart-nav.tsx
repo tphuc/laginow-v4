@@ -99,9 +99,9 @@ export function UserCart({ user }: UserCartProps) {
   return (
     <Sheet key={'right'}>
       <SheetTrigger asChild>
-        <Button size='sm' variant={'ghost'} className="inline-flex relative rounded-lg gap-2 hover:bg-transparent">
+        <Button size='sm' variant={'ghost'} className="inline-flex text-accent-foreground relative rounded-lg gap-2 hover:bg-transparent">
           <ShoppingBag className="w-6 h-6" strokeWidth={1.5} />
-          <div className="absolute leading-[0] flex items-center justify-center bottom-0 text-xs rounded-full text-primary-foreground w-4 h-4 right-2 bg-primary">{Object.keys(data?.cart ?? {})?.length}</div>
+          <div className="absolute leading-[0] font-mono flex items-center justify-center bottom-0 text-xs rounded-full text-primary-foreground w-4 h-4 right-2 bg-accent-foreground">{Object.keys(data?.cart ?? {})?.length}</div>
         </Button>
       </SheetTrigger>
       <SheetContent className="flex flex-col" side={'right'}>

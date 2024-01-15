@@ -16,19 +16,18 @@ const PostCardDescription = ({ postData }) => {
     const paragraphText = getParagraphText(postData?.blocks);
 
     return (
-        <div className="flex text-wrap">{paragraphText?.slice(0, 200) + '...'}</div>
+        <div className="">{paragraphText?.slice(0, 200) + '...'}</div>
     );
 };
 
 
-function NewsCard({ data }: { data: any }) {
+function NewsCard({ data, className }: { data: any, className?: any }) {
 
     return (
-        <div className="relative p-2 w-full min-w-[280px] rounded-md overflow-hidden border boder-input bg-white">
-
-            <Image className="w-full max-h-[200px] max-w-[360px] rounded-md aspect-video" width={200} height={200} style={{objectFit:"cover"}} src={data?.thumbnail ?? '/placeholder.svg'} alt={''} />
-            <div className='space-y-1'>
-                <div className="p-2">
+        <div className={cn("relative flex flex-col h-full w-full min-w-[300px] bg-secondary rounded-2xl overflow-hidden border boder-input", className)}>
+            <Image className="w-full min-h-[260px] max-h-[260px] max-w-[420px] h-auto" width={300} height={300} style={{objectFit:"cover"}} src={data?.thumbnail ?? '/placeholder.svg'} alt={''} />
+            <div className='space-y-4'>
+                <div className="p-4">
                     <div className='flex gap-2 items-center'>
                         {/* <UserAvatar user={data?.user} /> */}
                         <div>
@@ -37,7 +36,7 @@ function NewsCard({ data }: { data: any }) {
                         </div>
                     </div>
 
-                    <Link href={`/p/${data?.slug ?? data?.id}`} className="font-heading text-secondary-foreground text-xl hover:underline">{data?.title}</Link>
+                    <Link href={`/p/${data?.slug ?? data?.id}`} className="font-heading text-accent-foreground text-xl hover:underline">{data?.title}</Link>
                     <PostCardDescription postData={data?.content}></PostCardDescription>
 
                 </div>
@@ -51,7 +50,7 @@ function NewsCard({ data }: { data: any }) {
 export function SellingCard({ data }: { data: any }) {
 
     return (
-        <div className="p-2 w-full min-w-[280px] rounded-md overflow-hidden border boder-input bg-white">
+        <div className="p-2 w-full min-w-[280px] rounded-md overflow-hidden border boder-input bg-secondary rounded-xl">
 
             <ImageViewable className="w-full rounded-md aspect-video object-cover" width={200} height={200} style={{objectFit:"cover"}} src={data?.thumbnail ?? '/placeholder.svg'} alt={''} />
             <div className='space-y-1'>
@@ -65,7 +64,7 @@ export function SellingCard({ data }: { data: any }) {
                         </div>
                     </div>
 
-                    <Link href={`/p/${data?.slug ?? data?.id}`} className="font-heading text-secondary-foreground text-xl hover:underline">{data?.title}</Link>
+                    <Link href={`/p/${data?.slug ?? data?.id}`} className="font-heading text-accent-foreground text-xl hover:underline">{data?.title}</Link>
                     <PostCardDescription postData={data?.content}></PostCardDescription>
 
                 </div>
@@ -80,7 +79,7 @@ export function NewsCardHorizontal({data}){
 
 
     return (
-        <div className="p-2 w-full rounded-md gap-2 flex overflow-hidden flex-wrap border boder-input bg-white">
+        <div className="p-2 w-full rounded-md gap-2 flex overflow-hidden flex-wrap border bg-secondary boder-input">
         <ImageViewable className="w-full md:w-[200px] rounded-sm aspect-video object-cover bg-gradient-to-r from-stone-200 to-slate-300" width={200} height={200} src={data?.thumbnail ?? ''} alt={''} />
             <div className='space-y-1 flex-1 min-w-[300px]'>
                 <div className="p-2">
@@ -92,7 +91,7 @@ export function NewsCardHorizontal({data}){
                         </div>
                     </div>
 
-                    <Link href={`/p/${data?.slug ?? data?.id}`} className="font-heading text-secondary-foreground text-xl hover:underline">{data?.title}</Link>
+                    <Link href={`/p/${data?.slug ?? data?.id}`} className="font-heading text-accent-foreground text-xl hover:underline">{data?.title}</Link>
                     <PostCardDescription postData={data?.content}></PostCardDescription>
 
                 </div>
@@ -120,7 +119,7 @@ export function SubNewsCard({data}){
                         <p className='text-sm text-muted-foreground'>{format(new Date(data?.createdAt), 'dd LLL, y', { locale: vi })}</p>
                     </div>
 
-                    <Link href={`/p/${data?.slug ?? data?.id}`} className="font-heading text-secondary-foreground text-xl hover:underline">{data?.title}</Link>
+                    <Link href={`/p/${data?.slug ?? data?.id}`} className="font-heading text-accent-foreground text-xl hover:underline">{data?.title}</Link>
                     <PostCardDescription postData={data?.content}></PostCardDescription>
                 </div>
             </div>

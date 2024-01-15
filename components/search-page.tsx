@@ -93,15 +93,14 @@ const SearchPage = ({ masterTags, businessTags }: { masterTags, businessTags }) 
     const pathname = usePathname()
     const params = useSearchParams()
     const queryClient = useQueryClient()
-    const [isPending, startTransition] = useTransition();
+
+    console.log(params?.get('tags'))
 
     let selectedTags = businessTags?.filter((item) => params?.get('tags')?.includes(item?.id))?.map(item => ({
         label: item?.name,
         value: item?.id
     }))
 
-
-    const [text, setText] = useState("");
     // let searchTags = params?.get('tags') ? params?.get('tags')?.split(',') : []
 
     // useInfiniteQuery is a hook that accepts a queryFn and queryKey and returns the result of the queryFn
@@ -114,21 +113,14 @@ const SearchPage = ({ masterTags, businessTags }: { masterTags, businessTags }) 
         isSuccess,
         isFetchingNextPage,
         refetch,
-
-
     } = useInfiniteQuery({
         queryFn: ({ pageParam, queryKey }) => {
-
             return fetchData({ take: 10, lastCursor: pageParam, tag: params?.get('tag') ?? '', tags: queryKey?.[1] ?? '' })
         },
-        
-
         staleTime: 100,
         refetchOnWindowFocus: false,
         refetchOnMount: false,
-
         queryKey: ["businesses", params?.get('tags')],
-
         getNextPageParam: (lastPage) => {
             console.log(130, lastPage?.metaData)
             if(lastPage?.metaData?.hasNextPage)
@@ -224,8 +216,8 @@ const SearchPage = ({ masterTags, businessTags }: { masterTags, businessTags }) 
 
 
             <div className="w-full lg:w-3/4  ">
-                <div className="relative w-full mx-auto px-4 max-w-screen-xl space-y-2 pb-20">
-                    <div className="hidden md:flex w-full bg-background sticky top-[65px] py-4 items-center gap-2 flex-wrap z-40">
+                <div className="relative  w-full mx-auto px-4 max-w-screen-xl space-y-2 pb-20">
+                    <div className="md:flex border-b md:border-b-0  w-full bg-background sticky top-[59px] md:top-[65px] py-2 items-center gap-2 flex-wrap z-40">
                         <SearchBarFilter className="py-4" />
                     </div>
                     {(isLoading || isFetchingNextPage) && <LoaderSkeleton className="my-2" ></LoaderSkeleton>}

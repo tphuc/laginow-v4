@@ -27,8 +27,8 @@ export function DashboardNav({ items }: DashboardNavProps) {
             <Link key={index} href={item.disabled ? "/" : item.href} prefetch={!!item?.prefetch}>
               <span
                 className={cn(
-                  "group flex flex-nowrap whitespace-nowrap items-center rounded-md px-3 py-2 text-sm font-medium ",
-                  path === item.href ? "bg-primary text-secondary" : "transparent",
+                  "group flex flex-nowrap whitespace-nowrap items-center rounded-md text-secondary-foreground px-3 py-2 text-sm font-medium ",
+                  path === item.href ? "bg-secondary text-accent-foreground shadow-sm border" : "transparent",
                   item.disabled && "cursor-not-allowed opacity-80"
                 )}
               >

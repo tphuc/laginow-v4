@@ -20,7 +20,7 @@ const PostCardDescription = ({ postData }) => {
 
   return (
 
-          <div className="flex text-wrap">{paragraphText?.slice(0, 200) + '...'}</div>
+          <div className="flex text-wrap h-[200px]">{paragraphText?.slice(0, 200) + '...'}</div>
 
   );
 };

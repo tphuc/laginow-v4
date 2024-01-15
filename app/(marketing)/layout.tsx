@@ -21,8 +21,8 @@ export default async function MarketingLayout({
 
     return (
         <div className="relative flex min-h-screen w-full flex-col">
-            <header className="sticky backdrop-blur-lg w-full top-0  z-40 bg-background/90 border-b border-border">
-                <div className="flex items-center max-w-screen-2xl mx-auto w-full justify-between py-3 md:py-4">
+            <header className="absolute backdrop-blur-lg w-full top-0  z-40 ">
+                <div className="flex items-center  max-w-screen-xl mx-auto w-full justify-between py-3 md:py-4">
                     <MainNav 
                     items={dashboardConfig.mainNav} 
                     />
@@ -32,7 +32,7 @@ export default async function MarketingLayout({
                             href="/login"
                             className={cn(
                                 buttonVariants({ variant: "default", size:"default" }),
-                                "px-4 border border-2"
+                                "px-4 border border-1.5"
                             )}
                         >
                             Đăng nhập

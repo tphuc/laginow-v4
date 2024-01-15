@@ -64,7 +64,7 @@ export function MultiSelect({ onChange, value, className, defaultValue, max = 10
           const updatedList = selectedItems.filter((selectedItem) => selectedItem.value !== item.value);
           setSelectedItems(updatedList);
           onChange?.(updatedList)
-        }} className="rounded-md gap-2 truncate border border-input" size={'sm'} variant={'secondary'}>
+        }} className="rounded-md gap-2 truncate text-accent-foreground border border-input" size={'sm'} variant={'secondary'}>
           {item.label}
           <X className="h-4 w-4 opacity-50" strokeWidth={1.5} />
         </Button>)}

@@ -30,7 +30,7 @@ export function BusinessDashboardNav({ items, title }: BusinessDashboardNavProps
               <span
                 className={cn(
                   "group flex flex-nowrap whitespace-nowrap items-center rounded-md px-3 py-2 text-sm font-medium",
-                  path === item?.href ? " bg-accent text-primary border border-input" : "transparent hover:bg-secondary",
+                  path === item?.href ? "bg-secondary text-accent-foreground border shadow-sm" : "transparent hover:bg-secondary",
                   item?.disabled && "cursor-not-allowed opacity-80"
                 )}
               >

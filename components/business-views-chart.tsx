@@ -68,7 +68,7 @@ export function BusinessViewChart({businessId}: {businessId: string}) {
       showLegend={false}
       categories={["count"]}
       
-      colors={["cyan"]}
+      colors={["indigo"]}
       showXAxis
       showYAxis
 

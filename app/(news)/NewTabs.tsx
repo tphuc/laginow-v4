@@ -28,7 +28,7 @@ export function NewsNav({ items }: DashboardNavProps) {
               <span
                 className={cn(
                   "group flex flex-nowrap whitespace-nowrap items-center rounded-md px-3 py-2 font-medium hover:bg-gray-100 hover:text-accent-foreground",
-                  path === item.href ? "bg-secondary border border-primary/50" : "transparent",
+                  path === item.href ? "bg-secondary text-accent-foreground border shadow-sm" : "transparent",
                   item.disabled && "cursor-not-allowed opacity-80"
                 )}
               >

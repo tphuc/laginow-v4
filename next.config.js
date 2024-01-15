@@ -25,6 +25,12 @@ const nextConfig = {
         hostname: 'storage.googleapis.com',
         port: '',
         pathname: '/laginow/**',
+      },
+      {
+        protocol:"https",
+        hostname:'www.facebook.com',
+        port:"",
+        pathname:"/**"
       }
     ],
   },

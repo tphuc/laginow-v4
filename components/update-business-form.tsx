@@ -211,8 +211,8 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
                             <ImageUploader
                                 defaultValue={field.value}
                                 onChange={field.onChange}
-                                style={{ display: "inline-flex" }}
-                                className="min-w-[200px] min-h-[200px]"
+                                style={{ display: "inline-flex", objectFit:"cover" }}
+                                className="min-w-[200px] min-h-[200px] aspect-square"
                             />
                             <FormDescription>
                                 Ảnh hiển thị tốt nhất với tỉ lệ 1:1, bạn có thể thay đổi bất cứ lúc nào.

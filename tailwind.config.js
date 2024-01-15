@@ -129,6 +129,14 @@ module.exports = {
                     foreground: "hsl(var(--card-foreground))",
                 },
 
+                // lightGradOne: "hsl(242, 85%, 95%)",
+                // lightGradTwo: "hsl(211, 61%, 94%)",
+                // lightGradThree: "hsl(189, 81%, 94%)"
+
+                lightGradOne: "hsl(282, 85%, 95%)",
+                lightGradTwo: "hsl(251, 61%, 94%)",
+                lightGradThree: "hsl(229, 81%, 94%)"
+
             },
             boxShadow: {
                 // light
@@ -144,7 +152,6 @@ module.exports = {
                 lg: "var(--radius)",
                 md: "calc(var(--radius) - 2px)",
                 sm: "calc(var(--radius) - 4px)",
-
                 "tremor-small": "0.375rem",
                 "tremor-default": "0.5rem",
                 "tremor-full": "9999px",

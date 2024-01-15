@@ -36,31 +36,31 @@ const BusinessPageCardTwo = forwardRef(({ data, showRating = false, tracking = f
 
   return (
 
-    <div ref={ref} className="md:1/1 relative aspect-1/1 w-[80%] shrink-0 snap-center shadow-sm mb-2 border border-slate-300 overflow-hidden snap-always rounded-lg bg-white sm:w-[80%] min-w-[240px] md:w-[280px] ">
+    <div ref={ref} className="md:1/1 h-auto relative aspect-1/1 w-[80%] shrink-0 snap-center mb-2  overflow-hidden snap-always rounded-2xl bg-secondary sm:w-[80%] min-w-[240px] md:w-[280px] border border-input">
 
 
-      <Image width={300} height={300} src={data?.banner?.url ?? ''} alt={'/placehover.svg'} className="w-full aspect-square object-cover bg-gradient-to-r from-stone-200 to-slate-300" />
-      <div className="z-10 w-full px-4 border-t py-4 bg-white space-y-1">
+      <Image width={300} height={300} src={data?.banner?.url ?? ''} style={{transformOrigin:"center center"}} alt={'/placehover.svg'}  className="w-full scale-[1.03] aspect-square object-cover bg-gradient-to-r from-stone-200 to-slate-300" />
+      <div className="z-10 w-full px-4 py-4 bg-secondary space-y-1">
         {!!showRating &&<div className='flex items-center gap-1'>
           <StarRating defaultValue={data?.avgRating ?? 0} changeable={false} />
-          {data?.avgRating && <div className='flex items-center bg-blue-600 font-bold justify-center text-secondary w-6 h-6 rounded-full'>{data?.avgRating}</div>}
+          {/* {data?.avgRating && <div className='flex items-center bg-blue-600 justify-center text-secondary w-6 h-6 rounded-full'>{data?.avgRating}</div>} */}
         </div>}
         
-        <div className='inline-flex w-full items-center  space-y-1 flex-wrap gap-1'>
+        <div className='inline-flex w-full items-center  space-y-1  gap-1'>
 
 
           <Link ref={inviewRef} href={`/t/${data?.id}`} className="inline-flex gap-1 items-center font-heading max-w-[270px] truncate text-ellipsis  text-xl hover:underline">
 
 
-            {data?.verified && <span><BadgeCheck style={{ width: 24, height: 24 }} className='w-6 h-6 fill-blue-600 stroke-white' /></span>}
+            {data?.verified && <span><BadgeCheck style={{ width: 24, height: 24 }} className='w-6 h-6 fill-blue-600 stroke-secondary stroke-width-1' /></span>}
             <span> {data?.title} </span>
 
           </Link>
 
         </div>
-        <div className='flex items-center gap-1 flex-wrap'>
+        <div className='flex w-full overflow-hidden items-center truncate flex-nowrap gap-1'>
           {
-            data?.tags?.map((item, id) => <p key={`${item?.id}_${id}`} className="text-accent-foreground bg-secondary rounded-md py-1 px-2 text-base text-xs">
+            data?.tags?.map((item, id) => <p key={`${item?.id}_${id}`} className="break-inside-avoid truncate inline-block whitespace-nowrap text-accent-foreground bg-gray-200 px-2 rounded-sm py-1 text-base text-xs">
               {item?.name}
             </p>)
           }

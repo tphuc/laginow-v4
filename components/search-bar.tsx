@@ -18,7 +18,7 @@ import LoaderSkeleton from "./loader-skeleton";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Bus, Coffee, Home, Search, UtensilsCrossed } from "lucide-react";
+import { Briefcase, Bus, Coffee, Home, Search, UtensilsCrossed } from "lucide-react";
 
 import * as Portal from '@radix-ui/react-portal';
 
@@ -89,12 +89,12 @@ export default function SearchBarFilter({ className }: { className?: string }) {
       </div>
       <Input ref={ref} value={search} onChange={handleInputChange}
         onClick={(e) => {
-          if(!open){
+          if (!open) {
             setOpen(true)
             e.preventDefault()
             ref?.current?.focus()
           }
-          else{
+          else {
             setOpen(false)
           }
         }}
@@ -110,31 +110,34 @@ export default function SearchBarFilter({ className }: { className?: string }) {
     </div>
     <div className="mt-1 z-100 h-0 relative">
       {open ? <div
-        style={{zIndex:400}}
+        style={{ zIndex: 400 }}
         // align="start" sideOffset={0} autoFocus={false} 
-        className="p-1  bg-white w-full shadow-sm border border-input rounded-md flex min-h-[60px] flex-col max-h-[400px] overflow-scroll scrollbar-hide">
+        className="transition-all bg-white shadow-md divide-y w-full border border-input rounded-md flex min-h-[60px]  flex-col max-h-[400px] overflow-scroll scrollbar-hide">
         {(!data?.data?.length && !isLoading) && <p className="text-sm text-muted-foreground p-2">Nhập thêm từ khoá để tìm kiếm...</p>}
         {isLoading && <LoaderSkeleton />}
-        {data?.data?.map((item: any) => <Link href={`/t/${item?.id}`} className="p-1 gap-2 rounded-md flex cursor-pointer hover:bg-secondary" key={item?.id}>
-          <Image className="rounded-sm border border-input bg-slate-900 aspect-square" src={item?.banner?.url ?? '/placeholder.svg'} alt='' style={{objectFit:"cover"}} width={80} height={80} />
-          <div className="flex-1">
+        {data?.data?.map((item: any) => <Link href={`/t/${item?.id}`} className="p-1 transition transition-all gap-2 flex cursor-pointer hover:bg-secondary" key={item?.id}>
+          <Image alt='' className="rounded-md border overflow-hidden bg-indigo-900 w-[80px] aspect-square" src={item?.banner?.url ?? ''} style={{ objectFit: "cover" }} width={80} height={80} />
+          <div className="grid text-left">
             <p className="font-medium font-heading truncate">{item?.title}</p>
-            <div className="flex flex-nowrap text-ellipsis overflow-hidden" >{item?.tags?.map((item) => <p className="truncate text-sm text-muted-foreground" key={item?.id}>{item?.name}</p>)}</div>
-            <p className="w-[200px] text-sm whitespace-nowrap" >{item?.address}</p>
+            <div className="flex truncate gap-1 flex-nowrap text-ellipsis overflow-hidden" >{item?.tags?.map((item) => <p className="truncate text-sm text-muted-foreground" key={item?.id}>{item?.name}</p>)}</div>
+            <p className=" text-sm truncate whitespace-nowrap" >{item?.address}</p>
           </div>
         </Link>)}
-        <div className="flex flex-wrap gap-2 pt-2">
-        <div className="p-1 gap-2 px-4 py-2 bg-secondary border rounded-md flex cursor-pointer hover:bg-secondary">
-          <Link className="flex items-center gap-2" href='https://laginow.com/timkiem?tags=739Q,CkAF,Op8d,z0rr,MhZK,ejlq,jweb'>
-            <UtensilsCrossed className="w-6 h-6 stroke-width-1" /> Ăn uống  </Link>
+        <div className="grid sticky bottom-0 bg-secondary border-t w-full grid-cols-2 md:grid-cols-4 gap-1 px-1 py-2">
+          <div className="p-1 gap-2 px-3 py-1.5 bg-background border rounded-md flex hover:text-accent-foreground transition-all cursor-pointer hover:bg-background">
+            <Link className="flex items-center justify-center w-full gap-2  " href='https://laginow.com/timkiem?tags=739Q,CkAF,Op8d,z0rr,MhZK,ejlq,jweb'>
+              <UtensilsCrossed className="w-4 h-4 stroke-width-1" /> Ăn uống  </Link>
+          </div>
+          <div className="p-1 gap-2 px-3 py-1.5 bg-background border rounded-md flex hover:text-accent-foreground transition-all cursor-pointer hover:bg-background">
+            <Link className="flex items-center justify-center w-full gap-2  " href='https://laginow.com/timkiem?tags=cTEb,oWwv,d9aF,dT5A'><Home className="w-4 h-4 stroke-width-1" />Lưu trú  </Link>
+          </div>
+          <div className="p-1 gap-2 px-3 py-1.5 bg-background border rounded-md flex hover:text-accent-foreground transition-all cursor-pointer hover:bg-background">
+            <Link className="flex items-center justify-center w-full gap-2  " href='https://laginow.com/timkiem?tags=739Q'><Coffee className="w-4 h-4 stroke-width-1" /> Quán cafe  </Link>
+          </div>
+          <div className="p-1 gap-2 px-3 py-1.5 bg-background border rounded-md flex hover:text-accent-foreground transition-all cursor-pointer hover:bg-background">
+            <Link className="flex items-center justify-center w-full gap-2  " href={`/timkiem?tags=${['Xmg9', 'jvt6', 'VW1b', 's5_6', 'eA3p', 'uqSf', '7pHF', 'A4CV', 'x8BT', 'n2gy']?.join(',')}`}><Briefcase className="w-4 h-4 stroke-width-1" /> Dịch vụ </Link>
+          </div>
         </div>
-        <div className="p-1 gap-2 px-4 py-2 bg-secondary border rounded-md flex cursor-pointer hover:bg-secondary">
-          <Link className="flex items-center gap-2" href='https://laginow.com/timkiem?tags=cTEb,oWwv,d9aF,dT5A'><Home className="w-6 h-6 stroke-width-1" />Lưu trú  </Link>
-        </div>
-        <div className="p-1 gap-2 px-4 py-2 bg-secondary border rounded-md flex cursor-pointer hover:bg-secondary">
-          <Link className="flex items-center gap-2" href='https://laginow.com/timkiem?tags=739Q'><Coffee className="w-6 h-6 stroke-width-1" /> Quán cafe  </Link>
-        </div>
-      </div>
       </div> : null}
 
     </div>
