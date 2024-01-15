@@ -234,8 +234,8 @@ export default async function Page() {
                                 />
                             </div>
                             <div className="absolute bottom-0 left-0 w-full h-1/3 md:h-1/3 bg-gradient-to-b from-transparent to-40% to-[#F7F7F8]"></div>
-                            <div className=" text-left left-[5%] px-4  z-10 absolute bottom-10 max-md:leading-[48px] max-md:tracking-[-0.01em]">
-                                <h1 className="text-accent-foreground font-heading text-lg md:text-2xl"> Kết nối với group và fanpage Facebook </h1>
+                            <div className="leading-1 text-left left-[5%] px-4  z-10 absolute bottom-10 max-md:leading-[48px] max-md:tracking-[-0.01em]">
+                                <h1 className="text-accent-foreground font-heading text-2xl "> Kết nối với group và fanpage Facebook </h1>
                                 <h1 className="text-indigo-950/70"> Quảng cáo tiếp cận với khách hàng trên mxh </h1>
                             </div>
                         </div>
@@ -254,22 +254,22 @@ export default async function Page() {
                         <div className="flex relative col-span-2 md:col-span-1 overflow-hidden min-h-[290px] w-full max-w-[746px] flex-col items-start gap-x-8 gap-y-8 bg-muted px-12 py-10 rounded-3xl max-mdd:max-w-none max-md:p-8">
                             <Image src='/thong-tin.jpeg' loading="lazy" alt='' width={800} height={500} style={{ objectFit: "cover" }} className="block absolute top-10 rounded-lg w-[85%] left-1/2 -translate-x-1/2" />
                             <div className="absolute bottom-0 left-0 w-full h-2/3 md:h-1/2 bg-gradient-to-b from-transparent to-40% to-[#F7F7F8]"></div>
-                            <div className="  z-10 absolute left-[5%] px-4 bottom-10 max-md:leading-[48px] max-md:tracking-[-0.01em]">
-                                <h1 className="text-accent-foreground font-heading text-xl md:text-2xl"> Thông tin về kinh doanh của bạn</h1>
-                                <p className="text-indigo-950/70 ">  Thêm SDT, địa chỉ, hình ảnh sản phẩm dịch vụ</p>
+                            <div className="z-10 space-y-2 absolute left-[5%] px-4 bottom-10 max-md:leading-[48px] max-md:tracking-[-0.01em]">
+                                <h1 className="leading-[1] text-accent-foreground font-heading text-2xl "> Thông tin về kinh doanh của bạn</h1>
+                                <p className="leading-[1] text-indigo-950/70">  Thêm SDT, địa chỉ, hình ảnh sản phẩm dịch vụ</p>
                             </div>
 
                         </div>
                         <div className="flex relative col-span-2 md:col-span-1  overflow-hidden  min-h-[290px] flex-col justify-between items-stretch gap-x-8 space-y-2 bg-muted text-center p-12 rounded-3xl max-md:p-8">
                             <Image src='/chart.jpeg' loading="lazy" alt='' width={500} height={300} style={{ objectFit: "cover" }} className="block absolute top-10 rounded-lg w-[85%] left-1/2 -translate-x-1/2" />
                             <div className="absolute bottom-0 left-0 w-full h-2/3 md:h-1/2 bg-gradient-to-b from-transparent to-40% to-[#F7F7F8]"></div>
-                            <div className=" text-left left-[5%] px-4  z-10 absolute bottom-10 max-md:leading-[48px] max-md:tracking-[-0.01em]">
-                                <h1 className="text-accent-foreground font-heading text-xl md:text-2xl">Tích hợp nhiều tính năng quản lí</h1>
-                                <h1 className="text-indigo-950/70">Thống kê số lượt người xem trang </h1>
+                            <div className=" space-y-2 text-left left-[5%] px-4  z-10 absolute bottom-10 max-md:leading-[48px] max-md:tracking-[-0.01em]">
+                                <h1 className="leading-[1] text-accent-foreground font-heading text-2xl ">Tích hợp nhiều tính năng quản lí</h1>
+                                <h1 className="leading-[1] text-indigo-950/70">Thống kê số lượt người xem trang </h1>
                             </div>
                         </div>
 
-                        <div className="p-6 rounded-3xl relative h-full bg-secondary col-span-2 w-full relative space-y-4">
+                        <div className="p-4 md:p-6 rounded-3xl relative h-full bg-secondary col-span-2 w-full relative space-y-4">
 
 
 
@@ -306,7 +306,7 @@ export default async function Page() {
                                 </div>
 
 
-                                <div className="absolute top-0 z-10 left-0 h-full w-full p-[4%] bg-gray-100/60 md:bg-gray-100/20 space-y-4">
+                                <div className="absolute top-0 z-10 left-0 h-full w-full p-[8%] md:p-[4%] bg-gray-100/60 md:bg-gray-100/20 space-y-4">
                                     <p style={{lineHeight: 1.18}} className={"text-accent-foreground text-4xl md:text-[2.8rem] font-heading pt-0 text-left pr-[5%] md:pr-[42%] bg-gradient-to-b from-sky-600 to-indigo-700 bg-clip-text text-transparent"}>Tạo trang kinh doanh của bạn trên Lagi Now</p>
                                     <p className="text-accent-foreground/70 font-heading text-2xl text-left pr-[10%]">Kết nối và quảng bá đến cộng đồng</p>
                                     <Link
@@ -341,10 +341,8 @@ export default async function Page() {
 
 <div className="relative   max-w-screen-xl mx-auto  px-4">
 
-
-
-<div className=" w-full  md:py-20  bg-secondary rounded-3xl  text-center px-4">
-                    <Balancer className="font-heading text-accent-foreground text-3xl md:text-5xl leading-tight  sm:leading-tight">
+<div className=" w-full  py-8 md:py-20  bg-secondary rounded-3xl  text-center px-4">
+                    <Balancer className="font-heading text-accent-foreground text-4xl md:text-5xl leading-tight  sm:leading-tight">
                        
                         <span className="bg-gradient-to-r from-sky-600 to-indigo-600 bg-clip-text whitespace-nowrap text-transparent font-heading pr-2">{totalBusiness} trang</span>
                         đã đăng kí 🎉
@@ -361,7 +359,7 @@ export default async function Page() {
                 <div className="absolute inset-auto h-96 w-96 translate-x-full scale-150 bg-indigo-300 opacity-20 blur-3xl"></div> */}
                 <div className="w-full">
                     <div className="max-w-lg px-4 mx-auto max-w-screen-xl text-center">
-                        <p className="mt-2 font-heading text-indigo-900 text-4xl pt-4">Vừa mới xuất hiện trên Lagi Now </p>
+                        <p className="mt-2 font-heading text-indigo-900 text-3xl md:text-4xl pt-4">Vừa mới xuất hiện trên Lagi Now </p>
                     </div>
 
 
@@ -487,7 +485,7 @@ export default async function Page() {
 
            
    
-            <div className="w-full py-20 max-w-screen-2xl space-y-8 justify-center">
+            <div className="w-full py-20 space-y-8 justify-center">
             <h1 className="font-heading text-center text-blue-900 text-3xl md:text-4xl">Bài viết nổi bật</h1>
                         <PostCarousel data={marketingPosts} />
             </div>
