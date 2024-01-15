@@ -275,7 +275,7 @@ export default async function Page() {
 
                             <div
                                 // className="shadow-sm relative w-full  max-w-screen-xl border bg-gray-100 border-input  rounded-lg overflow-hidden h-80 text-white text-center flex items-center justify-center"
-                                className="w-full relative mx-auto rounded-xl shadow-sm overflow-hidden bg-slate-100 max-w-screen-xl flex items-center justify-center gap-2 flex-wrap"
+                                className="w-full border relative mx-auto rounded-xl shadow-sm overflow-hidden bg-slate-100 max-w-screen-xl flex items-center justify-center gap-2 flex-wrap"
                             >
 
                                 <div className="absolute inset-auto h-96 w-96 scale-150 bg-blue-800 opacity-10 blur-3xl"></div>
@@ -306,9 +306,9 @@ export default async function Page() {
                                 </div>
 
 
-                                <div className="absolute top-0 z-10 left-2 h-full w-full p-[4%] bg-gray-100/60 md:bg-gray-100/20 space-y-4">
-                                    <p style={{lineHeight: 1.18}} className={"text-accent-foreground text-3xl md:text-[2.8rem] font-heading pt-0 text-left pr-[5%] md:pr-[42%] bg-gradient-to-b from-sky-600 to-indigo-700 bg-clip-text text-transparent"}>Tạo trang kinh doanh của bạn trên Lagi Now</p>
-                                    <p className="text-indigo-800 text-2xl text-left pr-[10%]">Kết nối và quảng bá đến cộng đồng</p>
+                                <div className="absolute top-0 z-10 left-0 h-full w-full p-[4%] bg-gray-100/60 md:bg-gray-100/20 space-y-4">
+                                    <p style={{lineHeight: 1.18}} className={"text-accent-foreground text-4xl md:text-[2.8rem] font-heading pt-0 text-left pr-[5%] md:pr-[42%] bg-gradient-to-b from-sky-600 to-indigo-700 bg-clip-text text-transparent"}>Tạo trang kinh doanh của bạn trên Lagi Now</p>
+                                    <p className="text-accent-foreground/70 font-heading text-2xl text-left pr-[10%]">Kết nối và quảng bá đến cộng đồng</p>
                                     <Link
                                         href="/login?redirect=business.create"
                                         className="inline-flex p-2 px-4 bg-gradient-to-b from-indigo-600 to-80% to-indigo-700 rounded-lg text-secondary/90 hover:text-secondary border-2 border-indigo-600 shadow-sm"
@@ -343,7 +343,7 @@ export default async function Page() {
 
 
 
-<div className=" w-full py-20  bg-secondary rounded-3xl  text-center px-4">
+<div className=" w-full  md:py-20  bg-secondary rounded-3xl  text-center px-4">
                     <Balancer className="font-heading text-accent-foreground text-3xl md:text-5xl leading-tight  sm:leading-tight">
                        
                         <span className="bg-gradient-to-r from-sky-600 to-indigo-600 bg-clip-text whitespace-nowrap text-transparent font-heading pr-2">{totalBusiness} trang</span>
@@ -487,7 +487,7 @@ export default async function Page() {
 
            
    
-            <div className="w-full py-20 space-y-8 justify-center">
+            <div className="w-full py-20 max-w-screen-2xl space-y-8 justify-center">
             <h1 className="font-heading text-center text-blue-900 text-3xl md:text-4xl">Bài viết nổi bật</h1>
                         <PostCarousel data={marketingPosts} />
             </div>

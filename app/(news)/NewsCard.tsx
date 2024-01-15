@@ -24,9 +24,9 @@ const PostCardDescription = ({ postData }) => {
 function NewsCard({ data, className }: { data: any, className?: any }) {
 
     return (
-        <div className={cn("relative flex flex-col h-full w-full min-w-[300px] bg-secondary rounded-2xl overflow-hidden border boder-input", className)}>
-            <Image className="w-full min-h-[260px] max-h-[260px] max-w-[420px] h-auto" width={300} height={300} style={{objectFit:"cover"}} src={data?.thumbnail ?? '/placeholder.svg'} alt={''} />
-            <div className='space-y-4'>
+        <div className={cn("relative flex flex-col h-full w-full min-w-[300px] max-w-[100vw] bg-secondary rounded-2xl overflow-hidden border boder-input", className)}>
+            <Image className="w-full min-h-[260px] max-h-[260px] max-w-[520px] h-auto" width={300} height={300} style={{objectFit:"cover"}} src={data?.thumbnail ?? '/placeholder.svg'} alt={''} />
+            <div className='space-y-4 w-full overflow-hidden'>
                 <div className="p-4">
                     <div className='flex gap-2 items-center'>
                         {/* <UserAvatar user={data?.user} /> */}
