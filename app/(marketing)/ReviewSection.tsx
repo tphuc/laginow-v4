@@ -16,8 +16,8 @@ export default function ReviewSection({ data }) {
                 <div className="flex items-center gap-2">
                     <UserAvatar user={item?.user}></UserAvatar>
                     <div>
-                        <p className="text-secondary-foreground font-heading">{item?.user?.name}</p>
-                        <p>đánh giá cho <Link href={`/t/${item?.business?.id}`} className="font-heading text-blue-800">{item?.business?.title}</Link>   <span className="inline-flex gap-1 items-center text-sm py-0.5 font-bold no-wrap text-secondary bg-blue-500 px-2 rounded-full"> {item?.rating} <StarFilledIcon /></span></p>
+                        <p className="text-accent-foreground font-heading">{item?.user?.name}</p>
+                        <p>đánh giá cho <Link href={`/t/${item?.business?.id}`} className="font-heading text-indigo-800">{item?.business?.title}</Link>   <span className="inline-flex gap-1 items-center text-sm py-0.5 no-wrap text-secondary bg-indigo-600 px-2 rounded-full"> {item?.rating} <StarFilledIcon /></span></p>
                     </div>
                 </div>
                 {item?.content}

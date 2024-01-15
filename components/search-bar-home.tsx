@@ -18,7 +18,7 @@ import LoaderSkeleton from "./loader-skeleton";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Bus, Coffee, Home, Search, UtensilsCrossed } from "lucide-react";
+import { BadgeCheck, Briefcase, Bus, Coffee, Home, Search, UtensilsCrossed } from "lucide-react";
 
 import * as Portal from '@radix-ui/react-portal';
 
@@ -116,26 +116,35 @@ export default function SearchBarFilterHome({ className }: { className?: string 
         className="transition-all bg-white divide-y w-full shadow-sm border border-input rounded-md flex min-h-[60px]  flex-col max-h-[400px] overflow-scroll scrollbar-hide">
         {(!data?.data?.length && !isLoading) && <p className="text-sm text-muted-foreground p-2">Nhập thêm từ khoá để tìm kiếm...</p>}
         {isLoading && <LoaderSkeleton />}
-        {data?.data?.map((item: any) => <Link href={`/t/${item?.id}`} className="p-1 transition transition-all gap-2 flex cursor-pointer hover:bg-secondary" key={item?.id}>
-          <Image alt='' className="rounded-md shadow-sm border overflow-hidden bg-secondary w-[80px] aspect-square" src={item?.banner?.url ?? ''} style={{objectFit:"cover"}} width={80} height={80} />
-          <div className="grid text-left">
-            <p className="font-medium font-heading truncate">{item?.title}</p>
+        {data?.data?.map((item: any) => <Link href={`/t/${item?.id}`} className="p-1 transition transition-all gap-2 grid grid-cols-9 cursor-pointer hover:bg-secondary" key={item?.id}>
+          <Image alt='' className="rounded-md col-span-2  shadow-sm border overflow-hidden bg-secondary w-full aspect-square" src={item?.banner?.url ?? ''} style={{objectFit:"cover"}} width={80} height={80} />
+          <div className="space-y-0 gap-0 text-left col-span-7">
+            <p className="flex items-center gap-1">  
+      <BadgeCheck className={cn("min-w-[24px] stroke-secondary", item?.verified ? "fill-indigo-300 stroke-indigo-800" : "fill-slate-100 stroke-slate-400")} /> 
+              <span className="font-medium text-indigo-700 font-heading flex items-center gap-1 truncate">{item?.title}</span>
+            </p>
+           
             <div className="flex truncate gap-1 flex-nowrap text-ellipsis overflow-hidden" >{item?.tags?.map((item) => <p className="truncate text-sm text-muted-foreground" key={item?.id}>{item?.name}</p>)}</div>
             <p className=" text-sm truncate whitespace-nowrap" >{item?.address}</p>
+         
           </div>
         </Link>)}
-        <div className="grid bg-muted border-t w-full grid-cols-3 gap-1 px-1 py-1">
-        <div className="p-1 gap-2 px-3 py-1.5 bg-background border rounded-full flex cursor-pointer hover:bg-background">
-          <Link className="flex items-center justify-center w-full gap-2" href='https://laginow.com/timkiem?tags=739Q,CkAF,Op8d,z0rr,MhZK,ejlq,jweb'>
-            <UtensilsCrossed className="w-4 h-4 stroke-width-1" /> Ăn uống  </Link>
+        <div className="grid sticky bottom-0 bg-secondary border-t w-full grid-cols-2 md:grid-cols-4 gap-1 px-1 py-2">
+          <div className="p-1 gap-2 px-32py-1.5 bg-background border rounded-md flex hover:text-accent-foreground transition-all cursor-pointer hover:bg-background">
+            <Link className="flex items-center justify-center w-full gap-2 truncate text-sm " href='https://laginow.com/timkiem?tags=739Q,CkAF,Op8d,z0rr,MhZK,ejlq,jweb'>
+              <UtensilsCrossed className="w-4 h-4 stroke-width-1" /> Ăn uống  </Link>
+          </div>
+          <div className="p-1 gap-2  px-2 py-1.5 bg-background border rounded-md flex hover:text-accent-foreground transition-all cursor-pointer hover:bg-background">
+            <Link className="flex items-center justify-center w-full gap-2 truncate text-sm " href='https://laginow.com/timkiem?tags=cTEb,oWwv,d9aF,dT5A'>
+              <Home className="w-4 h-4 stroke-width-1" />Lưu trú  </Link>
+          </div>
+          <div className="p-1 gap-2  px-2 py-1.5 bg-background border rounded-md flex hover:text-accent-foreground transition-all cursor-pointer hover:bg-background">
+            <Link className="flex items-center justify-center w-full gap-2 truncate text-sm " href='https://laginow.com/timkiem?tags=739Q'><Coffee className="w-4 h-4 stroke-width-1" /> Quán cafe  </Link>
+          </div>
+          <div className="p-1 gap-2 px-32py-1.5 bg-background border rounded-md flex hover:text-accent-foreground transition-all cursor-pointer hover:bg-background">
+            <Link className="flex items-center justify-center w-full gap-2 truncate text-sm " href={`/timkiem?tags=${['Xmg9', 'jvt6', 'VW1b', 's5_6', 'eA3p', 'uqSf', '7pHF', 'A4CV', 'x8BT', 'n2gy']?.join(',')}`}><Briefcase className="w-4 h-4 stroke-width-1" /> Dịch vụ </Link>
+          </div>
         </div>
-        <div className="p-1 gap-2 px-3 py-1.5 bg-background border rounded-full flex cursor-pointer hover:bg-background">
-          <Link className="flex items-center justify-center w-full gap-2" href='https://laginow.com/timkiem?tags=cTEb,oWwv,d9aF,dT5A'><Home className="w-4 h-4 stroke-width-1" />Lưu trú  </Link>
-        </div>
-        <div className="p-1 gap-2 px-3 py-1.5 bg-background border rounded-full flex cursor-pointer hover:bg-background">
-          <Link className="flex items-center justify-center w-full gap-2" href='https://laginow.com/timkiem?tags=739Q'><Coffee className="w-4 h-4 stroke-width-1" /> Quán cafe  </Link>
-        </div>
-      </div>
       </div> : null}
 
     </div>

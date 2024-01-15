@@ -29,7 +29,7 @@ export default function PostCarousel({ data }) {
 
 
     return <Carousel opts={{
-        align: "start",
+        align: "center",
         loop: true,
     }}
         // plugins={[
@@ -42,7 +42,7 @@ export default function PostCarousel({ data }) {
         <CarouselPrevious />
         <CarouselContent className="gap-2 px-12 h-full relative">
             {data?.map((item, index) => {
-                return <CarouselItem key={`${item?.id}_${index}`} className="relative h-full text-left basis-1/1 md:basis-1/4 lg:basis-[25%] xl:basis-[20%]">
+                return <CarouselItem key={`${item?.id}_${index}`} className="relative h-full text-left basis-[92vw] flex items-center justify-center md:basis-1/4 lg:basis-[25%] xl:basis-[20%]">
                     <NewsCard data={item}/>
                 </CarouselItem>
             })}

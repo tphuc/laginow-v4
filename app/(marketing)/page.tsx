@@ -234,9 +234,9 @@ export default async function Page() {
                                 />
                             </div>
                             <div className="absolute bottom-0 left-0 w-full h-1/3 md:h-1/3 bg-gradient-to-b from-transparent to-40% to-[#F7F7F8]"></div>
-                            <div className="leading-1 text-left left-[5%] px-4  z-10 absolute bottom-10 max-md:leading-[48px] max-md:tracking-[-0.01em]">
-                                <h1 className="text-accent-foreground font-heading text-2xl "> Kết nối với group và fanpage Facebook </h1>
-                                <h1 className="text-indigo-950/70"> Quảng cáo tiếp cận với khách hàng trên mxh </h1>
+                            <div className="leading-1 space-y-2 text-left left-[5%] px-4  z-10 absolute bottom-10 max-md:leading-[48px] max-md:tracking-[-0.01em]">
+                                <h1 className="leading-[1] text-accent-foreground font-heading text-2xl "> Kết nối với group và fanpage Facebook </h1>
+                                <h1 className="leading-[1] text-indigo-950/70"> Quảng cáo tiếp cận với khách hàng trên mxh </h1>
                             </div>
                         </div>
                         {/* <div className="flex relative row-span-2 overflow-hidden  min-h-[300px] flex-col justify-between items-stretch gap-x-8 space-y-2 bg-muted text-center p-12 rounded-3xl max-md:p-8">
@@ -306,9 +306,9 @@ export default async function Page() {
                                 </div>
 
 
-                                <div className="absolute top-0 z-10 left-0 h-full w-full p-[8%] md:p-[4%] bg-gray-100/60 md:bg-gray-100/20 space-y-4">
+                                <div className="absolute top-0 z-10 left-0 h-full w-full p-[8%] md:p-[5%] bg-gray-100/60 md:bg-gray-100/20 space-y-4">
                                     <p style={{lineHeight: 1.18}} className={"text-accent-foreground text-4xl md:text-[2.8rem] font-heading pt-0 text-left pr-[5%] md:pr-[42%] bg-gradient-to-b from-sky-600 to-indigo-700 bg-clip-text text-transparent"}>Tạo trang kinh doanh của bạn trên Lagi Now</p>
-                                    <p className="text-accent-foreground/70 font-heading text-2xl text-left pr-[10%]">Kết nối và quảng bá đến cộng đồng</p>
+                                    <p className="text-accent-foreground/70  text-2xl text-left pr-[10%]">Kết nối và quảng bá đến cộng đồng</p>
                                     <Link
                                         href="/login?redirect=business.create"
                                         className="inline-flex p-2 px-4 bg-gradient-to-b from-indigo-600 to-80% to-indigo-700 rounded-lg text-secondary/90 hover:text-secondary border-2 border-indigo-600 shadow-sm"
@@ -377,7 +377,7 @@ export default async function Page() {
                 <br/>
                 <Link
                     href="/timkiem"
-                    className="inline-flex p-2 px-4 shadow-sm items-center gap-2 bg-gradient-to-b from-indigo-600 to-80% to-indigo-700 rounded-lg text-secondary/90 hover:text-secondary border-2 border-indigo-600"
+                    className="inline-flex p-2 px-4 shadow-sm items-center gap-2 bg-gradient-to-b from-gray-100 to-80% to-slate-200 rounded-lg text-accent-foreground border border-gray-200"
                 >
                     <MagnifyingGlassIcon width={20} height={20} strokeWidth={1.5} /> Xem tất cả 
                 </Link>
