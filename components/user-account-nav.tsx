@@ -17,11 +17,11 @@ import { Icons } from "./icons"
 import { Globe2, List, Pen, Settings } from "lucide-react"
 import { User } from "next-auth"
 // import { User } from "@prisma/client"
-import { User as DUser} from '@prisma/client'
+import { User as DUser } from '@prisma/client'
 import { Button } from "./ui/button"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: User & { isAdmin?: boolean, businesses?: any},
+  user: User & { isAdmin?: boolean, businesses?: any },
   businesses: any
 }
 
@@ -31,18 +31,18 @@ export function UserAccountNav({ user, businesses }: UserAccountNavProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Button className="max-w-[120px] bg-secondary text-accent-foreground hover:bg-secondary border border-indigo-900 rounded-full px-1 gap-2 truncate">
-        <span className="truncate pl-1">
-        {user?.name}
-        </span>
-        <UserAvatar
-          user={{ name: user.name || null, image: user.image || null }}
-          className="h-7 w-7 border border-indigo-900"
-        />
+        <div className="flex items-center py-1 max-w-[120px] bg-secondary text-accent-foreground hover:bg-secondary border border-indigo-900 rounded-full px-1 gap-2 truncate">
+          <span className="truncate pl-1">
+            {user?.name}
+          </span>
+          <UserAvatar
+            user={{ name: user.name || null, image: user.image || null }}
+            className="h-7 w-7 border border-indigo-900"
+          />
 
-        </Button>
+        </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent className="max-w-[95vw]" align="end">
         <div className="flex items-center justify-start gap-2 p-2">
           <div className="flex flex-col space-y-1 leading-none">
             {user.name && <p className="font-medium">{user.name}</p>}
@@ -55,14 +55,14 @@ export function UserAccountNav({ user, businesses }: UserAccountNavProps) {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link className="flex items-center gap-2 font-medium" href="/dashboard"> <Pen className="w-4 h-4"/>  Quản lí bài viết</Link>
+          <Link className="flex items-center gap-2 font-medium" href="/dashboard"> <Pen className="w-4 h-4" />  Quản lí bài viết</Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
-          <Link className="flex items-center gap-2 font-medium" href="/dashboard/pages"> <Globe2 className="w-4 h-4"/> Trang của bạn</Link>
+          <Link className="flex items-center gap-2 font-medium" href="/dashboard/pages"> <Globe2 className="w-4 h-4" /> Trang của bạn</Link>
         </DropdownMenuItem>
         {user?.isAdmin && <DropdownMenuItem asChild>
-          <Link className="flex items-center gap-2 font-medium" href="/admin"> <Settings className="w-4 h-4"/> Admin</Link>
+          <Link className="flex items-center gap-2 font-medium" href="/admin"> <Settings className="w-4 h-4" /> Admin</Link>
         </DropdownMenuItem>}
         <DropdownMenuSeparator />
         <div>
@@ -70,7 +70,7 @@ export function UserAccountNav({ user, businesses }: UserAccountNavProps) {
 
             <Link href={`/business/${item?.id}`} className="gap-2">
               {/* <Icons.globe className="w-4 h-4" strokeWidth={1.5} /> */}
-              <p>{item?.title}</p>
+              <p className="truncate whitespace-nowrap">{item?.title}</p>
             </Link>
 
           </DropdownMenuItem>)}

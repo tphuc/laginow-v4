@@ -37,31 +37,31 @@ const BusinessPageCard = forwardRef(({ data, tracking = false }: { data: any, tr
 
 
   return (
-    <div ref={ref} className="relative p-2 w-full min-w-[280px] md:max-w-[280px] rounded-xl overflow-hidden shadow-sm border border-input bg-white">
+    <div ref={ref} className="relative w-full min-w-[280px] md:max-w-[280px] rounded-xl overflow-hidden shadow-sm border border-input bg-secondary">
       <Link href={`/t/${data?.id}`}>
-        <Image className="w-full border border-input/50 md:w-[280px] rounded-lg h-[280px] aspect-video object-cover" width={200} height={200} src={data?.banner?.url ?? '/placeholder.svg'} alt={''} />
+        <Image className="w-full  md:w-[280px] h-[280px] aspect-video object-cover" width={200} height={200} src={data?.banner?.url ?? '/placeholder.svg'} alt={''} />
       </Link>
       <div className='space-y-1'>
-        <div className="p-2">
+        <div className="p-4 truncate">
           {(data?.avgRating || 1) && <div className='flex items-center gap-1'>
             <StarRating defaultValue={data?.avgRating ?? 0} changeable={false} />
-            <p className='flex items-center font-heading justify-center text-cyan-700 w-6 h-6 rounded-full'>{data?.avgRating}</p>
+            <p className='flex items-center justify-center text-indigo-700 w-6 h-6 rounded-full'>{data?.avgRating}</p>
           </div>}
          
-         <div className='inline-flex w-full items-center flex-wrap gap-1'>
-         {data?.verified && <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' />}
-         <Link ref={inviewRef} href={`/t/${data?.id}`} className="inline-block font-heading max-w-[270px] truncate text-ellipsis  text-xl hover:underline"> {data?.title}  </Link>
+          <Link ref={inviewRef} href={`/t/${data?.id}`} className="inline-flex -ml-1 gap-1 truncate items-center font-heading w-full truncate text-ellipsis text-xl hover:underline">
+              <BadgeCheck className={cn("min-w-[24px] stroke-secondary", data?.verified ? "fill-indigo-600 stroke-gray-200" : "fill-slate-400 stroke-secondary")} /> 
+              <span className="font-medium text-indigo-900 flex-1 font-heading  gap-1 truncate">{data?.title}</span>
 
-         </div>
+          </Link>
         
         
 
-          <p className="text-muted-foreground text-base text-sm">
+          <p className="text-accent-foreground truncate text-base text-sm">
             {data?.address}
           </p>
-          <div className='flex flex-wrap gap-1 pt-1'>
+          {/* <div className='flex flex-wrap gap-1 pt-1'>
             {data?.tags?.map((item) => <p className='text-xs px-2 py-1 rounded-md bg-gray-200/50 text-gray-700' key={item?.id}>{item?.name}</p>)}
-          </div>
+          </div> */}
           {/* <br /> */}
           <Badge className={cn("inline-flex gap-2 border border-input absolute top-4 left-4 justify-between items-center px-2 py-1 border ", !isCurrentlyOpenHr && "opacity:50")} variant={isCurrentlyOpenHr ? 'success' : 'secondary'}>
             <div className="flex items-center gap-2">

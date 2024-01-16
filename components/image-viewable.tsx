@@ -20,7 +20,7 @@ export default function ImageViewable(props){
     <DialogContent className="max-w-[425px] md:maw-w-[700px]">
       <div className="grid bg-transparent gap-4 py-4">
         {/* <img  alt='' {...props} className="w-[90vw] height-auto" /> */}
-        {getResourceType(props?.src) === 'image' ? <Image alt='' {...props} className="w-[90vw] height-auto"/> : <video {...props} className="w-[90vw] height-auto" controls autoPlay={false}></video>}
+        {getResourceType(props?.src) === 'image' ? <Image alt='' {...props} className="w-[90vw] height-auto"/> : <video {...props}  className="w-[90vw] height-auto" controls autoPlay={false}></video>}
       </div>
     </DialogContent>
   </Dialog>

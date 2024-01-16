@@ -92,9 +92,7 @@ const SearchPage = ({ masterTags, businessTags }: { masterTags, businessTags }) 
     const router = useRouter();
     const pathname = usePathname()
     const params = useSearchParams()
-    const queryClient = useQueryClient()
 
-    console.log(params?.get('tags'))
 
     let selectedTags = businessTags?.filter((item) => params?.get('tags')?.includes(item?.id))?.map(item => ({
         label: item?.name,
@@ -172,8 +170,8 @@ const SearchPage = ({ masterTags, businessTags }: { masterTags, businessTags }) 
         )}>
 
 
-            <div className="relative hidden md:block bg-background z-40 lg:w-1/5 p-6 space-y-2 sm:sticky top-[65px] h-full">
-                <h2 className="text-xl font-heading mb-4"> Tìm kiếm </h2>
+            <div className="relative hidden md:block bg-background z-40 lg:w-1/5 p-6 space-y-2 sm:sticky top-[70px] h-full">
+                <h2 className="text-xl text-accent-foreground font-heading mb-4"> Tìm kiếm </h2>
                 <MultiSelect
                     className="p-1 border-none shadow-none rounded-lg"
                     defaultValue={selectedTags}
@@ -199,7 +197,7 @@ const SearchPage = ({ masterTags, businessTags }: { masterTags, businessTags }) 
                 </div>
                 <SheetContent>
                     <div className="relative">
-                        <h2 className="text-xl font-heading mb-4"> Tìm kiếm </h2>
+                        <h2 className="text-xl text-indigo-900 font-heading mb-4"> Tìm kiếm </h2>
                         <MultiSelect
                             className="p-1 border-none shadow-none rounded-lg"
                             defaultValue={selectedTags}
@@ -217,7 +215,7 @@ const SearchPage = ({ masterTags, businessTags }: { masterTags, businessTags }) 
 
             <div className="w-full lg:w-3/4  ">
                 <div className="relative  w-full mx-auto px-4 max-w-screen-xl space-y-2 pb-20">
-                    <div className="md:flex border-b md:border-b-0  w-full bg-background sticky top-[59px] md:top-[65px] py-2 items-center gap-2 flex-wrap z-40">
+                    <div className="md:flex border-b md:border-b-0  w-full bg-background sticky top-[61px] md:top-[69px] py-2 items-center gap-2 flex-wrap z-40">
                         <SearchBarFilter className="py-4" />
                     </div>
                     {(isLoading || isFetchingNextPage) && <LoaderSkeleton className="my-2" ></LoaderSkeleton>}

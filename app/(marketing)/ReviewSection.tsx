@@ -23,7 +23,7 @@ export default function ReviewSection({ data }) {
                 {item?.content}
                 <div className="flex items-center flex-wrap gap-1">
                     {
-                        item?.images?.map?.((image: any) => <ImageViewable useRaw key={image?.url} alt='' width={100} height={100} className="rounded-sm h-[80px] w-auto object-cover rounded-md border border-input bg-secondary-foreground" src={image.url ?? ''} />)
+                        item?.images?.map?.((image: any) => <ImageViewable useRaw={true} key={image?.url} alt='' width={100} height={100} className="rounded-sm h-[80px] w-auto object-cover rounded-md border border-input bg-secondary-foreground" src={image.url ?? ''} />)
                     }
                 </div>
             </div>
