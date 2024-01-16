@@ -14,10 +14,11 @@ import {
 import { UserAvatar } from "@/components/user-avatar"
 import { useGetUserInfo } from "@/lib/http"
 import { Icons } from "./icons"
-import { Globe2, Pen, Settings } from "lucide-react"
+import { Globe2, List, Pen, Settings } from "lucide-react"
 import { User } from "next-auth"
 // import { User } from "@prisma/client"
 import { User as DUser} from '@prisma/client'
+import { Button } from "./ui/button"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: User & { isAdmin?: boolean, businesses?: any},
@@ -30,10 +31,16 @@ export function UserAccountNav({ user, businesses }: UserAccountNavProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
+        <Button className="max-w-[120px] bg-secondary text-accent-foreground hover:bg-secondary border border-indigo-900 rounded-full px-1 gap-2 truncate">
+        <span className="truncate pl-1">
+        {user?.name}
+        </span>
         <UserAvatar
           user={{ name: user.name || null, image: user.image || null }}
-          className="h-8 w-8"
+          className="h-7 w-7 border border-indigo-900"
         />
+
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <div className="flex items-center justify-start gap-2 p-2">

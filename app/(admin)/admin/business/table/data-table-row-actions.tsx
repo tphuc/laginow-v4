@@ -27,6 +27,7 @@ import { UpdateBusinessContactVerified } from "@/components/update-business-cont
 import { UpdateBusinessForm } from "@/components/update-business-form"
 import { toast } from "@/components/ui/use-toast"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -36,6 +37,7 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
+  const router = useRouter()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -89,6 +91,7 @@ export function DataTableRowActions<TData>({
               toast({
                 title: "Thành công",
               })
+              router?.refresh()
 
             } catch (e) {
               toast({
@@ -96,6 +99,7 @@ export function DataTableRowActions<TData>({
                 variant: "destructive"
               })
             }
+        
           }} size={'sm'} className="w-full gap-2 text-sm justify-between" variant={'ghost'}>
             Tích xanh <BadgeCheck className="w-4 h-4" />
           </Button>

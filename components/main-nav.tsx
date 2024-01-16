@@ -20,6 +20,7 @@ interface MainNavProps {
     title: string;
     href: string;
     disabled?: boolean | undefined;
+    icon? : any
   }[]
   children?: React.ReactNode
 }
@@ -77,39 +78,40 @@ export function MainNav({ items, children }: MainNavProps) {
       <Sheet>
         <div className="flex items-center gap-2">
           <SheetTrigger asChild>
-            <Badge variant={'secondary'} className="p-1 block md:hidden rounded-sm border border-input">
-              <Menu className="aspect-square px-0 text-secondary-foreground" />
+            <Badge variant={'secondary'} className="p-1 block md:hidden rounded-sm border border-indigo-900">
+              <Menu className="aspect-square px-0 text-accent-foreground" />
             </Badge>
           </SheetTrigger>
 
         </div>
-        <SheetContent side="left" className="w-[90vw] px-2">
+        <SheetContent side="left" className="w-[90vw] px-0">
 
-          <div className="divide-y h-[100vh] pb-40 scrollbar-hide overflow-scroll mt-[20px] divide-border rounded-md border-t">
-            <Link href="/" className="flex px-2 py-2 items-center gap-2 text-xl font-heading">
-              <Home className="w-5 h-5" /> Lagi Now
+          <div className="divide-y h-[100vh] pb-40 scrollbar-hide overflow-scroll mt-[20px] divide-border  border-t">
+            <Link href="/" className="flex px-4 text-accent-foreground py-2 items-center gap-2 text-xl font-heading">
+              <Home className="w-5 h-5 stroke-indigo-900 fill-blue-200" strokeWidth={2} /> Lagi Now
             </Link>
             {items?.length ? (
-              <nav className="">
+              <nav className="divide-y">
                 {items?.map((item, index) => (
                   <Link
                     key={index}
                     href={item.disabled ? "#" : item.href}
                     className={cn(
-                      "flex items-center px-2 py-2 text-lg transition-colors hover:text-foreground/80 sm:text-sm",
+                      "flex items-center px-4 py-2 text-[1.1rem] transition-colors hover:text-foreground",
                       item.href.startsWith(`/${segment}`)
-                        ? "text-foreground"
-                        : "text-foreground/60",
+                        ? "text-accent-foreground bg-secondary"
+                        : "text-accent-foreground",
                       item.disabled && "cursor-not-allowed opacity-80"
                     )}
                   >
+
                     {item.title}
                   </Link>
                 ))}
               </nav>
             ) : null}
 
-            <nav className="">
+            <nav >
               {masterTags?.map((item, index) => (
                 <Link
                   className="flex text-sm items-center px-2 py-1 text-lg transition-colors hover:text-foreground/80 sm:text-sm"

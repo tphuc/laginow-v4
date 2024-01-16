@@ -7,7 +7,8 @@ export type NavItem = {
   title: any
   href: string
   disabled?: boolean,
-  laptopHidden?: boolean 
+  laptopHidden?: boolean ,
+  icon?: React.ReactNode
 }
 
 export type MainNavItem = NavItem

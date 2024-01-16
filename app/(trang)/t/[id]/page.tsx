@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 
 import db from "@/lib/prisma"
 import { getCurrentUser } from "@/lib/session"
-import { getOpenHrs, isCurrentlyOpen } from "@/lib/utils"
+import { cn, getOpenHrs, isCurrentlyOpen } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Divider } from "@tremor/react"
 import { BadgeCheck, Clock10, Facebook, Globe2, MapPin, Package, Phone, Pin, Plus, PlusCircle, Star } from "lucide-react"
@@ -138,16 +138,17 @@ export default async function Page({ params }) {
                 <ImageViewable alt='' width={140} height={140} className="w-auto  border border-input h-full rounded-md object-cover aspect-square" src={business?.banner?.['url']} />
             </div>}
             <div className="space-y-2 flex-1 min-w-[320px]">
-                <div className='inline-flex w-full items-center gap-1 flex-wrap'>
-                    <p className="text-3xl font-medium font-heading">{business?.title}</p>
-                    {business?.verified && <BadgeCheck className='w-8 h-8 fill-sky-600 stroke-white' />}
+                <div className='flex w-full items-center gap-1 flex-wrap'>
+                <BadgeCheck className={cn("min-w-[24px] stroke-secondary", business?.verified ? "fill-indigo-600 stroke-gray-200" : "fill-slate-400 stroke-secondary")} />
+                    <p className="text-3xl font-medium text-accent-foreground font-heading">{business?.title}</p>
+              
 
                 </div>
                 <p className="">{business?.address}</p>
                 <div className="flex gap-2">{business?.tags?.map((item: any) => (
                     <p key={item?.id} className="text-sm cursor-pointer text-muted-foreground">{item?.name}</p>
                 ))}</div>
-                <Badge className="inline-flex gap-1 justify-between items-center min-w-[100px] px-1 py-1 border border-gray-300" variant={isCurrentlyOpenHr ? 'success' : 'secondary'}>
+                <Badge className="inline-flex gap-1 justify-between items-center min-w-[100px] px-1 pr-2 py-1 border border-gray-300" variant={isCurrentlyOpenHr ? 'success' : 'secondary'}>
                     <div className="flex items-center gap-2">
                         <Clock10 className="w-4 h-4" strokeWidth={1.5} />
                         {/* {isCurrentlyOpenHr ? 'Đang mở cửa' : "Đóng cửa"} */}
@@ -176,30 +177,30 @@ export default async function Page({ params }) {
 
                     <div className="md:w-1/2">
                         <div className="rounded-lg mb-4 md:mb-0 space-y-4">
-                            <div >
-                                <p className="flex items-center gap-2 font-heading text-secondary-foreground">
-                                    <Phone className="w-5 h-5" strokeWidth={2} /> SĐT
+                            <div className="space-y-1">
+                                <p className="flex items-center gap-2 font-heading text-accent-foreground">
+                                    <Phone className="w-4 h-4" strokeWidth={2} /> SĐT
                                 </p>
-                                <Badge variant={'secondary'} className="border border-input">
-                                    <Link href={`tel:${business?.phone}`} className="hover:underline">{business?.phone}</Link>
-                                </Badge>
+                            
+                                    <Link href={`tel:${business?.phone}`} className="text-accent-foreground text-md hover:underline">{business?.phone}</Link>
+                             
                             </div>
 
-                            <div >
-                                <p className="flex items-center gap-2 font-heading text-secondary-foreground">    <Globe2 className="w-5 h-5" strokeWidth={2} /> Website </p>
+                           { business?.website && <div >
+                                <p className="flex items-center gap-2 font-heading text-accent-foreground">    <Globe2 className="w-4 h-4" strokeWidth={2} /> Website </p>
 
                                 <p className="hover:underline">{business?.website}</p>
-                            </div>
+                            </div>} 
                             <div>
-                                <p className="flex items-center gap-2 font-heading text-secondary-foreground">
-                                    <Facebook className="w-5 h-5" strokeWidth={2} /> Facebook
+                                <p className="flex items-center gap-2 font-heading text-accent-foreground">
+                                    <Facebook className="w-4 h-4" strokeWidth={2} /> Facebook
                                 </p>
                                 <Link href={`${business?.facebookUrl}`} className="hover:underline truncate max-w-[200px] text-eclipsis">{business?.facebookUrl}</Link>
                             </div>
 
                             <div>
-                                <p className="flex items-center gap-2 font-heading text-secondary-foreground">
-                                    <MapPin className="w-5 h-5" strokeWidth={2} /> Google Maps
+                                <p className="flex items-center gap-2 font-heading text-accent-foreground">
+                                    <MapPin className="w-4 h-4" strokeWidth={2} /> Google Maps
                                 </p>
                                 <Link href={`${business?.googleMapsUrl}`} className="hover:underline truncate max-w-[200px] text-eclipsis">{business?.googleMapsUrl}</Link>
                             </div>
@@ -211,7 +212,7 @@ export default async function Page({ params }) {
 
                         {/* <div className="mb-4">
                                 <p className="flex items-center gap-2 font-heading text-secondary-foreground">
-                                    <Pin className="w-5 h-5" strokeWidth={2} /> Google maps
+                                    <Pin className="w-4 h-4" strokeWidth={2} /> Google maps
                                 </p>
                                 <Link href="https://www.facebook.com/examplepage" className="hover:underline">{business?.googleMapsUrl}</Link>
                             </div> */}
@@ -233,7 +234,7 @@ export default async function Page({ params }) {
         }
 
         <Divider />
-        <p className="text-xl flex items-center gap-2 font-medium font-heading">
+        <p className="text-xl flex items-center gap-2 text-accent-foreground font-medium font-heading">
             {/* <Package className="w-6 h-6" strokeWidth={1.5} />  */}
             Hình ảnh ({business?.images?.['length']})
         </p>
@@ -254,7 +255,7 @@ export default async function Page({ params }) {
 
         <br />
         <div className="w-full relative space-y-4">
-            <p className="text-xl flex items-center gap-2 font-medium font-heading">
+            <p className="text-xl flex items-center text-accent-foreground gap-2 font-medium font-heading">
                 {/* <Package className="w-6 h-6" strokeWidth={1.5} />  */}
                 Sản phẩm & Dịch vụ
             </p>
@@ -264,7 +265,7 @@ export default async function Page({ params }) {
 
             <div className="grid grid-cols-2 gap-2 md:gap-4 font-medium ">
 
-                <span className="font-heading text-xl">Đánh giá</span>
+                <span className="font-heading text-accent-foreground text-xl">Đánh giá</span>
                 <div className="flex justify-end">
                     <AddReviewButton businessId={params.id} />
                 </div>
