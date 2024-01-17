@@ -11,12 +11,12 @@ import ImageViewable from '@/components/image-viewable';
 import { UserAvatar } from '@/components/user-avatar';
 
 
-const PostCardDescription = ({ postData }) => {
+const PostCardDescription = ({ postData, className, max=150 }: {postData?: any, max?: number, className?: any}) => {
 
     const paragraphText = getParagraphText(postData?.blocks);
 
     return (
-        <div className="max-h-[100px]">{paragraphText?.slice(0, 200) + '...'}</div>
+        <div className={cn("whitespace-wrap", className)}>{paragraphText?.slice(0, max) + '...'}</div>
     );
 };
 
@@ -27,17 +27,16 @@ function NewsCard({ data, className }: { data: any, className?: any }) {
         <div className={cn("relative flex flex-col h-full w-full min-w-[300px] max-w-[100vw] bg-secondary rounded-2xl overflow-hidden border boder-input", className)}>
             <Image className="w-full min-h-[260px] max-h-[260px] max-w-[520px] h-auto" width={300} height={300} style={{objectFit:"cover"}} src={data?.thumbnail ?? '/placeholder.svg'} alt={''} />
             <div className='space-y-4 w-full overflow-hidden'>
-                <div className="p-4">
+                <div className='relative w-full flex flex-col  col-span-2 p-2 pr-4 h-full'>
                     <div className='flex gap-2 items-center'>
-                        {/* <UserAvatar user={data?.user} /> */}
-                        <div>
-                            {/* <p className='flex items-center gap-1' >{data?.user?.name} {data?.user?.isAdmin && <UserCog className='w-4 h-4oo stroke-sky-800' />} </p> */}
+                     
+
                             <p className='text-sm text-muted-foreground'>{format(new Date(data?.createdAt), 'dd LLL, y', { locale: vi })}</p>
-                        </div>
+                        
                     </div>
 
                     <Link href={`/p/${data?.slug ?? data?.id}`} className="font-heading text-accent-foreground text-xl hover:underline">{data?.title}</Link>
-                    <PostCardDescription postData={data?.content}></PostCardDescription>
+                    <PostCardDescription className={'text-accent-foreground h-full  rounded-sm py-1 text-base text-sm'}  postData={data?.content}></PostCardDescription>
 
                 </div>
 
@@ -83,18 +82,12 @@ export function NewsCardHorizontal({data}){
             <Link href={`/p/${data?.slug ?? data?.id}`} className=''>
                 <ImageViewable className="w-full h-full aspect-square object-cover bg-gradient-to-r from-stone-200 to-slate-300" width={200} height={200} src={data?.thumbnail ?? ''} alt={''} />
             </Link>
-            <div className='relative w-full col-span-2 p-2 pr-4 h-full overflow-hidden'>
+            <div className='relative w-full flex flex-col  col-span-2 p-2 pr-4 h-full'>
    
-                    {/* <div className='flex gap-2 items-center'>
-                      
-                        <div>
-                        
-                            <p className='text-sm text-muted-foreground'>{format(new Date(data?.createdAt), 'dd LLL, y', { locale: vi })}</p>
-                        </div>
-                    </div> */}
-
                     <Link href={`/p/${data?.slug ?? data?.id}`} className="font-heading text-accent-foreground text-xl hover:underline">{data?.title}</Link>
-                    <PostCardDescription postData={data?.content}></PostCardDescription>
+               
+                    <PostCardDescription className={'text-accent-foreground h-full  rounded-sm py-1 text-base text-sm'} postData={data?.content}></PostCardDescription>
+
 
           
 
