@@ -35,7 +35,7 @@ export default function NewsNormalList({ data, maxPage }) {
     };
 
     return <div className="space-y-2">
-        <div className='space-y-2'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
             {data?.map((item, id) => <NewsCardHorizontal key={`${item?.id}${id}`} data={item} />)}
         </div>
         <div>

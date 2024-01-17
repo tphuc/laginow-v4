@@ -190,7 +190,7 @@ export default async function Page({ searchParams }) {
 
 
     return <div className='relative w-full max-w-screen-2xl mx-auto grid grid-cols-5 gap-4'>
-        <div className="col-span-5 md:col-span-4 w-full  max-w-screen-2xl mx-auto">
+        <div className="col-span-5 xl:col-span-4 w-full  max-w-screen-2xl mx-auto">
             <div className="">
                 <h1 className="text-2xl tracking-tight font-heading text-accent-foreground"> Thông tin </h1>
             </div>
@@ -217,7 +217,7 @@ export default async function Page({ searchParams }) {
             <NewsNormalList data={newNormalPublic?.data} maxPage={Math.ceil(newNormalPublic?.total / take)} />
         </div>
 
-        <div className="col-span-5 md:col-span-1 max-w-screen-2xl mx-auto px-4 md:px-0">
+        {/* <div className="col-span-5 md:col-span-1 max-w-screen-2xl mx-auto px-4 md:px-0">
             <h1 className="text-2xl tracking-tight font-heading text-accent-foreground"> Được tài trợ </h1>
             <br />
             <div className='space-y-2'>
@@ -239,7 +239,7 @@ export default async function Page({ searchParams }) {
 
 
             </div>
-        </div>
+        </div> */}
 
 
     </div>

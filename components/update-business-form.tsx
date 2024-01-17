@@ -46,13 +46,6 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
                 },
             }).then(res => res.json())
 
-            console.log({
-                ...response,
-                tags: response.tags?.map((item) => ({
-                    value: item.id,
-                    label: item.name
-                }))
-            })
             return {
                 ...response,
                 tags: response.tags?.map((item) => ({
@@ -80,7 +73,6 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
             }))
         }
 
-        console.log(83, formattedValues)
         setIsLoading(true)
         try {
             let res = await fetch(`/api/business/${businessId}`, {
@@ -96,7 +88,6 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
                 })
             }
         } catch (e) {
-            console.log(e);
             toast({
                 title: e.message ?? "Lỗi xảy ra",
                 variant: "destructive"

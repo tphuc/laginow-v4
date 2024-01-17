@@ -16,7 +16,7 @@ const PostCardDescription = ({ postData }) => {
     const paragraphText = getParagraphText(postData?.blocks);
 
     return (
-        <div className="">{paragraphText?.slice(0, 200) + '...'}</div>
+        <div className="max-h-[100px]">{paragraphText?.slice(0, 200) + '...'}</div>
     );
 };
 
@@ -79,22 +79,24 @@ export function NewsCardHorizontal({data}){
 
 
     return (
-        <div className="p-2 w-full rounded-md gap-2 flex overflow-hidden flex-wrap border bg-secondary boder-input">
-        <ImageViewable className="w-full md:w-[200px] rounded-sm aspect-video object-cover bg-gradient-to-r from-stone-200 to-slate-300" width={200} height={200} src={data?.thumbnail ?? ''} alt={''} />
-            <div className='space-y-1 flex-1 min-w-[300px]'>
-                <div className="p-2">
-                    <div className='flex gap-2 items-center'>
-                        {/* <UserAvatar user={data?.user} /> */}
+        <div className="w-full rounded-xl gap-2 grid grid-cols-3 overflow-hidden border bg-secondary boder-input">
+            <Link href={`/p/${data?.slug ?? data?.id}`} className=''>
+                <ImageViewable className="w-full h-full aspect-square object-cover bg-gradient-to-r from-stone-200 to-slate-300" width={200} height={200} src={data?.thumbnail ?? ''} alt={''} />
+            </Link>
+            <div className='relative w-full col-span-2 p-2 pr-4 h-full overflow-hidden'>
+   
+                    {/* <div className='flex gap-2 items-center'>
+                      
                         <div>
-                            {/* <p className='flex items-center gap-1' >{data?.user?.name} {data?.user?.isAdmin && <UserCog className='w-4 h-4oo stroke-sky-800' />} </p> */}
+                        
                             <p className='text-sm text-muted-foreground'>{format(new Date(data?.createdAt), 'dd LLL, y', { locale: vi })}</p>
                         </div>
-                    </div>
+                    </div> */}
 
                     <Link href={`/p/${data?.slug ?? data?.id}`} className="font-heading text-accent-foreground text-xl hover:underline">{data?.title}</Link>
                     <PostCardDescription postData={data?.content}></PostCardDescription>
 
-                </div>
+          
 
             </div>
         </div>

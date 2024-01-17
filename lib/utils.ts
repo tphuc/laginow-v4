@@ -178,14 +178,10 @@ export function getResourceType(url: any) {
 
 
   if (containsSubstring(url, imageExtensions)) {
-    console.log(url, 'image')
       return 'image';
   } else if (containsSubstring(url, videoExtensions)) {
-    console.log(url, 'video')
       return 'video';
-      
   } else {
-    console.log(url, 'image')
       // Default to 'image' if not explicitly identified as 'video' or 'unknown'
       return 'image';
   }

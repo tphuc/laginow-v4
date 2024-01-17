@@ -54,6 +54,11 @@ export default async function DashboardLayout({
               href:'/admin/business',
               icon:'globe'
             },
+            {
+              title:"Bài viết ",
+              href:'/admin/posts',
+              icon:'pen'
+            },
           ]} />
         </div>
             

@@ -7,7 +7,7 @@ import { dashboardConfig } from "@/config/dashboard"
 import { getCurrentUser, getUserBusiness } from "@/lib/session"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
-import { NewsNav } from "../NewTabs"
+import { NewsNav } from "./NewTabs"
 
 interface MarketingLayoutProps {
     children: React.ReactNode
@@ -56,13 +56,13 @@ export default async function MarketingLayout({
                     </nav>
                 </div>
             </header>
-            <div className="relative grid mb-8 grid-cols-8 max-w-screen-2xl gap-4 mx-auto px-4 pt-1 md:pt-6">
+            <div className="relative grid mb-8 grid-cols-6 w-full md:max-w-screen-2xl gap-4 mx-auto px-2 md:px-4 pt-1 md:pt-6">
 
-                <div className="col-span-8 w-full overflow-hidden md:col-span-1">
+                <div className="col-span-6 w-full overflow-hidden md:col-span-1">
                     <NewsNav items={dashboardConfig.newsNav} />
                 </div>
 
-                <main className="flex col-span-8 md:col-span-7 pt-2 relative w-full flex-1 flex-col">
+                <main className="flex col-span-6 md:col-span-5 pt-2 relative w-full flex-1 flex-col">
                     {children}
                 </main>
 
