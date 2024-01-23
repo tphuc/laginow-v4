@@ -60,6 +60,9 @@ export async function generateMetadata(
         openGraph: {
             images
         },
+        alternates: {
+            canonical: `/t/${business?.id}`,
+          },
     } as Metadata
 }
 

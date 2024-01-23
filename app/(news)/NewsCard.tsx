@@ -89,8 +89,6 @@ export function NewsCardHorizontal({data}){
                     <PostCardDescription className={'text-accent-foreground h-full  rounded-sm py-1 text-base text-sm'} postData={data?.content}></PostCardDescription>
 
 
-          
-
             </div>
         </div>
     );
