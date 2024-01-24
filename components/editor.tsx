@@ -318,7 +318,7 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
           <div className="grid grid-cols-6 gap-4 pt-4">
             <div className="col-span-6 md:col-span-2 border-r-0 md:border-r-1 px-0 md:px-2 space-y-2">
               <Accordion defaultValue="item-1" type='single' collapsible>
-                <AccordionItem value="item-1">
+                <AccordionItem className="border-b-0" value="item-1">
                   <AccordionTrigger> <p className="font-heading text-xl">Tuỳ chỉnh bài đăng</p></AccordionTrigger>
                   <AccordionContent>
                     <div className="space-y-2">
@@ -350,39 +350,14 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
                           </FormItem>
                         )}
                       />
-                      {form?.watch('postType') === 'NORMAL' && <p className="text-muted-foreground"> Tin thường có thời hạn 1 tháng. <br /> Mỗi tài khoản có tối đa 3 tin thường. <br /> Tài khoản đối tác có thể đăng 10 tin / tháng. </p>}
+                      {/* {form?.watch('postType') === 'NORMAL' && <p className="text-muted-foreground"> Tin thường có thời hạn 1 tháng. <br /> Mỗi tài khoản có tối đa 3 tin thường. <br /> Tài khoản đối tác có thể đăng 10 tin / tháng. </p>}
                       {form?.watch('postType') === 'REALESTATE' && <p className="text-muted-foreground"> Tin BDS có thời hạn 1 tháng. Có thể gia hạn thêm. </p>}
                       {form?.watch('postType') === 'SELLING' && <p className="text-muted-foreground"> Tin buôn bán có thời hạn 1 tháng. Có thể gia hạn thêm. </p>}
-                      {form?.watch('postType') === 'JOB' && <p className="text-muted-foreground"> Tin tuyển dụng có thời hạn 1 tháng. Có thể gia hạn thêm. </p>}
-                      <br />
-                      <FormField
-                        control={form.control}
-                        name="visible"
-                        render={({ field }) => (
-                          <FormItem>
-
-                            <FormControl>
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                                <div className="space-y-0.5">
-                                  <FormLabel>Hiển thị</FormLabel>
-                                  <FormDescription>
-                                    Hiển thị hoặc ẩn bài viết
-                                  </FormDescription>
-                                </div>
-                                <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                              </FormItem>
-                            </FormControl>
-
-                          </FormItem>
-                        )}
-                      />
+                      {form?.watch('postType') === 'JOB' && <p className="text-muted-foreground"> Tin tuyển dụng có thời hạn 1 tháng. Có thể gia hạn thêm. </p>} */}
+                      
+                      <br/>
                       {
-                        form?.watch('postType') === 'JOB' && <div className="block py-4 border-t space-y-4">
+                        form?.watch('postType') === 'JOB' && <div className="block py-4 border rounded-md px-3 space-y-4">
                           <FormField
                             control={form.control}
                             name="salary"
@@ -454,7 +429,7 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
 
 
                       {
-                        form?.watch('postType') === 'SELLING' && <div className="flex flex-col py-4 border-t space-y-2">
+                        form?.watch('postType') === 'SELLING' && <div className="flex flex-col py-4 border px-3 rounded-md space-y-2">
                           <FormField
                             control={form.control}
                             name="price"
@@ -462,7 +437,7 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
                               <FormItem>
                                 <FormLabel className="flex items-center gap-2"> Giá tiền (VND) </FormLabel>
                                 <FormControl>
-                                  <Input placeholder="" {...field} />
+                                  <Input type="number" placeholder="" {...field} />
                                 </FormControl>
                                 <FormDescription>
                                   Nhập thông tin giá để hiển thị tìm kiếm tốt hơn
@@ -496,7 +471,7 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
                       }
 
                       {
-                        form?.watch('postType') === 'REALESTATE' && <div className="py-4 border-t space-y-4">
+                        form?.watch('postType') === 'REALESTATE' && <div className="py-4 px-3 border rounded-md space-y-4">
 
                           <FormField
                             control={form.control}
@@ -612,7 +587,33 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
 
 
                     </div>
+                    <br />
+                      <FormField
+                        control={form.control}
+                        name="visible"
+                        render={({ field }) => (
+                          <FormItem>
 
+                            <FormControl>
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                                <div className="space-y-0.5">
+                                  <FormLabel>Hiển thị</FormLabel>
+                                  <FormDescription>
+                                    Hiển thị hoặc ẩn bài viết
+                                  </FormDescription>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            </FormControl>
+
+                          </FormItem>
+                        )}
+                      />
                   </AccordionContent>
                 </AccordionItem>
 
@@ -631,7 +632,7 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
 
             </div>
             <div className="col-span-6 md:col-span-4 border border-radius  rounded-md  mt-2">
-              <div className="py-3 w-full pl-2  flex items-center gap-1 border-b">
+              <div className="py-3 w-full pl-2  flex items-center gap-1">
                 <div className="flex text-muted-foreground rounded-md items-center px-1 py-1 ">
                   Tiêu đề: 
                 </div>
