@@ -2,27 +2,28 @@
 import { MetadataRoute } from 'next'
 import prisma from '@/lib/prisma'
 
-export async function generateSitemaps() {
-  // Fetch the total number of products and calculate the number of sitemaps needed
-  return [{ id: 0 }]
-}
- 
- 
 
-const BASE_URL = 'https://laginow.com'
+
+
+const BASE_URL = 'https://www.laginow.com'
 export default async function sitemap({
   id,
 }: {
   id: number
 }): Promise<MetadataRoute.Sitemap> {
   // Google's limit is 50,000 URLs per sitemap
-  const posts = await prisma.business.findMany({
-    where: {
-        published: true,
-    }
-})
-  return posts.map((item) => ({
+  const data = await prisma.business.findMany({
+  })
+
+  console.log(data.map((item) => ({
     url: `${BASE_URL}/t/${item?.id}`,
-    lastModified: item.createdAt,
+    lastModified: new Date(),
+  })))
+
+  return data.map((item) => ({
+    url: `${BASE_URL}/t/${item?.id}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.5
   }))
 }

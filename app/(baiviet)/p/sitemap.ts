@@ -8,12 +8,14 @@ export async function generateSitemaps() {
 }
  
 
-const BASE_URL = 'https://laginow.com'
+const BASE_URL = 'https://www.laginow.com'
+
 export default async function sitemap({
   id,
 }: {
   id: number
 }): Promise<MetadataRoute.Sitemap> {
+
   // Google's limit is 50,000 URLs per sitemap
   const posts = await prisma.post.findMany({
     where: {
@@ -26,5 +28,7 @@ export default async function sitemap({
   return posts.map((item) => ({
     url: `${BASE_URL}/p/${item?.slug}`,
     lastModified: item.createdAt,
+    changeFrequency: 'monthly',
+    priority: 0.5
   }))
 }
