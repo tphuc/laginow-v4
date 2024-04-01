@@ -13,20 +13,15 @@ export const dashboardConfig: DashboardConfig = {
   ],
   sidebarNav: [
     {
+      title:"Tổng quan",
+      href: "/dashboard/overview",
+      icon: "grid",
+    },
+    {
       title: "Bài viết",
-      href: "/dashboard",
+      href: "/dashboard/posts",
       icon: "post",
     },
-    // {
-    //   title: "Thanh toán",
-    //   href: "/dashboard/billing",
-    //   icon: "billing",
-    // },
-    // {
-    //   title: "Cài đặt",
-    //   href: "/dashboard/settings",
-    //   icon: "settings",
-    // },
     {
       title: "Trang",
       href: "/dashboard/pages",

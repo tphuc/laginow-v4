@@ -143,10 +143,10 @@ export function fillEmptyDates(data: any, startDate: Date, endDate: Date) {
 
   while (currentDate <= endDate) {
     const dateStr = getDayVN(currentDate)
-    const existingData: any = data.find(item => item.timestamp === dateStr);
+    const existingData: any = data.find(item => getDayVN(new Date(item.tzTimestamp)) === dateStr);
 
     if (existingData) {
-      filledData.push(existingData);
+      filledData.push({ count: existingData?._count?.id, timestamp: dateStr});
     } else {
       filledData.push({ count: 0, timestamp: dateStr });
     }

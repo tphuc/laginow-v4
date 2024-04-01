@@ -68,13 +68,39 @@ export async function generateMetadata(
   } as Metadata
 }
 
+
+async function addPostEvent(url: string) {
+
+  try {
+      let res = await fetch(`${url}`, {
+          method: "POST",
+          cache: 'no-store',
+          // headers: headers() as HeadersInit,
+          body: JSON.stringify({
+              eventType: 'PAGE_VIEW'
+          },)
+      })?.then(res => res?.json())
+      console.log(83, res)
+      return res
+  }
+  catch (e) {
+      console.log(e)
+      return null
+  }
+}
+
+
+
 export default async function EditorPage({ params }: EditorPageProps) {
 
+ 
   const post = await getPostForUser(params.id)
-
   if (!post) {
     notFound()
   }
+  await addPostEvent(`${process?.env?.NEXT_PUBLIC_API_ENDPOINT}/api/posts/${post?.id}/post-event`)
+
+
 
   return (
     <ReadOnlyEditor

@@ -63,7 +63,8 @@ model User {
   Staff            Staff[]
   PostReport       PostReport[]
 
-  canWriteNews Boolean? @default(false)
+  canWriteNews Boolean?    @default(false)
+  PostEvent    PostEvent[]
 
   @@index([email])
 }
@@ -107,6 +108,7 @@ model Post {
   NewsCollection       NewsCollection?      @relation(fields: [newsCollectionId], references: [id])
   newsCollectionId     String?
   visible              Boolean?             @default(true)
+  PostEvent            PostEvent[]
 
   @@index([title])
   @@index([slug])
@@ -343,6 +345,23 @@ enum EventType {
   BUTTON_CLICK
   FORM_SUBMIT
   LINK_CLICK
+}
+
+model PostEvent {
+  id          Int       @id @default(autoincrement())
+  eventType   EventType
+  timestamp   DateTime  @default(now()) @db.Date
+  tzTimestamp DateTime?
+  ipAddress   String?
+  userAgent   Json?
+  geo         Json?
+  referer     String? // Referring URL or other reference info
+  post        Post      @relation(fields: [postId], references: [id])
+  postId      String
+  user        User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId      String?
+
+  @@index([postId])
 }
 
 enum OrderStatus {

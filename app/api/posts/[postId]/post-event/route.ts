@@ -13,7 +13,7 @@ import { startOfDayVN } from '@/lib/utils';
 
 const routeContextSchema = z.object({
   params: z.object({
-    id: z.string(),
+    postId: z.string(),
   }),
 })
 
@@ -46,14 +46,14 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
       let currentTime = new Date().getTime()
 
       if (!lastInteractionTime) {
-        let record = await db.pageEvent.create({
+        let record = await db.postEvent.create({
           data: {
             ...body,
             ipAddress: req.ip,
             timestamp: new Date(),
             tzTimestamp: tzTimestamp,
             referer: referer,
-            businessId: params?.id,
+            postId: params?.postId,
             geo: req.geo,
             userId: user?.id,
             userAgent: JSON.parse(JSON.stringify(userAgentInfo))
@@ -63,15 +63,15 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
         return new Response(JSON.stringify(record));
       }
 
-      if (currentTime - lastInteractionTime >= 60 * 5 * 1000) {
-        let record = await db.pageEvent.create({
+      if (currentTime - lastInteractionTime >= 60 * 2 * 1000) {
+        let record = await db.postEvent.create({
           data: {
             ...body,
             ipAddress: req.ip,
             referer: referer,
             timestamp: new Date(),
             tzTimestamp: tzTimestamp,
-            businessId: params?.id,
+            postId: params?.postId,
             geo: req.geo,
             userId: user?.id,
             userAgent: JSON.parse(JSON.stringify(userAgentInfo))
@@ -101,14 +101,14 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
     }
 
     else {
-      let record = await db.pageEvent.create({
+      let record = await db.postEvent.create({
         data: {
           ...body,
           timestamp: new Date(),
           tzTimestamp: tzTimestamp,
           ipAddress: req.ip,
           referer: referer,
-          businessId: params?.id,
+          postId: params?.postId,
           geo: req.geo,
           userId: user?.id,
           userAgent: JSON.parse(JSON.stringify(userAgentInfo))
@@ -152,7 +152,6 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
     let pageViewEvents = await db.pageEvent?.groupBy({
       by: ['tzTimestamp'],
       where: {
-        businessId: context.params.id,
         tzTimestamp: {
           gte: from,
           lte: to

@@ -23,14 +23,13 @@ const BusinessPageCard = forwardRef(({ data, tracking = false }: { data: any, tr
     delay: 100,
     onChange: async (inView) => {
       if (inView && tracking) {
-        // Fire a tracking event to your tracking service of choice.
-        // let res = await fetch(`${process?.env?.NEXT_PUBLIC_API_ENDPOINT}/api/business/${data?.id}/page-event`, {
-        //   method: "POST",
-        //   // headers: headers() as HeadersInit,
-        //   body: JSON.stringify({
-        //     eventType: 'SEARCH_VIEW'
-        //   },)
-        // })
+        let res = await fetch(`${process?.env?.NEXT_PUBLIC_API_ENDPOINT}/api/business/${data?.id}/page-event`, {
+          method: "POST",
+          // headers: headers() as HeadersInit,
+          body: JSON.stringify({
+            eventType: 'SEARCH_VIEW'
+          },)
+        })
       }
     },
   });
