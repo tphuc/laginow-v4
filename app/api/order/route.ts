@@ -1,12 +1,12 @@
-import { getServerSession } from "next-auth/next"
+
 import * as z from "zod"
 
-import { authOptions } from "@/lib/auth"
-import db from "@/lib/prisma"
+import prisma from "@/lib/prisma"
 import { RequiresProPlanError } from "@/lib/exceptions"
 import slugify from "slugify"
 import { emailTemplate, htmlOrderTemplate, mailTransporter } from "@/lib/email"
 import { NextRequest, NextResponse } from "next/server"
+import { auth } from "@/lib/auth"
 // import { getUserSubscriptionPlan } from "@/lib/subscription"
 
 const postCreateSchema = z.object({
@@ -20,15 +20,12 @@ let orderSchema = z.object({
   deliveryPhone: z.string()
 })
 
-export async function POST(req: Request) {
+export const POST = auth(async (req) => {
+  const user = req.auth?.user as any
   try {
-    const session = await getServerSession(authOptions)
 
-    if (!session) {
-      return new Response("Unauthorized", { status: 403 })
-    }
 
-    const { user } = session
+    // const { user } = session
     const json = await req.json()
     const body = orderSchema.parse(json)
 
@@ -38,7 +35,7 @@ export async function POST(req: Request) {
       return new Response("Cart is empty", { status: 400 })
     }
 
-    await db.user.update({
+    await prisma.user.update({
       where: {
         id: user?.id,
       },
@@ -57,7 +54,7 @@ export async function POST(req: Request) {
       };
     });
 
-    const order = await db.order.create({
+    const order = await prisma.order.create({
       data: {
         items: { create: orderItems },
         user: { connect: { id: user.id } },
@@ -80,7 +77,7 @@ export async function POST(req: Request) {
       }
     });
 
-    let staffs = await db.staff?.findMany({
+    let staffs = await prisma.staff?.findMany({
       where: {
         businessId: cart[Object.keys(cart)[0]].businessId,
       },
@@ -135,14 +132,10 @@ export async function POST(req: Request) {
 
     return new Response(JSON.stringify(error), { status: 500 })
   }
-}
+})
 
 
-export const OPTIONS = async (request: NextRequest) => {
-  return new NextResponse('', {
-    status: 200
-  })
-}
+
 
 
 const updateOrderSchema = z.object({
@@ -162,7 +155,7 @@ export async function PUT(req: NextRequest) {
     // Perform batch updates in your database
     const updatedOrders = await Promise.all(
       orderIds.map(async (orderId) => {
-        return db.order.update({
+        return prisma.order.update({
           where: {
             id: orderId,
           },
@@ -195,7 +188,7 @@ export async function DELETE(req: NextRequest) {
     // Perform batch delete in your database
     await Promise.all(
       orderIds.map(async (orderId) => {
-        return db.order.delete({
+        return prisma.order.delete({
           where: {
             id: orderId,
           },

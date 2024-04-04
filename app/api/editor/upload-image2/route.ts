@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Storage } from '@google-cloud/storage';
 import lagiJson from './lagi-361510-276b6fc08e21.json'
-// import sharp from 'sharp';
+import sharp from 'sharp';
 
 
-const uploadImage = (fileName: string, buffer: any) => new Promise((resolve, reject) => {
+const uploadImage = (_fileName: string, buffer: any) => new Promise((resolve, reject) => {
   let projectId = "lagi-361510"; // Get this from Google Cloud
 
   const storage = new Storage({
@@ -15,6 +15,9 @@ const uploadImage = (fileName: string, buffer: any) => new Promise((resolve, rej
 
   const bucket = storage.bucket("laginow");
   // const { originalname, buffer } = file
+  
+  let fileName = _fileName.replace(/[^\w\d]/g, '');
+  console.log(20, fileName)
 
   let name = `${new Date().toISOString()}${fileName}`
   const blob = bucket.file(name)
@@ -22,17 +25,30 @@ const uploadImage = (fileName: string, buffer: any) => new Promise((resolve, rej
     resumable: false
   })
 
-  blobStream.on('finish', () => {
-    const url = `https://storage.googleapis.com/${bucket.name}/${blob.name}`
-    resolve({
-      fileId: name,
-      url
+
+
+  sharp(buffer)
+    .webp() // Convert to WebP format
+    .toBuffer()
+    .then((webpBuffer) => {
+      // Upload the WebP image
+      blobStream.on('finish', () => {
+        const url = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+        resolve({
+          fileId: name,
+          url
+        });
+      })
+        .on('error', (err) => {
+          reject(`Unable to upload image, something went wrong: ${err}`);
+        })
+        .end(webpBuffer);
     })
-  })
-  .on('error', () => {
-    reject(`Unable to upload image, something went wrong`)
-  })
-  .end(buffer)
+    .catch((err) => {
+      reject(`Unable to convert image to WebP: ${err}`);
+    });
+
+
 })
 
 export async function POST(request: NextRequest) {
@@ -48,7 +64,7 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    
+
 
 
 

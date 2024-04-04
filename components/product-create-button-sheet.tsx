@@ -24,43 +24,7 @@ export function ProductCreateButtonSheet({
   children,
   ...props
 }: Props) {
-  // const router = useRouter()
-  // const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
-  // async function onClick() {
-  //   setIsLoading(true)
-
-
-  //   const response = await fetch(`/api/business/${props?.bussinessId}/product`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       businessId: props.bussinessId,
-  //       name: "",
-  //     }),
-  //   })
-
-
-
-  //   setIsLoading(false)
-
-  //   if (!response?.ok) {
-  //     return toast({
-  //       title: "Lỗi xảy ra",
-  //       description: "Sản phẩm của bạn chưa được tạo",
-  //       variant: "destructive",
-  //     })
-  //   }
-
-  //   const res = await response.json()
-
-  //   // This forces a cache invalidation.
-  //   router.refresh()
-
-  //   router.push(`/business/${props.bussinessId}/product/${res?.id}`)
-  // }
 
   return (
     <Sheet key={'right'}>

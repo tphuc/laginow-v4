@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation"
 import prisma from "@/lib/prisma"
-import { authOptions } from "@/lib/auth"
 import { getCurrentUser } from "@/lib/session"
 // import { stripe } from "@/lib/stripe"
 // import { getUserSubscriptionPlan } from "@/lib/subscription"

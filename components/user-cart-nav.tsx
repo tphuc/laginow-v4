@@ -3,7 +3,7 @@
 
 import Link from "next/link"
 import { User } from "next-auth"
-import { signOut, useSession } from "next-auth/react"
+import {  useSession } from "next-auth/react"
 
 import {
   DropdownMenu,

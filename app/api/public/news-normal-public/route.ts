@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse, userAgent } from 'next/server';
 
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
 import { z } from 'zod';
 import { BusinessCreateSchema, BusinessUpdateSchema, FormBusinessUpdateSchema, ProductCreateSchema, FormBusinessReviewCreateSchema, PageEventCreateSchema } from '@/lib/dto';
 
-import db from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import slugify from 'slugify';
 import { getCurrentUser, verifyCurrentUserHasAccessToBusiness, verifyCurrentUserHasAccessToUpdateProduct } from '@/lib/session';
 import { startOfDay, sub, subDays } from 'date-fns';
@@ -43,7 +41,7 @@ export async function GET(req: NextRequest) {
       visible: true
     }
 
-    let data = await db.post?.findMany({
+    let data = await prisma.post?.findMany({
       where,
       orderBy: {
         createdAt: 'desc'
@@ -57,7 +55,7 @@ export async function GET(req: NextRequest) {
     })
 
 
-    let total = await db.post?.count({
+    let total = await prisma.post?.count({
       where,
 
       // cursor: cursor ? { id: cursor } : undefined

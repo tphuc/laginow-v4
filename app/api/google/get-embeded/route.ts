@@ -1,4 +1,3 @@
-import { getServerSession } from "next-auth/next"
 import { NextRequest } from "next/server";
 import * as z from "zod"
 

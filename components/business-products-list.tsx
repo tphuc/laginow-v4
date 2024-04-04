@@ -1,11 +1,6 @@
 'use client';
 
-import { siteConfig } from "@/config/site"
-import db from "@/lib/prisma"
-import { ProductItem } from "./product-item"
-import Image from "next/image"
 import { formatDate, vndFormat } from "@/lib/utils"
-import Link from "next/link"
 import { Button } from "./ui/button"
 import { Plus, ShoppingBag, ShoppingCart } from "lucide-react"
 import { mutate } from "swr"

@@ -1,7 +1,7 @@
 import ms from 'ms'
 import { ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { addDays, format, formatDistance, parse, subDays } from 'date-fns'
+import { addDays, addMinutes, format, formatDistance, parse, subDays, subHours, subMinutes } from 'date-fns'
 const { vi } = require('date-fns/locale');
 
 const { startOfDay } = require('date-fns');
@@ -30,6 +30,15 @@ const vietnamTime = utcToZonedTime(datetime, vietnamTimezone);
 }
 
 
+export const VNTimezoneFormat = (datetime: Date) => {
+  // Convert to Vietnam Standard Time (ICT)
+ const vietnamTimezone = 'Asia/Ho_Chi_Minh';
+ const vietnamTime = utcToZonedTime(datetime, vietnamTimezone);
+ 
+ // Format the result as per your requirement
+   return format(vietnamTime, 'PPp', {locale: vi});
+ }
+
 
 
 // export const timeAgo = (timestamp: Date, timeOnly?: boolean): string => {
@@ -56,6 +65,8 @@ export function formatDate(input: string | number): string {
     month: "long",
     day: "numeric",
     year: "numeric",
+    hour: '2-digit',
+    minute: '2-digit'
   })
 }
 
@@ -226,3 +237,18 @@ export const getParagraphText = (_blocks) => {
   ?.replace("amp;", " ")
   ?? '';  // Default empty string if no paragraph found
 };
+
+
+export function VNDatetimeToISO(dateString, timeString) {
+  // Split the date and time strings
+  const [day, month, year] = dateString.split('/');
+  const [hour, minute] = timeString.split(':');
+
+  // Parse the date and time components
+  const date = new Date(`${year}-${month}-${day}T${hour}:${minute}:00Z`);
+
+  // Set the timezone offset for Vietnam timezone
+  const tzDate = subHours(date, 7)
+
+  return tzDate;
+}

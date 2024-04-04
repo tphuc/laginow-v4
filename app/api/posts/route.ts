@@ -1,12 +1,13 @@
-import { getServerSession } from "next-auth/next"
+
 import * as z from "zod"
 
-import { authOptions } from "@/lib/auth"
-import db from "@/lib/prisma"
+import { auth } from "@/lib/auth"
+import prisma from "@/lib/prisma"
 import { RequiresProPlanError } from "@/lib/exceptions"
 import slugify from "slugify"
 import { NextRequest, NextResponse } from "next/server"
 import { generateUniqueId } from "@/lib/utils"
+import { NextAuthRequest } from "next-auth/lib"
 // import { getUserSubscriptionPlan } from "@/lib/subscription"
 
 const postCreateSchema = z.object({
@@ -14,16 +15,15 @@ const postCreateSchema = z.object({
   content: z.string().optional(),
 })
 
-export async function GET() {
-  try {
-    const session = await getServerSession(authOptions)
 
-    if (!session) {
+export const GET = auth(async (req: NextAuthRequest) => {
+  try {
+    let user = req.auth?.user
+    if (!user) {
       return new Response("Unauthorized", { status: 403 })
     }
 
-    const { user } = session
-    const posts = await db.post.findMany({
+    const posts = await prisma.post.findMany({
       select: {
         id: true,
         title: true,
@@ -39,23 +39,23 @@ export async function GET() {
   } catch (error) {
     return new Response(null, { status: 500 })
   }
-}
 
-export async function POST(req: Request) {
+})
+
+export const POST = auth(async (req: NextAuthRequest) => {
   try {
-    const session = await getServerSession(authOptions)
-
-    if (!session) {
+    let user = req.auth?.user
+    if (!user) {
       return new Response("Unauthorized", { status: 403 })
     }
 
-    const { user } = session
+
     // const subscriptionPlan = await getUserSubscriptionPlan(user.id)
 
     // // If user is on a free plan.
     // // Check if user has reached limit of 3 posts.
     // if (!subscriptionPlan?.isPro) {
-    //   const count = await db.post.count({
+    //   const count = await prisma.post.count({
     //     where: {
     //       authorId: user.id,
     //     },
@@ -71,12 +71,12 @@ export async function POST(req: Request) {
     const json = await req.json()
     const body = postCreateSchema.parse(json)
 
-    const post = await db.post.create({
+    const post = await prisma.post.create({
       data: {
-        slug: slugify(`${body?.title}-${newId}`, {replacement: '-', locale:'vi', remove: /[^a-zA-Z0-9\s]/g  }),
+        slug: slugify(`${body?.title}-${newId}`, { replacement: '-', locale: 'vi', remove: /[^a-zA-Z0-9\s]/g }),
         title: body.title,
         content: body.content ?? '',
-        userId: session.user.id,
+        userId: user?.id,
       },
       select: {
         id: true,
@@ -84,8 +84,8 @@ export async function POST(req: Request) {
     })
 
     return new Response(JSON.stringify(post))
+  
   } catch (error) {
-
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
@@ -96,11 +96,4 @@ export async function POST(req: Request) {
 
     return new Response(error, { status: 500 })
   }
-}
-
-
-export const OPTIONS = async (request: NextRequest) => {
-  return new NextResponse('', {
-    status: 200
-  })
-}
+})

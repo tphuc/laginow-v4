@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse, userAgent } from 'next/server';
-
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
 import { z } from 'zod';
 import { BusinessCreateSchema, BusinessUpdateSchema, FormBusinessUpdateSchema, ProductCreateSchema, FormBusinessReviewCreateSchema, PageEventCreateSchema } from '@/lib/dto';
 
-import db from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import slugify from 'slugify';
 import { getCurrentUser, verifyCurrentUserHasAccessToBusiness, verifyCurrentUserHasAccessToUpdateProduct } from '@/lib/session';
 import { startOfDay, subDays } from 'date-fns';
 import { startOfDayVN } from '@/lib/utils';
+import { auth } from '@/lib/auth';
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -19,65 +17,103 @@ const routeContextSchema = z.object({
 
 
 export async function POST(req: NextRequest, context: z.infer<typeof routeContextSchema>) {
-  try {
-    const session = await getServerSession(authOptions)
-    const user = session?.user
-
-    let tzTimestamp = startOfDayVN(new Date())
-    let userAgentInfo = userAgent(req)
-    let referer = req.headers.get('referer') ?? ''
-
-    const { params } = routeContextSchema.parse(context);
-
-    let json = await req.json();
-    const body = PageEventCreateSchema.parse(json);
-
-    if (user?.id) {
-      let recentUserInteraction = await db.pageEvent?.findFirst({
-        where: {
-          userId: user?.id
-        },
-        orderBy: {
-          timestamp: 'desc'
+  return auth(async (request) => {
+    try {
+      const session = request?.auth
+      const user = session?.user
+  
+      let tzTimestamp = startOfDayVN(new Date())
+      let userAgentInfo = userAgent(req)
+      let referer = req.headers.get('referer') ?? ''
+  
+      const { params } = routeContextSchema.parse(context);
+  
+      let json = await req.json();
+      const body = PageEventCreateSchema.parse(json);
+  
+      if (user?.id) {
+        let recentUserInteraction = await prisma.pageEvent?.findFirst({
+          where: {
+            userId: user?.id
+          },
+          orderBy: {
+            timestamp: 'desc'
+          }
+        })
+  
+        let lastInteractionTime = new Date(recentUserInteraction?.timestamp as any).getTime()
+        let currentTime = new Date().getTime()
+  
+        if (!lastInteractionTime) {
+          let record = await prisma.postEvent.create({
+            data: {
+              ...body,
+              ipAddress: req.ip,
+              timestamp: new Date(),
+              tzTimestamp: tzTimestamp,
+              referer: referer,
+              postId: params?.postId,
+              geo: req.geo,
+              userId: user?.id,
+              userAgent: JSON.parse(JSON.stringify(userAgentInfo))
+            }
+          })
+  
+          return new Response(JSON.stringify(record));
         }
-      })
-
-      let lastInteractionTime = new Date(recentUserInteraction?.timestamp as any).getTime()
-      let currentTime = new Date().getTime()
-
-      if (!lastInteractionTime) {
-        let record = await db.postEvent.create({
-          data: {
-            ...body,
-            ipAddress: req.ip,
-            timestamp: new Date(),
-            tzTimestamp: tzTimestamp,
-            referer: referer,
-            postId: params?.postId,
-            geo: req.geo,
-            userId: user?.id,
-            userAgent: JSON.parse(JSON.stringify(userAgentInfo))
-          }
-        })
-
-        return new Response(JSON.stringify(record));
+  
+        if (currentTime - lastInteractionTime >= 60 * 2 * 1000) {
+          let record = await prisma.postEvent.create({
+            data: {
+              ...body,
+              ipAddress: req.ip,
+              referer: referer,
+              timestamp: new Date(),
+              tzTimestamp: tzTimestamp,
+              postId: params?.postId,
+              geo: req.geo,
+              userId: user?.id,
+              userAgent: JSON.parse(JSON.stringify(userAgentInfo))
+            }
+          })
+  
+          return new Response(JSON.stringify(record), {
+            status: 200,
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+              'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            }
+          });
+        }
+        else {
+          return new Response(JSON.stringify({ msg: currentTime - lastInteractionTime }), {
+            status: 200,
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+              'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            }
+          }) ;
+        }
+  
       }
-
-      if (currentTime - lastInteractionTime >= 60 * 2 * 1000) {
-        let record = await db.postEvent.create({
+  
+      else {
+        let record = await prisma.postEvent.create({
           data: {
             ...body,
-            ipAddress: req.ip,
-            referer: referer,
             timestamp: new Date(),
             tzTimestamp: tzTimestamp,
+            ipAddress: req.ip,
+            referer: referer,
             postId: params?.postId,
             geo: req.geo,
             userId: user?.id,
             userAgent: JSON.parse(JSON.stringify(userAgentInfo))
           }
         })
-
+  
         return new Response(JSON.stringify(record), {
           status: 200,
           headers: {
@@ -87,57 +123,22 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
           }
         });
       }
-      else {
-        return new Response(JSON.stringify({ msg: currentTime - lastInteractionTime }), {
-          status: 200,
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-          }
-        }) ;
+  
+  
+  
+  
+  
+  
+    } catch (error) {
+      console.log(93, error)
+      if (error instanceof z.ZodError) {
+        return new Response(JSON.stringify(error.issues), { status: 422 });
       }
-
+  
+      return new Response(JSON.stringify(error), { status: 500 });
     }
+  })(req, context)
 
-    else {
-      let record = await db.postEvent.create({
-        data: {
-          ...body,
-          timestamp: new Date(),
-          tzTimestamp: tzTimestamp,
-          ipAddress: req.ip,
-          referer: referer,
-          postId: params?.postId,
-          geo: req.geo,
-          userId: user?.id,
-          userAgent: JSON.parse(JSON.stringify(userAgentInfo))
-        }
-      })
-
-      return new Response(JSON.stringify(record), {
-        status: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        }
-      });
-    }
-
-
-
-
-
-
-  } catch (error) {
-    console.log(93, error)
-    if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 });
-    }
-
-    return new Response(JSON.stringify(error), { status: 500 });
-  }
 }
 
 
@@ -149,7 +150,7 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
     let from = new Date(url.searchParams.get('from') ?? subDays(new Date(), 7)) ?? null
     let to = new Date(url.searchParams.get('to') ?? new Date()) ?? null
 
-    let pageViewEvents = await db.pageEvent?.groupBy({
+    let pageViewEvents = await prisma.pageEvent?.groupBy({
       by: ['tzTimestamp'],
       where: {
         tzTimestamp: {
@@ -167,14 +168,14 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
       }
     })
 
-    let todayPageViews = await db.pageEvent?.count({
+    let todayPageViews = await prisma.pageEvent?.count({
       where: {
         tzTimestamp: startOfDayVN(new Date()),
         eventType:"PAGE_VIEW"
       }
     })
 
-    let todaySearchViews = await db.pageEvent?.count({
+    let todaySearchViews = await prisma.pageEvent?.count({
       where: {
         tzTimestamp: startOfDayVN(new Date()),
         eventType:"SEARCH_VIEW"
