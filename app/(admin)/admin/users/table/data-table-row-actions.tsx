@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { BadgeCheck, Check, Globe, Pen, PenTool, UserCog } from "lucide-react"
 import { toast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
 
 
 interface DataTableRowActionsProps<TData> {
@@ -22,6 +23,7 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
+  const router = useRouter()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -46,9 +48,12 @@ export function DataTableRowActions<TData>({
                   isAdmin: true
                 })
               })
+              console.log(49, res)
               toast({
                 title: "Thành công",
               })
+              router.refresh()
+             
 
             } catch (e) {
               toast({

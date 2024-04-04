@@ -1,17 +1,19 @@
-import { getServerSession } from "next-auth/next"
-import db from "@/lib/prisma"
-import { authOptions } from "@/lib/auth"
+'use server'
+
+import prisma from "@/lib/prisma"
+import { auth } from "@/lib/auth"
+import { NextAuthRequest } from "next-auth/lib"
 
 export async function getCurrentUser() {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   return session?.user
 }
 
 
 
-export async function verifyCurrentUserHasAccessToUpdateProduct(productId: string) {
-  const session = await getServerSession(authOptions)
-  const found = await db.product.findUnique({
+export async function verifyCurrentUserHasAccessToUpdateProduct(request: NextAuthRequest, productId: string) {
+  const session = request.auth
+  const found = await prisma.product.findUnique({
     where: {
       id: productId,
     },
@@ -26,9 +28,9 @@ export async function verifyCurrentUserHasAccessToUpdateProduct(productId: strin
   return !!found
 }
 
-export async function verifyCurrentUserHasAccessToBusiness(businessId: string) {
-  const session = await getServerSession(authOptions)
-  const found = await db.business.findUnique({
+export async function verifyCurrentUserHasAccessToBusiness(request: NextAuthRequest, businessId: string) {
+  const session = request.auth
+  const found = await prisma.business.findUnique({
     where: {
       id: businessId,
       OR: [
@@ -54,7 +56,7 @@ export async function verifyCurrentUserHasAccessToBusiness(businessId: string) {
 }
 
 export async function isBusinessVerified(businessId: string) {
-  const found = await db.business.findUnique({
+  const found = await prisma.business.findUnique({
     where: {
       id: businessId,
     },
@@ -64,8 +66,8 @@ export async function isBusinessVerified(businessId: string) {
 
 
 export async function getUserBusiness(){
-  const session = await getServerSession(authOptions)
-  const businesses = await db.business?.findMany({
+  const session = await auth()
+  const businesses = await prisma.business?.findMany({
     where: {
       OR: [
         {
@@ -89,7 +91,7 @@ export async function getUserBusiness(){
 }
 
 export async function getMasterTags(){
-  const tags = await db.masterTag?.findMany({
+  const tags = await prisma.masterTag?.findMany({
   })
 
   return tags
@@ -97,12 +99,42 @@ export async function getMasterTags(){
 
 
 
-export async function isAdmin() {
-  const session = await getServerSession(authOptions)
-  const found = await db.user.findUnique({
+export async function isAdmin(request: NextAuthRequest) {
+  const session = request?.auth
+  const found = await prisma.user.findUnique({
     where: {
       id: session?.user?.id,
     },
   })
   return found?.isAdmin
 }
+
+
+
+// const verifyJWT = (accessToken: string, secretKey: any) => new Promise((resolve, reject) => {
+//   jwt.verify(accessToken, secretKey, (err, decoded) => {
+
+//     if (err) {
+//       reject(err)
+//     }
+//     resolve(decoded);
+//   });
+// })
+
+// export async function getUserSession(req: any) {
+
+//   let accessToken = req.headers?.get('authorization')?.split(' ')?.[1]
+
+//   const secretKey = process.env.JWT_USER_ID_SECRET!;
+
+
+//   try {
+//     let data = await verifyJWT(accessToken, secretKey)
+
+//     return data
+//   }
+//   catch (e) {
+//     console.log(78,e)
+//     return null
+//   }
+// }

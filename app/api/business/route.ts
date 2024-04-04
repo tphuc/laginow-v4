@@ -1,31 +1,31 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+
 import { z } from 'zod';
 import { BusinessCreateSchema } from '@/lib/dto';
 
-import db from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import slugify from 'slugify';
+import { NextAuthRequest } from 'next-auth/lib';
+import { auth } from '@/lib/auth';
 
 
-export async function POST(req: Request) {
+export const POST = auth(async (req: NextAuthRequest) => {
   try {
-    const session = await getServerSession(authOptions)
-
-    if (!session) {
+    const user = req.auth?.user
+    if (!user) {
       return new Response("Unauthorized", { status: 403 })
     }
 
-    const { user } = session
-    console.log(22, user?.id)
+
+
     // const subscriptionPlan = await getUserSubscriptionPlan(user.id)
 
     // // If user is on a free plan.
     // // Check if user has reached limit of 3 posts.
     // if (!subscriptionPlan?.isPro) {
-    //   const count = await db.post.count({
+    //   const count = await prisma.post.count({
     //     where: {
     //       authorId: user.id,
     //     },
@@ -38,10 +38,10 @@ export async function POST(req: Request) {
     const json = await req.json()
     const body = BusinessCreateSchema.parse(json)
 
-    const post = await db.business.create({
+    const post = await prisma.business.create({
       data: {
         title: body.title,
-        slug: slugify(body.title, { lower: true, replacement: '-', locale:'vi', remove: /[^a-zA-Z0-9\s]/g  }),
+        slug: slugify(body.title, { lower: true, replacement: '-', locale: 'vi', remove: /[^a-zA-Z0-9\s]/g }),
         ownerId: user?.id,
         address: body.address,
         banner: body.banner as any,
@@ -62,11 +62,6 @@ export async function POST(req: Request) {
 
     return new Response(null, { status: 500 })
   }
-}
 
+})
 
-export const OPTIONS = async (request: NextRequest) => {
-  return new NextResponse('', {
-    status: 200
-  })
-}

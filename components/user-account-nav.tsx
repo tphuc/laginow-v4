@@ -1,9 +1,6 @@
 "use client"
 
 import Link from "next/link"
-// import { User } from "next-auth"
-import { signOut } from "next-auth/react"
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,9 +13,7 @@ import { useGetUserInfo } from "@/lib/http"
 import { Icons } from "./icons"
 import { Globe2, List, Pen, Settings } from "lucide-react"
 import { User } from "next-auth"
-// import { User } from "@prisma/client"
-import { User as DUser } from '@prisma/client'
-import { Button } from "./ui/button"
+import { signOut } from "next-auth/react"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: User & { isAdmin?: boolean, businesses?: any },

@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import EditorJS from "@editorjs/editorjs"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Post, Prisma, User } from "@prisma/client"
@@ -33,8 +33,6 @@ import {
 import { SelectValue } from "@radix-ui/react-select"
 import { AlertTriangle, Pen, PenBox, Triangle } from "lucide-react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
-import { AccordionBody } from "@tremor/react"
-import { useSession } from "next-auth/react"
 import { Switch } from "./ui/switch"
 
 
@@ -277,11 +275,23 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
       })
     }
 
-    router.refresh()
+    const updated = await response.json()
 
-    return toast({
-      description: "Bài viết đã được lưu.",
+    // // router.refresh()
+
+    // console.log(updated)
+    if(updated?.visible)
+    toast({
+      description: <Link className="px-4 py-2 border rounded-md mt-2 w-full" href={`/p/${updated.slug}`}>Ấn để xem bài viết hiển thị </Link>,
+      title: "Bài viết đã được lưu.",
     })
+    else{
+      toast({
+      
+        title: "Bài viết đã được lưu.",
+      })
+    }
+
   }
 
   if (!isMounted) {
@@ -292,7 +302,7 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="w-full relative max-w-screen-xl mx-auto space-y-4">
-          <div className="flex fixed top-0 left-0 md:left-auto px-4 md:px-0  w-full py-2 bg-background max-w-screen-xl  items-center justify-between">
+          <div style={{zIndex:5000}} className="flex fixed top-0 left-0 md:left-auto px-4 md:px-0  w-full py-2 bg-background max-w-screen-xl  items-center justify-between">
             <div className="flex items-center space-x-10">
               <Link
                 href="/dashboard"
@@ -307,7 +317,7 @@ export function Editor({ post, sellingProductTypes, user }: EditorProps) {
                 {/* {post.published ? "Published" : "Draft"} */}
               </p>
             </div>
-            <button type="submit" className={cn(buttonVariants())}>
+            <button type="submit" className={cn(buttonVariants())} >
               {isSaving && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}

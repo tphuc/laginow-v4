@@ -10,10 +10,9 @@ import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/theme-provider"
 import QueryWrapper from "@/components/query-wrapper"
 import AuthProvider from "@/components/auth-provider"
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/lib/auth"
 // import { fontHeading, fontSans } from "@/lib/font"
 import { Analytics } from '@vercel/analytics/react';
+import { auth } from "@/lib/auth"
 
 
 const fontSans = localFont({
@@ -97,7 +96,7 @@ export const viewport = {
 }
 
 export default async function RootLayout({ children }: RootLayoutProps) {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   return (
 
     <html lang="en" suppressHydrationWarning className={`${fontSans.variable} ${fontHeading.variable}`} >

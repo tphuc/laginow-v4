@@ -1,25 +1,29 @@
-import { authOptions } from "@/lib/auth"
-import { getServerSession } from "next-auth"
-import db from 'lib/prisma'
+import prisma from 'lib/prisma'
+import { auth } from "@/lib/auth"
 
 
 export async function GET() {
-    try {
-    //   const session = await getServerSession(authOptions)
-  
-    //   if (!session) {
-    //     return new Response("Unauthorized", { status: 403 })
-    //   }
-  
+  try {
+    const records = await prisma.tag.findMany({
 
-      const records = await db.tag.findMany({
-       
-      })
-  
-      return new Response(JSON.stringify(records))
-    } catch (error) {
-      return new Response(null, { status: 500 })
-    }
+    })
+
+    return new Response(JSON.stringify(records))
+  } catch (error) {
+    return new Response(null, { status: 500 })
   }
+}
 
 
+export const POST = auth(async (req) => {
+  try {
+    const records = await prisma.tag.findMany({
+
+    })
+
+    return new Response(JSON.stringify(records))
+  }
+  catch (error) {
+    return new Response(null, { status: 500 })
+  }
+})

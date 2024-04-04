@@ -2,7 +2,6 @@ import { ArrowRight, ChevronRight, Loader2, Pen, ZoomIn } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-import db from '@/lib/prisma'
 import BusinessPageCardTwo from "@/components/public-page-card-two";
 import SearchSection from "./search-section";
 import PostCarousel from "./PostCarousel";
@@ -10,152 +9,7 @@ import PostTypeSection from "./PostTypesSection";
 import ReviewSection from "./ReviewSection";
 import Balancer from "react-wrap-balancer";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-
-
-
-async function fetchData(url: string) {
-
-    try {
-        let res = await fetch(`${url}`, {
-            method: "GET",
-            cache: "no-cache",
-            // next: {
-            //     revalidate: 3600
-            // }
-
-        })
-
-        let data = await res.json()
-
-        return data?.data
-    }
-    catch (e) {
-        console.log(e)
-        return null
-    }
-}
-
-async function fetchCountBusiness() {
-    let data = await db.business?.count({})
-
-    return data
-}
-
-
-
-async function fetchBusinessCollection(id: string) {
-
-    const businessesInCollection = await db.collection.findUnique({
-        where: { slug: id },
-        include: {
-            Business: {
-                include: {
-                    tags: true
-                }
-            },
-
-        },
-    });
-
-    return businessesInCollection?.Business ?? []
-
-}
-
-async function fetchTags() {
-    const tags = await db.tag.findMany({
-        include: {
-            MasterTag: true,
-            business: true
-        }
-    })
-
-    return tags ?? []
-}
-
-async function fetchMasterTags() {
-    const tags = await db.masterTag.findMany({
-        include: {
-            tags: true
-        }
-    })
-
-    return tags ?? []
-}
-
-async function fetchBusinessHighRating() {
-
-    const businessWithHighestRating = await db.business.findMany({
-        where: {
-            avgRating: {
-                not: null
-            }
-        },
-        take: 8,
-        orderBy: [
-            {
-                avgRating: 'desc', // Order by avgRating in descending order
-            },
-            {
-                Review: {
-                    _count: 'desc', // Then, order by the number of reviews in descending order
-                },
-            },
-        ],
-    });
-
-    return businessWithHighestRating
-
-}
-
-async function fetchNewBusinesses() {
-
-    const data = await db.business.findMany({
-        where: {
-        },
-        take: 16,
-        orderBy: [
-            {
-                createdAt: 'desc', // Order by avgRating in descending order
-            },
-
-        ],
-        include: {
-            tags: true
-        }
-    });
-
-    return data
-}
-
-async function fetchMarketingPost() {
-    const data = await db.newsCollection?.findUnique({
-        where: {
-            id: 'marketing'
-        },
-        include: {
-            posts: true
-        }
-    })
-    return data?.posts ?? []
-}
-
-
-async function fetchReviews() {
-    const data = await db.review?.findMany({
-        include: {
-            user: true,
-            business: true
-        },
-        orderBy: {
-            createdAt: 'desc'
-        },
-        take: 10
-
-    })
-    return data
-}
-
-
+import { fetchBusinessCollection, fetchBusinessHighRating, fetchCountBusiness, fetchMarketingPost, fetchMasterTags, fetchNewBusinesses, fetchReviews, fetchTags } from "./actions";
 
 
 
@@ -167,21 +21,13 @@ async function fetchReviews() {
 
 export default async function Page() {
 
-    let _businessPages = fetchData(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/public/business?take=24`)
-    let _posts = fetchData(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/public/post?take=16`)
-    let _totalBusiness = fetchCountBusiness()
-    let _foodCollection = fetchBusinessCollection('do-an-yeu-thich')
-    let _drinkCollection = fetchBusinessCollection('cafe-chill')
-    let _businessRating = fetchBusinessHighRating()
-
 
     const [
-        businessPages,
-        posts,
+
         totalBusiness,
-        foodCollection,
-        drinkCollection,
-        businessesHighRating,
+        // foodCollection,
+        // drinkCollection,
+        // businessesHighRating,
         tags,
         masterTags,
         decoBusinesses,
@@ -191,7 +37,9 @@ export default async function Page() {
     ]
 
         =
-        await Promise.all([_businessPages, _posts, _totalBusiness, _foodCollection, _drinkCollection, _businessRating,
+        await Promise.all([
+
+            fetchCountBusiness(),
             fetchTags(),
             fetchMasterTags(),
             fetchBusinessCollection('deco1'),
@@ -303,7 +151,7 @@ export default async function Page() {
 
 
                                 <div className="absolute top-0 z-10 left-0 h-full w-full p-[8%] md:p-[5%] bg-gray-100/60 md:bg-gray-100/20 space-y-4">
-                                    <p style={{lineHeight: 1.18}} className={"text-accent-foreground text-4xl md:text-[2.8rem] font-heading pt-0 text-left pr-[5%] md:pr-[42%] bg-gradient-to-b from-sky-600 to-indigo-700 bg-clip-text text-transparent"}>Tạo trang kinh doanh của bạn trên Lagi Now</p>
+                                    <p style={{ lineHeight: 1.18 }} className={"text-accent-foreground text-4xl md:text-[2.8rem] font-heading pt-0 text-left pr-[5%] md:pr-[42%] bg-gradient-to-b from-sky-600 to-indigo-700 bg-clip-text text-transparent"}>Tạo trang kinh doanh của bạn trên Lagi Now</p>
                                     <p className="text-accent-foreground/70  text-2xl text-left pr-[10%]">Kết nối và quảng bá đến cộng đồng</p>
                                     <Link
                                         href="/login?redirect=business.create"
@@ -324,33 +172,25 @@ export default async function Page() {
                     </div>
                 </div>
             </div>
-            {/* <div className="w-full bg-gray-200/50 z-40 border-b py-10 scrollbar-hide">
-                <div className="px-4 mx-auto max-w-screen-xl scrollbar-hide grid gap-1 grid-rows-2 md:grid-rows-3 grid-flow-col gap-4 overflow-scroll">
-                    {masterTags?.map((item) => <Link href={`/timkiem?tags=${item?.tags?.map(item => item.id)?.join(',')}`} key={item?.id} className="pt-4 px-4  cursor-pointer rounded-xl bg-white min-w-[150px] border border-gray-300">
-                        <p className="font-heading px-2 text-lg">{item?.name}</p>
-                        <Image src={item?.url ?? ''} alt='' width={80} height={80} className="w-[100px] h-auto aspect-square"></Image>
-                    </Link>)}
-                </div>
-            </div> */}
 
 
 
-<div className="relative   max-w-screen-xl mx-auto  px-4">
+            <div className="relative   max-w-screen-xl mx-auto  px-4">
 
-<div className=" w-full  py-8 md:py-20  bg-secondary rounded-3xl  text-center px-4">
+                <div className=" w-full  py-8 md:py-20  bg-secondary rounded-3xl  text-center px-4">
                     <Balancer className="font-heading text-accent-foreground text-4xl md:text-5xl leading-tight  sm:leading-tight">
-                       
+
                         <span className="bg-gradient-to-r from-sky-600 to-indigo-600 bg-clip-text whitespace-nowrap text-transparent font-heading pr-2">{totalBusiness} trang</span>
                         đã đăng kí 🎉
-                       
+
                     </Balancer>
 
                 </div>
-                </div>
+            </div>
 
             <div className="relative bg-secondary/20  flex flex-col items-center justify-center py-20">
                 {/* <div className="block absolute w-full h-full blur-3xl" style={{background:'conic-gradient(from 41deg at 50% 50%, rgba(248, 249, 251, 0.00) 0deg, #F7F7F9 35.62500089406967deg, #F7F7F9 238.12499284744263deg, rgba(248, 249, 251, 0.00) 283.0139493942261deg)'}}></div> */}
-                
+
                 {/* <div className="absolute inset-auto h-96 w-96 scale-150 bg-sky-300 opacity-20 blur-3xl"></div>
                 <div className="absolute inset-auto h-96 w-96 translate-x-full scale-150 bg-indigo-300 opacity-20 blur-3xl"></div> */}
                 <div className="w-full">
@@ -370,16 +210,16 @@ export default async function Page() {
                     </div>
                     <br />
                 </div>
-                <br/>
+                <br />
                 <Link
                     href="/timkiem"
                     className="inline-flex p-2 px-4 shadow-sm items-center gap-2 bg-gradient-to-b from-gray-100 to-80% to-slate-200 rounded-lg text-accent-foreground border border-gray-200"
                 >
-                    <MagnifyingGlassIcon width={20} height={20} strokeWidth={1.5} /> Xem tất cả 
+                    <MagnifyingGlassIcon width={20} height={20} strokeWidth={1.5} /> Xem tất cả
                 </Link>
 
                 <p className="text-secondary-foreground pt-3 text-center text-xl px-[20%]"> Tìm kiếm hàng quán, doanh nghiệp tại địa phương.. </p>
-            
+
             </div>
 
 
@@ -390,12 +230,12 @@ export default async function Page() {
                 <div className="relative text-center w-full mx-auto max-w-screen-2xl space-y-4  py-[5%]">
                     <br />
                     <h1 className="text-3xl md:text-4xl text-indigo-900 font-heading">
-                       <Balancer>Bạn có nội dung muốn chia sẻ ?</Balancer> 
+                        <Balancer>Bạn có nội dung muốn chia sẻ ?</Balancer>
                     </h1>
                     <p className="text-xl md:text-2xl text-accent-foreground">
                         Tạo nội dung quảng bá cho kinh doanh của bạn. Hoàn toàn miễn phí.
                     </p>
-                    <Link href="/login?redirect=dashboard" 
+                    <Link href="/login?redirect=dashboard"
                         className="inline-flex p-2 px-4 shadow-sm items-center gap-2 bg-gradient-to-b from-indigo-600 to-80% to-indigo-700 rounded-lg text-secondary/90 hover:text-secondary border-2 border-indigo-600"
                     >
                         Đăng bài viết <Pen className="w-4 h-4" />
@@ -408,13 +248,13 @@ export default async function Page() {
 
             </div>
 
-           
-   
+
+
             <div className="w-full py-20 space-y-8 justify-center">
-            <h1 className="font-heading text-center text-blue-900 text-3xl md:text-4xl">Bài viết nổi bật</h1>
-                        <PostCarousel data={marketingPosts} />
+                <h1 className="font-heading text-center text-blue-900 text-3xl md:text-4xl">Bài viết nổi bật</h1>
+                <PostCarousel data={marketingPosts} />
             </div>
-  
+
 
             <div className="relative bg-secondary py-8 w-full">
                 <div className="absolute inset-auto h-96 w-96 scale-150 bg-sky-200 opacity-20 blur-3xl"></div>

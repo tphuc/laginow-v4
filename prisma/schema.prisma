@@ -469,3 +469,18 @@ model NewsCollection {
 
   @@index([id])
 }
+
+model EventQuestion {
+  id           String   @id @default(nanoid(10))
+  title        String
+  image        Json?
+  description  String?
+  multiChoice  Boolean  @default(false)
+  questions    Json?
+  answerText   String?
+  answerTextSlug String?
+  date         String
+  time         String
+  tzDatetime   DateTime @default(now())
+  availableHrs Int      @default(24)
+}

@@ -1,7 +1,5 @@
 import { notFound, redirect, useSearchParams } from "next/navigation"
 import { Post, User } from "@prisma/client"
-
-import { authOptions } from "@/lib/auth"
 import prisma from "@/lib/prisma"
 import { getCurrentUser } from "@/lib/session"
 import { CreateBusinessForm } from "@/components/create-business-form"

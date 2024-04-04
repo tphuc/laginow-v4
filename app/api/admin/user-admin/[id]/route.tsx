@@ -1,12 +1,10 @@
-import { getServerSession } from "next-auth"
 import * as z from "zod"
 
-import { authOptions } from "@/lib/auth"
-import db from "@/lib/prisma"
-import { Prisma } from "@prisma/client"
-import { imagekit } from "@/lib/imagekit"
+
+import prisma from "@/lib/prisma"
 import { NextRequest, NextResponse } from "next/server"
-import slugify from "slugify"
+import { auth } from "@/lib/auth"
+import { NextAuthRequest } from "next-auth/lib"
 import { isAdmin } from "@/lib/session"
 
 
@@ -18,45 +16,43 @@ const routeContextSchema = z.object({
 
 
 export async function POST(
-  req: Request,
+  req: NextRequest,
   context: z.infer<typeof routeContextSchema>
 ) {
-  try {
-    // Validate route params.
-    const { params } = routeContextSchema.parse(context)
 
-    // Check if the user has access to this post.
-    if(!(await isAdmin())){
-        return new Response("not authorized", { status: 403 })
-    }
-      
-    const json = await req.json()
-    
-    
-    await db.user.update({
-      where: {
-        id: params.id
-      },
-      data: {
-        isAdmin: json.isAdmin
+  return auth(async (request) => {
+    try {
+      // Validate route params.
+      const { params } = routeContextSchema.parse(context)
+  
+     
+      if(!(await isAdmin(request))){
+          return new Response("not authorized", { status: 403 })
       }
-    }) 
+        
+      const json = await req.json()
 
-    return new Response(null, { status: 200 })
-
-  } catch (error) {
-    console.log(error)
-    if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 })
+      await prisma.user.update({
+        where: {
+          id: params.id
+        },
+        data: {
+          isAdmin: json.isAdmin
+        }
+      }) 
+  
+      return new Response(null, { status: 200 })
+  
+    } catch (error) {
+      console.log(error)
+      if (error instanceof z.ZodError) {
+        return new Response(JSON.stringify(error.issues), { status: 422 })
+      }
+  
+      return new Response(null, { status: 500 })
     }
 
-    return new Response(null, { status: 500 })
-  }
+  })(req, context) as any
+  
 }
 
-
-export const OPTIONS = async (request: NextRequest) => {
-  return new NextResponse('', {
-    status: 200
-  })
-}

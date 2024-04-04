@@ -2,8 +2,6 @@
 
 import Image from "next/image"
 import { cn, startOfDayVN, vndFormat } from "@/lib/utils"
-import { useSession } from "next-auth/react";
-import { authOptions } from "@/lib/auth";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { useForm } from "react-hook-form";
 import { toast } from "./ui/use-toast";

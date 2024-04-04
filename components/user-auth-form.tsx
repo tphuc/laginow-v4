@@ -2,14 +2,13 @@
 
 import * as React from "react"
 import { useSearchParams } from "next/navigation"
-import { signIn } from "next-auth/react"
-
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
+import { signIn } from "next-auth/react"
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 
@@ -39,9 +38,17 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       <button
         type="button"
         className={cn(buttonVariants({ variant: "secondary" }), 'border border-input')}
-        onClick={() => {
+        onClick={async () => {
           setIsGitHubLoading(true)
-          signIn("google", {callbackUrl: `/${redirect?.replace('.', '/')}`})
+          // googleAuthenticate(`/${redirect?.replace('.', '/')}`)
+          try {
+            let signInRes = await signIn("google", {callbackUrl: `/${redirect?.replace('.', '/')}`})
+            console.log(signInRes)
+          }
+          catch(e){
+            console.log(48, e)
+          }
+         
         }}
         disabled={isLoading || isGitHubLoading}
       >

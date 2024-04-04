@@ -1,12 +1,16 @@
 import GoogleProvider from "next-auth/providers/google";
+import NextAuth from "next-auth";
+import { authConfig } from '../auth.config';
 
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import db from "@/lib/prisma"
-import { AuthOptions } from "next-auth";
+import prisma from "@/lib/prisma";
 
-export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(db as any),
-  secret: process.env.NEXT_AUTH as string,
+export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
+  // pages: {
+  //   signIn: "/login"
+  // },
+  // adapter: PrismaAdapter(prisma as any),
+  // secret: process.env.NEXT_AUTH as string,
+  ...authConfig,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
@@ -22,15 +26,14 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     async redirect({ url, baseUrl }) {
-
       // Allows relative callback URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`
       // Allows callback URLs on the same origin
       else if (new URL(url).origin === baseUrl) return url
       return baseUrl
     },
-    async jwt({ token, user, account, profile, isNewUser }: any) {// This user return by provider {} as you mentioned above MY CONTENT {token:}
 
+    async jwt({ token, user, account, profile, isNewUser }: any) {// This user return by provider {} as you mentioned above MY CONTENT {token:}
       if (user) {
         const expiresIn = 365 * 24 * 60 * 60; // 365 days in seconds
         token.exp = Math.floor(Date.now() / 1000) + expiresIn;
@@ -41,10 +44,17 @@ export const authOptions: AuthOptions = {
 
     async session({ session, token, user }: any): Promise<any> {
       // Send properties to the client, like an access_token and user id from a provider.
-      const userInfo = await db.user.findUnique({
+      const userInfo = await prisma.user.findUnique({
         where: { id: user.id },
         include: {
-          businesses: true,
+          businesses: {
+            select: {
+              id: true,
+              ownerId: true,
+              title: true,
+              slug: true
+            }
+          },
         },
       });
 
@@ -62,7 +72,7 @@ export const authOptions: AuthOptions = {
       let user = message.user;
 
       // Check if there is an invite for this user
-      const invite = await db.invite.findFirst({
+      const invite = await prisma.invite.findFirst({
         where: {
           email: user.email ?? '',
           accepted: true
@@ -71,7 +81,7 @@ export const authOptions: AuthOptions = {
 
 
       if (invite) {
-        const staffMember = await db.staff.create({
+        const staffMember = await prisma.staff.create({
           data: {
             user: {
               connect: {
@@ -87,7 +97,7 @@ export const authOptions: AuthOptions = {
         });
 
         // Delete the invite after creating the staff record
-        await db.invite.delete({
+        await prisma.invite.delete({
           where: {
             id: invite.id,
           },
@@ -97,4 +107,4 @@ export const authOptions: AuthOptions = {
 
     },
   }
-};
+});

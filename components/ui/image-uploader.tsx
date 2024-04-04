@@ -141,7 +141,7 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
         ref={ref}
         style={style}
         className={cn(
-          "relative transition-all flex min-h-[100px] min-w-[100px] justify-center items-center border border-input rounded-md",
+          "relative flex min-h-[100px] min-w-[100px] justify-center items-center border border-input rounded-md",
           className
         )}
 
@@ -179,13 +179,13 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
             </div>
           </>
         ) : (
-          <label className="cursor-pointer">
+          <label className="cursor-pointer w-full h-full flex items-center justify-center">
             <input
               ref={(inputRef) => {
                 uploadInputRef.current = inputRef;
               }}
               type="file"
-              accept="image/jpeg"
+              accept="image/*,.jpg,.jpeg,.png,.bmp,.heic,.tiff,.webp"
               className={cn("absolute w-0 h-0 opacity-0", isLoading ? "pointer-events-none" : "")}
               onChange={handleImageUpload}
             />

@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse, userAgent } from 'next/server';
-
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
 import { z } from 'zod';
 
-import db from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 
 
 
@@ -12,8 +9,6 @@ import db from '@/lib/prisma'
 
 export async function GET(req: NextRequest) {
   try {
-
-
     let url = new URL(req.url)
     let skip = parseInt(url.searchParams.get('skip') ?? '0');
     let take = parseInt(url.searchParams.get('take') ?? '20');
@@ -30,7 +25,7 @@ export async function GET(req: NextRequest) {
     }
 
 
-    let data = await db.post?.findMany({
+    let data = await prisma.post?.findMany({
       where,
       orderBy: {
         // createdAt: 'desc',
@@ -45,7 +40,7 @@ export async function GET(req: NextRequest) {
     })
 
 
-    let total = await db.post?.count({
+    let total = await prisma.post?.count({
       where: where,
       orderBy: {
         createdAt: 'desc'
@@ -69,12 +64,4 @@ export async function GET(req: NextRequest) {
   }
 
 
-}
-
-
-
-export const OPTIONS = async (request: NextRequest) => {
-  return new NextResponse('', {
-    status: 200
-  })
 }

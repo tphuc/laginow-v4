@@ -59,6 +59,11 @@ export default async function DashboardLayout({
               href:'/admin/posts',
               icon:'pen'
             },
+            {
+              title:"Sự kiện ",
+              href:'/admin/events',
+              icon:'rocket'
+            },
           ]} />
         </div>
             
