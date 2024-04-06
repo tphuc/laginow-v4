@@ -152,16 +152,15 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
       let url = new URL(req.url)
       let from = new Date(url.searchParams.get('from') ?? subDays(new Date(), 7)) ?? null
       let to = new Date(url.searchParams.get('to') ?? new Date()) ?? null
-  
+
       let pageViewEvents = await prisma.pageEvent?.groupBy({
         by: ['tzTimestamp'],
         where: {
-          businessId: context.params.id,
+          businessId:  context.params.id,
           tzTimestamp: {
             gte: from,
             lte: to
           },
-  
           eventType:"PAGE_VIEW"
         },
         orderBy: {
@@ -190,14 +189,7 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
         pageViews: pageViewEvents,
         todayPageViews,
         todaySearchViews
-      }), {
-        status: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        }
-      });
+      }));
   
     }
     catch (e) {

@@ -34,8 +34,8 @@ import { vi } from "date-fns/locale"
 
 
 
-export function EditEventForm({data}) {
-    console.log(38, data.image)
+export function EditEventForm({ data }) {
+    console.log(38, data)
     const form = useForm({
         resolver: zodResolver(z.object({
             title: z.any(),
@@ -61,6 +61,8 @@ export function EditEventForm({data}) {
         }
     })
 
+
+
     // const {fetch: authFetch} = useRequestAuthenticated()
 
 
@@ -70,15 +72,15 @@ export function EditEventForm({data}) {
     const router = useRouter()
     // 2. Define a submit handler.
     async function onSubmit(values) {
-        const { date, time, ...others} = values
-      
+        const { date, time, ...others } = values
 
-        if(!date || !time){
-            form.setError('date', {  message: 'Ngày và giờ bắt buộc'})
+
+        if (!date || !time) {
+            form.setError('date', { message: 'Ngày và giờ bắt buộc' })
             return
         }
-        if(!values.multiChoice && !values.answerText){
-            form.setError('answerText', {  message: 'Bắt buộc'})
+        if (!values.multiChoice && !values.answerText) {
+            form.setError('answerText', { message: 'Bắt buộc' })
             return
         }
 
@@ -87,16 +89,16 @@ export function EditEventForm({data}) {
             time,
             date: format(new Date(date), 'dd/MM/yyyy'),
             // tzDatetime: VNDatetimeToISO( format(new Date(date), 'dd/MM/yyyy'), time)
-            
+
         }
 
-   
 
-     
+
+
         setIsLoading(true)
         try {
             console.log(formattedValues)
-           
+
             let res = await fetch(`/api/admin/event-questions/${data?.id}`, {
                 method: "POST",
                 body: JSON.stringify(formattedValues),
@@ -112,9 +114,9 @@ export function EditEventForm({data}) {
             else {
                 toast({
                     title: "Có lỗi xảy ra",
-                    variant:"destructive"
+                    variant: "destructive"
                 })
-             
+
             }
         } catch (e) {
             console.log(e);
@@ -268,37 +270,37 @@ export function EditEventForm({data}) {
                         )}
                     />
 
-                    {
-                        form.watch('multiChoice') ? <FormField
-                            control={form.control}
-                            name="questions"
-                            render={({ field }) => (
-                                <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
-                                    <FormLabel>Lựa chọn trả lời</FormLabel>
-                                    <FormDescription>Bật ✅ nếu là lựa chọn hợp lệ</FormDescription>
-                                    <FormControl>
-                                        <DynamicQuestion defaultValue={field.value} onChange={field?.onChange} />
-                                    </FormControl>
+                    {!!form.watch('multiChoice') && <FormField
+                        control={form.control}
+                        name="questions"
+                        render={({ field }) => (
+                            <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
+                                <FormLabel>Lựa chọn trả lời</FormLabel>
+                                <FormDescription>Bật ✅ nếu là lựa chọn hợp lệ</FormDescription>
+                                <FormControl>
+                                    <DynamicQuestion defaultValue={field.value} onChange={field?.onChange} />
+                                </FormControl>
 
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        /> :
-                            <FormField
-                                control={form.control}
-                                name="answerText"
-                                render={({ field }) => (
-                                    <FormItem className="p-2 space-y-1 px-3 bg-secondary/20 border rounded-sm">
-                                        <FormLabel>Điền câu trả lời hợp lệ</FormLabel>
-                                        <FormDescription>Hệ thống sẽ kiểm tra đáp án trùng khớp</FormDescription>
-                                        <FormControl>
-                                            <Input placeholder="Đáp án đúng" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                    }
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />}
+
+                    {!form.watch('multiChoice') && <FormField
+                        control={form.control}
+                        name="answerText"
+                        render={({ field }) => (
+                            <FormItem className="p-2 space-y-1 px-3 bg-secondary/20 border rounded-sm">
+                                <FormLabel>Điền câu trả lời hợp lệ</FormLabel>
+                                <FormDescription>Hệ thống sẽ kiểm tra đáp án trùng khớp</FormDescription>
+                                <FormControl>
+                                    <Input placeholder="Đáp án đúng" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />}
+
 
 
 
@@ -306,7 +308,7 @@ export function EditEventForm({data}) {
 
 
                     <br />
-                    <Button type="submit"  className={"sticky gap-2 rounded-sm bottom-0 w-full left-0"}>
+                    <Button type="submit" className={"sticky gap-2 rounded-sm bottom-0 w-full left-0"}>
                         Xác nhận <CheckCircle className="w-4 h-4" />
                         {isLoading && <Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}
                     </Button>

@@ -63,8 +63,9 @@ model User {
   Staff            Staff[]
   PostReport       PostReport[]
 
-  canWriteNews Boolean?    @default(false)
-  PostEvent    PostEvent[]
+  canWriteNews    Boolean?          @default(false)
+  PostEvent       PostEvent[]
+  BusinessVoucher BusinessVoucher[]
 
   @@index([email])
 }
@@ -215,6 +216,7 @@ model Business {
   Order            Order[]
   Invite           Invite[]
   Staff            Staff[]
+  BusinessVoucher  BusinessVoucher[]
 
   @@index([slug])
   @@index([ownerId])
@@ -471,16 +473,36 @@ model NewsCollection {
 }
 
 model EventQuestion {
-  id           String   @id @default(nanoid(10))
-  title        String
-  image        Json?
-  description  String?
-  multiChoice  Boolean  @default(false)
-  questions    Json?
-  answerText   String?
+  id             String            @id @default(nanoid(10))
+  title          String
+  image          Json?
+  description    String?
+  multiChoice    Boolean           @default(false)
+  questions      Json?
+  answerText     String?
   answerTextSlug String?
-  date         String
-  time         String
-  tzDatetime   DateTime @default(now())
-  availableHrs Int      @default(24)
+  date           String
+  time           String
+  tzDatetime     DateTime          @default(now())
+  availableHrs   Int               @default(24)
+  vouchers       BusinessVoucher[]
+}
+
+model BusinessVoucher {
+  id              String         @id @default(nanoid(10))
+  code            String
+  createdAt       DateTime       @default(now())
+  description     String?
+  availableFrom   DateTime       @default(now())
+  availableTo     DateTime
+  business        Business       @relation(fields: [businessId], references: [id])
+  businessId      String
+  isAvailable     Boolean?
+  EventQuestion   EventQuestion? @relation(fields: [eventQuestionId], references: [id])
+  eventQuestionId String?
+  user            User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId          String?
+
+  @@unique([code, businessId])
+  @@index([businessId])
 }

@@ -120,6 +120,11 @@ export default async function BusinessLayout({ children, params }: BusinessProps
                 icon: 'media'
               },
               {
+                title: 'Mã giảm giá',
+                href: `/business/${params.businessId}/voucher`,
+                icon: 'voucher'
+              },
+              {
                 title: 'Thành viên',
                 href: `/business/${params.businessId}/thanh-vien`,
                 icon: 'user2'

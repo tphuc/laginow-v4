@@ -54,7 +54,7 @@ export function CreateEventForm() {
             description: "",
             visible: true,
             multiChoice: false,
-            questions: [],
+            questions: null,
             answerText: '',
             date: undefined,
             time: '18:00'
@@ -70,14 +70,14 @@ export function CreateEventForm() {
     const router = useRouter()
     // 2. Define a submit handler.
     async function onSubmit(values) {
-        const { date, time, ...others} = values
+        const { date, time, ...others } = values
 
-        if(!date || !time){
-            form.setError('date', {  message: 'Ngày và giờ bắt buộc'})
+        if (!date || !time) {
+            form.setError('date', { message: 'Ngày và giờ bắt buộc' })
             return
         }
-        if(!values.multiChoice && !values.answerText){
-            form.setError('answerText', {  message: 'Bắt buộc'})
+        if (!values.multiChoice && !values.answerText) {
+            form.setError('answerText', { message: 'Bắt buộc' })
             return
         }
 
@@ -86,14 +86,14 @@ export function CreateEventForm() {
             time,
             date: format(new Date(date), 'dd/MM/yyyy'),
             // tzDatetime: VNDatetimeToISO( format(new Date(date), 'dd/MM/yyyy'), time)
-            
+
         }
 
-     
+
         setIsLoading(true)
         try {
             console.log(formattedValues)
-           
+
             let res = await fetch('/api/admin/event-questions', {
                 method: "POST",
                 body: JSON.stringify(formattedValues),
@@ -109,9 +109,9 @@ export function CreateEventForm() {
             else {
                 toast({
                     title: "Có lỗi xảy ra",
-                    variant:"destructive"
+                    variant: "destructive"
                 })
-             
+
             }
         } catch (e) {
             console.log(e);
@@ -266,44 +266,39 @@ export function CreateEventForm() {
                     />
 
                     {
-                        form.watch('multiChoice') ? <FormField
-                            control={form.control}
+                        !!form.watch('multiChoice') && <FormField
+                            // control={form.control}
                             name="questions"
                             render={({ field }) => (
                                 <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
                                     <FormLabel>Lựa chọn trả lời</FormLabel>
                                     <FormDescription>Bật ✅ nếu là lựa chọn hợp lệ</FormDescription>
                                     <FormControl>
-                                        <DynamicQuestion defaultValue={field.value} onChange={field?.onChange} />
+                                        <DynamicQuestion defaultValue={field.value ?? []} onChange={field?.onChange} />
                                     </FormControl>
-
                                     <FormMessage />
                                 </FormItem>
                             )}
-                        /> :
-                            <FormField
-                                control={form.control}
-                                name="answerText"
-                                render={({ field }) => (
-                                    <FormItem className="p-2 space-y-1 px-3 bg-secondary/20 border rounded-sm">
-                                        <FormLabel>Điền câu trả lời hợp lệ</FormLabel>
-                                        <FormDescription>Hệ thống sẽ kiểm tra đáp án trùng khớp</FormDescription>
-                                        <FormControl>
-                                            <Input placeholder="Đáp án đúng" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                        />
                     }
 
-
-
-
-
+                    {!form.watch('multiChoice') && <FormField
+                        control={form.control}
+                        name="answerText"
+                        render={({ field }) => (
+                            <FormItem className="p-2 space-y-1 px-3 bg-secondary/20 border rounded-sm">
+                                <FormLabel>Điền câu trả lời hợp lệ</FormLabel>
+                                <FormDescription>Hệ thống sẽ kiểm tra đáp án trùng khớp</FormDescription>
+                                <FormControl>
+                                    <Input placeholder="Đáp án đúng" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />}
 
                     <br />
-                    <Button type="submit"  className={"sticky gap-2 rounded-sm bottom-0 w-full left-0"}>
+                    <Button type="submit" className={"sticky gap-2 rounded-sm bottom-0 w-full left-0"}>
                         Xác nhận <CheckCircle className="w-4 h-4" />
                         {isLoading && <Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}
                     </Button>

@@ -34,12 +34,9 @@ export function BusinessViewChart({businessId}: {businessId: string}) {
   })
 
   let {data} = useGetBusinessPageEvents(businessId, { from: dateFilter?.from, to: dateFilter?.to })
-  let _formattedData = (data?.pageViews ?? [])?.map((item: any) => ({
-    count: item._count?.id,
-    timestamp: getDayVN(new Date(item?.tzTimestamp))
-  }))
 
-  let formattedData = fillEmptyDates(_formattedData, dateFilter?.from, dateFilter?.to)
+  let formattedData = fillEmptyDates(data?.pageViews ?? [], dateFilter?.from, dateFilter?.to)
+  
   return <div className="space-y-2">
     <DatePickerWithRange onChange={(val: any) => setDateFilter(val)} defaultValue={dateFilter}/>
     <div>

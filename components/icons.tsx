@@ -41,7 +41,8 @@ import {
   Briefcase,
   Landmark,
   Coins,
-  Banknote
+  Banknote,
+  Ticket
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -86,6 +87,7 @@ export const Icons = {
   Coins: Coins,
   Banknote: Banknote,
   Briefcase: Briefcase,
+  voucher: Ticket,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

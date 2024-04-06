@@ -110,6 +110,14 @@ export async function isAdmin(request: NextAuthRequest) {
 }
 
 
+export async function isAuthenticated(request: NextAuthRequest) {
+  const session = request?.auth
+  
+  return session?.user?.id
+}
+
+
+
 
 // const verifyJWT = (accessToken: string, secretKey: any) => new Promise((resolve, reject) => {
 //   jwt.verify(accessToken, secretKey, (err, decoded) => {
