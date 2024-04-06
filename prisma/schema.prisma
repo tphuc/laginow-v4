@@ -490,7 +490,7 @@ model EventQuestion {
 
 model BusinessVoucher {
   id              String         @id @default(nanoid(10))
-  code            String
+  code            String  
   createdAt       DateTime       @default(now())
   description     String?
   availableFrom   DateTime       @default(now())

@@ -10,12 +10,12 @@ import { auth } from '@/lib/auth'
 
 
 const routeContextSchema = z.object({
-    params: z.object({
-      id: z.string(),
-      voucherId: z.string()
-    }),
+  params: z.object({
+    id: z.string(),
+    voucherId: z.string()
+  }),
 })
-  
+
 
 
 
@@ -32,32 +32,55 @@ const UpdateVoucherSchema = z.object({
 
 
 export async function POST(req: NextRequest, context: z.infer<typeof routeContextSchema>) {
-  return  auth(async (request) => {
+  return auth(async (request) => {
     try {
-      if(!(await verifyCurrentUserHasAccessToBusiness(request, context.params.id))){
+      if (!(await verifyCurrentUserHasAccessToBusiness(request, context.params.id))) {
         return new Response("not authorized", { status: 403 })
       }
 
-    const { params } = routeContextSchema.parse(context)
+      const { params } = routeContextSchema.parse(context)
       let json = await req.json();
-      const { ...body} = UpdateVoucherSchema.parse(json);
-      
+      const { ...body } = UpdateVoucherSchema.parse(json);
+
       let record = await prisma.businessVoucher?.update({
         where: {
-            id: params.id
+          id: params.id
         },
         data: {
           ...body,
         }
       })
-  
+
       return new Response(JSON.stringify(record))
 
     } catch (error) {
       return new Response(JSON.stringify(error), { status: 400 })
     }
   })(req, context)
+
+}
+
+
+export async function DELETE(req: NextRequest, context: z.infer<typeof routeContextSchema>) {
+  return auth(async (request) => {
+    try {
+      if (!(await verifyCurrentUserHasAccessToBusiness(request, context.params.id))) {
+        return new Response("not authorized", { status: 403 })
+      }
+
+      await prisma.businessVoucher.delete({
+        where: {
+          id: context.params.voucherId
+        }
+      })
    
-  }
+      return new Response(null, {status:200})
+
+    } catch (error) {
+      return new Response(JSON.stringify(error), { status: 400 })
+    }
+  })(req, context)
+
+}
 
 

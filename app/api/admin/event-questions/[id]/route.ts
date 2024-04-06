@@ -10,11 +10,11 @@ import { auth } from '@/lib/auth'
 
 
 const routeContextSchema = z.object({
-    params: z.object({
-      id: z.string(),
-    }),
+  params: z.object({
+    id: z.string(),
+  }),
 })
-  
+
 
 
 export async function GET(req: NextRequest) {
@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
     return new Response(JSON.stringify({
       data: items,
       total
-    }), {status: 200})
+    }), { status: 200 })
 
   }
   catch (e) {
@@ -71,27 +71,27 @@ const EventQuestionSchema = z.object({
 
 
 export async function POST(req: NextRequest, context: z.infer<typeof routeContextSchema>) {
-  return  auth(async (request) => {
+  return auth(async (request) => {
     try {
-      if(!(await isAdmin(request))){
+      if (!(await isAdmin(request))) {
         return new Response("not authorized", { status: 403 })
       }
 
-    const { params } = routeContextSchema.parse(context)
+      const { params } = routeContextSchema.parse(context)
       let json = await req.json();
-      const { ...body} = EventQuestionSchema.parse(json);
-      
+      const { ...body } = EventQuestionSchema.parse(json);
+
       let record = await prisma.eventQuestion?.update({
         where: {
-            id: params.id
+          id: params.id
         },
         data: {
           ...body,
-          answerTextSlug: slugify(body?.answerText ?? '', { lower: true, replacement: '-', locale:'vi', remove: /[^a-zA-Z0-9\s]/g  }),
+          answerTextSlug: slugify(body?.answerText ?? '', { lower: true, replacement: '-', locale: 'vi', remove: /[^a-zA-Z0-9\s]/g }),
           tzDatetime: VNDatetimeToISO(body.date, body.time)
         }
       })
-  
+
       return new Response(JSON.stringify(record))
 
     } catch (error) {
@@ -99,7 +99,30 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
       return new Response(JSON.stringify(error), { status: 400 })
     }
   })(req, context)
-   
-  }
+
+}
+
+
+export async function DELETE(req: NextRequest, context: z.infer<typeof routeContextSchema>) {
+  return auth(async (request) => {
+    try {
+      if (!(await isAdmin(request))) {
+        return new Response("not authorized", { status: 403 })
+      }
+
+      await prisma.eventQuestion.delete({
+        where: {
+          id: context.params.id
+        }
+      })
+
+      return new Response(null, { status: 200 })
+
+    } catch (error) {
+      return new Response(JSON.stringify(error), { status: 400 })
+    }
+  })(req, context)
+
+}
 
 

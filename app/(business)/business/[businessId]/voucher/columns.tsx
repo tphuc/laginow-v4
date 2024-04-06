@@ -2,6 +2,9 @@
 
 import Image from "next/image";
 import { DataTableRowActions } from "./table/data-table-row-actions";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
+import { Badge } from "@/components/ui/badge";
 
 
 
@@ -29,11 +32,23 @@ export const columns = [
   // },
   {
     accessorKey:'code',
-    header: 'Mã'
+    header: 'Mã',
+    cell: ({row})=>{
+      const available = new Date() <= new Date(row?.original?.availableTo) 
+      return <div className="text-muted-foreground space-y-1">
+        <p>{row?.original?.code}</p>
+        <Badge variant={available?'default':'secondary'}>{available ? 'Còn hạn' : "Hết hạn"}</Badge>
+      </div>
+    }
   },
   {
     accessorKey:'availableTo',
-    header: 'Ngày hết hạn'
+    header: 'Hạn sử dụng',
+    cell: ({row})=>{
+      return <div className="text-muted-foreground">
+        {format(row?.original?.availableTo, 'PP', {locale:vi})}
+      </div>
+    }
   },
   {
     id: "actions",

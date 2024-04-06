@@ -71,8 +71,8 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
 const CreateVoucherSchema = z.object({
   code: z.string(),
   description: z.string().optional(),
-  availableTo: z.date(),
-  businessId: z.string(),
+  availableTo: z.string(),
+  availableFrom: z.string(),
   userId: z.string().optional()
 });
 

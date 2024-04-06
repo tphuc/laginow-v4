@@ -16,6 +16,9 @@ import { ProductCreateButton } from "@/components/product-create-button"
 import { DataTable } from "./table/data-table"
 import { columns } from "./columns"
 import { ProductCreateButtonSheet } from "@/components/product-create-button-sheet"
+import CreateVoucherButton from "./create-voucher-button"
+import { Button } from "@/components/ui/button"
+import { Plus } from "lucide-react"
 
 export const metadata = {
   title: "Billing",
@@ -52,7 +55,9 @@ export default async function Page({ params }: PageProps) {
         heading="Mã giảm giá"
         text="Mã ưu đãi khi dùng sản phẩm / dịch vụ tại shop"
       >
-           <ProductCreateButtonSheet businessId={params.businessId}>Thêm</ProductCreateButtonSheet>
+           <CreateVoucherButton businessId={params.businessId}>
+            <Button className="gap-2"><Plus className="w-4 h-4"/> Thêm</Button>
+           </CreateVoucherButton>
       </DashboardHeader>
      
       <DataTable data={data ?? []} columns={columns}/>

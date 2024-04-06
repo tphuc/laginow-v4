@@ -19,16 +19,27 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ProductEditButtonSheet } from "@/components/product-edit-button-sheet"
 import { DeleteProductFormButton } from "@/components/delete-product-form"
+import { OrderEditButtonSheet } from "@/components/order-edit-button-sheet"
+import { Separator } from "@/components/ui/separator"
+import { BadgeCheck, Check, Globe, Pen, PenTool } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { UpdateBusinessContactVerified } from "@/components/update-business-contact-verified"
+import { UpdateBusinessForm } from "@/components/update-business-form"
+import { toast } from "@/components/ui/use-toast"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { EditVoucherForm } from "../edit-voucher-form"
+
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
 }
 
 
-
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
+  const router = useRouter()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -42,12 +53,23 @@ export function DataTableRowActions<TData>({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
         <DropdownMenuItem asChild>
-          <ProductEditButtonSheet productId={row?.original?.['id']}></ProductEditButtonSheet>
+          <Sheet key={'right'}>
+            <SheetTrigger asChild>
+              <Button size={'sm'} className="w-full rounded-sm gap-2 justify-between" variant={'ghost'}>
+                Cập nhật <Pen className="w-4 h-4" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="overflow-scroll" side={'right'}>
+
+              <EditVoucherForm data={row?.original} />
+            </SheetContent>
+          </Sheet>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <DeleteProductFormButton productId={row?.original?.['id']}/>
-          {/* <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut> */}
-        </DropdownMenuItem>
+      
+
+   
+
+
       </DropdownMenuContent>
     </DropdownMenu>
   )
