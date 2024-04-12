@@ -40,8 +40,6 @@ export function UpdateMarketingPosts({ defaultValue, allPosts }: { defaultValue?
   
     const form = useForm({
         defaultValues: async () => {
-            console.log(defaultValue)
-            console.log(defaultValue?.map(item => item?.id))
            return {
             posts: defaultValue?.map((item) => ({
                 label: item?.title,
@@ -62,7 +60,6 @@ export function UpdateMarketingPosts({ defaultValue, allPosts }: { defaultValue?
     async function onSubmit(values) {
         let formattedValues = {
             ...values,
-           
         }
 
    

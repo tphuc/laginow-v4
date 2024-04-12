@@ -15,7 +15,33 @@ export async function fetchEvents(props: { limit: any, page: any}){
             tzDatetime: 'desc',
           },
           take: limit,
-          skip: (page - 1) * limit
+          skip: (page - 1) * limit,
+          include: {
+            vouchers: {
+              select: {
+                id: true,
+                code: true,
+                business: {
+                  select: {
+                    id: true,
+                    title: true
+                  }
+                }
+              }
+            },
+            adsPages: {
+              select: {
+                id: true,
+                title: true
+              }
+            },
+            adsPosts: {
+              select: {
+                id: true,
+                title: true
+              }
+            }
+          }
         });
     
         let total = await prisma.eventQuestion.count({})
@@ -32,4 +58,37 @@ export async function fetchEvents(props: { limit: any, page: any}){
         return null
       
     }
+}
+
+export async function fetchAvailableVouchers(){
+  try {
+
+    
+  
+      const items = await prisma.businessVoucher.findMany({
+        where: {
+          availableTo: {
+            gt: new Date()
+          },
+        },
+        include: {
+          business: {
+            select: {
+              id: true,
+              title: true,
+            }
+          }
+        }
+      });
+  
+      
+
+      return items
+  
+    }
+    catch (e) {
+      console.log(e)
+      return null
+    
+  }
 }

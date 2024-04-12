@@ -66,6 +66,7 @@ model User {
   canWriteNews    Boolean?          @default(false)
   PostEvent       PostEvent[]
   BusinessVoucher BusinessVoucher[]
+  UserAnswer      UserAnswer[]
 
   @@index([email])
 }
@@ -110,6 +111,8 @@ model Post {
   newsCollectionId     String?
   visible              Boolean?             @default(true)
   PostEvent            PostEvent[]
+  EventQuestion        EventQuestion?       @relation(fields: [eventQuestionId], references: [id])
+  eventQuestionId      String?
 
   @@index([title])
   @@index([slug])
@@ -217,6 +220,8 @@ model Business {
   Invite           Invite[]
   Staff            Staff[]
   BusinessVoucher  BusinessVoucher[]
+  EventQuestion    EventQuestion?     @relation(fields: [eventQuestionId], references: [id])
+  eventQuestionId  String?
 
   @@index([slug])
   @@index([ownerId])
@@ -479,6 +484,7 @@ model EventQuestion {
   description    String?
   multiChoice    Boolean           @default(false)
   questions      Json?
+  correctIndexes Json?
   answerText     String?
   answerTextSlug String?
   date           String
@@ -486,11 +492,15 @@ model EventQuestion {
   tzDatetime     DateTime          @default(now())
   availableHrs   Int               @default(24)
   vouchers       BusinessVoucher[]
+  UserAnswer     UserAnswer[]
+  adsPosts       Post[]
+  adsPages       Business[]
+  adsFB          Json?
 }
 
 model BusinessVoucher {
   id              String         @id @default(nanoid(10))
-  code            String  
+  code            String
   createdAt       DateTime       @default(now())
   description     String?
   availableFrom   DateTime       @default(now())
@@ -505,4 +515,21 @@ model BusinessVoucher {
 
   @@unique([code, businessId])
   @@index([businessId])
+}
+
+model UserAnswer {
+  id        String   @id @default(nanoid(10))
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  event   EventQuestion? @relation(fields: [eventId], references: [id])
+  eventId String
+
+  answerText     String?
+  answerTextSlug String?
+  choiceIndex    Int?
+
+  @@unique([userId, eventId])
 }

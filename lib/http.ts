@@ -1,8 +1,6 @@
 'use client';
 import { useSession } from 'next-auth/react'
 import useSWR from 'swr'
-import { getCurrentUser } from './session'
-import { auth } from './auth';
 
 export const APIHttp = {
     getBusinessInfo: async (id: string) => {
@@ -135,6 +133,29 @@ export function useGetBusinessReview(businessId: string, options: { page?: numbe
     }
 
 }
+
+export function useGetResource(requestUrl) {
+
+    const { data, error, isLoading } = useSWR(requestUrl, async (url) => {
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+
+        return response.json()
+    })
+
+    return {
+        data,
+        isLoading,
+        error
+    }
+
+}
+
+
 
 
 export const useRequestAuthenticated = () => {

@@ -1,5 +1,6 @@
 'use server';
 import prisma from '@/lib/prisma'
+import { subHours } from 'date-fns';
 
 export async function fetchCountBusiness() {
     let data = await prisma.business?.count({})
@@ -123,3 +124,18 @@ export async function fetchReviews() {
 
 
 
+export async function fetchNextEvent() {
+    const nextEvent = await prisma.eventQuestion.findFirst({
+        where: {
+            tzDatetime: {
+                gte: subHours(new Date(), 24)
+            }
+        },
+        orderBy: {
+            tzDatetime: 'asc'
+        }
+    });
+
+
+    return nextEvent
+}

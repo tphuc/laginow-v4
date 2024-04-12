@@ -173,14 +173,22 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
   
       let todayPageViews = await prisma.pageEvent?.count({
         where: {
-          tzTimestamp: startOfDayVN(new Date()),
+          businessId:  context.params.id,
+          tzTimestamp: {
+            gte: from,
+            lte: to
+          },
           eventType:"PAGE_VIEW"
         }
       })
   
       let todaySearchViews = await prisma.pageEvent?.count({
         where: {
-          tzTimestamp: startOfDayVN(new Date()),
+          businessId:  context.params.id,
+          tzTimestamp: {
+            gte: from,
+            lte: to
+          },
           eventType:"SEARCH_VIEW"
         }
       })

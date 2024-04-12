@@ -3,6 +3,26 @@ import { Storage } from '@google-cloud/storage';
 import lagiJson from './lagi-361510-276b6fc08e21.json'
 import sharp from 'sharp';
 
+export const deleteImage = async (fileId: string) => {
+  try {
+    const storage = new Storage({
+      projectId: 'lagi-361510',
+      credentials: lagiJson
+    });
+
+    const bucket = storage.bucket('laginow');
+    const file = bucket.file(fileId);
+
+    // Delete the file from Google Cloud Storage
+    await file.delete();
+
+    return true;
+  } catch (error) {
+    console.error('Error deleting image:', error);
+    return false;
+  }
+};
+
 
 const uploadImage = (_fileName: string, buffer: any) => new Promise((resolve, reject) => {
   let projectId = "lagi-361510"; // Get this from Google Cloud
@@ -78,11 +98,6 @@ export async function POST(request: NextRequest) {
       }
     }, {
       status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-      }
     });
 
 
@@ -91,22 +106,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, error }, { status: 500 });
   }
 }
-
-// async function convertToJPG(file: File): Promise<Buffer> {
-//   // Check if the file is already in JPEG format
-//   if (file.type === 'image/jpeg') {
-//     const bytes = await file.arrayBuffer();
-//     return Buffer.from(bytes);
-//   }
-
-//   // Convert other image formats to JPEG using sharp
-//   const imageBuffer = await sharp(file)
-//     .jpeg() // You can customize the JPEG conversion options if needed
-//     .toBuffer();
-
-//   return imageBuffer;
-// }
-
 
 
 

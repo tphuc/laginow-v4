@@ -18,24 +18,7 @@ import { ArrowTopRightIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 
 export default function SearchSection(props) {
 
-  return <div className="w-full transition transition-all min-h-[60vh] relative pt-40 pb-20 bg-gradient-to-tr from-lightGradOne via-lightGradTwo to-lightGradThree  background-animate text-center">
-
-    <div className="relative z-20 w-full container space-y-4">
-      <h1 className="font-heading text-indigo-900 max-w-[500px] mx-auto text-5xl">
-        <Balancer>
-          Tìm kiếm hàng quán, dịch vụ tại Lagi Now
-        </Balancer>
-      </h1>
-      <h1 className="text-indigo-900 text-lg max-w-[600px] mx-auto">
-        <Balancer>
-          Website đầu tiên tổng hợp các kinh doanh dịch vụ địa phương, tại một nơi duy nhất.
-        </Balancer>
-      </h1>
-      <div className="w-full flex justify-center">
-        <SearchBarFilterHome />
-      </div>
-
-      <Tabs defaultValue="1">
+  return  <Tabs defaultValue="1">
         <TabsList className="bg-secondary gap-1 rounded-full shadow-sm mb-8">
           <TabsTrigger className="rounded-full transition transition-all gap-2 border-1 border-transparent data[state=active]:border-accent" value='1'>  <UtensilsCrossed className="w-4 h-4 stroke-width-1" /> Ăn uống</TabsTrigger>
           <TabsTrigger className="rounded-full transition transition-all gap-2 border-1 border-transparent data[state=active]:border-accent" value='2'> <Home className="w-4 h-4 stroke-width-1" /> Lưu trú</TabsTrigger>
@@ -200,23 +183,4 @@ export default function SearchSection(props) {
         </TabsContent>
       </Tabs>
 
-      {/* <div className="flex flex-wrap gap-2">
-        <div className="p-1 gap-2 px-4 py-2 bg-secondary border rounded-md flex cursor-pointer hover:bg-secondary">
-          <Link className="flex items-center gap-2 text-lg" href='https://laginow.com/timkiem?tags=739Q,CkAF,Op8d,z0rr,MhZK,ejlq,jweb'>
-            <UtensilsCrossed className="w-6 h-6 stroke-width-1" /> Ăn uống  </Link>
-        </div>
-        <div className="p-1 gap-2 px-4 py-2 bg-secondary border rounded-md flex cursor-pointer hover:bg-secondary">
-          <Link className="flex items-center gap-2 text-lg" href='https://laginow.com/timkiem?tags=cTEb,oWwv,d9aF,dT5A'><Home className="w-6 h-6 stroke-width-1" /> Lưu trú  </Link>
-        </div>
-        <div className="p-1 gap-2 px-4 py-2 bg-secondary border rounded-md flex cursor-pointer hover:bg-secondary">
-          <Link className="flex items-center gap-2 text-lg" href='https://laginow.com/timkiem?tags=739Q'><Coffee className="w-6 h-6 stroke-width-1" /> Quán cafe  </Link>
-        </div>
-      </div> */}
-    </div>
-
-
-    {/* <div style={{maxWidth:700}} className="absolute opacity-50 md:opacity-90 z-10 w-full top-0 left-[55%] w-[40vw] overflow-hidden">
-          <Masonry />
-        </div> */}
-  </div>
 }

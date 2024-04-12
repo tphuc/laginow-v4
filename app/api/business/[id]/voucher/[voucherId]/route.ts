@@ -23,8 +23,7 @@ const routeContextSchema = z.object({
 const UpdateVoucherSchema = z.object({
   code: z.string(),
   description: z.string().optional(),
-  availableTo: z.date(),
-  businessId: z.string(),
+  availableTo: z.string().optional(),
   userId: z.string().optional()
 });
 
@@ -44,7 +43,7 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
 
       let record = await prisma.businessVoucher?.update({
         where: {
-          id: params.id
+          id: params.voucherId
         },
         data: {
           ...body,

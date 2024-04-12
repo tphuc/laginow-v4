@@ -76,7 +76,12 @@ const EventQuestionSchema = z.object({
   answerTextSlug: z.string().optional(),
   time: z.string(),
   date: z.string(),
-  availableHrs: z.number().int().default(24)
+  vouchers: z.any().optional(),
+  adsPosts: z.any().optional(),
+  adsPages: z.any().optional(),
+  adsFB: z.any().optional(),
+  availableHrs: z.number().int().default(24),
+
 });
 
 
@@ -88,12 +93,25 @@ export async function POST(req: NextRequest, context: any) {
       }
 
       let json = await req.json();
-      const { ...body } = EventQuestionSchema.parse(json);
+      const { vouchers, adsPosts, adsPages, adsFB, ...body } = EventQuestionSchema.parse(json);
 
       let record = await prisma.eventQuestion?.create({
         data: {
           ...body,
+          vouchers: vouchers ? {
+            connect: vouchers
+          } : undefined,
+          adsPosts: adsPosts ? {
+            connect: adsPosts
+          } : undefined,
+          adsPages: adsPages ? {
+            connect: adsPages
+          } : undefined,
+          adsFB: adsFB ? {
+            connect: adsFB
+          } : undefined,
           answerTextSlug: slugify(body?.answerText ?? '', { lower: true, replacement: '-', locale: 'vi', remove: /[^a-zA-Z0-9\s]/g }),
+          correctIndexes: body.questions ? body?.questions?.map((item, id) => id) : [],
           tzDatetime: VNDatetimeToISO(body.date, body.time)
         }
       })

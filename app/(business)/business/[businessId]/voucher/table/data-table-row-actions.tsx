@@ -59,8 +59,7 @@ export function DataTableRowActions<TData>({
                 Cập nhật <Pen className="w-4 h-4" />
               </Button>
             </SheetTrigger>
-            <SheetContent className="overflow-scroll" side={'right'}>
-
+            <SheetContent className="overflow-scroll scrollbar-hide" side={'right'}>
               <EditVoucherForm data={row?.original} />
             </SheetContent>
           </Sheet>

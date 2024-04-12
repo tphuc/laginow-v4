@@ -62,9 +62,6 @@ export default async function Page({ params }: PageProps) {
      
       <DataTable data={data ?? []} columns={columns}/>
 
-
-
-
     </DashboardShell>
   )
 }

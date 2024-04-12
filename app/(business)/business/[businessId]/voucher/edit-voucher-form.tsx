@@ -80,7 +80,7 @@ export function EditVoucherForm({ data }) {
 
             if (res.ok) {
                 toast({
-                    title: "Tạo thành công",
+                    title: "Cập nhật thành công",
                     variant: "default"
                 })
                 router.refresh()
@@ -103,7 +103,7 @@ export function EditVoucherForm({ data }) {
     }
 
     return (
-        <div className="relative w-full scrollbar-hide space-y-2">
+        <div className="relative w-full space-y-2">
                <h1 className="text-xl font-heading">Voucher (Mã giảm giá)</h1>
             <Form  {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

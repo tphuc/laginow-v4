@@ -2,6 +2,7 @@
 
 import { VNTimezoneFormat, formatDate, getDayVN } from "@/lib/utils";
 import { DataTableRowActions } from "./table/data-table-row-actions";
+import { format } from "date-fns";
 
 
 
@@ -36,7 +37,18 @@ export const columns = [
       return <div className="space-y-1">
        
         <p className="truncate text-ellipsis">{row?.original.title}</p>
-        <p className="text-muted-foreground">{VNTimezoneFormat(row?.original?.tzDatetime)} {row?.orignal?.tzDatetime}</p>
+        {/* <p className="text-muted-foreground">{VNTimezoneFormat(row?.original?.tzDatetime)} {row?.orignal?.tzDatetime}</p> */}
+      </div>
+    }
+  },
+  {
+    accessorKey: 'date',
+    header: 'Ngày',
+    cell: ({ row }) => {
+
+      return <div className="space-y-1">
+      
+        <p className="">{format(new Date(row?.original?.tzDatetime), 'dd/MM/yyyy HH:mm')}</p>
       </div>
     }
   },

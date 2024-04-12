@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
-import { useGetBusinessTags, useRequestAuthenticated } from "@/lib/http"
 import ImageUploader from "@/components/ui/image-uploader"
 import { Switch } from "@/components/ui/switch"
 import { toast, useToast } from "@/components/ui/use-toast"
@@ -27,14 +26,17 @@ import DynamicQuestion from "@/components/dynamic-question"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { format } from "date-fns"
 import { Calendar } from "@/components/ui/calendar"
-import { VNDatetimeToISO, cn } from "@/lib/utils"
+import { cn, startOfDayVN } from "@/lib/utils"
 import { vi } from "date-fns/locale"
+import { MultiSelect } from "@/components/ui/multi-select"
+import { useGetResource } from "@/lib/http"
+import CollectionList from "@/components/collection-list"
 
 
 
 
 
-export function CreateEventForm() {
+export function CreateEventForm({ availableVouchers }) {
 
     const form = useForm({
         resolver: zodResolver(z.object({
@@ -46,7 +48,11 @@ export function CreateEventForm() {
             questions: z.any().optional(),
             answerText: z.any().optional(),
             date: z.any(),
-            time: z.any()
+            time: z.any(),
+            adsPosts: z.any().optional(),
+            adsPages: z.any().optional(),
+            adsFB: z.any().optional(),
+            vouchers: z.any()
         })),
         defaultValues: {
             title: "",
@@ -57,9 +63,12 @@ export function CreateEventForm() {
             questions: null,
             answerText: '',
             date: undefined,
-            time: '18:00'
+            time: '18:00',
+            vouchers: []
         }
     })
+    const {data: posts} = useGetResource('/api/posts')
+    const {data: pages} = useGetResource('/api/business')
 
     // const {fetch: authFetch} = useRequestAuthenticated()
 
@@ -70,7 +79,7 @@ export function CreateEventForm() {
     const router = useRouter()
     // 2. Define a submit handler.
     async function onSubmit(values) {
-        const { date, time, ...others } = values
+        const { date, time, vouchers, adsPages, adsPosts, ...others } = values
 
         if (!date || !time) {
             form.setError('date', { message: 'Ngày và giờ bắt buộc' })
@@ -85,10 +94,17 @@ export function CreateEventForm() {
             ...others,
             time,
             date: format(new Date(date), 'dd/MM/yyyy'),
+            vouchers: vouchers?.map?.(item => ({
+                id: item.value
+            })),
+            adsPages: adsPages?.map?.(item => ({
+                id: item.value
+            })),
+            adsPosts: adsPosts?.map?.(item => ({
+                id: item.value
+            }))
             // tzDatetime: VNDatetimeToISO( format(new Date(date), 'dd/MM/yyyy'), time)
-
         }
-
 
         setIsLoading(true)
         try {
@@ -124,7 +140,7 @@ export function CreateEventForm() {
     }
 
     return (
-        <div className="relative w-full scrollbar-hide">
+        <div className="relative w-full  h-[96vh] scrollbar-hide overflow-scroll">
             <Form  {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 
@@ -212,7 +228,7 @@ export function CreateEventForm() {
                                                 selected={field.value}
                                                 onSelect={field.onChange}
                                                 disabled={(date) =>
-                                                    date < new Date()
+                                                    date < startOfDayVN(new Date())
                                                 }
                                             // initialFocus
                                             />
@@ -297,7 +313,89 @@ export function CreateEventForm() {
                         )}
                     />}
 
+                    <FormField
+                        control={form.control}
+                        name="vouchers"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Mã Voucher Thưởng</FormLabel>
+                                <FormControl>
+                                    <MultiSelect
+                                        defaultValue={field.value}
+                                        items={availableVouchers?.map?.(item => ({
+                                            value: item.id,
+                                            label: `${item.code} (${item?.business?.title})`
+                                        }))} placeholder="chọn mã" max={3} onChange={field.onChange}
+                                    />
+                                </FormControl>
+                                <FormDescription>
+                                    Phần thưởng cho người được chọn
+                                </FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     <br />
+
+                    <p className="font-heading text-lg">Quảng cáo</p>
+
+
+                    <FormField
+                        name="adsPages"
+                        render={({ field }) => (
+                            <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
+                                <FormLabel>Trang được QC</FormLabel>
+                                <FormDescription>  </FormDescription>
+                                <FormControl>
+                                    <MultiSelect
+                                        defaultValue={field.value}
+                                        items={pages?.map?.(item => ({
+                                            value: item.id,
+                                            label: `${item?.title}`
+                                        }))} 
+                                        placeholder="chọn" max={3} onChange={field.onChange}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        name="adsPosts"
+                        render={({ field }) => (
+                            <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
+                                <FormLabel>Bài viết được QC</FormLabel>
+                                <FormDescription>  </FormDescription>
+                                <FormControl>
+                                    <MultiSelect
+                                        defaultValue={field.value}
+                                        items={posts?.map?.(item => ({
+                                            value: item.id,
+                                            label: `${item?.title}`
+                                        }))} 
+                                        placeholder="chọn" max={3} onChange={field.onChange}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        name="adsFB"
+                        render={({ field }) => (
+                            <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
+                                <FormLabel>Bài viết FB QC</FormLabel>
+                                <FormDescription> Dán link FB vào dưới </FormDescription>
+                                <FormControl>
+                                    <CollectionList defaultValue={field.value ?? []} onChange={field?.onChange} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
                     <Button type="submit" className={"sticky gap-2 rounded-sm bottom-0 w-full left-0"}>
                         Xác nhận <CheckCircle className="w-4 h-4" />
                         {isLoading && <Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}

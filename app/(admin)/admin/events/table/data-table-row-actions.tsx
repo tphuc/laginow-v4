@@ -21,7 +21,7 @@ import { ProductEditButtonSheet } from "@/components/product-edit-button-sheet"
 import { DeleteProductFormButton } from "@/components/delete-product-form"
 import { OrderEditButtonSheet } from "@/components/order-edit-button-sheet"
 import { Separator } from "@/components/ui/separator"
-import { BadgeCheck, Check, Globe, Pen, PenTool } from "lucide-react"
+import { BadgeCheck, Check, Globe, Pen, PenTool, Trash } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { UpdateBusinessContactVerified } from "@/components/update-business-contact-verified"
 import { UpdateBusinessForm } from "@/components/update-business-form"
@@ -39,6 +39,7 @@ export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   const router = useRouter()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -54,7 +55,7 @@ export function DataTableRowActions<TData>({
         <DropdownMenuItem asChild>
           <Sheet key={'right'}>
             <SheetTrigger asChild>
-              <Button size={'sm'} className="w-full rounded-sm gap-2 justify-between" variant={'ghost'}>
+              <Button size={'sm'} className="w-full rounded-sm gap-2 px-2 justify-between" variant={'ghost'}>
                 Cập nhật <Pen className="w-4 h-4" />
               </Button>
             </SheetTrigger>
@@ -64,9 +65,35 @@ export function DataTableRowActions<TData>({
             </SheetContent>
           </Sheet>
         </DropdownMenuItem>
-      
 
-   
+        <DropdownMenuItem asChild>
+          <Button onClick={async () => {
+            try {
+
+
+              let res = await fetch(`/api/admin/event-questions/${row?.original?.['id']}`, {
+                method: "DELETE",
+
+              })
+              toast({
+                title: "Thành công",
+              })
+              router?.refresh()
+
+            } catch (e) {
+              toast({
+                title: "Lỗi xảy ra",
+                variant: "destructive"
+              })
+            }
+
+          }} size={'sm'} className="w-full rounded-sm text-sm gap-2 justify-between" variant={'ghost'}>
+            Xoá <Trash className="w-4 h-4" />
+          </Button>
+        </DropdownMenuItem>
+
+
+
 
 
       </DropdownMenuContent>

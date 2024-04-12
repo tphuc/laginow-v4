@@ -2,13 +2,18 @@ import { redirect } from "next/navigation"
 import { getCurrentUser } from "@/lib/session"
 import { DashboardHeader } from "@/components/dashboard-header"
 import { DashboardShell } from "@/components/shell"
-import CreateEventButton from "./create-event-button"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
-import DataPage from "./Data"
 import { headers } from "next/headers"
-import { fetchEvents } from "./actions"
+import { fetchAvailableVouchers, fetchEvents } from "./actions"
 import { Suspense } from "react"
+
+import { ClientPagination } from "./client-pagination";
+import { columns } from "./columns";
+import { DataTable } from "./table/data-table";
+import { useSearchParams } from "next/navigation";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { CreateEventForm } from "./create-event-form";
 
 
 
@@ -34,6 +39,8 @@ export default async function Page({ params, searchParams }) {
   })
 
 
+  let availableVouchers = await fetchAvailableVouchers()
+
 
 
   return (
@@ -46,7 +53,19 @@ export default async function Page({ params, searchParams }) {
       </DashboardHeader>
 
       <Suspense fallback={<p>Loading...</p>}>
-      <DataPage data={data}/>
+        <div className="space-y-2">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button className="max-w-[200px] gap-2 rounded-sm"> <Plus className="w-4 h-4" /> Thêm Câu hỏi</Button>
+            </SheetTrigger>
+            <SheetContent>
+              <CreateEventForm availableVouchers={availableVouchers ?? []} />
+            </SheetContent>
+          </Sheet>
+          <DataTable data={data?.data ?? []} columns={columns} />
+          {!data?.data?.length && <p className="text-muted-foreground">không có dữ liệu</p>}
+          <ClientPagination totalPages={Math.ceil((data?.total ?? 0) / 10)} perPage={10} />
+        </div>
       </Suspense>
 
 

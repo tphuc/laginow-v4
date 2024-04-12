@@ -19,7 +19,13 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
               id: params.id
           },
           include: {
-              businesses: true
+              businesses: {
+                select: {
+                    title: true,
+                    slug: true,
+                    id: true
+                }
+              }
           }
       })
 

@@ -63,14 +63,12 @@ export async function GET(req: NextRequest) {
     
     const response = await fetch(`https://jsonlink.io/api/extract?url=${query}&api_key=pk_ad349eb67e4801e21fe2648786068ff04e297920`);
     let data = await response.json();
-    let imageUrl = data?.images?.[0]
     console.log(data)
 
     let sitename = data?.sitename
     let urlSearchParams = new URLSearchParams()
     urlSearchParams.set('q', sitename)
-    
-    // let embededUrl = convertStaticMapToEmbed(imageUrl)
+  
 
 
 

@@ -6,6 +6,7 @@ import { z } from "zod"
 import slugify from "slugify"
 import { VNDatetimeToISO } from "@/lib/utils"
 import { auth } from '@/lib/auth'
+import { deleteImage } from '@/app/api/editor/upload-image2/route'
 
 
 
@@ -66,9 +67,24 @@ const EventQuestionSchema = z.object({
   answerTextSlug: z.string().optional(),
   time: z.string().optional(),
   date: z.string().optional(),
-  availableHrs: z.number().int().default(24)
+  availableHrs: z.number().int().default(24),
+  vouchers: z.any().optional(),
+  adsPosts: z.any().optional(),
+  adsPages: z.any().optional(),
+  adsFB: z.any().optional(),
 });
 
+const findTrueIndices = (array) => {
+  const trueIndices: any[] = [];
+  array.forEach((item, index) => {
+    if (item.isTrue) {
+      trueIndices.push(index);
+    }
+  });
+  console.log(81, trueIndices)
+  return trueIndices;
+  
+};
 
 export async function POST(req: NextRequest, context: z.infer<typeof routeContextSchema>) {
   return auth(async (request) => {
@@ -79,14 +95,26 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
 
       const { params } = routeContextSchema.parse(context)
       let json = await req.json();
-      const { ...body } = EventQuestionSchema.parse(json);
-
+      const { vouchers, adsPosts, adsPages, adsFB, ...body } = EventQuestionSchema.parse(json);
       let record = await prisma.eventQuestion?.update({
         where: {
           id: params.id
         },
         data: {
           ...body,
+          vouchers: vouchers ? {
+            connect: vouchers
+          } : undefined,
+          adsPosts: adsPosts ? {
+            connect: adsPosts
+          } : undefined,
+          adsPages: adsPages ? {
+            connect: adsPages
+          } : undefined,
+          adsFB: adsFB ? {
+            connect: adsFB
+          } : undefined,
+          correctIndexes: body.questions ? findTrueIndices(body.questions) : [],
           answerTextSlug: slugify(body?.answerText ?? '', { lower: true, replacement: '-', locale: 'vi', remove: /[^a-zA-Z0-9\s]/g }),
           tzDatetime: VNDatetimeToISO(body.date, body.time)
         }
@@ -109,6 +137,15 @@ export async function DELETE(req: NextRequest, context: z.infer<typeof routeCont
       if (!(await isAdmin(request))) {
         return new Response("not authorized", { status: 403 })
       }
+
+      let event = await prisma.eventQuestion.findUnique({
+        where: {
+          id: context.params.id
+        }
+      })
+
+      if(event?.image?.['id'])
+        await deleteImage(event?.image?.['id'])
 
       await prisma.eventQuestion.delete({
         where: {

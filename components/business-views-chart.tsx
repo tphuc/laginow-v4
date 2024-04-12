@@ -42,13 +42,13 @@ export function BusinessViewChart({businessId}: {businessId: string}) {
     <div>
       <Flex justifyContent="start" className="gap-2">
     <Card className="max-w-xs">
-      <Text>Lượt xem hôm nay</Text>
+      <Text>Lượt xem</Text>
       <Metric>{data?.todayPageViews}</Metric>
       {/* <ProgressBar value={32} className="mt-2" /> */}
     </Card>
 
     <Card className="max-w-xs">
-      <Text>Lượt hiển thị tìm kiếm hôm nay</Text>
+      <Text>Lượt hiển thị tìm kiếm</Text>
       <Metric>{data?.todaySearchViews}</Metric>
       {/* <ProgressBar value={32} className="mt-2" /> */}
     </Card>

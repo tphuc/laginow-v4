@@ -11,30 +11,37 @@ import { NextAuthRequest } from 'next-auth/lib';
 import { auth } from '@/lib/auth';
 
 
-export const POST = auth(async (req: NextAuthRequest) => {
+export const GET = auth(async (req: NextAuthRequest) => {
   try {
     const user = req.auth?.user
     if (!user) {
       return new Response("Unauthorized", { status: 403 })
     }
 
+    let items = await prisma.business.findMany({
+      select: {
+        id: true,
+        title: true,
+      }
+    })
 
+    return new Response(JSON.stringify(items))
 
-    // const subscriptionPlan = await getUserSubscriptionPlan(user.id)
+  }
+  catch(error){
+    if (error instanceof z.ZodError) {
+      return new Response(JSON.stringify(error.issues), { status: 422 })
+    }
+    return new Response(null, { status: 500 })
+  }
+})
 
-    // // If user is on a free plan.
-    // // Check if user has reached limit of 3 posts.
-    // if (!subscriptionPlan?.isPro) {
-    //   const count = await prisma.post.count({
-    //     where: {
-    //       authorId: user.id,
-    //     },
-    //   })
-
-    //   if (count >= 3) {
-    //     throw new RequiresProPlanError()
-    //   }
-    // }
+export const POST = auth(async (req: NextAuthRequest) => {
+  try {
+    const user = req.auth?.user
+    if (!user) {
+      return new Response("Unauthorized", { status: 403 })
+    }
     const json = await req.json()
     const body = BusinessCreateSchema.parse(json)
 
@@ -55,7 +62,7 @@ export const POST = auth(async (req: NextAuthRequest) => {
     return new Response(JSON.stringify(post))
 
   } catch (error) {
-    console.log(58, error)
+
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }

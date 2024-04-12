@@ -43,14 +43,6 @@ export default function Checkout({ user }) {
     const [isLoading, setIsLoading] = useState(false)
     const form = useForm({
         defaultValues: async () => {
-            // const response = await fetch(`/api/users/${user?.id}`, {
-            //     method: "GET",
-            //     headers: {
-            //       "Content-Type": "application/json",
-            //     },
-            // }).then(res => res.json())
-
-          
             return {
                 deliveryAddress: user?.deliveryAddress,
                 deliveryPhone: user?.deliveryPhone,

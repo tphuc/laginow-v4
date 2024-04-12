@@ -1,4 +1,4 @@
-import { ArrowRight, ChevronRight, Loader2, Pen, ZoomIn } from "lucide-react";
+import { ArrowRight, ChevronRight, Loader2, Pen, Ticket, ZoomIn } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -9,7 +9,12 @@ import PostTypeSection from "./PostTypesSection";
 import ReviewSection from "./ReviewSection";
 import Balancer from "react-wrap-balancer";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { fetchBusinessCollection, fetchBusinessHighRating, fetchCountBusiness, fetchMarketingPost, fetchMasterTags, fetchNewBusinesses, fetchReviews, fetchTags } from "./actions";
+import { fetchBusinessCollection, fetchBusinessHighRating, fetchCountBusiness, fetchMarketingPost, fetchMasterTags, fetchNewBusinesses, fetchNextEvent, fetchReviews, fetchTags } from "./actions";
+import SearchBarFilterHome from "@/components/search-bar-home";
+import { vndFormat } from "@/lib/utils";
+import CountdownTimer from "./EventCountdown";
+import { format } from "date-fns";
+import Marquee from "react-fast-marquee";
 
 
 
@@ -33,7 +38,8 @@ export default async function Page() {
         decoBusinesses,
         newBusinesses,
         marketingPosts,
-        marketingReviews
+        marketingReviews,
+        nextEvent,
     ]
 
         =
@@ -45,8 +51,11 @@ export default async function Page() {
             fetchBusinessCollection('deco1'),
             fetchNewBusinesses(),
             fetchMarketingPost(),
-            fetchReviews()
+            fetchReviews(),
+            fetchNextEvent()
         ])
+
+
 
 
     return <div className="relative space-y-4 w-full gap-2">
@@ -56,15 +65,71 @@ export default async function Page() {
             className="w-full "
 
         >
-            <SearchSection masterTags={masterTags} tags={tags} />
+            <div className="w-full transition transition-all min-h-[60vh] relative pt-40 pb-20 bg-gradient-to-tr from-lightGradOne via-lightGradTwo to-lightGradThree  background-animate text-center">
+                <div className="relative z-20 w-full container space-y-4">
+                    <h1 className="font-heading text-indigo-900 max-w-[500px] mx-auto text-5xl">
+                        <Balancer>
+                            Tìm kiếm hàng quán, dịch vụ tại Lagi Now
+                        </Balancer>
+                    </h1>
+                    <h1 className="text-indigo-900 text-lg max-w-[600px] mx-auto">
+                        <Balancer>
+                            Website đầu tiên tổng hợp các kinh doanh dịch vụ địa phương, tại một nơi duy nhất.
+                        </Balancer>
+                    </h1>
+                    <div className="w-full flex justify-center">
+                        <SearchBarFilterHome />
+                    </div>
+                    <SearchSection masterTags={masterTags} tags={tags} />
+
+
+                </div>
+            </div>
+
+            <div className="max-w-[1240px] relative bg-secondary grid grid-cols-1 md:grid-cols-2 rounded-2xl  mt-12 mx-auto max-xl:mx-3">
+                <div className="flex flex-col p-6 items-center gap-2 justify-center">
+                    <p className="text-center text-4xl md:text-5xl bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text whitespace-nowrap text-transparent font-heading pr-2">
+                        🏆  Đố vui, khui quà
+                    </p>
+
+                    <p className="text-center bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-xl md:text-2xl text-transparent font-heading pr-2">
+                        <Balancer>
+                            Tham gia trả lời và nhận các phần quà có giá trị hàng tuần
+                        </Balancer>
+                    </p>
+                    <div className="relative w-full flex items-center  gap-2">
+                        <Marquee className="space-x-2 overflow-hidden">
+                            <div className="flex items-center ml-2 gap-2 bg-gray-200 text-indigo-600 font-heading shadow-sm rounded-sm px-3 py-1">
+                                <Ticket className="w-4 h-4" /> {vndFormat(100000)}
+                            </div>
+                            <div className="flex items-center ml-2 gap-2 bg-gray-200 text-indigo-600 font-heading shadow-sm rounded-sm px-3 py-1">
+                                <Ticket className="w-4 h-4" /> {vndFormat(50000)}
+                            </div>
+                            <div className="flex items-center ml-2 gap-2 bg-gray-200 text-indigo-600 font-heading shadow-sm rounded-sm px-3 py-1">
+                                <Ticket className="w-4 h-4" /> {vndFormat(20000)}
+                            </div>
+                            <div className="flex items-center ml-2 gap-2 bg-gray-200 text-indigo-600 font-heading shadow-sm rounded-sm px-3 py-1">
+                                <Ticket className="w-4 h-4" /> %
+                            </div>
+                        </Marquee>
+                    </div>
+                    {nextEvent?.tzDatetime && <CountdownTimer event={nextEvent} />}
+
+                </div>
+                <div className="w-full max-h-[400px] relative flex items-center justify-center">
+                    <Image src='/gift.webp' width={800} height={400} style={{ objectFit: "contain", opacity:80 }} className="h-full w-auto" alt=''></Image>
+                </div>
+            </div>
+
+
 
             <div className="max-w-[1240px] py-24 mx-auto space-y-4 max-xl:mx-3">
 
                 <div className="pb-8 text-center space-y-2">
                     <h1 className="font-heading mx-auto max-w-lg text-indigo-900 text-4xl text-center">
-                        <Balancer> Xây dựng cho mọi kinh doanh </Balancer>
+                        <Balancer> Được tạo ra cho mọi kinh doanh  </Balancer>
                     </h1>
-                    <h5 className="text-lg text-indigo-900"> Công cụ marketing hiệu quả </h5>
+                    <h5 className="text-lg text-indigo-900"> Bắt đầu xây dựng thương hiệu từ ngay hôm nay </h5>
 
                 </div>
                 <div className="grid relative gap-x-2 gap-y-2 grid-cols-[0.5fr_1fr] max-md:grid-cols-[1fr] grid-rows-[auto] my-2">

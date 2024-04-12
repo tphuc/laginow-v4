@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-
 import { Button } from "@/components/ui/button"
 import {
     Form,
@@ -15,7 +14,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
-import { useGetBusinessTags, useRequestAuthenticated } from "@/lib/http"
+import { useGetBusinessTags, useGetResource, useRequestAuthenticated } from "@/lib/http"
 import ImageUploader from "@/components/ui/image-uploader"
 import { Switch } from "@/components/ui/switch"
 import { toast, useToast } from "@/components/ui/use-toast"
@@ -25,17 +24,19 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { Textarea } from "@/components/ui/textarea"
 import DynamicQuestion from "@/components/dynamic-question"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { format } from "date-fns"
+import { format, startOfDay } from "date-fns"
 import { Calendar } from "@/components/ui/calendar"
-import { VNDatetimeToISO, cn } from "@/lib/utils"
+import { VNDatetimeToISO, cn, startOfDayVN } from "@/lib/utils"
 import { vi } from "date-fns/locale"
+import { MultiSelect } from "@/components/ui/multi-select"
+import CollectionList from "@/components/collection-list"
+const { parse } = require('date-fns');
 
 
 
 
 
 export function EditEventForm({ data }) {
-    console.log(38, data)
     const form = useForm({
         resolver: zodResolver(z.object({
             title: z.any(),
@@ -45,6 +46,10 @@ export function EditEventForm({ data }) {
             multiChoice: z.boolean().optional(),
             questions: z.any().optional(),
             answerText: z.any().optional(),
+            vouchers: z.any().optional(),
+            adsPosts: z.any().optional(),
+            adsPages: z.any().optional(),
+            adsFB: z.any().optional(),
             date: z.any(),
             time: z.any()
         })),
@@ -56,15 +61,31 @@ export function EditEventForm({ data }) {
             multiChoice: data?.multiChoice,
             questions: data?.questions,
             answerText: data?.answerText,
-            date: new Date(data.date),
+       
+            vouchers: data?.vouchers?.map((item) => ({
+                value: item?.id,
+                label: `${item?.code} (${item?.business?.title})`
+            })),
+            adsPosts: data?.adsPosts?.map((item) => ({
+                value: item?.id,
+                label: `${item?.title}`
+            })),
+            adsPages: data?.adsPages?.map((item) => ({
+                value: item?.id,
+                label: `${item?.title}`
+            })),
+            adsFB: data?.adsFB,
+            date: data.date ? parse(data?.date, 'dd/MM/yyyy', new Date()) : undefined,
             time: data?.time,
         }
     })
 
 
 
-    // const {fetch: authFetch} = useRequestAuthenticated()
-
+    console.log(data?.date, new Date(data?.date), 84)
+    const {data: availableVouchers} = useGetResource('/api/admin/vouchers')
+    const {data: posts} = useGetResource('/api/posts')
+    const {data: pages} = useGetResource('/api/business')
 
 
     const { toast } = useToast()
@@ -72,7 +93,7 @@ export function EditEventForm({ data }) {
     const router = useRouter()
     // 2. Define a submit handler.
     async function onSubmit(values) {
-        const { date, time, ...others } = values
+        const { date, time, adsPages, adsPosts, ...others } = values
 
 
         if (!date || !time) {
@@ -88,8 +109,16 @@ export function EditEventForm({ data }) {
             ...others,
             time,
             date: format(new Date(date), 'dd/MM/yyyy'),
+            vouchers: values?.vouchers?.map(item => ({
+                id: item.value
+            })),
+            adsPages: adsPages?.map?.(item => ({
+                id: item.value
+            })),
+            adsPosts: adsPosts?.map?.(item => ({
+                id: item.value
+            }))
             // tzDatetime: VNDatetimeToISO( format(new Date(date), 'dd/MM/yyyy'), time)
-
         }
 
 
@@ -217,7 +246,7 @@ export function EditEventForm({ data }) {
                                                 selected={field.value}
                                                 onSelect={field.onChange}
                                                 disabled={(date) =>
-                                                    date < new Date()
+                                                    date < startOfDayVN(new Date())
                                                 }
                                             // initialFocus
                                             />
@@ -301,13 +330,87 @@ export function EditEventForm({ data }) {
                         )}
                     />}
 
-
-
-
-
-
+                    <FormField
+                        control={form.control}
+                        name="vouchers"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Mã Voucher Thưởng</FormLabel>
+                                <FormControl>
+                                    <MultiSelect
+                                        defaultValue={field.value}
+                                        items={availableVouchers?.map?.(item => ({
+                                            value: item.id,
+                                            label: `${item.code} (${item?.business?.title})`
+                                        }))} placeholder="chọn mã" max={3} onChange={field.onChange}
+                                    />
+                                </FormControl>
+                                <FormDescription>
+                                    Phần thưởng cho người được chọn
+                                </FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
 
                     <br />
+
+                    <FormField
+                        name="adsPages"
+                        render={({ field }) => (
+                            <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
+                                <FormLabel>Trang được QC</FormLabel>
+                                <FormDescription>  </FormDescription>
+                                <FormControl>
+                                    <MultiSelect
+                                        defaultValue={field.value}
+                                        items={pages?.map?.(item => ({
+                                            value: item.id,
+                                            label: `${item?.title}`
+                                        }))} 
+                                        placeholder="chọn" max={3} onChange={field.onChange}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        name="adsPosts"
+                        render={({ field }) => (
+                            <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
+                                <FormLabel>Bài viết được QC</FormLabel>
+                                <FormDescription>  </FormDescription>
+                                <FormControl>
+                                    <MultiSelect
+                                        defaultValue={field.value}
+                                        items={posts?.map?.(item => ({
+                                            value: item.id,
+                                            label: `${item?.title}`
+                                        }))} 
+                                        placeholder="chọn" max={3} onChange={field.onChange}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        name="adsFB"
+                        render={({ field }) => (
+                            <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
+                                <FormLabel>Bài viết FB QC</FormLabel>
+                                <FormDescription> Dán link FB vào dưới </FormDescription>
+                                <FormControl>
+                                    <CollectionList defaultValue={field.value ?? []} onChange={field?.onChange} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
                     <Button type="submit" className={"sticky gap-2 rounded-sm bottom-0 w-full left-0"}>
                         Xác nhận <CheckCircle className="w-4 h-4" />
                         {isLoading && <Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}
