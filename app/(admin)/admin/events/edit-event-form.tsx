@@ -39,7 +39,7 @@ const { parse } = require('date-fns');
 export function EditEventForm({ data }) {
     const form = useForm({
         resolver: zodResolver(z.object({
-            title: z.any(),
+            title: z.any().optional(),
             image: z.any().optional(),
             description: z.any().optional(),
             visible: z.boolean().optional(),
@@ -80,9 +80,8 @@ export function EditEventForm({ data }) {
         }
     })
 
-
-
-    console.log(data?.date, new Date(data?.date), 84)
+    console.log(83, data?.adsFB)
+  
     const {data: availableVouchers} = useGetResource('/api/admin/vouchers')
     const {data: posts} = useGetResource('/api/posts')
     const {data: pages} = useGetResource('/api/business')
@@ -158,265 +157,268 @@ export function EditEventForm({ data }) {
     }
 
     return (
-        <div className="relative w-full scrollbar-hide">
-            <Form  {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <div className="relative w-full h-[96vh] scrollbar-hide overflow-scroll">
+        <Form  {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Tên câu hỏi (*)</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Tên câu hỏi" {...field} />
+                            </FormControl>
+                            <FormDescription>
+
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    name='image'
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Ảnh câu hỏi đính kèm nếu có</FormLabel>
+                            <ImageUploader value={field.value} onChange={field.onChange} imageClassName="w-full max-w-none max-h-none" className="w-full h-auto" />
+                            <FormDescription>
+
+                            </FormDescription>
+                        </FormItem>
+                    )}
+
+                />
+                <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Mô tả nếu có </FormLabel>
+                            <FormControl>
+                                <Textarea placeholder="mô tả" {...field} />
+                            </FormControl>
+
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <div className="grid grid-cols-12 gap-2">
 
                     <FormField
                         control={form.control}
-                        name="title"
+                        name="date"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Tên câu hỏi (*)</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Tên câu hỏi" {...field} />
-                                </FormControl>
-                                <FormDescription>
+                            <FormItem className="flex flex-col col-span-8">
+                                <FormLabel>Ngày</FormLabel>
+                                <Popover modal>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                                variant={"outline"}
 
-                                </FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                                                className={cn(
+                                                    "w-full text-left font-normal rounded-sm",
+                                                    !field.value && "text-muted-foreground"
+                                                )}
+                                            >
+                                                {field.value ? (
+                                                    format(field.value, "PP", { locale: vi })
+                                                ) : (
+                                                    <span>Chọn ngày</span>
+                                                )}
 
-                    <FormField
-                        name='image'
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Ảnh câu hỏi đính kèm nếu có</FormLabel>
-                                <ImageUploader defaultValue={field.value} onChange={field.onChange} imageClassName="w-full max-w-none max-h-none" className="w-full h-auto" />
-                                <FormDescription>
-
-                                </FormDescription>
-                            </FormItem>
-                        )}
-
-                    />
-                    <FormField
-                        control={form.control}
-                        name="description"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Mô tả nếu có </FormLabel>
-                                <FormControl>
-                                    <Textarea placeholder="mô tả" {...field} />
-                                </FormControl>
-
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <div className="grid grid-cols-12 gap-2">
-
-                        <FormField
-                            control={form.control}
-                            name="date"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col col-span-8">
-                                    <FormLabel>Ngày</FormLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant={"outline"}
-
-                                                    className={cn(
-                                                        "w-full text-left font-normal rounded-sm",
-                                                        !field.value && "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value ? (
-                                                        format(field.value, "PP", { locale: vi })
-                                                    ) : (
-                                                        <span>Chọn ngày</span>
-                                                    )}
-
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent
-                                            className="w-auto p-0"
-                                            // style={{ zIndex: 100 }}
-                                            align="start"
-                                        >
-                                            <Calendar
-                                                locale={vi}
-                                                mode="single"
-                                                selected={field.value}
-                                                onSelect={field.onChange}
-                                                disabled={(date) =>
-                                                    date < startOfDayVN(new Date())
-                                                }
-                                            // initialFocus
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="time"
-                            render={({ field }) => (
-                                <FormItem className="col-span-4 flex flex-col">
-                                    <FormLabel>
-                                        Giờ
-                                    </FormLabel>
-                                    <FormControl aria-required>
-                                        <Input
-                                            type="time"
-                                            className="h-9"
-                                            {...field}
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent
+                                    // aria-modal={true}
+                                        className="w-auto p-0"
+                                        // style={{ zIndex: 0 }}
+                                        align="start"
+                                    >
+                                        <Calendar
+                                            locale={vi}
+                                            mode="single"
+                                            selected={field.value}
+                                            onSelect={field.onChange}
+                                            disabled={(date) =>
+                                                date < startOfDayVN(new Date())
+                                            }
+                                        // initialFocus
                                         />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                                    </PopoverContent>
+                                </Popover>
 
-                    </div>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
 
                     <FormField
                         control={form.control}
-                        name="multiChoice"
+                        name="time"
                         render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-2 px-4">
-                                <div className="space-y-0.5">
-                                    <FormLabel className="text-base">Loại câu hỏi nhiều lựa chọn</FormLabel>
-                                    <FormDescription>Bạn sẽ liệt kê các lựa chọn</FormDescription>
-                                </div>
-                                <FormControl>
-                                    <Switch
-                                        defaultChecked={field.value}
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
+                            <FormItem className="col-span-4 flex flex-col">
+                                <FormLabel>
+                                    Giờ
+                                </FormLabel>
+                                <FormControl aria-required>
+                                    <Input
+                                        type="time"
+                                        className="h-9"
+                                        {...field}
                                     />
                                 </FormControl>
                             </FormItem>
                         )}
                     />
 
-                    {!!form.watch('multiChoice') && <FormField
-                        control={form.control}
+                </div>
+
+                <FormField
+                    control={form.control}
+                    name="multiChoice"
+                    render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-2 px-4">
+                            <div className="space-y-0.5">
+                                <FormLabel className="text-base">Loại câu hỏi nhiều lựa chọn</FormLabel>
+                                <FormDescription>Bạn sẽ liệt kê các lựa chọn</FormDescription>
+                            </div>
+                            <FormControl>
+                                <Switch
+                                    defaultChecked={field.value}
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            </FormControl>
+                        </FormItem>
+                    )}
+                />
+
+                {
+                    !!form.watch('multiChoice') && <FormField
+                        // control={form.control}
                         name="questions"
                         render={({ field }) => (
                             <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
                                 <FormLabel>Lựa chọn trả lời</FormLabel>
                                 <FormDescription>Bật ✅ nếu là lựa chọn hợp lệ</FormDescription>
                                 <FormControl>
-                                    <DynamicQuestion defaultValue={field.value} onChange={field?.onChange} />
-                                </FormControl>
-
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />}
-
-                    {!form.watch('multiChoice') && <FormField
-                        control={form.control}
-                        name="answerText"
-                        render={({ field }) => (
-                            <FormItem className="p-2 space-y-1 px-3 bg-secondary/20 border rounded-sm">
-                                <FormLabel>Điền câu trả lời hợp lệ</FormLabel>
-                                <FormDescription>Hệ thống sẽ kiểm tra đáp án trùng khớp</FormDescription>
-                                <FormControl>
-                                    <Input placeholder="Đáp án đúng" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />}
-
-                    <FormField
-                        control={form.control}
-                        name="vouchers"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Mã Voucher Thưởng</FormLabel>
-                                <FormControl>
-                                    <MultiSelect
-                                        defaultValue={field.value}
-                                        items={availableVouchers?.map?.(item => ({
-                                            value: item.id,
-                                            label: `${item.code} (${item?.business?.title})`
-                                        }))} placeholder="chọn mã" max={3} onChange={field.onChange}
-                                    />
-                                </FormControl>
-                                <FormDescription>
-                                    Phần thưởng cho người được chọn
-                                </FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <br />
-
-                    <FormField
-                        name="adsPages"
-                        render={({ field }) => (
-                            <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
-                                <FormLabel>Trang được QC</FormLabel>
-                                <FormDescription>  </FormDescription>
-                                <FormControl>
-                                    <MultiSelect
-                                        defaultValue={field.value}
-                                        items={pages?.map?.(item => ({
-                                            value: item.id,
-                                            label: `${item?.title}`
-                                        }))} 
-                                        placeholder="chọn" max={3} onChange={field.onChange}
-                                    />
+                                    <DynamicQuestion defaultValue={field.value ?? []} onChange={field?.onChange} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
+                }
 
-                    <FormField
-                        name="adsPosts"
-                        render={({ field }) => (
-                            <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
-                                <FormLabel>Bài viết được QC</FormLabel>
-                                <FormDescription>  </FormDescription>
-                                <FormControl>
-                                    <MultiSelect
-                                        defaultValue={field.value}
-                                        items={posts?.map?.(item => ({
-                                            value: item.id,
-                                            label: `${item?.title}`
-                                        }))} 
-                                        placeholder="chọn" max={3} onChange={field.onChange}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                {!form.watch('multiChoice') && <FormField
+                    control={form.control}
+                    name="answerText"
+                    render={({ field }) => (
+                        <FormItem className="p-2 space-y-1 px-3 bg-secondary/20 border rounded-sm">
+                            <FormLabel>Điền câu trả lời hợp lệ</FormLabel>
+                            <FormDescription>Hệ thống sẽ kiểm tra đáp án trùng khớp</FormDescription>
+                            <FormControl>
+                                <Input placeholder="Đáp án đúng" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />}
 
-                    <FormField
-                        name="adsFB"
-                        render={({ field }) => (
-                            <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
-                                <FormLabel>Bài viết FB QC</FormLabel>
-                                <FormDescription> Dán link FB vào dưới </FormDescription>
-                                <FormControl>
-                                    <CollectionList defaultValue={field.value ?? []} onChange={field?.onChange} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                <FormField
+                    control={form.control}
+                    name="vouchers"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Mã Voucher Thưởng</FormLabel>
+                            <FormControl>
+                                <MultiSelect
+                                    defaultValue={field.value}
+                                    items={availableVouchers?.map?.(item => ({
+                                        value: item.id,
+                                        label: `${item.code} (${item?.business?.title})`
+                                    }))} placeholder="chọn mã" max={3} onChange={field.onChange}
+                                />
+                            </FormControl>
+                            <FormDescription>
+                                Phần thưởng cho người được chọn
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <br />
 
-                    <Button type="submit" className={"sticky gap-2 rounded-sm bottom-0 w-full left-0"}>
-                        Xác nhận <CheckCircle className="w-4 h-4" />
-                        {isLoading && <Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}
-                    </Button>
-                </form>
-            </Form>
-        </div>
+                <p className="font-heading text-lg">Quảng cáo</p>
+
+
+                <FormField
+                    name="adsPages"
+                    render={({ field }) => (
+                        <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
+                            <FormLabel>Trang được QC</FormLabel>
+                            <FormDescription>  </FormDescription>
+                            <FormControl>
+                                <MultiSelect
+                                    defaultValue={field.value}
+                                    items={pages?.map?.(item => ({
+                                        value: item.id,
+                                        label: `${item?.title}`
+                                    }))} 
+                                    placeholder="chọn" max={3} onChange={field.onChange}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    name="adsPosts"
+                    render={({ field }) => (
+                        <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
+                            <FormLabel>Bài viết được QC</FormLabel>
+                            <FormDescription>  </FormDescription>
+                            <FormControl>
+                                <MultiSelect
+                                    defaultValue={field.value}
+                                    items={posts?.map?.(item => ({
+                                        value: item.id,
+                                        label: `${item?.title}`
+                                    }))} 
+                                    placeholder="chọn" max={3} onChange={field.onChange}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    name="adsFB"
+                    render={({ field }) => (
+                        <FormItem className="p-2 px-3 bg-secondary/20 border rounded-sm">
+                            <FormLabel>Bài viết FB QC</FormLabel>
+                            <FormDescription> Dán link FB vào dưới </FormDescription>
+                            <FormControl>
+                                <CollectionList defaultValue={field.value ?? []} onChange={field?.onChange} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <Button type="submit" className={"sticky gap-2 rounded-sm bottom-0 w-full left-0"}>
+                    Xác nhận <CheckCircle className="w-4 h-4" />
+                    {isLoading && <Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}
+                </Button>
+            </form>
+        </Form>
+    </div>
     )
 }

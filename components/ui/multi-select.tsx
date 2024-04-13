@@ -58,7 +58,7 @@ export function MultiSelect({ onChange, value, className, defaultValue, max = 10
 
 
   return (
-    <Popover modal={true} open={open} onOpenChange={setOpen}>
+    <Popover modal open={open} onOpenChange={setOpen}>
       <div className={cn(
         "flex flex-wrap w-full items-center shadow-sm gap-1 rounded-md border border-input bg-transparent px-1 py-1 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-0 disabled:cursor-not-allowed disabled:opacity-50",
         className
@@ -86,12 +86,12 @@ export function MultiSelect({ onChange, value, className, defaultValue, max = 10
 
         </PopoverTrigger>
       </div>
-      <PopoverContent style={{ zIndex: 1000 }} className="w-auto p-0  overflow-scroll">
-        <Command shouldFilter={false}>
+      <PopoverContent  className="w-auto p-0">
+        <Command>
           <CommandInput placeholder="Search ..." value={search} onValueChange={setSearch} />
-          <CommandEmpty>Not found.</CommandEmpty>
+          <CommandEmpty>Không tìm thấy.</CommandEmpty>
           <ScrollArea >
-            <CommandGroup className="h-60 max-w-[96vw] overflow-scroll">
+            <CommandGroup className="h-60 max-w-[96vw] overflow-scroll scrollbar-hide">
               {filteredItems?.map((item) => (
                 <CommandItem
                   key={`${item.value}`}

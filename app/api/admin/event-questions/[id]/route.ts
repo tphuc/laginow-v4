@@ -96,7 +96,7 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
 
       const { params } = routeContextSchema.parse(context)
       let json = await req.json();
-      const { vouchers, adsPosts, adsPages, adsFB, ...body } = EventQuestionSchema.parse(json);
+      const { vouchers, adsPosts, adsPages, ...body } = EventQuestionSchema.parse(json);
       let record = await prisma.eventQuestion?.update({
         where: {
           id: params.id
@@ -104,16 +104,13 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
         data: {
           ...body,
           vouchers: vouchers ? {
-            connect: vouchers
+            set: vouchers
           } : undefined,
           adsPosts: adsPosts ? {
-            connect: adsPosts
+            set: adsPosts
           } : undefined,
           adsPages: adsPages ? {
-            connect: adsPages
-          } : undefined,
-          adsFB: adsFB ? {
-            connect: adsFB
+            set: adsPages
           } : undefined,
           correctIndexes: body.questions ? findTrueIndices(body.questions) : [],
           answerTextSlug: slugify(body?.answerText ?? '', { lower: true, replacement: '-', locale: 'vi', remove: /[^a-zA-Z0-9\s]/g }),

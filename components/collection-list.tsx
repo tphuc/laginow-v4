@@ -11,7 +11,8 @@ const CollectionList = ({ defaultValue, onChange }) => {
     setInputValue(e.target.value);
   };
 
-  const handleAddItem = () => {
+  const handleAddItem = (e) => {
+    e.preventDefault()
     if (inputValue.trim() !== '') {
       setItems([...items, inputValue.trim()]);
       setInputValue('');
@@ -35,7 +36,7 @@ const CollectionList = ({ defaultValue, onChange }) => {
   return (
     <div className='space-y-1'>
       <ul>
-        {items.map((item, index) => (
+        {items?.map?.((item, index) => (
           <li key={index}>
             <div className='flex items-center gap-2'>
               <Input
@@ -57,14 +58,15 @@ const CollectionList = ({ defaultValue, onChange }) => {
         ))}
       </ul>
 
-      <div className='space-y-2'>
+      <div className='flex items-center gap-2'>
         <Input
+         className='h-8'
           type="text"
           value={inputValue}
           onChange={handleInputChange}
           placeholder=""
         />
-        <Button className='gap-1' variant={'outline'} size='sm' onClick={handleAddItem}> <Plus className='w-4 h-4'/> Thêm</Button>
+        <Button type='button' className='rounded-sm border p-2' variant={'outline'} size='sm' onClick={handleAddItem}> <Plus className='w-4 h-4'/></Button>
       </div>
     </div>
   );

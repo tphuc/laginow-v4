@@ -197,7 +197,7 @@ export function CreateEventForm({ availableVouchers }) {
                             render={({ field }) => (
                                 <FormItem className="flex flex-col col-span-8">
                                     <FormLabel>Ngày</FormLabel>
-                                    <Popover>
+                                    <Popover modal={true}>
                                         <PopoverTrigger asChild>
                                             <FormControl>
                                                 <Button
@@ -219,7 +219,7 @@ export function CreateEventForm({ availableVouchers }) {
                                         </PopoverTrigger>
                                         <PopoverContent
                                             className="w-auto p-0"
-                                            // style={{ zIndex: 100 }}
+                                            style={{ zIndex: 500 }}
                                             align="start"
                                         >
                                             <Calendar

@@ -93,7 +93,7 @@ export async function POST(req: NextRequest, context: any) {
       }
 
       let json = await req.json();
-      const { vouchers, adsPosts, adsPages, adsFB, ...body } = EventQuestionSchema.parse(json);
+      const { vouchers, adsPosts, adsPages, ...body } = EventQuestionSchema.parse(json);
 
       let record = await prisma.eventQuestion?.create({
         data: {
@@ -106,9 +106,6 @@ export async function POST(req: NextRequest, context: any) {
           } : undefined,
           adsPages: adsPages ? {
             connect: adsPages
-          } : undefined,
-          adsFB: adsFB ? {
-            connect: adsFB
           } : undefined,
           answerTextSlug: slugify(body?.answerText ?? '', { lower: true, replacement: '-', locale: 'vi', remove: /[^a-zA-Z0-9\s]/g }),
           correctIndexes: body.questions ? body?.questions?.map((item, id) => id) : [],

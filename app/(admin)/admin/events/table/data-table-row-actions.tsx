@@ -41,44 +41,35 @@ export function DataTableRowActions<TData>({
   const router = useRouter()
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-        >
-          <DotsHorizontalIcon className="h-4 w-4" />
-          <span className="sr-only">Open menu</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem asChild>
-          <Sheet key={'right'}>
+    <div className="space-y-1">
+
+
+          <Sheet modal={true}>
             <SheetTrigger asChild>
-              <Button size={'sm'} className="w-full rounded-sm gap-2 px-2 justify-between" variant={'ghost'}>
-                Cập nhật <Pen className="w-4 h-4" />
+              <Button size={'sm'} className="rounded-sm gap-2 px-2 justify-between" variant={'outline'}>
+                <Pen className="w-4 h-4" />
               </Button>
             </SheetTrigger>
-            <SheetContent className="overflow-scroll" side={'right'}>
-
+            <SheetContent>
               <EditEventForm data={row?.original} />
             </SheetContent>
           </Sheet>
-        </DropdownMenuItem>
 
-        <DropdownMenuItem asChild>
           <Button onClick={async () => {
             try {
 
-
-              let res = await fetch(`/api/admin/event-questions/${row?.original?.['id']}`, {
-                method: "DELETE",
-
-              })
-              toast({
-                title: "Thành công",
-              })
-              router?.refresh()
+              let a = window.confirm("Chắc chắn chứ ?")
+              if(a){
+                let res = await fetch(`/api/admin/event-questions/${row?.original?.['id']}`, {
+                  method: "DELETE",
+  
+                })
+                toast({
+                  title: "Thành công",
+                })
+                router?.refresh()
+              }
+              
 
             } catch (e) {
               toast({
@@ -87,16 +78,15 @@ export function DataTableRowActions<TData>({
               })
             }
 
-          }} size={'sm'} className="w-full rounded-sm text-sm gap-2 justify-between" variant={'ghost'}>
-            Xoá <Trash className="w-4 h-4" />
+          }} size={'sm'} className="rounded-sm text-sm gap-2 justify-between" variant={'ghost'}>
+           <Trash className="w-4 h-4" />
           </Button>
-        </DropdownMenuItem>
 
 
 
 
 
-      </DropdownMenuContent>
-    </DropdownMenu>
+
+    </div>
   )
 }
