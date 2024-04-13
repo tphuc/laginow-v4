@@ -6,7 +6,8 @@ import { z } from "zod"
 import slugify from "slugify"
 import { VNDatetimeToISO } from "@/lib/utils"
 import { auth } from '@/lib/auth'
-import { deleteImage } from '@/app/api/editor/upload-image2/route'
+import { deleteImage } from '@/lib/google'
+
 
 
 
@@ -145,7 +146,7 @@ export async function DELETE(req: NextRequest, context: z.infer<typeof routeCont
       })
 
       if(event?.image?.['id'])
-        await deleteImage(event?.image?.['id'])
+        await deleteImage(event?.image?.['id'])?.catch(e => console.log(149, e))
 
       await prisma.eventQuestion.delete({
         where: {

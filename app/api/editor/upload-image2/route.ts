@@ -3,25 +3,7 @@ import { Storage } from '@google-cloud/storage';
 import lagiJson from './lagi-361510-276b6fc08e21.json'
 import sharp from 'sharp';
 
-export const deleteImage = async (fileId: string) => {
-  try {
-    const storage = new Storage({
-      projectId: 'lagi-361510',
-      credentials: lagiJson
-    });
 
-    const bucket = storage.bucket('laginow');
-    const file = bucket.file(fileId);
-
-    // Delete the file from Google Cloud Storage
-    await file.delete();
-
-    return true;
-  } catch (error) {
-    console.error('Error deleting image:', error);
-    return false;
-  }
-};
 
 
 const uploadImage = (_fileName: string, buffer: any) => new Promise((resolve, reject) => {
@@ -107,11 +89,3 @@ export async function POST(request: NextRequest) {
   }
 }
 
-
-
-
-export const OPTIONS = async (request: NextRequest) => {
-  return new NextResponse('', {
-    status: 200
-  })
-}
