@@ -17,11 +17,31 @@ export const GET = auth(async (req: NextAuthRequest) => {
     if (!user) {
       return new Response("Unauthorized", { status: 403 })
     }
+    let url = new URL(req.url)
+    let text = url?.searchParams?.get('text') ?? ''
 
     let items = await prisma.business.findMany({
+      where: {
+        OR: [
+          {
+            title: {
+              startsWith: text ?? ''
+            }
+          },
+          {
+            slug: {
+              contains: text ?? ''
+            }
+          }
+        ]
+      },
+      take: 100,
       select: {
         id: true,
         title: true,
+      },
+      orderBy: {
+        title:"asc"
       }
     })
 

@@ -28,9 +28,9 @@ import { format } from "date-fns"
 import { Calendar } from "@/components/ui/calendar"
 import { cn, startOfDayVN } from "@/lib/utils"
 import { vi } from "date-fns/locale"
-import { MultiSelect } from "@/components/ui/multi-select"
 import { useGetResource } from "@/lib/http"
 import CollectionList from "@/components/collection-list"
+import { MultiSelect2 } from "@/components/ui/multi-select-2"
 
 
 
@@ -320,7 +320,7 @@ export function CreateEventForm({ availableVouchers }) {
                             <FormItem>
                                 <FormLabel>Mã Voucher Thưởng</FormLabel>
                                 <FormControl>
-                                    <MultiSelect
+                                    <MultiSelect2
                                         defaultValue={field.value}
                                         items={availableVouchers?.map?.(item => ({
                                             value: item.id,
@@ -347,7 +347,7 @@ export function CreateEventForm({ availableVouchers }) {
                                 <FormLabel>Trang được QC</FormLabel>
                                 <FormDescription>  </FormDescription>
                                 <FormControl>
-                                    <MultiSelect
+                                    <MultiSelect2
                                         defaultValue={field.value}
                                         items={pages?.map?.(item => ({
                                             value: item.id,
@@ -368,7 +368,7 @@ export function CreateEventForm({ availableVouchers }) {
                                 <FormLabel>Bài viết được QC</FormLabel>
                                 <FormDescription>  </FormDescription>
                                 <FormControl>
-                                    <MultiSelect
+                                    <MultiSelect2
                                         defaultValue={field.value}
                                         items={posts?.map?.(item => ({
                                             value: item.id,

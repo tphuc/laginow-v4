@@ -39,7 +39,7 @@ interface MultiSelectProps {
   className?: string;
 }
 
-export function MultiSelect({ onChange, value, className, defaultValue, max = 1000, items, placeholder }: MultiSelectProps) {
+export function MultiSelect2({ onChange, value, className, defaultValue, max = 1000, items, placeholder }: MultiSelectProps) {
   const [open, setOpen] = React.useState(false);
   const [selectedItems, setSelectedItems] = React.useState(defaultValue || []);
   const [search, setSearch] = React.useState('');
@@ -50,33 +50,22 @@ export function MultiSelect({ onChange, value, className, defaultValue, max = 10
     }
   }, [defaultValue])
 
-  const inputRef = React.useRef<HTMLInputElement>(null)
 
-  const filteredItems = items?.filter(item => {
-    let itemSearchText = `${slugify(item?.label ?? '', { lower: true, locale: "vi" })} ${item?.label}`
-    return itemSearchText.includes(search)
-  }
-
-  ) ?? [];
-
-  const handleKeyDown = React.useCallback(
-    (event) => {
-      const input = inputRef.current
-      if (!input) {
-        return
+  const filteredItems = React.useMemo(() => {
+    let foundItems: any = []
+    items?.map(item => {
+      const itemSearchText = `${slugify(item?.label ?? '', { lower: true, locale: 'vi' })}`;
+      if(itemSearchText.includes(search)){
+        console.log(itemSearchText)
+        foundItems.push(item)
       }
+    })
+    return foundItems
+  
+  }, [items, search]);
 
-      // Keep the options displayed when the user is typing
-      if (!open) {
-        setOpen(true)
-      }
 
-      if (event.key === "Escape") {
-        input.blur()
-      }
-    },
-    [open],
-  )
+ 
 
 
 
@@ -93,7 +82,7 @@ export function MultiSelect({ onChange, value, className, defaultValue, max = 10
           onChange?.(updatedList)
         }} className="rounded-sm gap-2 truncate text-accent-foreground border border-input" size={'sm'} variant={'secondary'}>
           <span className="justify-start text-left truncate">  {item.label}</span>
-
+        
           <X className="min-h-4 min-w-4 h-4 w-4 opacity-50" strokeWidth={1.5} />
         </Button>)}
         <PopoverTrigger asChild>
@@ -111,41 +100,38 @@ export function MultiSelect({ onChange, value, className, defaultValue, max = 10
         </PopoverTrigger>
       </div>
       <PopoverContent className="w-auto p-0">
-        <Command >
-          <CommandInput ref={inputRef} placeholder="Search ..." value={search} onValueChange={setSearch}
-
-            onFocus={() => setOpen(true)}
+        <CommandDialog open={open} onOpenChange={setOpen}>
+          <CommandInput  placeholder="Search ..." value={search} onValueChange={setSearch} 
           />
-
-
           <ScrollArea >
-            <CommandList >
-              <CommandEmpty>Không tìm thấy.</CommandEmpty>
-              <CommandGroup className="h-60 max-w-[96vw] overflow-scroll scrollbar-hide">
-                {filteredItems?.map((item) => (
-                  <CommandItem
-                    key={`${item.value}`}
-                    value={item.value}
-                    onSelect={(currentValue) => {
-                      if (selectedItems?.length === max) {
-                        return
-                      }
+          <CommandList  className="scrollbar-hide max-w-[96vw]">
+          <CommandEmpty>Không tìm thấy.</CommandEmpty>
+          <div  className="overflow-scroll scrollbar-hide max-w-[96vw]">
+              {filteredItems?.map?.((item, id) => (
+                <div
+                  key={`${id}`}
+                  // value={item.value}
+                  className="w-full py-2 px-4 hover:bg-secondary text-sm cursor-pointer rounded-sm"
+                  onClick={(currentValue) => {
+                    if (selectedItems?.length === max) {
+                      return
+                    }
 
-                      if (!selectedItems.some((_item) => _item?.value === item.value)) {
-                        setSelectedItems([...selectedItems, item]);
-                        onChange?.([...selectedItems, item])
-                      }
-                      setOpen(false)
-                    }}
-                  >
-                    {item.label}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
+                    if (!selectedItems.some((_item) => _item?.value === item.value)) {
+                      setSelectedItems([...selectedItems, item]);
+                      onChange?.([...selectedItems, item])
+                    }
+                    setOpen(false)
+                  }}
+                >
+                  {item.label}
+                </div>
+              ))}
+            </div>
             </CommandList>
           </ScrollArea>
-
-        </Command>
+       
+        </CommandDialog>
       </PopoverContent>
     </Popover>
   )

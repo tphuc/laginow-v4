@@ -35,21 +35,30 @@ const BusinessPageCardImages = forwardRef(({ data, showRating = false, tracking 
   });
 
 
+
   return (
 
-    <div ref={ref} className="md:1/1 h-auto relative aspect-1/1 w-[80%] shrink-0 snap-center mb-2 overflow-hidden snap-always rounded-2xl bg-secondary sm:w-[80%] min-w-[240px] md:w-[540px] border border-input">
+    <div ref={ref} className="relative min-w-[300px] rounded-md mb-2 overflow-hidden  bg-secondary border border-input">
 
     
-      <div className='text-accent-foreground p-4 mt-0 pb-12 flex items-center flex-wrap gap-2'>
-        {data?.images?.map?.((item) => <ImageViewable
+      <div className='text-accent-foreground h-[300px] p-4 mt-0 pb-12 flex items-center justify-between flex-wrap gap-2'>
+        {data?.images?.slice(0, 10)?.map?.((item) => <ImageViewable
           key={item}
           alt=''
           src={item?.url ?? ''}
-          width={300}
-          height={300}
+          width={600}
+          height={600}
           className='w-16 h-16 rounded-sm'
         />)}
-        <div className="absolute flex items-center gap-2 -bottom-1 left-0 z-10 w-full px-4 py-4 bg-secondary/80 backdrop-blur-lg space-y-1">
+         {data?.Product?.slice(0, 20)?.map?.((item) => <ImageViewable
+          key={item}
+          alt=''
+          src={item?.images?.url ?? ''}
+          width={600}
+          height={600}
+          className='w-16 h-16 rounded-sm'
+        />)}
+        <div className="absolute flex gap-2 -bottom-1 left-0 z-10 w-full px-4 py-4 bg-secondary/80 backdrop-blur-lg space-y-1">
           <div className='min-w-10 min-h-10'> 
           <ImageViewable
 
@@ -67,12 +76,12 @@ const BusinessPageCardImages = forwardRef(({ data, showRating = false, tracking 
             {/* {data?.avgRating && <div className='flex items-center bg-blue-600 justify-center text-secondary w-6 h-6 rounded-full'>{data?.avgRating}</div>} */}
           </div>}
 
-          <div className='inline-flex w-full items-center  space-y-1  gap-1'>
+          <div className='inline-flex w-full   space-y-1  gap-1'>
 
 
-            <Link ref={inviewRef} href={`/t/${data?.id}`} className="inline-flex -ml-1 gap-1 truncate items-center font-heading w-full truncate text-ellipsis text-xl hover:underline">
+            <Link ref={inviewRef} href={`/t/${data?.id}`} className="inline-flex -ml-1 gap-1 items-center font-heading w-full text-xl hover:underline">
               <BadgeCheck className={cn("min-w-[24px] stroke-secondary", data?.verified ? "fill-indigo-600 stroke-gray-200" : "fill-slate-400 stroke-secondary")} />
-              <span className="font-medium text-indigo-900 flex-1 font-heading  gap-1 truncate">{data?.title}</span>
+              <span className="font-medium text-indigo-900 flex-1 font-heading  gap-1 truncate tex-ellipsis">{data?.title}</span>
 
             </Link>
 

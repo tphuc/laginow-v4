@@ -39,7 +39,7 @@ const BusinessPageCardTwo = forwardRef(({ data, showRating = false, tracking = f
     <div ref={ref} className="md:1/1 h-auto relative aspect-1/1 w-[80%] shrink-0 snap-center mb-2  overflow-hidden snap-always rounded-2xl bg-secondary sm:w-[80%] min-w-[240px] md:w-[280px] border border-input">
 
 
-      <Image width={300} height={300} src={data?.banner?.url ?? ''} style={{transformOrigin:"center center"}} alt={'/placehover.svg'}  className="w-full scale-[1.03] aspect-square object-cover bg-gradient-to-r from-stone-200 to-slate-300" />
+      <Image width={600} height={600} src={data?.banner?.url ?? ''} style={{transformOrigin:"center center"}} alt={'/placehover.svg'}  className="w-full scale-[1.03] aspect-square object-cover bg-gradient-to-r from-stone-200 to-slate-300" />
       <div className="z-10 w-full px-4 py-4 bg-secondary space-y-1">
         {!!showRating &&<div className='flex items-center gap-1'>
           <StarRating defaultValue={data?.avgRating ?? 0} changeable={false} />

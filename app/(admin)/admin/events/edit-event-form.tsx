@@ -28,8 +28,9 @@ import { format, startOfDay } from "date-fns"
 import { Calendar } from "@/components/ui/calendar"
 import { VNDatetimeToISO, cn, startOfDayVN } from "@/lib/utils"
 import { vi } from "date-fns/locale"
-import { MultiSelect } from "@/components/ui/multi-select"
 import CollectionList from "@/components/collection-list"
+import { MultiSelect2 } from "@/components/ui/multi-select-2"
+import { MultiSelectAsync } from "@/components/ui/multi-select-async"
 const { parse } = require('date-fns');
 
 
@@ -80,13 +81,13 @@ export function EditEventForm({ data }) {
         }
     })
 
-    console.log(83, data?.adsFB)
+
   
     const {data: availableVouchers} = useGetResource('/api/admin/vouchers')
     const {data: posts} = useGetResource('/api/posts')
     const {data: pages} = useGetResource('/api/business')
 
-
+    console.log(83, pages?.length)
     const { toast } = useToast()
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const router = useRouter()
@@ -337,7 +338,7 @@ export function EditEventForm({ data }) {
                         <FormItem>
                             <FormLabel>Mã Voucher Thưởng</FormLabel>
                             <FormControl>
-                                <MultiSelect
+                                <MultiSelect2
                                     defaultValue={field.value}
                                     items={availableVouchers?.map?.(item => ({
                                         value: item.id,
@@ -364,12 +365,13 @@ export function EditEventForm({ data }) {
                             <FormLabel>Trang được QC</FormLabel>
                             <FormDescription>  </FormDescription>
                             <FormControl>
-                                <MultiSelect
+                                <MultiSelectAsync
                                     defaultValue={field.value}
-                                    items={pages?.map?.(item => ({
+                                    formatItem={(item) => ({
                                         value: item.id,
                                         label: `${item?.title}`
-                                    }))} 
+                                    })}
+                                    getFetchURL={(search) => `/api/business?text=${search}`} 
                                     placeholder="chọn" max={3} onChange={field.onChange}
                                 />
                             </FormControl>
@@ -385,7 +387,7 @@ export function EditEventForm({ data }) {
                             <FormLabel>Bài viết được QC</FormLabel>
                             <FormDescription>  </FormDescription>
                             <FormControl>
-                                <MultiSelect
+                                <MultiSelect2
                                     defaultValue={field.value}
                                     items={posts?.map?.(item => ({
                                         value: item.id,

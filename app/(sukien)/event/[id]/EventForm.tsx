@@ -124,7 +124,7 @@ export function EventForm({ data, defaultValue }) {
 
                 <br />
                 <div className="relative max-w-sm mx-auto">
-                    {!defaultValue && <Button size='lg' type="submit" className={cn("w-full bg-indigo-600 text-lg rounded-sm", isLoading && "pointer-events-none")}>
+                    {!defaultValue && <Button size='lg' type="submit" className={cn("w-full bg-indigo-600 rounded-sm", isLoading && "pointer-events-none")}>
                         Xác nhận
                         {isLoading && <Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}
                     </Button>

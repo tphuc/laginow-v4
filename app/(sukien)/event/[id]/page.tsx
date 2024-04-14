@@ -5,6 +5,9 @@ import { EventForm } from "./EventForm"
 import { auth } from "@/lib/auth"
 import BusinessPageCardTwo from "@/components/public-page-card-two"
 import BusinessPageCardImages from "@/components/business-page-card-images"
+import PostCarousel from "@/app/(marketing)/PostCarousel"
+import NewsCard from "@/app/(news)/NewsCard"
+import PostCard from "@/components/post-card"
 
 
 interface PageProps {
@@ -18,7 +21,17 @@ async function getEntity(id: string) {
             id,
         },
         include: {
-            adsPages: true,
+            adsPages: {
+                include: {
+                    Product: {
+                        select: {
+                            images: true,
+
+                        }
+                    },
+                    tags: true
+                }
+            },
             adsPosts: true
         }
     })
@@ -81,8 +94,22 @@ export default async function Page({ params }) {
 
 
     return <div className="relative min-h-screen space-y-4 max-w-screen-xl w-full gap-1">
+        <div className="relative w-full space-y-6">
+            <div className="scrollbar-hide mt-10 grid grid-rows-1 grid-flow-col gap-2 gap-x-4 w-full snap-x snap-mandatory scroll-px-[200px]  overflow-x-scroll scroll-smooth px-10">
+                {
+                    data?.adsPages?.map((item: any, index: any) =>
+                        <div key={`${index}_${item?.id}`}>
+                            <BusinessPageCardImages
+                                data={item}
+                                showRating
+                            />
+                        </div>)
+                }
+            </div>
+            <br />
+        </div>
         <p className='text-center text-xl text-muted-foreground pt-4'>Câu hỏi hôm nay</p>
-        <p style={{ lineHeight: 1.2 }} className="text-center text-4xl md:text-5xl bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent font-heading pr-2">
+        <p style={{ lineHeight: 1.2 }} className="text-center text-3xl md:text-4xl bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent font-heading pr-2">
             {data?.title}
         </p>
         {!!data?.image?.['url'] && <div className="flex items-center justify-center relative">
@@ -92,21 +119,22 @@ export default async function Page({ params }) {
             <EventForm data={data} defaultValue={userAnswer ?? null} />
         </div>
         <br />
-        <div className="relative w-full">
-            <div className="max-w-lg px-4 mx-auto max-w-screen-xl text-center">
-                <p style={{ lineHeight: 1.2 }} className="text-center text-2xl md:text-3xl bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent font-heading pr-2"> Khám phá </p>
+        <div className="w-full space-y-4 justify-center">
+
+            <div className="scrollbar-hide mt-10 grid grid-rows-1 grid-flow-col gap-2 gap-x-4 w-full snap-x snap-mandatory scroll-px-[200px]  overflow-x-scroll scroll-smooth px-10">
+            {
+                data?.adsPosts?.map((item: any, index: any) =>
+                    <div key={`${index}_${item?.id}`} >
+                        <PostCard
+                            data={item}
+                            tracking
+                        />
+                    </div>)
+            }
             </div>
-            <div className="scrollbar-hide mt-10 grid grid-rows-1 grid-flow-col gap-2 gap-x-4 w-full snap-x snap-mandatory scroll-px-[200px]  overflow-x-scroll scroll-smooth px-2">
-                {
-                    data?.adsPages?.map((item: any, index: any) => <BusinessPageCardImages
-                        data={item}
-                        showRating
-                        key={`${index}_${item?.id}`}
-                    />)
-                }
-            </div>
-            <br />
         </div>
+
+
 
 
     </div>
