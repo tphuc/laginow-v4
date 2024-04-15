@@ -66,11 +66,14 @@ export default async function MarketingLayout({
                             </span>
                         </Link>
                         <p className="text-muted-foreground">Vui lòng chuyển hướng để xem</p>
-                        <a className="px-4 py-2 flex items-center gap-2 bg-white rounded-md border border-input shadow-sm" target="_blank" href={`https://laginow.com/event/${params.id}`}>
-                            Mở trong trình duyệt điện thoại  <Icons.google className="mr-2 h-4 w-4" />
-                        </a>
                         <a className="px-4 py-2 flex items-center gap-2 bg-white rounded-md border border-input shadow-sm" target="_blank" href={`googlechrome://laginow.com/event/${params.id}`}>
-                            Mở trong trình duyệt CHROME <Icons.google className="mr-2 h-4 w-4" />
+                            Mở trong trình duyệt Google Chrome <Icons.google className="mr-2 h-4 w-4" />
+                        </a>
+                        <a className="px-4 py-2 flex items-center gap-2 bg-white rounded-md border border-input shadow-sm" target="_blank" href={`safari://laginow.com/event/${params.id}`}>
+                            Mở trong trình duyệt Safari
+                        </a>
+                        <a className="px-4 py-2 flex items-center gap-2 bg-white rounded-md border border-input shadow-sm" target="_blank" href={`webbrowserapp://laginow.com/event/${params.id}`}>
+                            Mở trong trình duyệt mặc định 
                         </a>
                     </main>
                 </div>}
