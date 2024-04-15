@@ -90,6 +90,7 @@ export async function generateStaticParams() {
 
 
 export default async function Page({ params }) {
+    const user = (await auth())?.user
     let [data, userAnswer] = await Promise.all([getEntity(params.id), getUserAnswer(params.id)])
 
 
@@ -116,7 +117,7 @@ export default async function Page({ params }) {
             <ImageViewable className="w-full max-w-[600px] rounded-md " width={800} height={600} style={{ objectFit: "contain" }} src={data?.image?.['url'] ?? '/placeholder.svg'} alt={''} />
         </div>}
         <div className="max-w-screen-md mx-auto">
-            <EventForm data={data} defaultValue={userAnswer ?? null} />
+            <EventForm data={data} defaultValue={user ? (userAnswer ?? null) : null} />
         </div>
         <br />
         <div className="w-full space-y-4 justify-center">
