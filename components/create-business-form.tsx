@@ -28,6 +28,7 @@ import { toast, useToast } from "./ui/use-toast"
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
 import {  useRouter, useSearchParams } from "next/navigation"
+import { cn } from "@/lib/utils"
 
 
 
@@ -262,7 +263,7 @@ export function CreateBusinessForm() {
 
 
 
-                <Button type="submit" size='sm' disabled={isLoading} className={isLoading ? "pointer-events-none" : ""}>
+                <Button type="submit" disabled={isLoading} className={cn("w-full max-w-sm", isLoading ? "pointer-events-none" : "")}>
                     Xác nhận
                     {isLoading && <Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}
                 </Button>
