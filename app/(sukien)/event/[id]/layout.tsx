@@ -78,6 +78,9 @@ export default async function MarketingLayout({
                         <a className="px-4 py-2 flex items-center gap-2 bg-white rounded-md border border-input shadow-sm" target="_blank" href={`x-webkit-app-launch://laginow.com/event/${params.id}`}>
                             Mở trong trình duyệt Safari 3
                         </a>
+                        <a className="px-4 py-2 flex items-center gap-2 bg-white rounded-md border border-input shadow-sm" target="_blank" href={`com-apple-mobilesafari-tab://laginow.com/event/${params.id}`}>
+                            Mở trong trình duyệt Safari 4
+                        </a>
                     </main>
                 </div>}
 
