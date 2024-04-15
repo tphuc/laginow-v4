@@ -73,8 +73,8 @@ export default async function LoginPage({searchParams}) {
             .
           </p>
 
-          <a target="_blank" href="googlechrome://laginow.com/login&fall_back_url=https://google.com">Mở trong Google Chrome 1</a>
-          <a target="_blank" href="https://laginow.com/login&fall_back_url=https://google.com">Mở trong Google Chrome 2</a>
+
+          <a target="_blank" href="https://laginow.com/login">Mở trong Google Chrome</a>
 
 
       </div>

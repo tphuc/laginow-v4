@@ -21,7 +21,9 @@ import { cn } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
+import Link from "next/link"
 
 
 
@@ -29,6 +31,8 @@ import { useRouter } from "next/navigation"
 
 
 export function EventForm({ data, defaultValue }) {
+    const user = useSession()?.data?.user
+    const params = useParams()
     const form = useForm({
         defaultValues: {
             choiceIndex: `${defaultValue?.choiceIndex}`,
@@ -123,14 +127,29 @@ export function EventForm({ data, defaultValue }) {
 
 
                 <br />
+                {!user?.id ? <div className="max-w-sm mx-auto">
+                    <Link 
+                className="inline-flex mx-auto w-full p-2 px-4 shadow-sm items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-80% to-purple-600 rounded-lg text-secondary/90 hover:text-secondary"
+                href={function (): string{
+                    const url = new URLSearchParams()
+                    url.set('redirect', `event.${params.id}`)
+                    return `/login?${url.toString()}`
+                }()}>
+                 
+                    Ấn để đăng nhập và trả lời
+                       
+                </Link>
+                    </div>
+                     : 
                 <div className="relative max-w-sm mx-auto">
-                    {!defaultValue && <Button size='lg' type="submit" className={cn("w-full bg-indigo-600 rounded-sm", isLoading && "pointer-events-none")}>
-                        Xác nhận
-                        {isLoading && <Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}
-                    </Button>
-                    }
-                    {defaultValue && <p className="text-center text-muted-foreground">Bạn đã trả lời câu hỏi. <br/> Kết quả và người thắng cuộc sẽ được công bố trên trang FB của chúng tôi.</p>}
-                </div>
+                {!defaultValue && <Button size='lg' type="submit" className={cn("w-full bg-indigo-600 rounded-sm", isLoading && "pointer-events-none")}>
+                    Xác nhận
+                    {isLoading && <Loader2 className="animate-spin text-muted-foreground w-5 h-5" />}
+                </Button>
+                }
+                {defaultValue && <p className="text-center text-muted-foreground">Bạn đã trả lời câu hỏi. <br/> Kết quả và người thắng cuộc sẽ được công bố trên trang FB của chúng tôi.</p>}
+            </div>}
+                
             </form>
         </Form>
     )

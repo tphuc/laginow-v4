@@ -37,7 +37,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       </div>
       <button
         type="button"
-        className={cn(buttonVariants({ variant: "secondary" }), 'border border-input')}
+        
+        className={cn(buttonVariants({ variant: "secondary", size:"lg" }), 'border border-input')}
         onClick={async () => {
           setIsGitHubLoading(true)
           // googleAuthenticate(`/${redirect?.replace('.', '/')}`)

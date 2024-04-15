@@ -9,6 +9,7 @@ import { redirect, useSearchParams } from "next/navigation"
 import { getCurrentUser } from "@/lib/session"
 import { headers } from "next/headers"
 import OpenInDefaultBrowser from "./OpenInDefaultBrowser"
+import { siteConfig } from "@/config/site"
 
 
 
@@ -17,17 +18,17 @@ export const metadata: Metadata = {
   description: "Login to your account",
 }
 
-export default async function LoginPage({searchParams}) {
+export default async function LoginPage({ searchParams }) {
   const headersList = headers()
   const userAgent = headersList.get('User-Agent')
-  
-  let isNotAllowed = false 
-  if(userAgent?.includes('FB') || userAgent?.includes('Zalo')){
+
+  let isNotAllowed = false
+  if (userAgent?.includes('FB') || userAgent?.includes('Zalo')) {
     isNotAllowed = true
   }
 
   const user = await getCurrentUser()
-  if(user && searchParams?.redirect){
+  if (user && searchParams?.redirect) {
     redirect(searchParams?.redirect.replace(".", "/"))
   }
 
@@ -42,36 +43,41 @@ export default async function LoginPage({searchParams}) {
         )}
       >
         <>
-          <Icons.chevronLeft/>
+          <Icons.chevronLeft />
           Trở về
         </>
       </Link>
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-        <div className="flex flex-col space-y-2 text-center">
-       
-          <h1 className="text-2xl font-semibold tracking-tight">
+        <div className="flex flex-col items-center space-y-2 text-center">
+          <Link href="/" prefetch={false} className="flex">
+            <span className="bg-gradient-to-r text-center from-sky-600 to-indigo-600 bg-clip-text whitespace-nowrap text-transparent font-heading text-2xl">
+              {siteConfig.name}
+            </span>
+          </Link>
+          <h1 className="text-3xl font-heading text-indigo-900 tracking-tight">
             Chào mừng bạn
           </h1>
-          
+
+
         </div>
-        {isNotAllowed ? <OpenInDefaultBrowser/> : <UserAuthForm />}
+        {isNotAllowed ? <OpenInDefaultBrowser /> : <UserAuthForm />}
         <p className="px-4 text-center text-sm text-muted-foreground">
-            Bằng tạo tài khoản và đăng nhập, bạn đồng ý với {" "}
-            <Link
-              href="/terms"
-              className="hover:text-brand underline underline-offset-4"
-            >
-              Điều Khoản Dịch Vụ {" "}
-            </Link>{" "}
-            và{" "}
-            <Link
-              href="/privacy"
-              className="hover:text-brand underline underline-offset-4"
-            >
-              Chính Sách Riêng tư
-            </Link>
-            .
-          </p>
+          Bằng tạo tài khoản và đăng nhập, bạn đồng ý với {" "}
+          <Link
+            href="/terms"
+            className="hover:text-brand underline underline-offset-4"
+          >
+            Điều Khoản Dịch Vụ {" "}
+          </Link>{" "}
+          và{" "}
+          <Link
+            href="/privacy"
+            className="hover:text-brand underline underline-offset-4"
+          >
+            Chính Sách Riêng tư
+          </Link>
+          .
+        </p>
       </div>
     </div>
   )
