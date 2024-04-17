@@ -257,6 +257,9 @@ dependencies:
   nodemailer:
     specifier: ^6.9.6
     version: 6.9.6
+  pick-random:
+    specifier: ^4.0.0
+    version: 4.0.0
   postcss:
     specifier: 8.4.22
     version: 8.4.22
@@ -5861,6 +5864,11 @@ packages:
   /path-type@4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
+    dev: false
+
+  /pick-random@4.0.0:
+    resolution: {integrity: sha512-9INS9cOoGNM1+95+4POtlIJp1//X+TomiAmGyGT2dFrrMpeAO0AD3MVam3JySyoF+FNfttlI+Bk8vk8RFzXqSQ==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dev: false
 
   /picocolors@1.0.0:

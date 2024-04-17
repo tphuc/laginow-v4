@@ -21,7 +21,7 @@ import { ProductEditButtonSheet } from "@/components/product-edit-button-sheet"
 import { DeleteProductFormButton } from "@/components/delete-product-form"
 import { OrderEditButtonSheet } from "@/components/order-edit-button-sheet"
 import { Separator } from "@/components/ui/separator"
-import { BadgeCheck, Check, Globe, Pen, PenTool, Trash } from "lucide-react"
+import { BadgeCheck, Check, Globe, Pen, PenTool, Trash, Trophy } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { UpdateBusinessContactVerified } from "@/components/update-business-contact-verified"
 import { UpdateBusinessForm } from "@/components/update-business-form"
@@ -29,6 +29,7 @@ import { toast } from "@/components/ui/use-toast"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { EditEventForm } from "../edit-event-form"
+import { RandomizeEventWinner } from "../random-event-winner"
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -41,7 +42,7 @@ export function DataTableRowActions<TData>({
   const router = useRouter()
 
   return (
-    <div className="space-y-1">
+    <div className="flex items-center gap-1">
 
 
           <Sheet modal={true}>
@@ -52,6 +53,17 @@ export function DataTableRowActions<TData>({
             </SheetTrigger>
             <SheetContent>
               <EditEventForm data={row?.original} />
+            </SheetContent>
+          </Sheet>
+
+          <Sheet modal={true}>
+            <SheetTrigger asChild>
+              <Button size={'sm'} className="rounded-sm gap-2 px-2 justify-between" variant={'outline'}>
+                <Trophy className="w-4 h-4" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent>
+              <RandomizeEventWinner data={row?.original} />
             </SheetContent>
           </Sheet>
 
@@ -78,7 +90,7 @@ export function DataTableRowActions<TData>({
               })
             }
 
-          }} size={'sm'} className="rounded-sm text-sm gap-2 justify-between" variant={'ghost'}>
+          }} size={'sm'} className="rounded-sm text-sm gap-1 p-2 justify-between" variant={'ghost'}>
            <Trash className="w-4 h-4" />
           </Button>
 

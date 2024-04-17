@@ -19,45 +19,6 @@ const routeContextSchema = z.object({
 
 
 
-export async function GET(req: NextRequest) {
-  try {
-    // if(!(await isAdmin())){
-    //   return new Response("not authorized", { status: 403 })
-    // }
-
-    let url = new URL(req.url)
-    let limit = parseInt(url.searchParams.get('limit') ?? '10') ?? 10
-    let page = parseInt(url.searchParams.get('page') ?? '1') ?? 1
-
-
-    const items = await prisma.eventQuestion.findMany({
-      orderBy: {
-        tzDatetime: 'desc',
-      },
-      take: limit,
-      skip: (page - 1) * limit
-    });
-
-    let total = await prisma.eventQuestion.count({})
-
-
-    return new Response(JSON.stringify({
-      data: items,
-      total
-    }), { status: 200 })
-
-  }
-  catch (e) {
-
-    if (e instanceof z.ZodError) {
-      return new Response(JSON.stringify(e.issues), { status: 422 });
-    }
-
-    return new Response(JSON.stringify(e), { status: 500 });
-  }
-}
-
-
 const EventQuestionSchema = z.object({
   title: z.string().optional(),
   image: z.any().optional(),
@@ -84,8 +45,71 @@ const findTrueIndices = (array) => {
   });
   console.log(81, trueIndices)
   return trueIndices;
-  
+
 };
+
+export async function GET(req: NextRequest, context: z.infer<typeof routeContextSchema>) {
+  return auth(async (request) => {
+    try {
+      if (!(await isAdmin(request))) {
+        return new Response("not authorized", { status: 403 })
+      }
+      const { params } = routeContextSchema.parse(context)
+      let record = await prisma.eventQuestion.findUnique({
+        where: {
+          id: params.id
+        },
+        include: {
+          vouchers: {
+            select: {
+              id: true,
+              code: true,
+              business: {
+                select: {
+                  id: true,
+                  title: true
+                }
+              }
+            }
+          },
+          adsPages: {
+            select: {
+              id: true,
+              title: true
+            }
+          },
+          adsPosts: {
+            select: {
+              id: true,
+              title: true
+            }
+          },
+          UserAnswer: {
+            include: {
+              user: {
+                select: {
+                  email: true,
+                  name: true
+                }
+              }
+            }
+          },
+          winners: {
+            select: {
+              email: true
+            }
+          }
+        }
+      })
+
+      return new Response(JSON.stringify(record))
+      
+    } catch (e) {
+
+    }
+  })(req, context)
+
+}
 
 export async function POST(req: NextRequest, context: z.infer<typeof routeContextSchema>) {
   return auth(async (request) => {
@@ -142,7 +166,7 @@ export async function DELETE(req: NextRequest, context: z.infer<typeof routeCont
         }
       })
 
-      if(event?.image?.['id'])
+      if (event?.image?.['id'])
         await deleteImage(event?.image?.['id'])?.catch(e => console.log(149, e))
 
       await prisma.eventQuestion.delete({

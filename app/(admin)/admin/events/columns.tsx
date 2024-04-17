@@ -1,6 +1,6 @@
 'use client';
 
-import { VNTimezoneFormat, formatDate, getDayVN } from "@/lib/utils";
+import { VNTimezoneFormat, cn, formatDate, getDayVN } from "@/lib/utils";
 import { DataTableRowActions } from "./table/data-table-row-actions";
 import { format } from "date-fns";
 
@@ -36,7 +36,7 @@ export const columns = [
 
       return <div className="space-y-1">
        
-        <p className="truncate text-ellipsis">{row?.original.title}</p>
+        <p className={cn("truncate text-ellipsis", new Date(row?.original?.tzDatetime) > new Date() ? "text-primary" : "text-muted-foreground")}>{row?.original.title}</p>
         {/* <p className="text-muted-foreground">{VNTimezoneFormat(row?.original?.tzDatetime)} {row?.orignal?.tzDatetime}</p> */}
       </div>
     }

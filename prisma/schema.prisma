@@ -67,6 +67,8 @@ model User {
   PostEvent       PostEvent[]
   BusinessVoucher BusinessVoucher[]
   UserAnswer      UserAnswer[]
+  EventQuestion   EventQuestion?    @relation(fields: [eventQuestionId], references: [id])
+  eventQuestionId String?
 
   @@index([email])
 }
@@ -496,6 +498,8 @@ model EventQuestion {
   adsPosts       Post[]
   adsPages       Business[]
   adsFB          Json?
+  winners        User[]
+  prizeSnapshot  Json?
 }
 
 model BusinessVoucher {
