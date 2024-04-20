@@ -69,6 +69,7 @@ model User {
   UserAnswer      UserAnswer[]
   EventQuestion   EventQuestion?    @relation(fields: [eventQuestionId], references: [id])
   eventQuestionId String?
+  UserPrize       UserPrize[]
 
   @@index([email])
 }
@@ -500,6 +501,7 @@ model EventQuestion {
   adsFB          Json?
   winners        User[]
   prizeSnapshot  Json?
+  UserPrize      UserPrize[]
 }
 
 model BusinessVoucher {
@@ -534,6 +536,20 @@ model UserAnswer {
   answerText     String?
   answerTextSlug String?
   choiceIndex    Int?
+
+  @@unique([userId, eventId])
+}
+
+model UserPrize {
+  id        String   @id @default(nanoid(10))
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  prize  Json?
+
+  event   EventQuestion? @relation(fields: [eventId], references: [id])
+  eventId String
 
   @@unique([userId, eventId])
 }

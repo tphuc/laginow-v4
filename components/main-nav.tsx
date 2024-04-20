@@ -36,7 +36,7 @@ export function MainNav({ items, children }: MainNavProps) {
   return (
     <div className="flex px-4 gap-6 md:gap-10">
       <Link href="/" prefetch={false} className="hidden items-center space-x-2 md:flex">
-        <span className="hidden text-accent-foreground font-heading text-2xl sm:inline-block">
+        <span className="hidden text-primary text-accent-foreground font-heading text-2xl sm:inline-block">
           {siteConfig.name}
         </span>
       </Link>

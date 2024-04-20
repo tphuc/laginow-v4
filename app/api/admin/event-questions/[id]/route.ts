@@ -43,7 +43,7 @@ const findTrueIndices = (array) => {
       trueIndices.push(index);
     }
   });
-  console.log(81, trueIndices)
+
   return trueIndices;
 
 };

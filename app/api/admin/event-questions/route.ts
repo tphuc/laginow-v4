@@ -19,7 +19,6 @@ const postCreateSchema = z.object({
 export async function GET(req: NextRequest, context: any) {
   return auth(async (request) => {
     try {
-      console.log(22, request)
       if (!(await isAdmin(request))) {
         return new Response("not authorized", { status: 403 })
       }

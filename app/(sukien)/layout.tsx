@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/site-footer"
 import { buttonVariants } from "@/components/ui/button"
 import { UserAccountNav } from "@/components/user-account-nav"
 import { UserCart } from "@/components/user-cart-nav"
+import { UserTrophy } from "@/components/user-trophy"
 import { dashboardConfig } from "@/config/dashboard"
 import { siteConfig } from "@/config/site"
 import { getCurrentUser, getUserBusiness } from "@/lib/session"
@@ -42,6 +43,7 @@ export default async function MarketingLayout({
                     />
                     <nav className="flex items-center gap-2 px-4">
                         <UserCart user={user} />
+                        <UserTrophy />
                         {user ? <UserAccountNav user={user} businesses={businesses} /> : <Link
                             href="/login"
                             className={cn(

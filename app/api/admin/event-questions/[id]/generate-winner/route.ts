@@ -56,9 +56,9 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
         }
       })
 
-      // if(event?.winners?.length){
-      //   return new Response("not available", { status: 400 })
-      // }
+      if(event?.winners?.length){
+        return new Response("not available", { status: 400 })
+      }
 
       let userWinners: any[] = []
 

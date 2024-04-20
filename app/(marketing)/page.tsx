@@ -67,7 +67,7 @@ export default async function Page() {
         >
             <div className="w-full transition transition-all min-h-[60vh] relative pt-40 pb-20 bg-gradient-to-tr from-lightGradOne via-lightGradTwo to-lightGradThree  background-animate text-center">
                 <div className="relative z-20 w-full container space-y-4">
-                    <h1 className="font-heading text-indigo-900 max-w-[500px] mx-auto text-5xl">
+                    <h1 className="font-heading text-primary max-w-[500px] mx-auto text-5xl">
                         <Balancer>
                             Tìm kiếm hàng quán, dịch vụ tại Lagi Now
                         </Balancer>

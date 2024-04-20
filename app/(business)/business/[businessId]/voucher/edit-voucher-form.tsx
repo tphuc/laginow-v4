@@ -104,7 +104,7 @@ export function EditVoucherForm({ data }) {
 
     return (
         <div className="relative w-full space-y-2">
-               <h1 className="text-xl font-heading">Voucher (Mã giảm giá)</h1>
+               <h1 className="text-xl font-heading">Voucher (Mã thưởng)</h1>
             <Form  {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 
@@ -169,7 +169,7 @@ export function EditVoucherForm({ data }) {
                                     </PopoverTrigger>
                                     <PopoverContent
                                         className="w-auto p-0"
-                                        // style={{ zIndex: 100 }}
+                                        style={{ zIndex: 100 }}
                                         align="start"
                                     >
                                         <Calendar
@@ -197,7 +197,7 @@ export function EditVoucherForm({ data }) {
                         render={({ field }) => (
                             <FormItem className="flex flex-col">
                                 <FormLabel>Ngày hết hạn</FormLabel>
-                                <Popover>
+                                <Popover modal>
                                     <PopoverTrigger asChild>
                                         <FormControl>
                                             <Button

@@ -41,35 +41,38 @@ export function DataTableRowActions<TData>({
 }: DataTableRowActionsProps<TData>) {
   const router = useRouter()
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-        >
-          <DotsHorizontalIcon className="h-4 w-4" />
-          <span className="sr-only">Open menu</span>
+    // <DropdownMenu>
+    //   <DropdownMenuTrigger asChild>
+    //     <Button
+    //       variant="ghost"
+    //       className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+    //     >
+    //       <DotsHorizontalIcon className="h-4 w-4" />
+    //       <span className="sr-only">Open menu</span>
+    //     </Button>
+    //   </DropdownMenuTrigger>
+    //   <DropdownMenuContent align="end" className="w-[160px]">
+    //     <DropdownMenuItem asChild>
+
+    //     </DropdownMenuItem>
+
+
+
+
+
+    //   </DropdownMenuContent>
+    // </DropdownMenu>
+
+    <Sheet key={'right'}>
+      <SheetTrigger asChild>
+        <Button size={'sm'} className="rounded-sm p-2 gap-2 justify-between" variant={'outline'}>
+          <Pen className="w-4 h-4" />
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem asChild>
-          <Sheet key={'right'}>
-            <SheetTrigger asChild>
-              <Button size={'sm'} className="w-full rounded-sm gap-2 justify-between" variant={'ghost'}>
-                Cập nhật <Pen className="w-4 h-4" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent className="overflow-scroll scrollbar-hide" side={'right'}>
-              <EditVoucherForm data={row?.original} />
-            </SheetContent>
-          </Sheet>
-        </DropdownMenuItem>
-      
+      </SheetTrigger>
+      <SheetContent className="overflow-scroll scrollbar-hide" side={'right'}>
+        <EditVoucherForm data={row?.original} />
+      </SheetContent>
+    </Sheet>
 
-   
-
-
-      </DropdownMenuContent>
-    </DropdownMenu>
   )
 }

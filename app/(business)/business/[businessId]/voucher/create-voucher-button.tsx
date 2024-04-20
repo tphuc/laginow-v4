@@ -6,7 +6,7 @@ import { CreateVoucherForm } from "./create-voucher-form";
 
 
 export default function CreateVoucherButton({children, businessId}){
-    return <Sheet>
+    return <Sheet modal>
         <SheetTrigger asChild>
             {children}
         </SheetTrigger>
