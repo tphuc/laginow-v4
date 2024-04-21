@@ -101,6 +101,8 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
     <html lang="en" suppressHydrationWarning className={`${fontSans.variable} ${fontHeading.variable}`} >
       <head />
+      <div id="fb-root"></div>
+<script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v19.0&appId=1639567779782201" nonce="bgO7Zkrw"></script>
       <QueryWrapper>
         <body
           className={cn(

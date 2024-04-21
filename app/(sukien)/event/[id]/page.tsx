@@ -11,7 +11,8 @@ import PostCard from "@/components/post-card"
 import UserAward from "./UserAward"
 import { Ticket } from "lucide-react"
 import QRDisplay from "./UserPrizeQrcode"
-
+import { FacebookEmbed } from 'react-social-media-embed';
+import SocialMediaAds from "./SocialMedia"
 
 interface PageProps {
     params: { id: string }
@@ -127,7 +128,7 @@ export default async function Page({ params }) {
     const user = (await auth())?.user as any
     let [data, userAnswer, userPrize] = await Promise.all([getEntity(params.id), getUserAnswer(params.id), getUserPrize(params?.id)])
 
-    console.log(userPrize)
+    console.log(data)
     return <div className="relative min-h-screen space-y-4 max-w-screen-xl w-full gap-1">
         <div className="relative w-full space-y-6">
             <div className="scrollbar-hide mt-10 grid grid-rows-1 grid-flow-col gap-2 gap-x-4 w-full snap-x snap-mandatory scroll-px-[200px]  overflow-x-scroll scroll-smooth px-10">
@@ -195,6 +196,10 @@ export default async function Page({ params }) {
             </div>
         </div>
 
+        <p  className='text-center font-heading text-indigo-800 text-3xl pt-4'>Khám phá</p>
+        <SocialMediaAds items={
+            data?.adsFB ?? []
+          }/>
 
 
 
