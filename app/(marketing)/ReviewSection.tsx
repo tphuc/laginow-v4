@@ -21,7 +21,7 @@ export default function ReviewSection({ data }) {
                     </div>
                 </div>
                 {item?.content}
-                <div className="flex items-center flex-wrap gap-1">
+            <div className="flex items-center flex-wrap gap-1">
                     {
                         item?.images?.map?.((image: any) => <ImageViewable 
                             // useRaw={true}

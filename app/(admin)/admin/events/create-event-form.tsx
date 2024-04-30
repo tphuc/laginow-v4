@@ -325,7 +325,7 @@ export function CreateEventForm({ availableVouchers }) {
                                         items={availableVouchers?.map?.(item => ({
                                             value: item.id,
                                             label: `${item.code} (${item?.business?.title})`
-                                        }))} placeholder="chọn mã" max={3} onChange={field.onChange}
+                                        }))} placeholder="chọn mã" max={10} onChange={field.onChange}
                                     />
                                 </FormControl>
                                 <FormDescription>

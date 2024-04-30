@@ -343,7 +343,7 @@ export function EditEventForm({ data }) {
                                     items={availableVouchers?.map?.(item => ({
                                         value: item.id,
                                         label: `${item.code} (${item?.business?.title})`
-                                    }))} placeholder="chọn mã" max={3} onChange={field.onChange}
+                                    }))} placeholder="chọn mã" max={10} onChange={field.onChange}
                                 />
                             </FormControl>
                             <FormDescription>
@@ -371,8 +371,10 @@ export function EditEventForm({ data }) {
                                         value: item.id,
                                         label: `${item?.title}`
                                     })}
+                                    max={10}
                                     getFetchURL={(search) => `/api/business?text=${search}`} 
-                                    placeholder="chọn" max={3} onChange={field.onChange}
+                                    placeholder="chọn" 
+                                    onChange={field.onChange}
                                 />
                             </FormControl>
                             <FormMessage />
@@ -393,7 +395,7 @@ export function EditEventForm({ data }) {
                                         value: item.id,
                                         label: `${item?.title}`
                                     }))} 
-                                    placeholder="chọn" max={3} onChange={field.onChange}
+                                    placeholder="chọn" onChange={field.onChange}
                                 />
                             </FormControl>
                             <FormMessage />
