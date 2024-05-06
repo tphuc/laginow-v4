@@ -53,7 +53,7 @@ export default function SearchSection(props) {
                     x: 20
                   }
                 }}>
-                <Link href={`/timkiem?tags=${item?.id}`} className="flex items-center gap-2">
+                <Link href={`/timkiem?tags=${item?.id}`} prefetch={false} className="flex items-center gap-2">
                   {item?.name}
                   <ArrowTopRightIcon />
                 </Link>
@@ -104,7 +104,7 @@ export default function SearchSection(props) {
                   x: 20
                 }
               }}>
-                <Link href='#' className="flex items-center gap-2">
+                <Link  href={`/timkiem?tags=${item?.id}`} prefetch={false} className="flex items-center gap-2">
                   {item?.name}
                   <ArrowTopRightIcon />
                 </Link>
@@ -156,7 +156,7 @@ export default function SearchSection(props) {
                     x: 20
                   }
                 }}>
-                  <Link href='#' className="flex items-center gap-2">
+                  <Link  href={`/timkiem?tags=${item?.id}`} prefetch={false} className="flex items-center gap-2">
                     {item?.name}
                     <ArrowTopRightIcon />
                   </Link>

@@ -4,7 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Post } from "@prisma/client"
-
+import copy from 'copy-to-clipboard';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,6 +24,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
+import { Button } from "./ui/button"
+import { Link2 } from "lucide-react"
 
 async function deletePost(postId: string) {
   const response = await fetch(`/api/posts/${postId}`, {
@@ -51,7 +53,16 @@ export function PostOperations({ post }: PostOperationsProps) {
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
 
   return (
-    <>
+    <div className="flex items-center gap-1">
+      <Button onClick={() => {
+        copy(`https://laginow.com/p/${post?.slug}`)
+        toast({
+          title:"Đã copy đường dẫn bài viết",
+          description:"Bạn có thể share bài viết này ở bất cứ đâu"
+        })
+      }} size='sm' className="px-2 py-2 gap-1">
+        <Link2 className="w-4 h-4"/>
+      </Button>
       <DropdownMenu>
         <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center rounded-md border transition-colors hover:bg-muted">
           <Icons.ellipsis className="h-4 w-4" />
@@ -115,6 +126,6 @@ export function PostOperations({ post }: PostOperationsProps) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </>
+    </div>
   )
 }

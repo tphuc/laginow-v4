@@ -300,7 +300,7 @@ export default async function Page() {
                     <p className="text-xl md:text-2xl text-accent-foreground">
                         Tạo nội dung quảng bá cho kinh doanh của bạn. Hoàn toàn miễn phí.
                     </p>
-                    <Link href="/login?redirect=dashboard"
+                    <Link href="/login?redirect=dashboard.posts"
                         className="inline-flex p-2 px-4 shadow-sm items-center gap-2 bg-gradient-to-b from-indigo-600 to-80% to-indigo-700 rounded-lg text-secondary/90 hover:text-secondary border-2 border-indigo-600"
                     >
                         Đăng bài viết <Pen className="w-4 h-4" />
