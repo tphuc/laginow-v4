@@ -38,6 +38,7 @@ const { parse } = require('date-fns');
 
 
 export function EditEventForm({ data }) {
+    console.log({data})
     const form = useForm({
         resolver: zodResolver(z.object({
             title: z.any().optional(),
@@ -87,7 +88,7 @@ export function EditEventForm({ data }) {
     const {data: posts} = useGetResource('/api/posts')
     const {data: pages} = useGetResource('/api/business')
 
-    console.log(83, pages?.length)
+
     const { toast } = useToast()
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const router = useRouter()
@@ -183,7 +184,7 @@ export function EditEventForm({ data }) {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Ảnh câu hỏi đính kèm nếu có</FormLabel>
-                            <ImageUploader value={field.value} onChange={field.onChange} imageClassName="w-full max-w-none max-h-none" className="w-full h-auto" />
+                            <ImageUploader defaultValue={field.value} onChange={field.onChange} imageClassName="w-full max-w-none max-h-none" className="w-full h-auto" />
                             <FormDescription>
 
                             </FormDescription>
@@ -395,6 +396,7 @@ export function EditEventForm({ data }) {
                                         value: item.id,
                                         label: `${item?.title}`
                                     }))} 
+                                    max={10}
                                     placeholder="chọn" onChange={field.onChange}
                                 />
                             </FormControl>

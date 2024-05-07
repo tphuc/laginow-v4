@@ -89,7 +89,6 @@ export function MultiSelectAsync({ getFetchURL, formatItem, onChange, value, cla
 
   const {data: _items, isLoading} = useGetResource(getFetchURL?.(debouncedSearch))
   const items = _items?.map(formatItem)
-  console.log(92, items?.map(item => item.label))
 
   React.useEffect(() => {
     if (defaultValue?.length) {
