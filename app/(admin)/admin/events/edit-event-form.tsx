@@ -38,7 +38,6 @@ const { parse } = require('date-fns');
 
 
 export function EditEventForm({ data }) {
-    console.log({data})
     const form = useForm({
         resolver: zodResolver(z.object({
             title: z.any().optional(),
@@ -127,7 +126,7 @@ export function EditEventForm({ data }) {
 
         setIsLoading(true)
         try {
-            console.log(formattedValues)
+          
 
             let res = await fetch(`/api/admin/event-questions/${data?.id}`, {
                 method: "POST",

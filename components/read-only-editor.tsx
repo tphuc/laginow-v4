@@ -9,16 +9,19 @@ import { Post } from "@prisma/client"
 import { useForm } from "react-hook-form"
 import TextareaAutosize from "react-textarea-autosize"
 import * as z from "zod"
+import copy from 'copy-to-clipboard';
 
 
 import "@/styles/editor.css"
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 import { UserAvatar } from "./user-avatar"
 import { format } from "date-fns"
 import { vi } from "date-fns/locale"
+import { Link1Icon } from "@radix-ui/react-icons"
+import { ExternalLink, LucideLink, LucideLink2 } from "lucide-react"
 
 interface EditorProps {
   post: any,
@@ -119,10 +122,25 @@ export function ReadOnlyEditor({ post }: EditorProps) {
 
       </div>
       <div className="prose prose-slate mx-auto">
-        <div className="gap-0 space-y-0 mt-0">
+        <div className="flex mt-2 justify-between">
+        <div className="gap-0 space-y-0">
           <p className="mt-0 mb-0">{post?.user?.name}</p>
           <p className='text-sm text-muted-foreground'>{format(new Date(post?.createdAt), 'dd LLL, y', { locale: vi })}</p>
+          
         </div>
+        <Button 
+        variant={'outline'}
+        onClick={() => {
+        copy(`https://laginow.com/p/${post?.slug}`)
+        toast({
+          title:"Đã copy đường dẫn bài viết 📋",
+          description:"Bạn có thể chia sẻ bài viết này ở bất cứ đâu"
+        })
+      }} size='sm' className="px-2 py-2 gap-1">
+        <span>Chia sẻ</span>
+        <LucideLink className="w-4 h-4"/>
+      </Button>
+      </div>
         <p
           placeholder="Post title"
           className="w-full resize-none appearance-none overflow-hidden bg-transparent text-3xl md:text-4xl font-heading focus:outline-none"

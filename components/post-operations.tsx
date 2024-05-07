@@ -57,8 +57,8 @@ export function PostOperations({ post }: PostOperationsProps) {
       <Button onClick={() => {
         copy(`https://laginow.com/p/${post?.slug}`)
         toast({
-          title:"Đã copy đường dẫn bài viết",
-          description:"Bạn có thể share bài viết này ở bất cứ đâu"
+          title:"Đã copy đường dẫn bài viết 📋",
+          description:"Bạn có thể chia sẻ bài viết này ở bất cứ đâu"
         })
       }} size='sm' className="px-2 py-2 gap-1">
         <Link2 className="w-4 h-4"/>
