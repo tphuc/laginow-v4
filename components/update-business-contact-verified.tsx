@@ -247,10 +247,10 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
                                     <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' />
                                 </FormDescription>}
 
-                                {initData?.['verified'] && <FormDescription>
+                                {initData?.['verified'] && <FormDescription className="inline-flex flex-wrap gap-1 items-center">
 
-                                    <p className="inline-flex flex-wrap gap-1 items-center">
-                                    Trang đã được xác minh. Có thể hiển thị thông tin liên hệ trên hồ sơ trang.  <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' /> </p>
+                        
+                                    Trang đã được xác minh. Có thể hiển thị thông tin liên hệ trên hồ sơ trang.  <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' /> 
                                 </FormDescription>}
                             </div>
                             <FormControl>

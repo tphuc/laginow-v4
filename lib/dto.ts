@@ -132,6 +132,7 @@ export const BusinessUpdateSchema = z.object({
     }).min(3, {
         message:"Ít nhất 3 ký tự"
     }).optional(),
+    description: z.any().optional(),
     slug: z.string().optional(),
     address: z.string({
         required_error: "Không được để trống",

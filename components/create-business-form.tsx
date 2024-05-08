@@ -27,8 +27,9 @@ import slugify from "slugify"
 import { toast, useToast } from "./ui/use-toast"
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
-import {  useRouter, useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
+import { Textarea } from "./ui/textarea"
 
 
 
@@ -50,42 +51,42 @@ export function CreateBusinessForm() {
     async function onSubmit(values: z.infer<typeof FormBusinessCreateSchema>) {
         let formattedValues = {
             ...values,
-            slug: slugify(values.title, { lower: true, replacement: '-', locale:'vi', remove: /[^a-zA-Z0-9\s]/g  }),
+            slug: slugify(values.title, { lower: true, replacement: '-', locale: 'vi', remove: /[^a-zA-Z0-9\s]/g }),
             workingHrs: {
                 mon: {
                     isOff: false,
-                    startTime:'08:00',
-                    endTime:'18:00',
+                    startTime: '08:00',
+                    endTime: '18:00',
                 },
                 tue: {
                     isOff: false,
-                    startTime:'08:00',
-                    endTime:'18:00',
+                    startTime: '08:00',
+                    endTime: '18:00',
                 },
                 wed: {
                     isOff: false,
-                    startTime:'08:00',
-                    endTime:'18:00',
+                    startTime: '08:00',
+                    endTime: '18:00',
                 },
                 thu: {
                     isOff: false,
-                    startTime:'08:00',
-                    endTime:'18:00',
+                    startTime: '08:00',
+                    endTime: '18:00',
                 },
                 fri: {
                     isOff: false,
-                    startTime:'08:00',
-                    endTime:'18:00',
+                    startTime: '08:00',
+                    endTime: '18:00',
                 },
                 sat: {
                     isOff: false,
-                    startTime:'08:00',
-                    endTime:'18:00',
+                    startTime: '08:00',
+                    endTime: '18:00',
                 },
                 sun: {
                     isOff: false,
-                    startTime:'08:00',
-                    endTime:'18:00',
+                    startTime: '08:00',
+                    endTime: '18:00',
                 }
             },
             tags: values?.tags?.map(item => ({
@@ -109,7 +110,7 @@ export function CreateBusinessForm() {
                 })
 
                 let business = await res.json()
-                
+
 
                 router.push(`/business/${business?.id}/thong-tin`)
 
@@ -126,7 +127,7 @@ export function CreateBusinessForm() {
 
     return (
         <Form  {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 md:space-y-6">
                 {/* <FormField
                     control={form.control}
                     name="username"
@@ -162,6 +163,23 @@ export function CreateBusinessForm() {
                             </FormControl>
                             <FormDescription>
                                 Tên của trang, không quá 264 kí tự.
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Mô tả</FormLabel>
+                            <FormControl>
+                                <Textarea placeholder="Giới thiệu về kinh doanh của bạn..." {...field} />
+                            </FormControl>
+                            <FormDescription>
+                                Thêm một vài dòng giới thiệu, mô tả (có thể cập nhật sau)
                             </FormDescription>
                             <FormMessage />
                         </FormItem>

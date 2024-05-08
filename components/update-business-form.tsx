@@ -27,6 +27,7 @@ import slugify from "slugify"
 import { toast, useToast } from "./ui/use-toast"
 import { useEffect, useState } from "react"
 import { Loader2 } from "lucide-react"
+import { Textarea } from "./ui/textarea"
 
 
 
@@ -46,8 +47,10 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
                 },
             }).then(res => res.json())
 
+
             return {
                 ...response,
+                description: response?.description ?? '',
                 tags: response.tags?.map((item) => ({
                     value: item.id,
                     label: item.name
@@ -67,7 +70,7 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
     async function onSubmit(values: z.infer<typeof FormBusinessCreateSchema>) {
         let formattedValues = {
             ...values,
-            slug: slugify(values.title, { lower: true, replacement: '-', locale:'vi', remove: /[^a-zA-Z0-9\s]/g  }),
+            slug: slugify(values.title, { lower: true, replacement: '-', locale: 'vi', remove: /[^a-zA-Z0-9\s]/g }),
             tags: values?.tags?.map(item => ({
                 id: item.value
             }))
@@ -143,6 +146,23 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
 
                 <FormField
                     control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Mô tả </FormLabel>
+                            <FormControl>
+                                <Textarea placeholder="Giới thiệu về kinh doanh của bạn..." {...field} />
+                            </FormControl>
+                            <FormDescription>
+                                Thêm một vài dòng giới thiệu, mô tả
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
                     name="tags"
                     render={({ field }) => (
                         <FormItem>
@@ -202,7 +222,7 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
                             <ImageUploader
                                 defaultValue={field.value}
                                 onChange={field.onChange}
-                                style={{ display: "inline-flex", objectFit:"cover" }}
+                                style={{ display: "inline-flex", objectFit: "cover" }}
                                 className="min-w-[200px] min-h-[200px] aspect-square"
                             />
                             <FormDescription>

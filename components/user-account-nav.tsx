@@ -50,7 +50,7 @@ export function UserAccountNav({ user, businesses }: UserAccountNavProps) {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link className="flex items-center gap-2 font-medium" href="/dashboard"> <Pen className="w-4 h-4" />  Quản lí bài viết</Link>
+          <Link className="flex items-center gap-2 font-medium" href="/dashboard/posts"> <Pen className="w-4 h-4" />  Quản lí bài viết</Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
