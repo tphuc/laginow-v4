@@ -56,7 +56,7 @@ export default async function Page({ params }: PageProps) {
       
         <DashboardHeader
         heading="Thông tin liên hệ"
-        text="Xác minh trang của bạn để làm đối tác và sử dụng nhiều tính năng nâng cao"
+        // text="Xác minh trang của bạn để làm đối tác và sử dụng nhiều tính năng nâng cao"
       />
 
         <div className="grid gap-8 pb-10">

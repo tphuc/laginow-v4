@@ -102,29 +102,6 @@ export function UpdateBusinessForm({ businessId }: { businessId?: string }) {
     return (
         <Form  {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 md:space-y-4">
-                {/* <FormField
-                    control={form.control}
-                    name="username"
-                    render={({ field }) => (
-                        <FormItem className="gap-1 w-full sm:space-y-0 space-y-2 flex-wrap flex justify-between items-center">
-                            <div>
-                                <FormLabel>Tên trang</FormLabel>
-                                <FormDescription>
-                                    Chọn tên cho trang kinh doanh của bạn
-                                </FormDescription>
-                            </div>
-
-                            <div className="flex-1 min-w-[100px] mt-0">
-                                <FormControl className="mt-0 float-right">
-                                    <Input className="max-w-md" placeholder="" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </div>
-
-
-                        </FormItem>
-                    )}
-                /> */}
 
                 <FormField
                     control={form.control}

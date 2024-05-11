@@ -2,7 +2,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { Image as IcImage, Loader2, LoaderIcon, Trash, Trash2, Upload, UploadCloud, UploadIcon } from 'lucide-react';
+import { Image as IcImage, Loader2, LoaderIcon, Trash, X, Upload, UploadCloud, UploadIcon } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState, ChangeEvent, useRef } from 'react';
 import { toast } from './use-toast';
@@ -23,11 +23,11 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
     const [image, setImage] = useState<any>(defaultValue);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    React.useEffect(() => {
-      if (defaultValue) {
-        setImage(defaultValue)
-      }
-    }, [defaultValue])
+      React.useLayoutEffect(() => {
+
+          setImage(defaultValue)
+        
+      }, [defaultValue])
 
     const uploadInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -146,9 +146,9 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
         )}
 
       >
-        {image ? (
-          <>
-            <img alt='' src={image?.url} className={cn("w-auto h-full border border-input max-w-[300px] max-h-[300px] rounded-md object-cover", imageClassName)} />
+        {image?.url && 
+          <div className='relative'>
+            <img alt='none' src={image?.url} className={cn("w-auto h-full border border-input max-w-[300px] max-h-[300px] rounded-md object-cover", imageClassName)} />
             <div className="absolute top-0 right-0 m-1">
               {/* <button
                 onClick={handleImageChange}
@@ -166,19 +166,20 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
               <button
                 onClick={handleImageDelete}
                 className={cn(
-                  "px-2 py-2 border-2 border-red-500 bg-red-200 text-destructive text-sm rounded-md ml-1",
+                  "px-2 py-2 border-2 border-red-500 bg-red-200 text-destructive text-sm rounded-sm ml-1",
                   isLoading ? "pointer-events-none" : ""
                 )}
               >
                 {isLoading ? (
                   <Loader2 className="animate-spin text-muted-foreground w-5 h-5" />
                 ) : (
-                  <Trash2 className="w-4 h-4 fill-red-200 stroke-width-2" strokeWidth={2} />
+                  <X className="w-4 h-4 fill-red-200 stroke-width-2" strokeWidth={2} />
                 )}
               </button>
             </div>
-          </>
-        ) : (
+          </div>
+  }
+        {!image?.url && 
           <label className="cursor-pointer w-full h-full flex items-center justify-center">
             <input
               ref={(inputRef) => {
@@ -199,7 +200,7 @@ const ImageUploader = React.forwardRef<HTMLDivElement, UploadImageProps>(
               )}
             </div>
           </label>
-        )}
+        }
       </div>
     );
   }

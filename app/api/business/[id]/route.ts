@@ -29,16 +29,23 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
     
             //   console.log(22, user?.id)
     
-            const post = await prisma.business.findUnique({
+            const record = await prisma.business.findUnique({
                 where: {
                     id: params.id
                 },
                 include: {
-                    tags: true
+                    tags: true,
+                    Product: {
+                        select: {
+                            name: true,
+                            id: true
+                        }
+                    }
                 }
             })
+
     
-            return new Response(JSON.stringify(post))
+            return new Response(JSON.stringify(record))
     
         } catch (error) {
     

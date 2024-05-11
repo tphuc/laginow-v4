@@ -7,6 +7,9 @@ import { getCurrentUser, getUserBusiness } from "@/lib/session"
 import prisma from "@/lib/prisma"
 import { BusinessHeaderNav } from "@/components/business-header-nav"
 import { redirect } from "next/navigation"
+import Link from "next/link"
+import { Progress } from "@/components/ui/progress"
+import { ArrowLeft, ArrowRight, CheckCircle, ImagePlus } from "lucide-react"
 interface BusinessProps {
   children?: React.ReactNode,
   params: { businessId: string }
@@ -22,7 +25,12 @@ async function getBusinessOfUser(id: string) {
         id,
       },
       include: {
-
+        Product: {
+          select: {
+            id: true,
+            name: true
+          }
+        }
       }
     })
   } catch (e) {
@@ -48,7 +56,7 @@ async function getBusinessesOfUser(userId: string) {
                     equals: userId
                   }
                 }
-              } 
+              }
             }
           }
 
@@ -65,28 +73,66 @@ async function getBusinessesOfUser(userId: string) {
 
 export default async function BusinessLayout({ children, params }: BusinessProps) {
   const [user] = await Promise.all([getCurrentUser()]);
-  if(!user){
+  if (!user) {
     redirect("/login")
   }
 
   const business = await getBusinessOfUser(params.businessId) ?? null
+  const businessImages = parseInt(JSON.parse(JSON.stringify(business?.images))?.length) ?? 0
+
+  const businessInfoFilled = [!!business?.googleMapsUrl, !!business?.address, !!business?.phone]?.filter(item => !!item)
+  const businessProducts = business?.Product?.length ?? 0
+
   const allUserBusinessPages = await getBusinessesOfUser(user?.id) ?? []
 
 
   return (
     <div className="flex min-h-screen flex-col">
-     <header className="sticky backdrop-blur-lg w-full top-0  z-40 bg-background/90 border-b border-border">
-                <div className="flex items-center max-w-screen-2xl mx-auto w-full justify-between py-3 md:py-4">
+      <header className="sticky backdrop-blur-lg w-full top-0  z-40 bg-background/90 border-b border-border">
+        <div className="flex items-center max-w-screen-2xl mx-auto w-full justify-between py-3 md:py-4">
           <BusinessHeaderNav userBusinesses={allUserBusinessPages?.map((item) => ({
             value: item.id,
             label: item.title
-          })) } title={business?.title} />
+          }))} title={business?.title} />
           <UserAccountNav
             user={user}
             businesses={allUserBusinessPages}
           />
         </div>
       </header>
+      <div className="p-2 max-w-screen-xl overflow-x-scroll scrollbar-hide border-b md:border-b-0 w-full gap-2 flex items-center mx-auto">
+
+      <Link href='#' className="p-4 hover:bg-gray-100/50 transition-all space-y-1 bg-white rounded-md border border-input shadow-sm min-w-[300px]">
+          <div className="flex justify-between">
+          <p className="font-heading flex items-center gap-2 text-primary">Thêm thông tin liên hệ { businessInfoFilled?.length === 3 && <CheckCircle className="w-4 h-4"/>} </p>
+         <div> 🏠 </div>
+          </div>
+          <span className="text-sm text-muted-foreground">Địa chỉ trên googlemaps, SĐT, giờ hoạt động...</span>
+         
+          <Progress className="h-2" value={ businessInfoFilled?.length / 3 * 100}/>
+        </Link>
+
+        <Link href='#' className="p-4 hover:bg-gray-100/50 transition-all space-y-1 bg-white rounded-md border border-input shadow-sm min-w-[300px]">
+          <div className="flex justify-between">
+          <p className="font-heading text-primary">Thêm hình ảnh cho trang { businessImages === 5 && <CheckCircle className="w-4 h-4"/>}</p>
+         <div> 📸 </div>
+          </div>
+          <span className="text-sm text-muted-foreground">{businessImages} / 5 ảnh</span>
+         
+          <Progress className="h-2" value={ businessImages / 5 * 100}/>
+        </Link>
+
+        <Link href='#' className="p-4 hover:bg-gray-100/50  transition-all space-y-1 bg-white rounded-md border border-input shadow-sm min-w-[300px]">
+          <div className="flex justify-between">
+          <p className="font-heading text-primary">Thêm sản phẩm / dịch vụ { businessProducts === 1 && <CheckCircle className="w-4 h-4"/>}</p>
+         <div> 🍔 </div>
+          </div>
+          <span className="text-sm text-muted-foreground">Liệt kê một sản phẩm dịch vụ của trang</span>
+         
+          <Progress className="h-2" value={ businessProducts / 1 * 100}/>
+        </Link>
+
+      </div>
       <div className="container flex flex-col md:grid flex-1 gap-12 md:grid-cols-[200px_1fr] pt-1 md:pt-6">
 
         <div className="relative border-gray-200 sm:w-full md:w-[200px] flex-col md:flex">
@@ -96,12 +142,12 @@ export default async function BusinessLayout({ children, params }: BusinessProps
               {
                 title: 'Đơn hàng',
                 href: `/business/${params.businessId}/don-hang`,
-                icon:'listTodo'
+                icon: 'listTodo'
               },
               {
                 title: 'Tổng quan',
                 href: `/business/${params.businessId}`,
-                icon:'barChart'
+                icon: 'barChart'
               },
               {
                 title: 'Thông tin',
@@ -111,7 +157,7 @@ export default async function BusinessLayout({ children, params }: BusinessProps
               {
                 title: 'Sản phẩm & Dịch vụ',
                 href: `/business/${params.businessId}/san-pham`,
-                icon:'package',
+                icon: 'package',
                 prefetch: true
               },
               {

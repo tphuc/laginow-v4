@@ -219,16 +219,14 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
                     )}
                 />
 
-                {!!initData?.['googleMapsUrlEmbeded'] ? <div className="relative overflow-hidden w-full min-w-[340px] aspect-video">
+                {!!initData?.['googleMapsUrlEmbeded'] && <div className="relative overflow-hidden w-full min-w-[340px] aspect-video">
                 <iframe
-                    //   frameborder="0"
-                    //   style="border:0"
                     className="w-full h-full absolute rounded-md border border-input top-0 left-0"
                     src={initData?.['googleMapsUrlEmbeded']}
 
                 >
                 </iframe>
-                </div> : null}
+                </div> }
                 
 
 
@@ -243,14 +241,14 @@ export function UpdateBusinessContactVerified({ businessId }: { businessId?: str
 
                                 {!initData?.['verified'] && <FormDescription className="inline-flex flex-wrap gap-1 items-center">
                
-                                    Liên hệ để xác minh trang, mở khoá nhiều tính năng và nhận huy hiệu.
+                                    Liên hệ để xác minh trang.
                                     <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' />
                                 </FormDescription>}
 
                                 {initData?.['verified'] && <FormDescription className="inline-flex flex-wrap gap-1 items-center">
 
                         
-                                    Trang đã được xác minh. Có thể hiển thị thông tin liên hệ trên hồ sơ trang.  <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' /> 
+                                    Trang đã được xác minh. <BadgeCheck className='w-6 h-6 fill-sky-600 stroke-white' />
                                 </FormDescription>}
                             </div>
                             <FormControl>
