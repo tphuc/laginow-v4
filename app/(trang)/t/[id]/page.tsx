@@ -127,7 +127,6 @@ export default async function Page({ params }) {
     let business = await getBusiness(params.id)
     let businessProducts = await getBusinessProduct(params.id);
 
-
     await addPageEvent(`${process?.env?.NEXT_PUBLIC_API_ENDPOINT}/api/business/${params.id}/page-event`)
 
 
@@ -138,7 +137,7 @@ export default async function Page({ params }) {
     return <div className="relative space-y-5 max-w-screen-xl w-full gap-1">
         <div className="flex gap-4 flex-wrap">
             {business?.banner?.['url'] && <div className="bg-secondary aspect-square rounded-lg  h-[80px] w-[80px] md:w-[160px] md:h-auto text-white text-center flex items-center justify-center">
-                <ImageViewable alt='' width={140} height={140} className="w-auto  border border-input h-full rounded-md object-cover aspect-square" src={business?.banner?.['url']} />
+                <ImageViewable alt='' width={400} height={400} className="w-auto  border border-input h-full rounded-md object-cover aspect-square" src={business?.banner?.['url']} />
             </div>}
             <div className="space-y-2 flex-1 min-w-[320px]">
                 <div className='flex w-full items-center gap-1 flex-wrap'>
@@ -151,6 +150,7 @@ export default async function Page({ params }) {
                 <div className="flex gap-2">{business?.tags?.map((item: any) => (
                     <p key={item?.id} className="text-sm cursor-pointer text-muted-foreground">{item?.name}</p>
                 ))}</div>
+                 <p className="">{business?.description}</p>
                 <Badge className="inline-flex gap-1 justify-between items-center min-w-[100px] px-1 pr-2 py-1 border border-gray-300" variant={isCurrentlyOpenHr ? 'success' : 'secondary'}>
                     <div className="flex items-center gap-2">
                         <Clock10 className="w-4 h-4" strokeWidth={1.5} />
@@ -246,8 +246,8 @@ export default async function Page({ params }) {
 
                 <div className="w-full rounded-lg">
                     <div className="scrollbar-hide rounded-lg flex w-full snap-x snap-mandatory gap-2 overflow-x-scroll scroll-smooth">
-                        {(business?.images as any)?.map((item: any, id: number) => <div key={id} className="relative shrink-0 snap-start snap-always rounded-xl bg-orange-100 h-[150px] md:h-[150px]">
-                            <ImageViewable src={item?.url} quality={100} width={150} height={150} alt="Uploaded" className="w-auto h-full rounded-md border border-input object-cover" />
+                        {(business?.images as any)?.map((item: any, id: number) => <div key={id} className="relative shrink-0 snap-start snap-always rounded-xl bg-orange-100 h-[300px] md:h-[300px]">
+                            <ImageViewable src={item?.url} quality={100} width={500} height={500} alt="Uploaded" className="w-auto h-full rounded-md border border-input object-cover" />
                         </div>
                         )}
                     </div>

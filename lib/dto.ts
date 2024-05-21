@@ -55,6 +55,7 @@ export const FormBusinessCreateSchema = z.object({
         message:"Ít nhất 3 ký tự"
     }),
     slug: z.string().optional(),
+    description: z.string().optional(),
     address: z.string({
         required_error: "Không được để trống",
     }),
