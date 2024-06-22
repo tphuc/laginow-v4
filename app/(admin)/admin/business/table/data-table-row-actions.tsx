@@ -28,6 +28,7 @@ import { UpdateBusinessForm } from "@/components/update-business-form"
 import { toast } from "@/components/ui/use-toast"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { DeleteBusinessForm } from "@/components/delete-business-form"
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -109,6 +110,9 @@ export function DataTableRowActions<TData>({
           <Link href={`/t/${row?.original?.['id']}`}>Xem trang </Link>
         </DropdownMenuItem>
 
+        <DropdownMenuItem asChild>
+          <DeleteBusinessForm businessId={row?.original?.['id']}/>
+        </DropdownMenuItem>
 
       </DropdownMenuContent>
     </DropdownMenu>

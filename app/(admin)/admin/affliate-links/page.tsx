@@ -16,9 +16,6 @@ import { ProductCreateButton } from "@/components/product-create-button"
 import { DataTable } from "./table/data-table"
 import { columns } from "./columns"
 import { ProductCreateButtonSheet } from "@/components/product-create-button-sheet"
-import { UpdateMarketingPosts } from "./UpdateMarketingPostForm"
-import { Card, Divider } from "@tremor/react"
-import { UpdatePaidPosts } from "./UpdatePaidPostForm "
 
 export const metadata = {
   title: "Billing",
@@ -29,40 +26,6 @@ interface PageProps {
   params: { businessId: string }
 }
 
-async function fetchMarketingPost() {
-  const data = await prisma.newsCollection?.findUnique({
-      where: {
-          id: 'marketing'
-      },
-      include: {
-          posts: true
-      }
-  })
-  return data?.posts ?? []
-}
-
-async function fetchPaidPosts() {
-  const data = await prisma.newsCollection?.findUnique({
-      where: {
-          id: 'paid-marketing'
-      },
-      include: {
-        posts: true
-      }
-  })
-  return data?.posts ?? []
-}
-async function fetchPosts(){
-  const data = await prisma.post?.findMany({
-    orderBy:{
-      createdAt: 'desc'
-    }
-})
-return data
-}
-
-
-
 
 export default async function Page({ params }: PageProps) {
   const user = await getCurrentUser()
@@ -71,25 +34,29 @@ export default async function Page({ params }: PageProps) {
     redirect("/login")
   }
 
+  const data = await prisma.user.findMany({
+    where: {
+      // businessId: params.businessId,
+    },
+    include: {
+      // business: true,
+      // items: true,
+      // user: true
+    },
+  }) ?? []
 
-
-  const [marketingPosts, paidPosts, allPosts] = [await fetchMarketingPost(),  await fetchPaidPosts(), await fetchPosts()]
   // console.log(data)
 
   return (
     <DashboardShell>
       <DashboardHeader
-        heading="Bài viết"
-        // text="Xem trang"
+        heading="Người dùng"
+        text="Xem danh sách người đk"
       >
-        {/* <ProductCreateButtonSheet businessId={params.businessId}>Thêm</ProductCreateButtonSheet> */}
+        {/* <ProductCredteButtonSheet businessId={params.businessId}>Thêm</ProductCreateButtonSheet> */}
       </DashboardHeader>
-      
-      <UpdateMarketingPosts defaultValue={marketingPosts ?? []} allPosts={allPosts}/>
-      <UpdatePaidPosts defaultValue={paidPosts ?? []} allPosts={allPosts}/>
-      <Divider/>
-      <h1 className="font-heading text-2xl">Tất cả bài viết</h1>
-      <DataTable  data={allPosts ?? []} columns={columns}/>
+     
+      <DataTable  data={data ?? []} columns={columns}/>
 
 
 

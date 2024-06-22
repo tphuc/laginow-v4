@@ -214,17 +214,19 @@ model Business {
   published Boolean @default(false)
 
   // 
-  UserViewBusiness UserViewBusiness[]
-  Review           Review[]
-  Product          Product[]
-  BusinessPost     BusinessPost[]
-  PageEvent        PageEvent[]
-  Order            Order[]
-  Invite           Invite[]
-  Staff            Staff[]
-  BusinessVoucher  BusinessVoucher[]
-  EventQuestion    EventQuestion?     @relation(fields: [eventQuestionId], references: [id])
-  eventQuestionId  String?
+  UserViewBusiness     UserViewBusiness[]
+  Review               Review[]
+  Product              Product[]
+  BusinessPost         BusinessPost[]
+  PageEvent            PageEvent[]
+  Order                Order[]
+  Invite               Invite[]
+  Staff                Staff[]
+  BusinessVoucher      BusinessVoucher[]
+  EventQuestion        EventQuestion?      @relation(fields: [eventQuestionId], references: [id])
+  eventQuestionId      String?
+  BusinessCollection   BusinessCollection? @relation(fields: [businessCollectionId], references: [id])
+  businessCollectionId String?
 
   @@index([slug])
   @@index([ownerId])
@@ -479,6 +481,22 @@ model NewsCollection {
 
   @@index([id])
 }
+
+model BusinessCollection {
+  id         String     @id @default(nanoid(10))
+  businesses Business[]
+
+  @@index([id])
+}
+
+model AffliateLinks {
+  id              String         @id @default(nanoid(10))
+  url             String
+  image           Json?
+  createdAt       DateTime       @default(now())
+}
+
+
 
 model EventQuestion {
   id             String            @id @default(nanoid(10))

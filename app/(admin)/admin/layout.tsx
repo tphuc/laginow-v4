@@ -64,6 +64,11 @@ export default async function DashboardLayout({
               href: '/admin/events',
               icon: 'rocket'
             },
+            {
+              title: "QC links",
+              href: '/admin/affliate-links',
+              icon: 'rocket'
+            },
           ]} />
         </div>
 

@@ -13,7 +13,6 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export function ClientPagination({ totalPages, perPage }) {
     const router = useRouter();
-    console.log(16, totalPages)
 
     const searchParams = useSearchParams();
     const pathname = usePathname();

@@ -15,9 +15,21 @@ import { vndFormat } from "@/lib/utils";
 import CountdownTimer from "./EventCountdown";
 import { format } from "date-fns";
 import Marquee from "react-fast-marquee";
+import PostCard from "@/components/post-card";
+import prisma from "@/lib/prisma";
 
 
-
+async function fetchPaidPosts() {
+    const data = await prisma.newsCollection?.findUnique({
+        where: {
+            id: 'paid-marketing'
+        },
+        include: {
+            posts: true
+        }
+    })
+    return data?.posts ?? []
+}
 
 // export const preferredRegion = 'home'
 // export const dynamic = 'auto'
@@ -40,6 +52,7 @@ export default async function Page() {
         marketingPosts,
         marketingReviews,
         nextEvent,
+        adsPosts,
     ]
 
         =
@@ -52,7 +65,8 @@ export default async function Page() {
             fetchNewBusinesses(),
             fetchMarketingPost(),
             fetchReviews(),
-            fetchNextEvent()
+            fetchNextEvent(),
+            fetchPaidPosts()
         ])
 
 
@@ -86,7 +100,7 @@ export default async function Page() {
                 </div>
             </div>
 
-            <div className="max-w-[1240px] relative bg-secondary grid grid-cols-1 md:grid-cols-2 rounded-2xl  mt-12 mx-auto max-xl:mx-3">
+            {/* <div className="max-w-[1240px] relative bg-secondary grid grid-cols-1 md:grid-cols-2 rounded-2xl  mt-12 mx-auto max-xl:mx-3">
                 <div className="flex flex-col p-6 items-center gap-2 justify-center">
                     <p className="text-center text-4xl md:text-5xl bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text whitespace-nowrap text-transparent font-heading pr-2">
                         🏆  Đố vui, khui quà
@@ -117,9 +131,10 @@ export default async function Page() {
 
                 </div>
                 <div className="w-full max-h-[400px] relative flex items-center justify-center">
-                    <Image src='/gift.webp' width={800} height={400} style={{ objectFit: "contain", opacity:80 }} className="h-full w-auto" alt=''></Image>
+                    <Image src='/gift.webp' width={800} height={400} style={{ objectFit: "contain", opacity: 80 }} className="h-full w-auto" alt=''></Image>
                 </div>
-            </div>
+            </div> */}
+
 
 
 
@@ -183,7 +198,7 @@ export default async function Page() {
 
 
                             <div
-                                // className="shadow-sm relative w-full  max-w-screen-xl border bg-gray-100 border-input  rounded-lg overflow-hidden h-80 text-white text-center flex items-center justify-center"
+
                                 className="w-full border relative mx-auto rounded-xl shadow-sm overflow-hidden bg-slate-100 max-w-screen-xl flex items-center justify-center gap-2 flex-wrap"
                             >
 
@@ -234,6 +249,31 @@ export default async function Page() {
 
                         </div>
 
+                    </div>
+                </div>
+            </div>
+
+            <br/>
+<div className="py-8 text-center space-y-2">
+                    <h1 className="font-heading mx-auto max-w-lg text-indigo-900 text-4xl text-center">
+                        <Balancer> Được đề xuất  </Balancer>
+                    </h1>
+
+                </div>
+            <div className="relative pb-20 mx-auto max-w-screen-xl w-full gap-1">
+                <div className="w-full space-y-4 items-center justify-center">
+
+                    <div className="flex items-center gap-4 flex-wrap">
+                        {
+                            adsPosts?.map?.((item: any, index: any) =>
+                                <div key={`${index}_${item?.id}`} >
+                                    <PostCard
+                                        className="min-h-[400px] max-w-[500px]"
+                                        data={item}
+                                        
+                                    />
+                                </div>)
+                        }
                     </div>
                 </div>
             </div>

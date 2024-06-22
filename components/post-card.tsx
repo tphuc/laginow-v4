@@ -22,7 +22,7 @@ const PostCardDescription = ({ postData, className, max=150 }: {postData?: any, 
 
 
 
-const PostCard = forwardRef(({ data, tracking = false }: { data: any, tracking?: boolean }, ref: any) => {
+const PostCard = forwardRef(({ data, className, tracking = false }: { data: any, className?: string, tracking?: boolean }, ref: any) => {
   let isCurrentlyOpenHr = isCurrentlyOpen(data?.workingHrs ?? {});
 
   const { ref: inviewRef, inView, entry } = useInView({
@@ -48,7 +48,7 @@ const PostCard = forwardRef(({ data, tracking = false }: { data: any, tracking?:
 
   return (
 
-    <div ref={ref} className="relative min-w-[300px] rounded-md mb-2 overflow-hidden  bg-secondary border border-input">
+    <div ref={ref} className={cn("relative min-w-[300px] rounded-md mb-2 overflow-hidden  bg-secondary border border-input",className)}>
 
 
       <div className='text-accent-foreground h-[300px] mt-0 pb-12 flex items-center justify-between flex-wrap gap-2'>

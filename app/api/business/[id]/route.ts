@@ -24,11 +24,11 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
             //     return new Response("Unauthorized", { status: 403 })
             //   }
             //   const { user } = session
-    
+
             const { params } = routeContextSchema.parse(context)
-    
+
             //   console.log(22, user?.id)
-    
+
             const record = await prisma.business.findUnique({
                 where: {
                     id: params.id
@@ -44,15 +44,15 @@ export async function GET(req: NextRequest, context: z.infer<typeof routeContext
                 }
             })
 
-    
+
             return new Response(JSON.stringify(record))
-    
+
         } catch (error) {
-    
+
             if (error instanceof z.ZodError) {
                 return new Response(JSON.stringify(error.issues), { status: 422 })
             }
-    
+
             return new Response(null, { status: 500 })
         }
     })(req, context)
@@ -64,24 +64,30 @@ export async function DELETE(req: NextRequest, context: z.infer<typeof routeCont
     return auth(async (request) => {
         try {
             const { params } = routeContextSchema.parse(context)
+            // Check if the user has access to this post.
+            if (!(await isAdmin(request))) {
+                if (!(await verifyCurrentUserHasAccessToBusiness(request, params.id))) {
+                    return new Response("not authorized", { status: 403 })
+                }
+            }
             const post = await prisma.business.delete({
                 where: {
                     id: params.id
                 },
             })
-    
+
             return new Response(JSON.stringify(post))
-    
+
         } catch (error) {
-    
+
             if (error instanceof z.ZodError) {
                 return new Response(JSON.stringify(error.issues), { status: 422 })
             }
-    
+
             return new Response(null, { status: 500 })
         }
     })(req, context)
-    
+
 }
 
 
@@ -93,44 +99,44 @@ export async function POST(req: NextRequest, context: z.infer<typeof routeContex
             let json = await req.json();
             const body = BusinessUpdateSchema.parse(json)
             const { params } = routeContextSchema.parse(context)
-    
+
             // Check if the user has access to this post.
-            if(!(await isAdmin(request))){
-                if (!(await verifyCurrentUserHasAccessToBusiness(request, params.id)) ) {
+            if (!(await isAdmin(request))) {
+                if (!(await verifyCurrentUserHasAccessToBusiness(request, params.id))) {
                     return new Response("not authorized", { status: 403 })
                 }
             }
-           
-    
+
+
             let data: any = {
                 ...body
             }
-    
-            if(body.tags?.length){
+
+            if (body.tags?.length) {
                 data.tags = {
                     connect: body.tags
                 }
             }
-    
+
             const post = await prisma.business.update({
                 where: {
                     id: params.id
                 },
                 data: data
             })
-    
+
             return new Response(JSON.stringify(post))
-    
+
         } catch (error) {
-    
+
             if (error instanceof z.ZodError) {
                 return new Response(JSON.stringify(error.issues), { status: 422 })
             }
-    
+
             return new Response(null, { status: 500 })
         }
     })(req, context)
-    
+
 }
 
 
@@ -139,43 +145,43 @@ export async function PATCH(req: NextRequest, context: z.infer<typeof routeConte
         try {
 
             let json = await req.json();
-          
+
             const { params } = routeContextSchema.parse(context)
-    
-              // Check if the user has access to this post.
-              if(!(await isAdmin(request))){
+
+            // Check if the user has access to this post.
+            if (!(await isAdmin(request))) {
                 // if ( !(await isBusinessVerified(params.id)) ) {
                 //     return new Response("not authorized", { status: 403 })
                 // }
             }
-    
+
             const body = z.object({
-                phone: z.any().optional(), 
+                phone: z.any().optional(),
                 website: z.any().optional(),
                 facebookUrl: z.any().optional(),
                 displayContact: z.any().optional(),
                 googleMapsUrl: z.any().optional(),
                 googleMapsUrlEmbeded: z.any().optional(),
             }).parse(json)
-    
+
             const record = await prisma.business.update({
                 where: {
                     id: params.id
                 },
                 data: body
             })
-    
+
             return new Response(JSON.stringify(record))
-    
+
         } catch (error) {
             console.log(error)
             if (error instanceof z.ZodError) {
                 return new Response(JSON.stringify(error.issues), { status: 422 })
             }
-    
+
             return new Response(null, { status: 500 })
         }
     })(req, context)
-   
+
 }
 
